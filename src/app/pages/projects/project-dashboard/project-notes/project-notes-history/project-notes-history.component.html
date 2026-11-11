@@ -1,0 +1,95 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+  <header class="analytics-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h1>{{ projectName ? (projectName + ' - ') : '' }}{{ tags ? (tags + ' - ') : '' }}Notes History</h1>
+    <button type="button" class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon><span>Back</span>
+    </button>
+  </header>
+
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-12">
+        <div class="app-table-container" style="padding: 0; width: 100%;">
+
+          <div class="table-responsive" style="overflow-x: auto; scroll-behavior: smooth;">
+            <table class="table app-table">
+              <thead>
+                <tr>
+                  <th class="text-center" style="width: 120px;">Date</th>
+                  <th class="text-left" style="min-width: 150px;">Posted By</th>
+                  <th class="text-left" style="min-width: 280px;">Description</th>
+                  <th class="text-center" style="width: 120px;">Document</th>
+                  <th class="text-center" style="width: 140px;">Tags</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (element of paginatedNotes; track $index) {
+                <tr>
+                  <!-- Date -->
+                  <td class="text-center" style="color: #64748b; vertical-align: middle;">
+                    {{ element.date }}
+                  </td>
+
+                  <!-- Posted By -->
+                  <td class="text-left" style="color: #1e293b; font-weight: 500; vertical-align: middle;">
+                    <div style="display: flex; align-items: center; gap: 6px; white-space: nowrap;">
+                      <mat-icon
+                        style="font-size: 16px; width: 16px; height: 16px; line-height: 16px; color: #64748b;">person</mat-icon>
+                      <span>{{ element.postedBy }}</span>
+                    </div>
+                  </td>
+
+                  <!-- Description -->
+                  <td class="text-left"
+                    style="color: #334155; white-space: normal; word-break: break-word; max-width: 450px; vertical-align: middle;">
+                    <span [matTooltip]="element.message" matTooltipPosition="above">
+                      {{ element.message }}
+                    </span>
+                  </td>
+
+                  <!-- Document -->
+                  <td class="text-center" style="vertical-align: middle;">
+                    @if (element.document) {
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                      <a matTooltip="View PDF"
+                        style="cursor: pointer; color: #0284c7; display: inline-flex; align-items: center;"
+                        (click)="viewPdf(element.document)">
+                        <mat-icon style="font-size: 18px; width: 18px; height: 18px;">visibility</mat-icon>
+                      </a>
+                      <a matTooltip="Download PDF"
+                        style="cursor: pointer; color: #334155; display: inline-flex; align-items: center;"
+                        (click)="downloadPdf(element.document)">
+                        <mat-icon style="font-size: 18px; width: 18px; height: 18px;">download</mat-icon>
+                      </a>
+                    </div>
+                    } @else {
+                    <span style="color: #94a3b8;">—</span>
+                    }
+                  </td>
+
+                  <!-- Tags -->
+                  <td class="text-center" style="vertical-align: middle;">
+                    <span class="badge"
+                      style="background-color: #f1f5f9; color: #475569; padding: 5px 10px; border-radius: 4px; font-weight: 600; font-size: 11.5px; border: 1px solid #cbd5e1; display: inline-block;">
+                      {{ element.tags }}
+                    </span>
+                  </td>
+                </tr>
+                } @empty {
+                <tr>
+                  <td colspan="5" class="empty-table text-center">No notes history found</td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <mat-paginator [length]="historyNotes.length" [pageSize]="pageSize" [pageIndex]="currentPage"
+            [pageSizeOptions]="[5, 10, 20, 50]" (page)="handlePageEvent($event)" [showFirstLastButtons]="true">
+          </mat-paginator>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,163 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.inner-screen-page {
+  width: 100%;
+  padding-top: 10px;
+}
+
+// ─── TOP HEADER AREA ───
+.inner-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.title-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 25px;
+}
+
+.inner-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.activity-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #64748b;
+  flex-wrap: wrap;
+}
+
+.activity-badge {
+  background-color: #e2e8f0;
+  color: #334155;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.activity-text {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.stage-sep {
+  color: #cbd5e1;
+}
+
+.stage-text {
+  color: #64748b;
+}
+
+.resource-meta-tag,
+.date-meta-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #f1f5f9;
+  color: #475569;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+
+  mat-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+  }
+}
+
+// Align Back Button to Top Right
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  margin-right: 20px;
+}
+ 
+
+@media (max-width: 520px) {
+  .back-btn span {
+    display: none;
+  }
+  .back-btn {
+    padding: 0 10px;
+  }
+}
+
+// ─── INNER BODY CARD ───
+.inner-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+// Top Right Add Button
+.app-page-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 14px;
+}
+ 
+
+// ─── TABLE CONTAINER & TABLE STYLES ───
+.app-table-container {
+  width: 100%;
+  padding: 0 !important;
+}
+
+.table-responsive {
+  max-height: 540px;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.table.app-table {
+  min-width: 1050px;
+  width: 100%;
+}
+
+.row-editing {
+  background-color: #f8fafc !important;
+}
+
+.NewHeader {
+  background-color: #3f3f3f;
+  padding: 15px 20px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+
+  h1 {
+    color: white !important;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+}

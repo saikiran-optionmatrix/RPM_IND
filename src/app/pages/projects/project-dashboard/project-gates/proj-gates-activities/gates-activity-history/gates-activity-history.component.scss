@@ -1,0 +1,270 @@
+.analytics-page {
+  width: 100%;
+}
+
+.analytics-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 24px;
+
+  h1 {
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 36px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.back-btn {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: rgb(130, 130, 130);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgb(110, 110, 110);
+  }
+}
+
+.app-table-container {
+  width: 100%;
+  padding: 0;
+  background-color: transparent;
+
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .app-table {
+    width: 100%;
+    margin-bottom: 0;
+
+    thead th {
+      white-space: nowrap;
+      padding: 10px 14px;
+    }
+
+    tbody td {
+      white-space: nowrap;
+      padding: 10px 14px;
+    }
+  }
+}
+
+.wbs-link {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: default;
+}
+
+// Priority Badges
+.priority-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: capitalize;
+
+  &--high {
+    background-color: #fee2e2;
+    color: #dc2626;
+  }
+
+  &--medium {
+    background-color: #fef3c7;
+    color: #d97706;
+  }
+
+  &--low {
+    background-color: #dcfce7;
+    color: #16a34a;
+  }
+}
+
+// ==================== TIMELINE POPUP MODAL ====================
+.bl-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.32);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.15s ease-out;
+  overscroll-behavior: contain;
+}
+
+.timeline-popup-card {
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  width: 660px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 28px 32px;
+  box-sizing: border-box;
+  animation: scaleIn 0.15s ease-out;
+  position: relative;
+}
+
+.timeline-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.timeline-popup-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.timeline-icon-box {
+  background: #eff6ff;
+  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeline-popup-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.3px;
+}
+
+.timeline-close-btn {
+  background: #f1f5f9;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: #e2e8f0;
+  }
+}
+
+.timeline-dates-container {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+}
+
+.timeline-accent-bar {
+  width: 4px;
+  background: #2563eb;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.timeline-grid-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline-grid-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.timeline-date-col {
+  border-right: 1px dashed #e2e8f0;
+  padding-right: 16px;
+
+  &--last {
+    border-right: none;
+    padding-right: 0;
+  }
+}
+
+.timeline-date-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.timeline-date-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.timeline-row-divider {
+  border-bottom: 1px dashed #cbd5e1;
+  margin: 18px 0;
+}
+
+.timeline-desc-box {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-top: 24px;
+}
+
+.timeline-desc-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 6px;
+}
+
+.timeline-desc-text {
+  margin: 0;
+  font-size: 13.5px;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

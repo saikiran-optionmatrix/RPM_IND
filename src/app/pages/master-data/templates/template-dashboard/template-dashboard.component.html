@@ -1,0 +1,104 @@
+<div class="nav-container" [class.nav-open]="isNavOpen" [class.nav-closed]="!isNavOpen">
+  <button (click)="toggleNav()" class="toggle-button">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <nav class="nav-links" (wheel)="$event.stopPropagation()">
+    <ul>
+      <!-- NPV Calculator -->
+      <li routerLinkActive="active">
+        <a [routerLink]="['npv']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="NPV Calculator">calculate</mat-icon>
+          } @else {
+          <span>NPV Calculator</span>
+          }
+        </a>
+      </li>
+
+      <!-- Setup -->
+      <li routerLinkActive="active">
+        <a [routerLink]="['setup']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Setup">settings</mat-icon>
+          } @else {
+          <span>Setup</span>
+          }
+        </a>
+      </li>
+
+      <!-- Stages -->
+      <li routerLinkActive="active">
+        <a [routerLink]="['stages']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Stages">layers</mat-icon>
+          } @else {
+          <span>Stages</span>
+          }
+        </a>
+      </li>
+
+      <!-- Gates -->
+      <li routerLinkActive="active">
+        <a [routerLink]="['gates']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Gates">layers</mat-icon>
+          } @else {
+          <span>Gates</span>
+          }
+        </a>
+      </li>
+
+      <!-- Budget -->
+      <li routerLinkActive="active">
+        <a [routerLink]="['budget']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Budget">account_balance_wallet</mat-icon>
+          } @else {
+          <span>Budget</span>
+          }
+        </a>
+      </li>
+
+      <!-- Scrum -->
+      <li routerLinkActive="active">
+        <a [routerLink]="['scrum']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Scrum">list_alt</mat-icon>
+          } @else {
+          <span>Scrum</span>
+          }
+        </a>
+      </li>
+
+      <!-- Activities -->
+      <li routerLinkActive="active">
+        <a [routerLink]="['activities']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Activities">list_alt</mat-icon>
+          } @else {
+          <span>Activities</span>
+          }
+        </a>
+      </li>
+
+      <!-- Resources -->
+      <li routerLinkActive="active">
+        <a [routerLink]="['resources']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Resources">people</mat-icon>
+          } @else {
+          <span>Resources</span>
+          }
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<div class="col-sm-10 template-dashboard-content-wrapper">
+  <app-breadcrumb></app-breadcrumb>
+  <div class="template-dashboard-child-viewport">
+    <router-outlet></router-outlet>
+  </div>
+</div>

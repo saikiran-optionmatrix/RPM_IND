@@ -1,0 +1,271 @@
+/* ========================================
+   FILTER PANEL
+======================================== */
+.app-filter-panel {
+  width: 100%;
+  margin-bottom: 28px;
+  padding: 0;
+  background-color: #e9ecef !important;
+  border: 1px solid #d1d5db;
+  border-radius: 6px !important;
+  box-sizing: border-box;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+.app-filter-panel .mat-mdc-card-content {
+  padding: 14px 22px !important;
+}
+
+/* ========================================
+   GLOBAL FILTER GRID TEMPLATE
+======================================== */
+.app-filter-grid {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  row-gap: 16px;
+  column-gap: 16px;
+  width: 100%;
+}
+
+.app-filter-fields {
+  grid-column: 1 / 2;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+.app-filter-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.app-filter-field label {
+  margin: 0;
+  color: #343a40;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.app-filter-control {
+  flex-grow: 1;
+  width: 100%;
+  margin: 0;
+}
+
+/* ========================================
+   MATERIAL FORM FIELD
+======================================== */
+.app-filter-control .mat-mdc-text-field-wrapper {
+  height: 40px !important;
+  background-color: #ffffff !important;
+  border-radius: 4px !important;
+}
+
+.app-filter-control .mdc-notched-outline__leading {
+  border-top-left-radius: 4px !important;
+  border-bottom-left-radius: 4px !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.app-filter-control .mdc-notched-outline__trailing {
+  border-top-right-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+.app-filter-control .mat-mdc-form-field-infix {
+  min-height: 40px !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.app-filter-control .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+/* ========================================
+   FILTER ACTIONS & TOGGLE
+======================================== */
+.app-filter-actions {
+  grid-column: 1 / 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  width: 100%;
+}
+
+.app-filter-toggle {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ========================================
+   BUTTON SYSTEM
+======================================== */
+.app-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  min-height: 40px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: 4px !important;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.app-btn mat-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  line-height: 20px;
+}
+
+.app-btn-primary {
+  background-color: #1485cc  !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.20);
+}
+
+.app-btn-primary:hover {
+  background-color: #216b9b !important;
+}
+
+.app-btn-filter {
+  background-color: #050505 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.app-btn-filter:hover {
+  background-color: #242424 !important;
+}
+
+.app-btn-default {
+  background-color: #e9ecef !important;
+  border-color: #ced4da !important;
+  color: #343a40 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+.app-btn-default:hover {
+  background-color: #dee2e6 !important;
+}
+
+.app-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px !important;
+  background: transparent;
+  color: #287db3;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.app-icon-btn mat-icon {
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+}
+
+/* ========================================
+   PAGE ACTIONS (Top right area)
+======================================== */
+.app-page-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.app-page-actions .app-btn {
+  font-size: 14px;
+  font-weight: 550;
+}
+
+.app-page-actions .app-btn mat-icon {
+  width: 22px;
+  height: 22px;
+  font-size: 22px;
+  line-height: 22px;
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+@media (max-width: 768px) {
+  .app-filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .app-filter-fields {
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr;
+  }
+
+  .app-filter-field {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .app-filter-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+
+  .app-filter-toggle {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    justify-content: flex-start;
+  }
+}
+div > .nav > .navpills.active > a {
+  background-color: #212121 !important; /* Matches Grey 900 Primary */
+  color: #ffffff !important;
+}
+
+.pills > .nav > li.active > a {
+  background: #212121 !important; /* Matches Grey 900 Primary */
+  color: #ffffff !important;
+}
+
+.pills > .nav > li > a:hover {
+  background: #bdbdbd !important; /* Slightly darker than Grey 300 Accent for hover */
+  color: rgba(0, 0, 0, 0.87) !important;
+}
+
+.pills > .nav > li.active > a:hover {
+  background: #212121 !important;
+  color: #ffffff !important;
+}
+
+
+i.fa-edit{
+  color: cornflowerblue;
+  font-size: 18px;
+  display: inline-block;
+}

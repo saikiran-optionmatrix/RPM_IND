@@ -1,0 +1,248 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+
+    <!-- Header Section with Title & Back Button -->
+    <header class="analytics-header">
+        <h1>{{ projectName }}</h1>
+
+        <div class="header-actions" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <button type="button" class="back-btn" (click)="goBack()">
+                <mat-icon>arrow_back</mat-icon>
+                <span>Back</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Top Metric Cards -->
+    <div class="metrics-grid">
+        <!-- Metric 1: Current Stage -->
+        <div class="metric-card">
+            <div class="metric-header">
+                <div class="icon-box icon-green">
+                    <mat-icon>layers</mat-icon>
+                </div>
+            </div>
+            <div class="metric-body">
+                <div class="metric-value text-green">Formulation  <br>Development</div>
+                <div class="metric-label">Current Stage</div>
+                <div class="metric-subtext">Due Date : 30 September 2026</div>
+            </div>
+        </div>
+
+        <!-- Metric 2: Completion -->
+        <div class="metric-card">
+            <div class="metric-header justify-between">
+                <div class="icon-box icon-blue">
+                    <mat-icon>show_chart</mat-icon>
+                </div>
+                <span class="stage-badge">Stage 3/7</span>
+            </div>
+            <div class="metric-body">
+                <div class="metric-value text-blue">58%</div>
+                <div class="metric-label">Completion</div>
+                <div class="metric-subtext text-muted">+3% vs plan</div>
+            </div>
+        </div>
+
+        <!-- Metric 3: Stage ETA -->
+        <div class="metric-card">
+            <div class="metric-header">
+                <div class="icon-box icon-orange">
+                    <mat-icon>calendar_today</mat-icon>
+                </div>
+            </div>
+            <div class="metric-body">
+                <div class="metric-value text-orange">30 September 2026</div>
+                <div class="metric-label">Stage ETA</div>
+                <div class="metric-subtext">35 days remaining</div>
+            </div>
+        </div>
+
+        <!-- Metric 4: Buffer Status -->
+        <div class="metric-card">
+            <div class="metric-header">
+                <div class="icon-box icon-red">
+                    <mat-icon>error_outline</mat-icon>
+                </div>
+            </div>
+            <div class="metric-body">
+                <div class="metric-value text-red">18%</div>
+                <div class="metric-label">Buffer Status</div>
+                <div class="metric-subtext">Buffer consumed of 45-day buffer</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Middle Section: Overdue Tasks & Gantt Chart -->
+    <div class="middle-grid">
+        <!-- Overdue Tasks Card -->
+        <div class="dashboard-card overdue-card">
+            <div class="card-header">
+                <div>
+                    <div class="card-title-row">
+                        <h3 class="card-title">Overdue tasks</h3>
+                        <span class="count-badge">8 active</span>
+                    </div>
+                    <p class="card-subtitle">Sorted by slip days</p>
+                </div>
+            </div>
+
+            <div class="task-list">
+                @for (task of overdueTasks; track task.name) {
+                    <div class="task-item">
+                        <div class="task-info">
+                            <div class="task-name">{{ task.name }}</div>
+                            <div class="task-assignee">{{ task.assignee }}</div>
+                        </div>
+                        <div class="task-meta">
+                            <span class="priority-tag" [ngClass]="task.status.toLowerCase()">{{ task.status }}</span>
+                            <span class="slip-days">{{ task.slipDays }}</span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Active Tasks - Gantt Chart -->
+        <div class="dashboard-card gantt-card">
+            <div class="card-header justify-between align-center">
+                <div>
+                    <h3 class="card-title">Active tasks - Gantt</h3>
+                    <p class="card-subtitle">Jun · Sep 2026 timeline</p>
+                </div>
+                <div class="gantt-legend">
+                    <span class="legend-item">
+                        <span class="legend-dot dot-blue"></span>
+                        <span>Work in Progress</span>
+                    </span>
+                    <span class="legend-item">
+                        <span class="legend-dot dot-red"></span>
+                        <span>Overdue</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Gantt Interactive Timeline View -->
+            <div class="gantt-wrapper">
+                <div class="gantt-menu-btn" title="Options">
+                    <mat-icon>menu</mat-icon>
+                </div>
+
+                <div class="gantt-table">
+                    <!-- Timeline Header -->
+                    <div class="gantt-header-row">
+                        <div class="gantt-label-col"></div>
+                        <div class="gantt-timeline-header">
+                            <div class="gantt-year-label">2026</div>
+                            <div class="gantt-months-row">
+                                @for (month of ganttMonths; track month) {
+                                    <div class="gantt-month-cell">
+                                        {{ month }}
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gantt Rows -->
+                    <div class="gantt-body">
+                        @for (item of ganttTasks; track item.label) {
+                            <div class="gantt-row">
+                                <div class="gantt-row-label" [title]="item.fullName">
+                                    {{ item.label }}
+                                </div>
+                                <div class="gantt-row-track">
+                                    <!-- Vertical grid lines for months -->
+                                    @for (m of ganttMonths; track m) {
+                                        <div class="gantt-grid-column"></div>
+                                    }
+
+                                    <!-- Timeline Bar -->
+                                    <div 
+                                        class="gantt-bar" 
+                                        [ngClass]="{ 'bar-overdue': item.isOverdue, 'bar-wip': !item.isOverdue }"
+                                        [style.left.%]="item.leftPercent"
+                                        [style.width.%]="item.widthPercent"
+                                        (mouseenter)="onGanttBarHover($event, item)"
+                                        (mousemove)="onGanttBarMove($event)"
+                                        (mouseleave)="onGanttBarLeave()">
+                                        <span class="bar-duration">{{ item.duration }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Tooltip -->
+                @if (hoveredGanttTask) {
+                    <div 
+                        class="gantt-tooltip" 
+                        [style.left.px]="tooltipPos.x" 
+                        [style.top.px]="tooltipPos.y">
+                        <div class="tooltip-title">{{ hoveredGanttTask.fullName }}</div>
+                        <div class="tooltip-status">
+                            Status: <span [class.text-red]="hoveredGanttTask.isOverdue" [class.text-blue]="!hoveredGanttTask.isOverdue">
+                                {{ hoveredGanttTask.isOverdue ? 'Overdue' : 'Work in Progress' }}
+                            </span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Section: 4 Analytics Charts (2x2 Grid) -->
+    <div class="charts-grid">
+        <!-- Chart 1: Sprint-level Buffer -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <div>
+                    <h3 class="card-title">Buffer Consumed vs % Completion</h3>
+                    <p class="card-subtitle">Sprint-level buffer consumption</p>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div #sprintBufferRef style="width: 100%; height: 280px; display: block;"></div>
+            </div>
+        </div>
+
+        <!-- Chart 2: Stage-level Buffer -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <div>
+                    <h3 class="card-title">Buffer Consumed vs % Completion</h3>
+                    <p class="card-subtitle">Stage-level buffer consumption</p>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div #stageBufferRef style="width: 100%; height: 280px; display: block;"></div>
+            </div>
+        </div>
+
+        <!-- Chart 3: Plan vs Actual Costs -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <div>
+                    <h3 class="card-title">Plan vs Actual - Costs</h3>
+                    <p class="card-subtitle">₹ Lakhs - monthly run-rate</p>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div #costPlanRef style="width: 100%; height: 280px; display: block;"></div>
+            </div>
+        </div>
+
+        <!-- Chart 4: Project Hours -->
+        <div class="dashboard-card">
+            <div class="card-header">
+                <div>
+                    <h3 class="card-title">Project hours</h3>
+                    <p class="card-subtitle">Effort allocation across teams</p>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div #projectHoursRef style="width: 100%; height: 280px; display: block;"></div>
+            </div>
+        </div>
+    </div>
+</div>

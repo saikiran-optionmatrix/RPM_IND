@@ -1,0 +1,553 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+  <header class="analytics-header">
+    <h1>{{ projectName }}</h1>
+    <button type="button" class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon><span>Back</span>
+    </button>
+  </header>
+
+  <div class="activities-page-container">
+    <div class="app-table-container" style="padding: 0; width: 100%;">
+      <!-- Header Title Bar with Action Buttons -->
+      <div class="activities-sub-header">
+        <div class="title-wrap">
+          <h2 style="font-size: 18px; font-weight: 600; color: #1e293b; margin: 0;">
+            Gate Activities: {{ gateName }} ({{ gateCode }})
+          </h2>
+        </div>
+
+        <div class="header-actions">
+          <!-- Filter Button from Assets template -->
+          <button type="button" class="app-btn app-btn-filter" (click)="toggleFilter()">
+            <mat-icon>filter_list</mat-icon>
+            <span>Filter</span>
+          </button>
+
+          <!-- Add Activity Button -->
+          <button type="button" class="app-btn app-btn-primary" (click)="openAddActivity()">
+            <mat-icon>add</mat-icon>
+            <span>Add Activity</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter Panel matching Assets template -->
+      @if (isFilterVisible) {
+      <mat-card class="app-filter-panel">
+        <mat-card-content>
+          <div class="app-filter-grid">
+            <div class="app-filter-fields" style="display: flex; gap: 16px; flex-wrap: wrap; width: 100%;">
+              <div class="app-filter-field" style="flex: 1; min-width: 200px;">
+                <label for="filterDept">Department:</label>
+                <mat-form-field appearance="outline" class="app-filter-control">
+                  <mat-select id="filterDept" [(ngModel)]="filterDepartment" (selectionChange)="applyFilter()"
+                    placeholder="All Departments">
+                    <mat-option value="">All Departments</mat-option>
+                    @for (d of departments; track d) {
+                    <mat-option [value]="d">{{ d }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="app-filter-field" style="flex: 1; min-width: 200px;">
+                <label for="filterPrio">Priority:</label>
+                <mat-form-field appearance="outline" class="app-filter-control">
+                  <mat-select id="filterPrio" [(ngModel)]="filterPriority" (selectionChange)="applyFilter()"
+                    placeholder="All Priorities">
+                    <mat-option value="">All Priorities</mat-option>
+                    @for (p of priorities; track p) {
+                    <mat-option [value]="p">{{ p }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="app-filter-field" style="flex: 1; min-width: 200px;">
+                <label for="filterStat">Status:</label>
+                <mat-form-field appearance="outline" class="app-filter-control">
+                  <mat-select id="filterStat" [(ngModel)]="filterStatus" (selectionChange)="applyFilter()"
+                    placeholder="All Status">
+                    <mat-option value="">All Status</mat-option>
+                    <mat-option value="Active">Active</mat-option>
+                    <mat-option value="Inactive">Inactive</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="app-filter-actions"
+              style="margin-top: 12px; display: flex; justify-content: flex-end; gap: 10px;">
+              <button type="button" class="app-btn app-btn-default" (click)="resetFilter()">
+                <mat-icon>settings_backup_restore</mat-icon>
+                <span>Clear</span>
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      }
+
+      <!-- Scroll Buttons -->
+      <div class="d-flex justify-content-end mb-2" style="gap: 10px;">
+        <div class="d-flex justify-content-end mb-2">
+          <button class="mine" mat-fab style="background-color: #cecdcd; right: 110px; z-index: 9999;"
+            (click)="scrollLeft()">
+            <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+          </button>
+          <button class="mine" mat-fab style="background-color: #cecdcd; z-index: 9999;" (click)="scrollRight()">
+            <mat-icon style="color: #414141;">fast_forward</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Table Container with app-table -->
+      <div #scrollContainer class="table-responsive" style="overflow-x: auto; scroll-behavior: smooth;">
+        <table class="table app-table">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 80px !important;">Actions</th>
+              <th class="text-center" style="width: 80px !important;">Status</th>
+              <th class="text-center" style="width: 70px !important;">Done</th>
+              <th class="text-center" style="width: 70px !important;">Timeline</th>
+              <th class="text-left" style="min-width: 220px !important;">Activity Name</th>
+              <th class="text-center" style="width: 80px !important;">Tasks</th>
+              <th class="text-center" style="width: 90px !important;">Activities</th>
+              <th class="text-left" style="min-width: 200px !important;">Delay Reason</th>
+              <th class="text-left" style="width: 150px !important;">Responsibility</th>
+              <th class="text-left" style="width: 160px !important;">Department</th>
+              <th class="text-center" style="width: 100px !important;">Plan Duration</th>
+              <th class="text-center" style="width: 90px !important;">Plan Effort</th>
+              <th class="text-center" style="width: 100px !important;">Actual Duration</th>
+              <th class="text-center" style="width: 90px !important;">Actual Effort</th>
+              <th class="text-center" style="width: 80px !important;">Priority</th>
+              <th class="text-left" style="min-width: 160px !important;">Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (a of pagedActivities; track a.id; let idx = $index) {
+            <tr>
+              <!-- Actions using table-actions from assets -->
+              <td class="text-center">
+                <div class="table-actions">
+                  <button type="button" class="table-action-button edit" matTooltip="Edit" aria-label="Edit activity"
+                    (click)="openEditActivity(a, idx)">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <button type="button" class="table-action-button delete" matTooltip="Delete"
+                    aria-label="Delete activity" (click)="deleteActivity(a)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+
+              <!-- Status using status-button from assets -->
+              <td class="text-center">
+                <button type="button" class="status-button" [class.status-active]="a.status"
+                  [class.status-inactive]="!a.status" (click)="toggleStatus(a)">
+                  {{ a.status ? 'Active' : 'Inactive' }}
+                </button>
+              </td>
+
+              <!-- Done Checkbox -->
+              <td class="text-center" style="vertical-align: middle;">
+                <mat-checkbox color="primary" [(ngModel)]="a.done"></mat-checkbox>
+              </td>
+
+              <!-- Timeline -->
+              <td class="text-center">
+                <button mat-icon-button (click)="openTimelineModal(a)" matTooltip="View Timeline"
+                  class="timeline-cal-btn">
+                  <mat-icon class="timeline-cal-icon">calendar_today</mat-icon>
+                </button>
+              </td>
+
+              <!-- Activity Name -->
+              <td class="text-left">
+                <span>
+                  {{ a.activityName }}
+                </span>
+              </td>
+
+              <!-- Tasks -->
+              <td class="text-center font-weight-bold">
+                <a class="wbs-link" (click)="onTasksClick(a)" matTooltip="View Tasks">
+                  {{ a.tasks || '0/13' }}
+                </a>
+              </td>
+
+              <!-- Activities -->
+              <td class="text-center font-weight-bold">
+                <a class="wbs-link" (click)="onActivitiesClick(a)" matTooltip="View Activities">
+                  {{ a.activitiesCount || a.activities || '0/9' }}
+                </a>
+              </td>
+
+              <!-- Delay Reason -->
+              <td class="text-left" style="min-width: 200px !important;">
+                <mat-select [(ngModel)]="a.delayReason" class="form-control" placeholder="Select Delay Reason"
+                  style="height: 34px; line-height: 22px; font-size: 13px; min-width: 180px;">
+                  @for (reason of delayReasonOptions; track reason) {
+                    <mat-option [value]="reason">{{ reason }}</mat-option>
+                  }
+                </mat-select>
+              </td>
+
+              <!-- Responsibility -->
+              <td class="text-left">
+                <span style="color: #334155; font-size: 13.5px;">{{ a.responsibility || '—' }}</span>
+              </td>
+
+              <!-- Department -->
+              <td class="text-left">
+                <span style="color: #475569; font-size: 13px;">{{ a.department || '—' }}</span>
+              </td>
+
+              <!-- Plan Duration -->
+              <td class="text-center">{{ a.planDuration || '—' }}</td>
+
+              <!-- Plan Effort -->
+              <td class="text-center">{{ a.planEffort || '—' }}</td>
+
+              <!-- Actual Duration -->
+              <td class="text-center">{{ a.actualDuration || '—' }}</td>
+
+              <!-- Actual Effort -->
+              <td class="text-center">{{ a.actualEffort || '—' }}</td>
+
+              <!-- Priority -->
+              <td class="text-center">
+                <span>
+                  {{ a.priority }}
+                </span>
+              </td>
+
+              <!-- Remarks -->
+              <td class="text-left">
+                <span>{{ a.remarks || '—' }}</span>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="16" class="empty-table">No gate activities found.</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Table Paginator from Assets -->
+      <mat-paginator [length]="filteredActivities.length" [pageIndex]="currentPage" [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions" [showFirstLastButtons]="true" (page)="onPageChange($event)">
+      </mat-paginator>
+    </div>
+  </div>
+
+  <!-- ============ TIMELINE POP-UP MODAL ============ -->
+  @if (showTimelineModal) {
+  <div class="bl-modal-overlay" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+    <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+      <div class="timeline-popup-header">
+        <div class="timeline-popup-title-wrap">
+          <div class="timeline-icon-box">
+            <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+          </div>
+          <h3 class="timeline-popup-title">
+            Timeline &mdash; {{ selectedTimelineItem?.activityName || selectedTimelineItem?.name }}
+          </h3>
+        </div>
+        <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+          <mat-icon
+            style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+        </button>
+      </div>
+
+      <div class="timeline-dates-container">
+        <div class="timeline-accent-bar"></div>
+
+        <div class="timeline-grid-content">
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planStart ? (selectedTimelineItem.planStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan End Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planEnd ? (selectedTimelineItem.planEnd | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Actual Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualStart ? (selectedTimelineItem.actualStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row-divider"></div>
+
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Actual End Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualEnd ? (selectedTimelineItem.actualEnd | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">ETA</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.eta ? (selectedTimelineItem.eta | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Actual Duration</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualDuration || '—' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row-divider"></div>
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Actual Effort</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualEffort || '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan Duration</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planDuration || '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Plan Effort</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planEffort || '—' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-desc-box">
+        <div class="timeline-desc-header">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #3b82f6;">description</mat-icon>
+          <span>Description</span>
+        </div>
+        <p class="timeline-desc-text">
+          {{ selectedTimelineItem?.description || ('Overview of planned and actual milestones for ' +
+          (selectedTimelineItem?.activityName || 'this activity') + '.') }}
+        </p>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- ============ ADD / EDIT ACTIVITY MODAL ============ -->
+  @if (showActivityModal) {
+  <div class="bl-modal-overlay" (click)="closeActivityModal()">
+    <div class="bl-modal" (click)="$event.stopPropagation()"
+      style="max-width: 800px; width: 800px; padding: 24px; box-sizing: border-box; display: flex; flex-direction: column; background: #ffffff; border-radius: 4px; overflow: hidden; box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);">
+      <div class="NewHeader">
+        @if (!isEditActivityMode) {
+        <h3 style="padding-top:10px;">Add Activity</h3>
+        } @else {
+        <h3 style="padding-top:10px;">Edit Activity</h3>
+        }
+      </div>
+
+      <div style="flex-grow: 1; overflow: hidden; width: 100%;">
+        <div style="display: flex; width: 100%; margin: 0; padding: 0;">
+          <!-- Sidebar -->
+          <div style="margin-bottom: 10px; padding: 0; width: 140px; flex-shrink: 0;">
+            <div class="m-auto pills pt-2 pr-0">
+              <ul class="nav flex-column pr-0" style="list-style-type: none; padding: 0; margin: 0;">
+                <li class="nav-item" style="margin-top: 10px;"
+                  [ngClass]="activityModalStep == 1 ? 'active nav-item' : 'nav-item'" (click)="activityModalStep = 1">
+                  <a mat-raised-button class="nav-link text-left py-2 width">Overview</a>
+                </li>
+                <li class="nav-item" style="margin-top: 10px;"
+                  [ngClass]="activityModalStep == 2 ? 'active nav-item' : 'nav-item'" (click)="activityModalStep = 2">
+                  <a mat-raised-button class="nav-link text-left py-2 width">Timeline</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Form Fields -->
+          <div style="padding-left: 24px; padding-top: 8px; flex: 1; min-width: 0; box-sizing: border-box;">
+            @if (activityModalStep === 1) {
+            <div>
+              <div class="row"
+                 style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="control-label" style="line-height: 35px; margin: 0; font-weight: 500;">Activity
+                    Name:</label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="text" class="form-control back" [(ngModel)]="activityModalData.activityName"
+                    placeholder="e.g. Method Validation Protocol" style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label"
+                    style="line-height: 35px; margin: 0; font-weight: 500;">Responsibility:<span
+                      style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <mat-select [(ngModel)]="activityModalData.responsibility" class="form-control back"
+                    placeholder="Select Responsible Person" style="height: 35px; line-height: 23px;">
+                    @for (r of responsibilities; track r) {
+                    <mat-option [value]="r">{{ r }}</mat-option>
+                    }
+                  </mat-select>
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label"
+                    style="line-height: 35px; margin: 0; font-weight: 500;">Department:<span
+                      style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <mat-select [(ngModel)]="activityModalData.department" class="form-control back"
+                    placeholder="Select Department" style="height: 35px; line-height: 23px;">
+                    @for (d of departments; track d) {
+                    <mat-option [value]="d">{{ d }}</mat-option>
+                    }
+                  </mat-select>
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Priority:<span
+                      style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <mat-select [(ngModel)]="activityModalData.priority" class="form-control back"
+                    placeholder="Select Priority" style="height: 35px; line-height: 23px;">
+                    <mat-option value="High">High</mat-option>
+                    <mat-option value="Medium">Medium</mat-option>
+                    <mat-option value="Low">Low</mat-option>
+                  </mat-select>
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Plan
+                    Effort:<span style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="text" class="form-control back" [(ngModel)]="activityModalData.planEffort"
+                    placeholder="40 hrs" style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Plan
+                    Duration:<span style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="text" class="form-control back" [(ngModel)]="activityModalData.planDuration"
+                    placeholder="10 days" style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Remarks:<span
+                      style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="text" class="form-control back" [(ngModel)]="activityModalData.remarks"
+                    placeholder="Notes..." style="height: 35px;" />
+                </div>
+              </div>
+            </div>
+            }
+
+            @if (activityModalStep === 2) {
+            <div>
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Plan Start
+                    Date:</label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="date" class="form-control back" [(ngModel)]="activityModalData.planStart"
+                    style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Plan End
+                    Date:</label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="date" class="form-control back" [(ngModel)]="activityModalData.planEnd"
+                    style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Actual Start
+                    Date:</label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="date" class="form-control back" [(ngModel)]="activityModalData.actualStart"
+                    style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Actual End
+                    Date:</label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="date" class="form-control back" [(ngModel)]="activityModalData.actualEnd"
+                    style="height: 35px;" />
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <mat-dialog-actions align="end"
+        style="margin-top: 15px; width: 100%; box-sizing: border-box; flex-shrink: 0; display: flex; justify-content: flex-end; gap: 8px;">
+        <button type="button" class="app-btn app-btn-default" (click)="closeActivityModal()">
+          <mat-icon>cancel</mat-icon> Close
+        </button>
+        <button type="button" class="app-btn app-btn-primary" (click)="saveActivity()">
+          <mat-icon>save</mat-icon> Save
+        </button>
+      </mat-dialog-actions>
+    </div>
+  </div>
+  }
+</div>

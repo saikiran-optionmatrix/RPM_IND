@@ -1,0 +1,89 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="app-table-container">
+
+        <!-- Page Actions (Code Select Filter + Add Lookup Button) -->
+        <div class="app-page-actions">
+          <!-- <div style="display: flex; align-items: center; gap: 8px; margin-right: 12px;">
+            <label style="font-weight: 500; font-size: 14px; margin: 0; color: #334155;">Code:</label>
+            <mat-form-field appearance="outline" style="width: 170px; margin: 0;">
+              <mat-select [(ngModel)]="selectedCode" (selectionChange)="onCodeFilterChange()" placeholder="Select Code">
+                <mat-option value="">Select Code</mat-option>
+                @for (code of codeOptions; track code) {
+                  <mat-option [value]="code">{{ code }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div> -->
+
+          <button type="button" class="app-btn app-btn-primary" (click)="onAdd()">
+            <mat-icon>add</mat-icon>
+            <span>Add Lookup</span>
+          </button>
+        </div>
+
+        <!-- Table Grid -->
+        <div class="table-responsive">
+          <table class="table app-table">
+            <thead>
+              <tr>
+                <th class="text-center">Actions</th>
+                <th class="text-center">Lookup</th>
+                <th class="text-center">Code</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of paginatedLookups; track (item.lookup + '-' + item.code + '-' + item.category)) {
+              <tr>
+                <!-- Actions -->
+                <td class="text-center">
+                  <div class="table-actions">
+                    <button type="button" class="table-action-button edit" matTooltip="Edit" aria-label="Edit lookup"
+                      (click)="onEdit(item)">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button type="button" class="table-action-button delete" matTooltip="Delete"
+                      aria-label="Delete lookup" (click)="onDelete(item)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </td>
+
+                <!-- Lookup -->
+                <td class="text-center">{{ item.lookup }}</td>
+
+                <!-- Code -->
+                <td class="text-center">{{ item.code }}</td>
+
+                <!-- Status -->
+                <td class="text-center">
+                  <button type="button" class="status-button" [class.status-active]="item.status === 'Active'"
+                    [class.status-inactive]="item.status === 'Inactive'" (click)="onStatusChange(item)">
+                    {{ item.status }}
+                  </button>
+                </td>
+
+                <!-- Category -->
+                <td class="text-center">{{ item.category }}</td>
+              </tr>
+              } @empty {
+              <tr>
+                <td colspan="5" class="empty-table">No records found</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <mat-paginator [length]="filteredLookups.length" [pageIndex]="pageIndex" [pageSize]="pageSize"
+          [pageSizeOptions]="[5, 10, 20, 50, 100]" [showFirstLastButtons]="true" (page)="handlePage($event)">
+        </mat-paginator>
+
+      </div>
+    </div>
+  </div>
+</div>

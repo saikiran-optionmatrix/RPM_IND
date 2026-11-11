@@ -1,0 +1,122 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.NewHeader {
+  background-color: #3f3f3f;
+  padding: 15px 20px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+
+  h1 {
+    color: #ffffff !important;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+
+.back {
+  background-color: #ffffff !important;
+}
+
+.control-label {
+  font-size: 13px;
+  color: #334155;
+}
+
+.timesheet-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+
+  th, td {
+    border: 1px solid #e2e8f0;
+    padding: 8px;
+    vertical-align: middle;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  th {
+    background-color: #3f3f3f !important;
+    color: white !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    text-transform: none;
+    letter-spacing: normal;
+    border-color: #555555 !important;
+  }
+
+  td {
+    background-color: #ffffff;
+    font-size: 13px;
+    color: #333333;
+  }
+
+  .table-input {
+    height: 35px;
+    font-size: 13px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+mat-select.form-control {
+  padding: 0 10px !important;
+  height: 35px !important;
+  display: flex !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
+
+::ng-deep .mat-select-trigger {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+::ng-deep .mat-select-arrow-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  vertical-align: middle !important;
+  height: 100% !important;
+}
+
+::ng-deep .mat-select-placeholder {
+  color: #6b7280 !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  line-height: normal !important;
+}
+
+::ng-deep .mat-select-value {
+  color: #1e293b !important;
+  font-size: 13px !important;
+  display: block !important;
+  line-height: normal !important;
+  max-width: calc(100% - 20px) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+::ng-deep .mat-select-value-text {
+  display: block !important;
+  line-height: normal !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}

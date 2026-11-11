@@ -1,0 +1,170 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    {{ isEditMode ? 'Edit Task' : 'Add Task' }}
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 16px 24px; max-height: calc(92vh - 70px); overflow-y: auto;">
+  <form #taskForm="ngForm">
+    <!-- General Fields (3 Columns) -->
+    <div class="row">
+      <!-- Column 1 -->
+      <div class="col-sm-4">
+        <!-- Task Name (Readonly) -->
+        <div class="form-group-item">
+          <label class="control-label">Task Name:</label>
+          <input type="text" name="task" [(ngModel)]="task"
+            style="height:34px; background-color: #f1f5f9 !important;" class="form-control"
+            placeholder="Task Name" readonly>
+        </div>
+
+        <!-- Task Code (Readonly) -->
+        <div class="form-group-item">
+          <label class="control-label">Task Code:</label>
+          <input type="text" name="taskCode" [(ngModel)]="taskCode"
+            style="height:34px; background-color: #f1f5f9 !important;" class="form-control"
+            placeholder="Task Code" readonly>
+        </div>
+
+        <!-- Job Code (Readonly) -->
+        <div class="form-group-item">
+          <label class="control-label">Job Code:</label>
+          <input type="text" name="jobCode" [(ngModel)]="jobCode"
+            style="height:34px; background-color: #f1f5f9 !important;" class="form-control"
+            placeholder="Job Code" readonly>
+        </div>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="col-sm-4">
+        <!-- Plan Start -->
+        <div class="form-group-item">
+          <label class="control-label">Plan Start:</label>
+          <input type="date" name="planStart" [(ngModel)]="planStart"
+            style="height:34px; background-color: #ffffff !important;" class="form-control"
+            required>
+        </div>
+
+        <!-- Plan Finish -->
+        <div class="form-group-item">
+          <label class="control-label">Plan Finish:</label>
+          <input type="date" name="planFinish" [(ngModel)]="planFinish"
+            style="height:34px; background-color: #ffffff !important;" class="form-control"
+            required>
+        </div>
+
+        <!-- Assigned -->
+        <div class="form-group-item">
+          <label class="control-label">Assigned:</label>
+          <mat-select name="assigned" [(ngModel)]="assigned" class="form-control"
+            placeholder="Select Member" style="height:34px; background-color: #ffffff !important;">
+            <mat-option value="">Unassigned</mat-option>
+            @for (m of team; track m) {
+              <mat-option [value]="m">{{ m }}</mat-option>
+            }
+          </mat-select>
+        </div>
+      </div>
+
+      <!-- Column 3 -->
+      <div class="col-sm-4">
+        <!-- Effort -->
+        <div class="form-group-item">
+          <label class="control-label">Effort (hrs):</label>
+          <input type="number" name="effort" [(ngModel)]="effort"
+            style="height:34px; background-color: #ffffff !important;" class="form-control"
+            required>
+        </div>
+
+        <!-- Duration -->
+        <div class="form-group-item">
+          <label class="control-label">Duration (days):</label>
+          <input type="number" name="duration" [(ngModel)]="duration"
+            style="height:34px; background-color: #ffffff !important;" class="form-control"
+            required>
+        </div>
+
+        <!-- Status -->
+        <div class="form-group-item">
+          <label class="control-label">Status:</label>
+          <mat-select name="status" [(ngModel)]="status" class="form-control"
+            placeholder="Select Status" style="height:34px; background-color: #ffffff !important;">
+            <mat-option value="allocated">Pending</mat-option>
+            <mat-option value="inprocess">Processed</mat-option>
+            <mat-option value="completed">Completed</mat-option>
+            <mat-option value="onhold">Overdue</mat-option>
+          </mat-select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actuals & Execution Details (3 Columns) -->
+    <div class="row divider-row">
+      <!-- Column 1 -->
+      <div class="col-sm-4">
+        <!-- Actual Start -->
+        <div class="form-group-item">
+          <label class="control-label">Actual Start:</label>
+          <input type="date" name="actualStart" [(ngModel)]="actualStart"
+            style="height:34px; background-color: #ffffff !important;" class="form-control">
+        </div>
+
+        <!-- Actual Finish -->
+        <div class="form-group-item">
+          <label class="control-label">Actual Finish:</label>
+          <input type="date" name="actualFinish" [(ngModel)]="actualFinish"
+            style="height:34px; background-color: #ffffff !important;" class="form-control">
+        </div>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="col-sm-4">
+        <!-- ETA -->
+        <div class="form-group-item">
+          <label class="control-label">ETA:</label>
+          <input type="date" name="eta" [(ngModel)]="eta"
+            style="height:34px; background-color: #ffffff !important;" class="form-control">
+        </div>
+
+        <!-- Expenses -->
+        <div class="form-group-item">
+          <label class="control-label">Expenses:</label>
+          <input type="number" name="expenses" [(ngModel)]="expenses"
+            style="height:34px; background-color: #ffffff !important;" class="form-control">
+        </div>
+      </div>
+
+      <!-- Column 3 -->
+      <div class="col-sm-4">
+        <!-- Approved Checkbox -->
+        <div class="form-group-item">
+          <label class="control-label" style="display: block;">Approved:</label>
+          <div style="padding-top: 4px;">
+            <mat-checkbox name="approved" [(ngModel)]="approved" color="primary"></mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description (Full Width) -->
+    <div class="row divider-row" style="margin-bottom: 8px;">
+      <div class="col-sm-12">
+        <label class="control-label">Description:</label>
+        <textarea name="description" [(ngModel)]="description" class="form-control" rows="2"
+          placeholder="Enter Description"
+          style="resize: vertical; background-color: #ffffff !important;"></textarea>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 5px; margin-top: 15px;">
+      <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="app-btn app-btn-default" (click)="close()" style="background-color: lightgray; color: red;">
+          <mat-icon>cancel</mat-icon> Close
+        </button>
+        <button type="button" class="app-btn app-btn-primary" (click)="save()" [disabled]="!taskForm.valid">
+          <mat-icon>save</mat-icon> Save
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

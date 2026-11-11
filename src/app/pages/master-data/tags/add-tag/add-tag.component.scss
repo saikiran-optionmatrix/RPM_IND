@@ -1,0 +1,20 @@
+:host {
+	.tag-dialog-body {
+		margin-bottom: 10px;
+	}
+
+	.tag-field-row {
+		margin-bottom: 12px;
+	}
+
+	.tag-field-label {
+		display: block;
+		margin-top: 5px;
+	}
+
+	.tag-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 10px;
+	}
+}

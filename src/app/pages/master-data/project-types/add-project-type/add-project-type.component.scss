@@ -1,0 +1,22 @@
+:host {
+	.project-type-dialog-body {
+		margin-bottom: 10px;
+	}
+
+	.project-type-field-row {
+		margin-bottom: 12px;
+	}
+
+	.project-type-field-label {
+		display: flex;
+		align-items: center;
+		margin-top: 5px;
+		white-space: nowrap;
+	}
+
+	.project-type-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 10px;
+	}
+}

@@ -1,0 +1,224 @@
+:host {
+  display: block;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: #333333;
+}
+
+.analytics-page {
+  width: 100%;
+}
+
+.analytics-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 24px;
+
+  h1 {
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 36px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+}
+
+.back-btn {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: rgb(130, 130, 130);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgb(110, 110, 110);
+  }
+}
+
+.calendar-sidebar {
+  .month-selector {
+    strong {
+      font-size: 14px;
+      color: #0f172a;
+    }
+  }
+
+  .day-cell {
+    &:not(.faded):hover {
+      background-color: #f1f5f9;
+    }
+
+    &.faded {
+      cursor: default;
+      .date-num {
+        color: #cbd5e1;
+      }
+    }
+
+    &.active {
+      background-color: #2563eb !important;
+
+      .date-num {
+        color: #ffffff !important;
+        font-weight: 700;
+      }
+
+      .claims-num {
+        color: #bfdbfe !important;
+      }
+    }
+
+    .date-num {
+      font-size: 13px;
+      color: #1e293b;
+    }
+  }
+}
+
+.table-container {
+  table.expenses-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th {
+      font-size: 13.5px;
+      padding: 12px 14px;
+      background-color: #3f3f3f !important;
+      color: #ffffff !important;
+      font-weight: 600 !important;
+      vertical-align: middle !important;
+      border: 1px solid #555555;
+    }
+
+    td {
+      padding: 10px 12px;
+      border: 1px solid #e2e8f0;
+      color: #333333;
+      font-size: 13.5px;
+      vertical-align: middle;
+    }
+  }
+}
+
+.table-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.table-action-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &.edit {
+    color: #2563eb;
+
+    &:hover {
+      background-color: #eff6ff;
+    }
+  }
+
+  &.delete {
+    color: #dc2626;
+
+    &:hover {
+      background-color: #fef2f2;
+    }
+  }
+}
+
+.custom-checkbox {
+  appearance: none;
+  width: 17px;
+  height: 17px;
+  border-radius: 4px;
+  border: 1px solid #cbd5e1;
+  position: relative;
+  cursor: pointer;
+  background-color: #ffffff;
+  vertical-align: middle;
+
+  &:checked {
+    border-color: transparent;
+
+    &::after {
+      content: '✓';
+      position: absolute;
+      top: -2px;
+      left: 3px;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+
+  &.cb-green:checked {
+    background-color: #16a34a;
+  }
+
+  &.cb-dark:checked {
+    background-color: #374151;
+  }
+
+  &.cb-red:checked {
+     background-color: #16a34a;
+  }
+}
+
+.tdLink {
+  color: #2563eb !important;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.NewHeader {
+  background-color: #3f3f3f;
+  padding: 15px 20px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+
+  h1 {
+    color: white !important;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+}

@@ -1,0 +1,27 @@
+:host {
+	.facility-dialog-body {
+		margin-bottom: 10px;
+	}
+
+	.facility-field-row {
+		margin-bottom: 12px;
+	}
+
+	.facility-field-label {
+		display: flex;
+		align-items: center;
+		gap: 2px;
+		margin-top: 5px;
+		white-space: nowrap;
+	}
+
+	.required-mark {
+		color: red;
+	}
+
+	.facility-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 10px;
+	}
+}

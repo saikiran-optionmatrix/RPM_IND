@@ -1,0 +1,133 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    {{ isEditMode ? 'Update User' : 'Add User' }}
+  </h1>
+</div>
+
+<form [formGroup]="userForm" (ngSubmit)="saveUser()" class="add-user-form">
+  <div mat-dialog-content class="add-user-content">
+    <div class="col-sm-12" style="padding: 0;">
+
+      <!-- User Name -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">User Name :</label>
+        </div>
+        <div class="col-sm-9">
+          <input class="form-control name back" maxlength="50" placeholder="Enter User Name"
+                 formControlName="userName" type="text">
+        </div>
+      </div>
+
+      <!-- Short Form -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Short Form :</label>
+        </div>
+        <div class="col-sm-9">
+          <input class="form-control name back" maxlength="10" placeholder="Enter Short Form (e.g. PK)"
+                 formControlName="shortForm" type="text">
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Email :</label>
+        </div>
+        <div class="col-sm-9">
+          <input class="form-control name back" maxlength="80" placeholder="Enter Email"
+                 formControlName="email" type="email">
+        </div>
+      </div>
+
+      <!-- Phone Number -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Phone Number :</label>
+        </div>
+        <div class="col-sm-9">
+          <input class="form-control name back" maxlength="15" placeholder="Enter Phone No"
+                 formControlName="phone" type="text">
+        </div>
+      </div>
+
+      <!-- Role -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Role :</label>
+        </div>
+        <div class="col-sm-9">
+          <select class="form-control name back" formControlName="role">
+            <option value="" disabled selected>Select Role</option>
+            @for (rl of roles; track rl) {
+              <option [value]="rl">{{ rl }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <!-- Department -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Department :</label>
+        </div>
+        <div class="col-sm-9">
+          <select class="form-control name back" formControlName="department">
+            <option value="" disabled selected>Select Department</option>
+            @for (dept of departments; track dept) {
+              <option [value]="dept">{{ dept }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <!-- Work Hours -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Work Hours :</label>
+        </div>
+        <div class="col-sm-9">
+          <input class="form-control name back" min="1" max="24" placeholder="8"
+                 formControlName="workHours" type="number">
+        </div>
+      </div>
+
+      <!-- Manager -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Manager :</label>
+        </div>
+        <div class="col-sm-9">
+          <select class="form-control name back" formControlName="manager">
+            <option value="" disabled selected>Select Manager</option>
+            @for (mgr of managers; track mgr) {
+              <option [value]="mgr">{{ mgr }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <!-- Managerial Role -->
+      <div class="row" style="margin-bottom: 8px;">
+        <div class="col-sm-3">
+          <label class="control-label" style="margin-top: 5px;">Managerial Role :</label>
+        </div>
+        <div class="col-sm-9" style="padding-top: 4px;">
+          <mat-checkbox formControlName="managerialRole" color="primary"></mat-checkbox>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Action Buttons pinned outside scrollable content -->
+  <div mat-dialog-actions class="add-user-actions">
+    <button type="button" class="app-btn app-btn-default" (click)="close()" style="background-color: lightgray; color: red;">
+      <mat-icon>cancel</mat-icon> Close
+    </button>
+    <button type="submit" class="app-btn app-btn-primary" [disabled]="userForm.invalid">
+      <mat-icon>save</mat-icon> Save
+    </button>
+  </div>
+</form>

@@ -1,0 +1,435 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+  <!-- Header Section with Title & Back Button -->
+  <header class="analytics-header">
+    <h1>{{ projectName }}</h1>
+    <button type="button" class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon><span>Back</span>
+    </button>
+  </header>
+
+  <div class="app-table-container" style="padding: 0; width: 100%;">
+    <!-- Top Action Bar -->
+    <div class="app-page-actions" style="margin-bottom: 16px; display: flex; gap: 10px;">
+      <button type="button" class="app-btn app-btn-filter" (click)="toggleFilter()">
+        <mat-icon>filter_list</mat-icon>
+        <span>Filter</span>
+      </button>
+
+      <button type="button" class="app-btn app-btn-primary" (click)="openAddDialog()">
+        <mat-icon>add</mat-icon>
+        <span>Add Activity</span>
+      </button>
+    </div>
+
+    <!-- Toggleable Filter Card Matching Application Design -->
+    @if (showFilter) {
+    <mat-card class="app-filter-panel" style="margin-bottom: 16px;">
+      <mat-card-content>
+        <div class="app-filter-grid">
+
+          <!-- 1. Filter Fields -->
+          <div class="app-filter-fields">
+            <div class="app-filter-field">
+              <label for="filterKeyword">Keyword:</label>
+              <mat-form-field appearance="outline" class="app-filter-control">
+                <input matInput id="filterKeyword" [(ngModel)]="filterKeyword" placeholder="Search by keyword"
+                  (input)="applyFilter()" />
+              </mat-form-field>
+            </div>
+
+            <div class="app-filter-field">
+              <label for="filterProjectName">Project Name:</label>
+              <mat-form-field appearance="outline" class="app-filter-control">
+                <input matInput id="filterProjectName" [(ngModel)]="filterProjectName"
+                  placeholder="Search by project name" (input)="applyFilter()" />
+              </mat-form-field>
+            </div>
+
+            <div class="app-filter-field">
+              <label for="filterDateType">Date Type:</label>
+              <mat-form-field appearance="outline" class="app-filter-control">
+                <mat-select id="filterDateType" [(ngModel)]="filterDateType" placeholder="Select Date type">
+                  <mat-option value="PlanStart">Plan Start</mat-option>
+                  <mat-option value="PlanEnd">Plan End</mat-option>
+                  <mat-option value="ActualStart">Actual Start</mat-option>
+                  <mat-option value="ActualEnd">Actual End</mat-option>
+                  <mat-option value="ETA">ETA</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="app-filter-field">
+              <label for="filterFromDate">From Date:</label>
+              <mat-form-field appearance="outline" class="app-filter-control">
+                <input matInput id="filterFromDate" type="date" [(ngModel)]="filterFromDate" />
+              </mat-form-field>
+            </div>
+
+            <div class="app-filter-field">
+              <label for="filterToDate">To Date:</label>
+              <mat-form-field appearance="outline" class="app-filter-control">
+                <input matInput id="filterToDate" type="date" [(ngModel)]="filterToDate" />
+              </mat-form-field>
+            </div>
+
+            <div class="app-filter-field">
+              <label for="filterStatus">Status:</label>
+              <mat-form-field appearance="outline" class="app-filter-control">
+                <mat-select id="filterStatus" [(ngModel)]="filterStatus" (selectionChange)="applyFilter()"
+                  placeholder="Select Status">
+                  <mat-option value="">All</mat-option>
+                  @for (st of statuses; track st) {
+                  <mat-option [value]="st">{{ st }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="app-filter-field">
+              <label for="filterPriority">Priority:</label>
+              <mat-form-field appearance="outline" class="app-filter-control">
+                <mat-select id="filterPriority" [(ngModel)]="filterPriority" (selectionChange)="applyFilter()"
+                  placeholder="Select Priority">
+                  <mat-option value="">All</mat-option>
+                  @for (pr of priorities; track pr) {
+                  <mat-option [value]="pr">{{ pr }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="app-filter-field">
+              <label for="filterComplexity">Complexity:</label>
+              <mat-form-field appearance="outline" class="app-filter-control">
+                <mat-select id="filterComplexity" [(ngModel)]="filterComplexity" (selectionChange)="applyFilter()"
+                  placeholder="Select Complexity">
+                  <mat-option value="">All</mat-option>
+                  @for (cx of complexities; track cx) {
+                  <mat-option [value]="cx">{{ cx }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="app-filter-field" style="display: flex; align-items: center; gap: 8px; margin-top: 25px;">
+              <input type="checkbox" id="filterActive" class="custom-checkbox cb-green" [(ngModel)]="filterActive"
+                (change)="applyFilter()" />
+              <label for="filterActive" style="margin: 0; cursor: pointer; font-weight: 500;">Active Only</label>
+            </div>
+          </div>
+
+          <!-- 2. Filter Actions -->
+          <div class="app-filter-actions">
+            <button type="button" class="app-btn app-btn-primary" (click)="applyFilter()">
+              <mat-icon>search</mat-icon>
+              <span>Search</span>
+            </button>
+            <button type="button" class="app-btn app-btn-default" (click)="clearFilter()">
+              <mat-icon>settings_backup_restore</mat-icon>
+              <span>Clear</span>
+            </button>
+          </div>
+
+          <!-- 3. Toggle Button -->
+          <div class="app-filter-toggle">
+            <button type="button" class="app-icon-btn" aria-label="Collapse filter" (click)="toggleFilter()">
+              <mat-icon>keyboard_double_arrow_up</mat-icon>
+            </button>
+          </div>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+    }
+
+    <!-- Horizontal Scroll Controls -->
+    <div style="position: relative; height: 0; margin: 0; padding: 0;">
+      <button class="mine" mat-fab style="background-color: #cecdcd; right: 110px; z-index: 9999;"
+        (click)="scrollLeft()">
+        <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+      </button>
+      <button class="mine" mat-fab style="background-color: #cecdcd; z-index: 9999;" (click)="scrollRight()">
+        <mat-icon style="color: #414141;">fast_forward</mat-icon>
+      </button>
+    </div>
+
+    <!-- Grid Table Container with app-table classes -->
+    <div class="table-responsive" id="grid-table-container" #scrollContainer
+      style="overflow-x: auto; scroll-behavior: smooth;">
+      <table class="table app-table" style="min-width: 1650px;">
+        <thead>
+          <tr>
+            <th class="text-center" style="width: 70px;">Action</th>
+            <th class="text-center" style="width: 80px; white-space: nowrap;">Timeline</th>
+            <!-- <th class="text-center" style="width: 60px;">Active</th>
+            <th class="text-center" style="width: 60px; white-space: nowrap;">Done</th> -->
+            <th class="text-left" style="white-space: nowrap; min-width: 220px;">Activity</th>
+            <th class="text-center" style="width: 75px; white-space: nowrap;">Tasks</th>
+            <th class="text-center" style="width: 95px; white-space: nowrap;">Requirements</th>
+            <th class="text-left" style="white-space: nowrap; min-width: 200px;">Delay Reason</th>
+            <th class="text-center" style="white-space: nowrap;">Stage</th>
+            <th class="text-center" style="white-space: nowrap;">Deliverable</th>
+            <th class="text-center" style="white-space: nowrap;">Responsibility</th>
+            <!-- <th class="text-center" style="white-space: nowrap;">Start Date</th> -->
+            <th class="text-center" style="white-space: nowrap;">Duration</th>
+            <th class="text-center" style="white-space: nowrap;">Effort (Hours)</th>
+            <!-- <th class="text-center" style="width: 110px; white-space: nowrap;">Progress</th> -->
+            <th class="text-center" style="width: 90px; white-space: nowrap;">Timesheet</th>
+            <th class="text-center" style="width: 130px; white-space: nowrap;">Status</th>
+            <th class="text-center" style="width: 120px; white-space: nowrap;">Priority</th>
+            <th class="text-center" style="width: 120px; white-space: nowrap;">Complexity</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (item of allProjects; track item.ProjectCode || item.TaskName) {
+          <tr>
+            <td class="text-center">
+              <div class="table-actions">
+                <button type="button" class="table-action-button edit" matTooltip="Edit Task"
+                  (click)="openEditDialog(item)">
+                  <i class="fa fa-edit"></i>
+                </button>
+                <button type="button" class="table-action-button delete" matTooltip="Delete Task"
+                  (click)="deleteConfirmation(item)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+            <td class="text-center">
+              <button type="button" class="timeline-trigger-btn" matTooltip="View Timeline"
+                (click)="openTimelineModal(item)">
+                <mat-icon>calendar_today</mat-icon>
+              </button>
+            </td>
+            <!-- <td class="text-center">
+              <mat-checkbox color="primary" [(ngModel)]="item.IsActive" (change)="toggleActive(item)"></mat-checkbox>
+            </td>
+            <td class="text-center">
+              <mat-checkbox color="primary" [(ngModel)]="item.Done"></mat-checkbox>
+            </td> -->
+            <!-- Activity -->
+            <td class="text-left"
+              [style.color]="getSliderColor(item.PercentCompletion) === '#ff0000' ? '#ff0000' : null">
+              {{ item.TaskName }}
+            </td>
+            <!-- Tasks -->
+            <td class="text-center">
+              <a class="wbs-link" (click)="onTasksClick(item)" matTooltip="View Tasks">
+                {{ item.Tasks ?? item.tasks ?? '0/13' }}
+              </a>
+            </td>
+            <!-- Requirements -->
+            <td class="text-center">
+              <a class="wbs-link" (click)="onRequirementsClick(item)" matTooltip="View Requirements">
+                {{ item.Requirements ?? item.requirements ?? item.activities ?? '0/9' }}
+              </a>
+            </td>
+            <!-- Delay Reason -->
+            <td class="text-left" style="min-width: 200px !important;">
+              <mat-select [(ngModel)]="item.delayReason" class="form-control" placeholder="Select Delay Reason"
+                style="height: 34px; line-height: 22px; font-size: 13px; min-width: 180px;">
+                @for (reason of delayReasonOptions; track reason) {
+                <mat-option [value]="reason">{{ reason }}</mat-option>
+                }
+              </mat-select>
+            </td>
+            <td class="text-center" style="white-space: nowrap;">
+              <span>{{ item.Stage || item.stage || 'S1' }}</span>
+            </td>
+            <td class="text-center" style="white-space: nowrap;">
+              <span>{{ item.Deliverable || '—' }}</span>
+            </td>
+            <td class="text-center">
+              <span class="user-avatar" [matTooltip]="item.Responsibility">
+                {{ getInitials(item.Responsibility) }}
+              </span>
+            </td>
+            <!-- <td class="text-center" style="white-space: nowrap;">
+              {{ item.PlanStart ? (item.PlanStart | date:'dd-MMM-yyyy') : '—' }}
+            </td> -->
+            <td class="text-center" style="white-space: nowrap;">
+              {{ item.Duration || '—' }}
+            </td>
+            <td class="text-center" style="white-space: nowrap;">
+              {{ item.Effort || '—' }}
+            </td>
+            <!-- <td class="text-center" style="vertical-align: middle;">
+              <div style="display: flex; align-items: center; gap: 6px; justify-content: center;">
+                <input type="range" min="0" max="100" [(ngModel)]="item.PercentCompletion" class="custom-range-slider"
+                  [style.accent-color]="getSliderColor(item.PercentCompletion)" style="width: 65px;"
+                  [matTooltip]="item.PercentCompletion + '%'" />
+                <span style="font-size: 11.5px; font-weight: 600; min-width: 28px;">{{ item.PercentCompletion }}%</span>
+              </div>
+            </td> -->
+            <td class="text-center">
+              <button type="button" class="timesheet-link-btn" (click)="opentimesheet()" matTooltip="View Timesheet">
+                View
+              </button>
+            </td>
+            <td class="text-center">
+              <select [(ngModel)]="item.Status" class="form-select-sm status-select">
+                @for (st of statuses; track st) {
+                <option [value]="st">{{ st }}</option>
+                }
+              </select>
+            </td>
+            <td class="text-center">
+              <select [(ngModel)]="item.Priority" class="form-select-sm status-select">
+                @for (pr of priorities; track pr) {
+                <option [value]="pr">{{ pr }}</option>
+                }
+              </select>
+            </td>
+            <td class="text-center">
+              <select [(ngModel)]="item.Complexity" class="form-select-sm status-select">
+                @for (cx of complexities; track cx) {
+                <option [value]="cx">{{ cx }}</option>
+                }
+              </select>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="19" class="empty-table text-center">No records found</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginator matching assets -->
+    <mat-paginator [length]="totalSize" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 50, 100]"
+      (page)="fnHandlePage($event)" showFirstLastButtons style="margin-top: 12px;">
+    </mat-paginator>
+  </div>
+
+  <!-- ============ TIMELINE POP-UP MODAL ============ -->
+  @if (showTimelineModal) {
+  <div class="bl-modal-overlay" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+    <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+      <!-- Header Row -->
+      <div class="timeline-popup-header">
+        <div class="timeline-popup-title-wrap">
+          <div class="timeline-icon-box">
+            <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+          </div>
+          <h3 class="timeline-popup-title">
+            Timeline &mdash; {{ selectedTimelineTask?.TaskName || selectedTimelineTask?.ProjectName }}
+          </h3>
+        </div>
+        <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #475569;">close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Dates Grid -->
+      <div class="timeline-dates-container">
+        <div class="timeline-accent-bar"></div>
+
+        <div class="timeline-grid-content">
+          <!-- Row 1: Plan Start Date, Plan End Date, Actual Start Date -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineTask?.PlanStart ? (selectedTimelineTask?.PlanStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan End Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineTask?.PlanEnd ? (selectedTimelineTask?.PlanEnd | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Actual Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineTask?.ActualStart ? (selectedTimelineTask?.ActualStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row-divider"></div>
+
+          <!-- Row 2: Actual End Date, ETA, Duration -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Actual End Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineTask?.ActualEnd ? (selectedTimelineTask?.ActualEnd | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">ETA</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineTask?.ETA ? (selectedTimelineTask?.ETA | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Duration</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineTask?.Duration || '—' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row-divider"></div>
+
+          <!-- Row 3: Hours (Effort), Task Type, Responsibility -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Hours (Effort)</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineTask?.Effort ? (selectedTimelineTask?.Effort + ' hrs') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Task Type</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineTask?.TaskType || '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Responsibility</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineTask?.Responsibility || '—' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row-divider"></div>
+
+          <!-- Row 4: Project Name, Template -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Project Name</div>
+              <div class="timeline-date-value">
+                <span style="color: #2563eb; font-weight: 600;">{{ selectedTimelineTask?.ProjectName || projectName }}</span>
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Template</div>
+              <div class="timeline-date-value" style="display: flex; align-items: center; gap: 8px;">
+                <span>{{ selectedTimelineTask?.Template || '—' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description Box -->
+      <div class="timeline-desc-box">
+        <div class="timeline-desc-header">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #2563eb;">description</mat-icon>
+          <span>Description</span>
+        </div>
+        <div class="timeline-desc-content">
+          {{ selectedTimelineTask?.Description || 'No description available for this task.' }}
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+
+</div>

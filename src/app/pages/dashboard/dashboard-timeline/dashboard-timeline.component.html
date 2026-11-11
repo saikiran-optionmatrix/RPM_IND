@@ -1,0 +1,153 @@
+
+<div style="display: flex; flex-direction: column; height: 100%; width: 100%; padding-left: 40px;padding-right: 40px; box-sizing: border-box; overflow-x : hidden !important;">
+
+
+  <div style="display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; box-sizing: border-box;">
+    <div class="timeline-top-bar">
+      <div class="filters-row">
+        <div class="filter-item">
+          <label class="filter-label">Project:</label>
+          <mat-select [(ngModel)]="selectedProject" class="app-custom-select" style="min-width: 220px;">
+            @for (p of projects; track p) {
+              <mat-option [value]="p">{{ p }}</mat-option>
+            }
+          </mat-select>
+        </div>
+
+        <div class="filter-item">
+          <label class="filter-label">Stage:</label>
+          <mat-select [(ngModel)]="selectedStageFilter" class="app-custom-select" style="min-width: 220px;">
+            @for (s of mainStages; track s.key) {
+              <mat-option [value]="s.key">{{ s.label }}</mat-option>
+            }
+          </mat-select>
+        </div>
+
+        <div class="filter-item">
+          <label class="filter-label">Division:</label>
+          <mat-select [(ngModel)]="selectedDivision" class="app-custom-select">
+            @for (div of divisionsList; track div) {
+              <mat-option [value]="div">{{ div }}</mat-option>
+            }
+          </mat-select>
+        </div>
+
+        <div class="filter-item">
+          <label class="filter-label">Location:</label>
+          <mat-select [(ngModel)]="selectedLocation" class="app-custom-select">
+            @for (loc of locationsList; track loc) {
+              <mat-option [value]="loc">{{ loc }}</mat-option>
+            }
+          </mat-select>
+        </div>
+
+        <button type="button" class="app-btn app-btn-primary go-btn" (click)="applyGanttFilter()">
+          <span>Go</span>
+          <mat-icon class="go-icon">arrow_forward</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="app-table-container bg-white d-flex flex-column" style="position: relative; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; padding: 20px; width: 100%; flex: 1 1 auto; min-height: 0; box-sizing: border-box;">
+
+      <!-- Table Wrapper: Added #tableContainer and (scroll)="onTableScroll()" -->
+      <div #tableContainer class="table-responsive" style="flex: 1 1 auto; overflow: auto; box-sizing: border-box;" (scroll)="onTableScroll()">
+
+          <table class="table app-table gantt-table mb-0 stages-scrollable-table" >
+            <thead>
+              <!-- Top header row -->
+              <tr class="hdr-top">
+                <th class="fixed-col stage-col">Deliverable</th>
+                <th class="fixed-col text-center" style="min-width: 100px;">Start Date</th>
+                <th class="fixed-col text-center" style="min-width: 100px;">End Date</th>
+                <th class="fixed-col pct-col text-center" style="min-width: 90px;">Completion</th>
+                <th [attr.colspan]="calendarDays.length" class="gate-cell text-center">
+                  Monthly Timeline (Days 1 - 30)
+                </th>
+              </tr>
+              <!-- Sub-header: Day numbers 1 to 30 -->
+              <tr class="hdr-sub">
+                <th class="fixed-col"></th>
+                <th class="fixed-col"></th>
+                <th class="fixed-col"></th>
+                <th class="fixed-col" style="border-right: 1px solid #555 !important;"></th>
+                <th *ngFor="let day of calendarDays" class="day-col text-center">
+                  {{ day }}
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let item of filteredGanttData">
+                <td class="fixed-col stage-col">{{ item.task }}</td>
+                <td class="fixed-col date-col text-center">{{ item.start | date:'dd-MMM-yyyy' }}</td>
+                <td class="fixed-col date-col text-center">{{ item.end | date:'dd-MMM-yyyy' }}</td>
+                <td class="fixed-col pct-col text-center"
+                  [style.color]="item.completion >= 75 ? '#28a745' : item.completion > 0 ? '#f4a300' : '#6c757d'"
+                  style="font-weight: 600;">
+                  {{ item.completion }}%
+                </td>
+
+                <!-- Day cells (1-30) -->
+                <td *ngFor="let day of calendarDays"
+                    class="day-cell"
+                    (mouseenter)="isDayInRange(item, day) ? showTooltip($event, item) : null"
+                    (mousemove)="isDayInRange(item, day) ? moveTooltip($event) : null"
+                    (mouseleave)="hideTooltip()">
+
+                  <!-- Solid color bar matching image -->
+                  <div *ngIf="isDayInRange(item, day)"
+                       class="cal-bar-segment"
+                       [style.background]="getDarkBarColor(item.completion)">
+                    <!-- Text embedded inside the very last day cell of the task -->
+                    <span *ngIf="isDayEnd(item, day)" class="cal-bar-label-inner">
+                      {{ item.completion }}%
+                    </span>
+                  </div>
+
+                </td>
+              </tr>
+
+              <tr *ngIf="filteredGanttData.length === 0">
+                <td [attr.colspan]="4 + calendarDays.length" class="empty-table text-center" style="padding: 20px;">
+                  No records found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+      </div>
+        <div class="gantt-legend" style="margin-top: 15px; display: flex; gap: 20px; font-size: 12px; color: #666;">
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <span style="background:#28a745; width: 14px; height: 14px; border-radius: 2px;"></span> Completed
+          </span>
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <span style="background:#f4a300; width: 14px; height: 14px; border-radius: 2px;"></span> In Progress
+          </span>
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <span style="background:#dc3545; width: 14px; height: 14px; border-radius: 2px;"></span> Behind Schedule
+          </span>
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <span style="background:#adb5bd; width: 14px; height: 14px; border-radius: 2px;"></span> Not Started
+          </span>
+        </div>
+      <!-- Paginator Placeholder -->
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Fixed Scroll Buttons (Matching ProjectStagesComponent) -->
+<div class="d-flex justify-content-end mb-2">
+  <button class="mine" mat-fab style="background-color: #cecdcd; position: fixed; bottom: 80px; right: 110px; z-index: 9999;"
+    (click)="scrollLeft()">
+    <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+  </button>
+  <button class="mine" mat-fab style="background-color: #cecdcd; position: fixed; bottom: 80px; right: 40px; z-index: 9999;"
+    (click)="scrollRight()">
+    <mat-icon style="color: #414141;">fast_forward</mat-icon>
+  </button>
+</div>
+
+<!-- FLOATING TOOLTIP -->
+

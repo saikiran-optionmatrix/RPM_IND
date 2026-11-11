@@ -1,0 +1,97 @@
+<div class="variance-top-bar">
+  <div class="filters-row">
+    <div class="filter-item">
+      <label class="filter-label">Project:</label>
+      <mat-select [(ngModel)]="selectedBudgetProject" (selectionChange)="onBudgetProjectChange()" class="app-custom-select" style="min-width: 200px;">
+        <mat-option value="All Projects">All Projects</mat-option>
+        @for (p of projects; track p) {
+          <mat-option [value]="p">{{ p }}</mat-option>
+        }
+      </mat-select>
+    </div>
+
+    <div class="filter-item">
+      <label class="filter-label">Division:</label>
+      <mat-select [(ngModel)]="selectedDivision" class="app-custom-select">
+        @for (div of divisionsList; track div) {
+          <mat-option [value]="div">{{ div }}</mat-option>
+        }
+      </mat-select>
+    </div>
+
+    <div class="filter-item">
+      <label class="filter-label">Location:</label>
+      <mat-select [(ngModel)]="selectedLocation" class="app-custom-select">
+        @for (loc of locationsList; track loc) {
+          <mat-option [value]="loc">{{ loc }}</mat-option>
+        }
+      </mat-select>
+    </div>
+
+    <button type="button" class="app-btn app-btn-primary go-btn" (click)="onApplyFilters()">
+      <span>Go</span>
+      <mat-icon class="go-icon">arrow_forward</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div class="variance-stages-bar" style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 20px; width: 100%; padding: 0 20px; box-sizing: border-box;">
+  <div class="pills">
+    <ul class="nav nav-pills" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: row; gap: 6px; flex-wrap: wrap; justify-content: flex-end;">
+      @for (stage of varianceStages; track stage) {
+        <li [class.active]="selectedVarianceStage.toUpperCase() === stage.toUpperCase()">
+          <a mat-raised-button (click)="setVarianceStage(stage)" style="cursor: pointer; padding: 0 10px; line-height: 26px; font-size: 11.5px; min-width: 36px; height: 26px; text-align: center; border-radius: 4px;">
+            {{ stage }}
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
+</div>
+
+<div style="display: flex; width: 100%; gap: 20px; align-items: stretch; padding: 0 20px; box-sizing: border-box;">
+  <div style="flex: 1; width: 50%; display: flex; flex-direction: column;">
+    <div class="app-table-container p-3 bg-white" style="border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; display: flex; flex-direction: column;">
+      <h3 class="mb-3 font-weight-bold" style="font-size: 16px; color: #333; flex-shrink: 0;">Budget Allocation</h3>
+
+      <div class="table-responsive" style="height: 460px; max-height: 460px; overflow-y: auto; overflow-x: auto; scroll-behavior: smooth;">
+        <table class="table app-table" style="border-collapse: collapse; margin: 0; width: 100%; table-layout: fixed;">
+          <thead>
+            <tr style="background: #333; color: white;">
+              <th class="text-left p-2 position-sticky top-0" style="background: #333; z-index: 2; width: 25%;">Stage</th>
+              <th class="text-left p-2 position-sticky top-0" style="background: #333; z-index: 2; width: 40%;">Deliverable</th>
+              <th class="text-center p-2 position-sticky top-0" style="background: #333; z-index: 2; width: 17.5%;">Allocated </th>
+              <th class="text-center p-2 position-sticky top-0" style="background: #333; z-index: 2; width: 17.5%;">Actual</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (group of groupedBudgetTableData; track group.stageCode) {
+              @for (item of group.modules; track item.module; let first = $first) {
+                <tr [id]="first ? ('stage-row-' + group.stageCode) : null" [style.background-color]="group.stageCode.toUpperCase() === selectedVarianceStage.toUpperCase() ? '#eaf4ff' : 'transparent'" style="border-bottom: 1px solid #e2e8f0;">
+                  @if (first) {
+                    <td class="text-left p-2" [attr.rowspan]="group.modules.length" style="font-weight: 500; vertical-align: middle; border-right: 1px solid #e2e8f0; font-size: 13px; word-wrap: break-word;">
+                      {{ group.stage }}
+                    </td>
+                  }
+                  <td class="text-left p-2" style="font-size: 13px; color: #333; word-wrap: break-word;">{{ item.module }}</td>
+                  <td class="text-center p-2" style="font-size: 13px;">{{ item.allocated | number }}</td>
+                  <td class="text-center p-2" style="font-size: 13px;">{{ item.spent | number }}</td>
+                </tr>
+              }
+            } @empty {
+              <tr>
+                <td colspan="4" class="empty-table text-center p-4" style="font-size: 13px;">No budget records found.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div style="flex: 1; width: 50%; display: flex; flex-direction: column;">
+    <mat-card class="chart-section p-3" style="height: 100%; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; display: flex; flex-direction: column; justify-content: center; overflow: hidden;">
+      <div id="variancePieChartContainer" style="width: 100%; height: 460px;"></div>
+    </mat-card>
+  </div>
+</div>

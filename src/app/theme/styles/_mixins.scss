@@ -1,0 +1,18 @@
+@mixin menu-level-padding($direction) {
+  $elem: ".sub-menu";
+
+  @for $i from 3 through 10 { 
+    @if $i > 3 {
+      $elem: selector-nest($elem, ".sub-menu");
+    }
+
+    #{$elem} .mat-mdc-button {
+      @if $direction == "rtl" {
+        padding-right: 20px * $i;
+        padding-left: 0;
+      } @else {
+        padding-left: 20px * $i;
+      }
+    }
+  }
+}

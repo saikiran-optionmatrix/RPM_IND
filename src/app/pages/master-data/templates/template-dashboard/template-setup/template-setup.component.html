@@ -1,0 +1,157 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+  <header class="analytics-header">
+    <h1>{{ projectName }}</h1>
+    <button type="button" class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon><span>Back</span>
+    </button>
+  </header>
+
+  <!-- Content placed directly below header -->
+  <div class="setup-container">
+    <div
+      class="board-grid"
+      [style.grid-template-columns]="
+        selectedStage?.type === 'gate'
+          ? 'repeat(2, minmax(0, 1fr))'
+          : 'repeat(3, minmax(0, 1fr))'
+      ">
+      <!-- Column 1: Stages / Gates -->
+      <div class="board-column">
+        <h2>Stages / Gates</h2>
+        <div class="column-content">
+          @for (item of stagesAndGates; track item.id || item.name) {
+            <div
+              class="list-item"
+              [ngClass]="{
+                'is-stage': item.type === 'stage',
+                'is-gate': item.type === 'gate',
+                'is-active': item === selectedStage,
+              }"
+              (click)="selectStage(item)">
+              <div class="item-left">
+                <div
+                  class="custom-checkbox readonly"
+                  [class.checked]="item.completed"></div>
+                <span class="item-name">{{ item.name }}</span>
+              </div>
+
+              <div class="item-right">
+                <mat-icon class="sm-icon">chevron_right</mat-icon>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Column 2: Deliverables (for stages) -->
+      @if (selectedStage?.type !== 'gate') {
+        <div class="board-column">
+          <h2>
+            Deliverables
+            @if (selectedStage) {
+              <span class="header-context">({{ selectedStage?.name }})</span>
+            }
+          </h2>
+          <div class="column-content">
+            @if (selectedStage?.modules && selectedStage?.modules?.length! > 0) {
+              @for (mod of selectedStage?.modules; track mod.id || mod.name) {
+                <div
+                  class="list-item is-module"
+                  [ngClass]="{ 'is-active': mod === selectedModule }"
+                  (click)="selectModule(mod)">
+                  <div class="item-left">
+                    <div
+                      class="custom-checkbox readonly"
+                      [class.checked]="mod.completed"></div>
+                    <div class="item-text-wrap">
+                      <span class="item-name">{{ mod.name }}</span>
+                      @if (mod.description) {
+                        <span class="item-desc">{{ mod.description }}</span>
+                      }
+                    </div>
+                  </div>
+
+                  <div class="item-right">
+                    <mat-icon class="sm-icon">chevron_right</mat-icon>
+                  </div>
+                </div>
+              }
+            } @else {
+              <div class="empty-state">No deliverables defined for this stage.</div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Column 3: Checklist (for gates) or Activities (for stages) -->
+      <div class="board-column">
+        <h2>
+          @if (selectedStage?.type === 'gate') {
+            <span>
+              CheckList
+              <span class="header-context">({{ selectedStage?.name }})</span>
+            </span>
+          } @else {
+            <span>
+              Activities
+              @if (selectedModule) {
+                <span class="header-context">({{ selectedModule?.name }})</span>
+              }
+            </span>
+          }
+        </h2>
+        <div class="column-content">
+          <!-- Gates display tasks directly from selectedStage -->
+          @if (selectedStage?.type === 'gate') {
+            @if (selectedStage?.tasks && selectedStage?.tasks?.length! > 0) {
+              @for (task of selectedStage?.tasks; track task.id || task.name) {
+                <div class="list-item is-task">
+                  <div class="item-left">
+                    <div
+                      class="custom-checkbox readonly"
+                      [class.checked]="task.completed"></div>
+                    <div class="item-text-wrap">
+                      <span class="item-name">{{ task.name }}</span>
+                      @if (task.description) {
+                        <span class="item-desc">{{ task.description }}</span>
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+            } @else {
+              <div class="empty-state">
+                No checklist items defined for this gate.
+              </div>
+            }
+          }
+
+          <!-- Stages display tasks from selectedModule -->
+          @if (selectedStage?.type !== 'gate') {
+            @if (selectedModule?.tasks && selectedModule?.tasks?.length! > 0) {
+              @for (task of selectedModule?.tasks; track task.id || task.name) {
+                <div class="list-item is-task">
+                  <div class="item-left">
+                    <div
+                      class="custom-checkbox readonly"
+                      [class.checked]="task.completed"></div>
+                    <div class="item-text-wrap">
+                      <span class="item-name">{{ task.name }}</span>
+                      @if (task.description) {
+                        <span class="item-desc">{{ task.description }}</span>
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+            } @else {
+              <div class="empty-state">
+                No activities defined for this deliverable.
+              </div>
+            }
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

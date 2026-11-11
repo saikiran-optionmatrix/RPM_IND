@@ -1,0 +1,26 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>{{ title }}</h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="remarks-body" style="padding-top: 10px;">
+    <div class="form-group">
+      <textarea
+        class="form-control"
+        rows="4"
+        [(ngModel)]="notes"
+        [placeholder]="placeholder"
+        style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13.5px; box-sizing: border-box; resize: vertical; outline: none;"
+      ></textarea>
+    </div>
+
+    <div class="dialog-actions" style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px;">
+      <button type="button" class="app-btn app-btn-default" (click)="close()">
+        <mat-icon>cancel</mat-icon> Close
+      </button>
+      <button type="button" class="app-btn app-btn-primary" (click)="save()">
+        <mat-icon>save</mat-icon> Save
+      </button>
+    </div>
+  </div>
+</div>

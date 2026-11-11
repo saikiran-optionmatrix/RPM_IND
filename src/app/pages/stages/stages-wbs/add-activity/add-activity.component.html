@@ -1,0 +1,347 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    {{ isEditMode ? 'Update Activity' : 'Add Activity' }}
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 16px 24px; overflow-y: auto; overflow-x: hidden;">
+  <form [formGroup]="activityForm" (ngSubmit)="save()">
+    <div style="display: flex; gap: 24px; align-items: stretch;">
+
+      <!-- Left Column: Navigation Tabs with Pills Styling -->
+      <div class="pills left-nav-pills"
+        style="width: 170px; flex-shrink: 0; border-right: 1px solid #e2e8f0; padding-right: 16px;">
+        <ul class="nav nav-pills"
+          style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+          <li [class.active]="activeTab === 'activity'">
+            <a mat-raised-button type="button" (click)="setActiveTab('activity')">
+              Activity
+            </a>
+          </li>
+          <li [class.active]="activeTab === 'predecessor'">
+            <a mat-raised-button type="button" (click)="setActiveTab('predecessor')">
+              Predecessor
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Right Column: Tab Content -->
+      <div style="flex: 1; min-width: 0;">
+
+        <!-- ==========================================
+             TAB 1: ACTIVITY (All existing fields)
+             ========================================== -->
+        @if (activeTab === 'activity') {
+        <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+
+          <!-- Left Column -->
+          <div style="flex: 1.1; min-width: 320px;">
+
+            <!-- Select Stage -->
+            <!-- <div class="row" style="margin-bottom: 8px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+              <div class="col-sm-4" style="padding-left: 0;">
+                <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Select Stage:</label>
+              </div>
+              <div class="col-sm-8" style="padding-right: 0;">
+                <input class="form-control name back" placeholder="Enter Stage" formControlName="stage" type="text">
+              </div>
+            </div> -->
+
+            <!-- Select Deliverable -->
+            <div class="row" style="margin-bottom: 8px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+              <div class="col-sm-4" style="padding-left: 0;">
+                <label class="add-member-label control-label" style="margin: 0; font-weight: 500;"> Deliverable:</label>
+              </div>
+              <div class="col-sm-8" style="padding-right: 0;">
+                <mat-select formControlName="deliverable" class="form-control back" placeholder="Select Deliverable" style="height: 38px; line-height: 24px; padding: 4px 10px;">
+                  @for (d of deliverables; track d) {
+                    <mat-option [value]="d">{{ d }}</mat-option>
+                  }
+                </mat-select>
+              </div>
+            </div>
+
+            <!-- Activity Name -->
+            <div class="row" style="margin-bottom: 8px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+              <div class="col-sm-4" style="padding-left: 0;">
+                <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Activity Name:</label>
+              </div>
+              <div class="col-sm-8" style="padding-right: 0;">
+                <input class="form-control name back" placeholder="Enter Activity Name" formControlName="activityName" type="text">
+              </div>
+            </div>
+
+
+
+            <!-- activity code -->
+             <div class="row" style="margin-bottom: 8px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+              <div class="col-sm-4" style="padding-left: 0;">
+                <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Activity Code:</label>
+              </div>
+              <div class="col-sm-8" style="padding-right: 0;">
+                <input class="form-control name back" placeholder="Enter Activity Code" formControlName="activityCode" type="text">
+              </div>
+            </div>
+
+            <!-- Department -->
+            <div class="row" style="margin-bottom: 8px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+              <div class="col-sm-4" style="padding-left: 0;">
+                <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Department:</label>
+              </div>
+              <div class="col-sm-8" style="padding-right: 0;">
+                <mat-select formControlName="department" class="form-control back" placeholder="Select Department" style="height: 38px; line-height: 24px; padding: 4px 10px;">
+                  @for (dept of departmentOptions; track dept) {
+                    <mat-option [value]="dept">{{ dept }}</mat-option>
+                  }
+                </mat-select>
+              </div>
+            </div>
+
+            
+
+            <!-- Plan Duration -->
+            <div class="row" style="margin-bottom: 8px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+              <div class="col-sm-4" style="padding-left: 0;">
+                <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Plan Duration:</label>
+              </div>
+              <div class="col-sm-8" style="padding-right: 0;">
+                <input class="form-control" formControlName="planDuration" type="number" placeholder="Enter Value in Days">
+              </div>
+            </div>
+
+            <!-- Plan Effort -->
+            <div class="row" style="margin-bottom: 8px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+              <div class="col-sm-4" style="padding-left: 0;">
+                <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Plan Effort:</label>
+              </div>
+              <div class="col-sm-8" style="padding-right: 0;">
+                <input class="form-control" formControlName="planEffort" type="number" placeholder="Enter Hours">
+              </div>
+            </div>
+
+            <!-- Material Budget -->
+            <div class="row" style="margin-bottom: 8px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+              <div class="col-sm-4" style="padding-left: 0;">
+                <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Material Budget:</label>
+              </div>
+              <div class="col-sm-8" style="padding-right: 0;">
+                <input class="form-control" placeholder="Enter Material Budget" formControlName="materialBudget" type="text">
+              </div>
+            </div>
+
+
+            <!-- Applicability -->
+            <div class="row" style="margin-bottom: 8px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+              <div class="col-sm-4" style="padding-left: 0;">
+                <label class="add-member control-label" style="margin: 0; font-weight: 500;">Applicability:</label>
+              </div>
+              <div class="col-sm-8" style="padding-right: 0;">
+                <input class="form-control white" placeholder="Enter Applicability" formControlName="applicability" type="text">
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="row" style="margin-bottom: 8px; margin-left: 0; margin-right: 0; display: flex; align-items: flex-start;">
+              <div class="col-sm-4" style="padding-left: 0;">
+                <label class="control-label" style="margin: 0; font-weight: 500; margin-top: 6px;">Description:</label>
+              </div>
+              <div class="col-sm-8" style="padding-right: 0;">
+                <textarea class="form-control" rows="2" placeholder="Enter Description" formControlName="description" style="resize: vertical; height: 52px; background-color: white !important;"></textarea>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column -->
+          <div style="flex: 1; min-width: 300px; display: flex; flex-direction: column;">
+
+            <!-- Predecessor -->
+            <div class="row" style="margin-bottom: 8px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+              <div class="col-sm-6" style="padding-left: 0;">
+                <label class="add-member" style="margin: 0; font-weight: 500;">Upload Guideline:</label>
+              </div>
+              <!-- <div class="col-sm-8" style="padding-right: 0;">
+                <input class="form-control" placeholder="Enter Serials Separated by Comma" formControlName="predecessor" type="text">
+              </div> -->
+            </div>
+
+            <!-- Drag & Drop Upload Zone -->
+            <div style="flex: 1; margin-top: 6px; border: 2px dashed #cbd5e1; border-radius: 8px; padding: 18px 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #fafbfc; min-height: 180px;">
+              <p style="color: #475569; font-size: 14px; font-weight: 500; margin-bottom: 14px;">Drag and drop files here</p>
+              <input type="file" #fileInput (change)="onFilesSelected($event)" multiple style="display: none;">
+              <button type="button" class="app-btn app-btn-primary" (click)="fileInput.click()" style="padding: 6px 20px; font-weight: 600;">
+                Browse Files
+              </button>
+              @if (uploadedFileNames.length > 0) {
+                <div style="margin-top: 10px; font-size: 12px; color: #16a34a; text-align: center;">
+                  {{ uploadedFileNames.length }} file(s) selected: {{ uploadedFileNames.join(', ') }}
+                </div>
+              }
+            </div>
+
+          </div>
+
+        </div>
+        }
+
+        <!-- ==========================================
+             TAB 2: PREDECESSOR (Same UI as StagesPredecessorComponent)
+             ========================================== -->
+        @if (activeTab === 'predecessor') {
+        <div style="width: 100%;">
+          <!-- Top: Add Button -->
+          <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 14px; margin-top: 4px;">
+            <button type="button" class="app-btn app-btn-primary" (click)="addPredecessorRow()">
+              <mat-icon>add</mat-icon>
+              <span>Add</span>
+            </button>
+          </div>
+
+          <!-- Table with Actions, Stage, Deliverable, Activity -->
+          <div class="app-table-container" style="padding: 0 !important; width: 100%;">
+            <div class="table-responsive" style="max-height: 420px; overflow-x: auto; overflow-y: auto;">
+              <table class="table app-table" style="width: 100%;">
+                <thead>
+                  <tr>
+                    <th class="text-center" style="width: 70px; min-width: 70px;">Actions</th>
+                    <th class="text-left" style="width: 20%; min-width: 160px;">Stage</th>
+                    <th class="text-left" style="width: 22%; min-width: 180px;">Deliverable</th>
+                    <th class="text-left" style="width: 24%; min-width: 190px;">Activity</th>
+                    <th class="text-left" style="width: 34%; min-width: 270px;">Dependency Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (row of paginatedPredecessors; track $index) {
+                  <tr>
+                    <!-- Actions (only delete) -->
+                    <td class="text-center" style="vertical-align: middle;">
+                      <div class="table-actions" style="justify-content: center;">
+                        <button
+                          type="button"
+                          class="table-action-button delete"
+                          matTooltip="Delete Predecessor"
+                          aria-label="Delete Predecessor"
+                          (click)="deletePredecessorRow(row)">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    </td>
+
+                    <!-- Stage (dropdown) (mandatory) -->
+                    <td class="text-left" style="vertical-align: middle;">
+                      <select
+                        class="form-control name back"
+                        [(ngModel)]="row.stage"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="onPredecessorStageChange(row)"
+                        required
+                        style="font-size: 13px; height: 34px; cursor: pointer;">
+                        <option value="" disabled selected>Select Stage *</option>
+                        @for (stage of stageOptions; track stage) {
+                          <option [value]="stage">{{ stage }}</option>
+                        }
+                      </select>
+                    </td>
+
+                    <!-- Deliverable (dropdown) (non-mandatory) -->
+                    <td class="text-left" style="vertical-align: middle;">
+                      <select
+                        class="form-control white"
+                        [(ngModel)]="row.deliverable"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="onPredecessorDeliverableChange(row)"
+                        style="font-size: 13px; height: 34px; cursor: pointer;">
+                        <option value="" selected>Select Deliverable </option>
+                        @for (del of getDeliverablesForStage(row.stage); track del) {
+                          <option [value]="del">{{ del }}</option>
+                        }
+                      </select>
+                    </td>
+
+                    <!-- Activity (dropdown) (non-mandatory) -->
+                    <td class="text-left" style="vertical-align: middle;">
+                      <select
+                        class="form-control white"
+                        [(ngModel)]="row.activity"
+                        [ngModelOptions]="{standalone: true}"
+                        style="font-size: 13px; height: 34px; cursor: pointer;">
+                        <option value="" disabled selected>Select Activity</option>
+                        @for (act of getActivitiesFor(row.stage, row.deliverable); track act) {
+                          <option [value]="act">{{ act }}</option>
+                        }
+                      </select>
+                    </td>
+
+                    <!-- Type (dropdown) -->
+                    <td class="text-left" style="vertical-align: middle;">
+                      <select
+                        class="form-control white"
+                        [(ngModel)]="row.type"
+                        [ngModelOptions]="{standalone: true}"
+                        style="font-size: 13px; height: 34px; cursor: pointer;">
+                        <option value="" disabled selected>Select Type</option>
+                        @for (opt of typeOptions; track opt) {
+                          <option [value]="opt">{{ opt }}</option>
+                        }
+                      </select>
+                    </td>
+                  </tr>
+                  } @empty {
+                  <tr>
+                    <td colspan="5" class="empty-table text-center" style="padding: 24px; color: #64748b;">
+                      No predecessors assigned yet
+                    </td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Paginator matching StagesPredecessorComponent -->
+            <mat-paginator
+              [length]="predecessorList.length"
+              [pageIndex]="predecessorPageIndex"
+              [pageSize]="predecessorPageSize"
+              [pageSizeOptions]="[5, 10, 20, 50]"
+              [showFirstLastButtons]="true"
+              (page)="handlePredecessorPage($event)">
+            </mat-paginator>
+          </div>
+        </div>
+        }
+
+      </div>
+    </div>
+
+    <!-- ==========================================
+         BOTTOM ACTION BAR (Prev, Next, Close, Save)
+         ========================================== -->
+    <div
+      style="margin-top: 16px; padding-top: 14px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+      <div style="display: flex; gap: 10px;">
+        <button type="button" class="app-btn app-btn-default" (click)="prevTab()" [disabled]="activeTab === 'activity'"
+          [style.opacity]="activeTab === 'activity' ? '0.45' : '1'"
+          [style.cursor]="activeTab === 'activity' ? 'not-allowed' : 'pointer'">
+          <mat-icon>arrow_back</mat-icon> Prev
+        </button>
+
+        <button type="button" class="app-btn app-btn-default" (click)="nextTab()"
+          [disabled]="activeTab === 'predecessor'" [style.opacity]="activeTab === 'predecessor' ? '0.45' : '1'"
+          [style.cursor]="activeTab === 'predecessor' ? 'not-allowed' : 'pointer'">
+          Next <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button type="button" class="app-btn app-btn-default" (click)="close()">
+          <mat-icon>cancel</mat-icon> Close
+        </button>
+        <button type="submit" class="app-btn app-btn-primary" [disabled]="activityForm.invalid">
+          <mat-icon>save</mat-icon> Save
+        </button>
+      </div>
+    </div>
+
+  </form>
+</div>

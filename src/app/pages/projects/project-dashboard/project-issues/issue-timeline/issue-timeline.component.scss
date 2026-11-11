@@ -1,0 +1,33 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.NewHeader {
+  background-color: #3f3f3f;
+  padding: 15px 20px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+
+  h1 {
+    color: white !important;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+
+.timeline-accent-bar {
+  width: 4px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #2563eb 0%, #7c3aed 100%);
+  flex-shrink: 0;
+  margin-right: 16px;
+}
+
+.timeline-desc-box {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 14px 18px;
+  border: 1px solid #e2e8f0;
+}

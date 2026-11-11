@@ -1,0 +1,48 @@
+<button mat-icon-button [matMenuTriggerFor]="messagesMenu" (click)="openMessagesMenu()" class="custom-notification-btn">
+  <mat-icon>notifications</mat-icon>
+
+  @if (notifications.length > 0) {
+    <div class="custom-badge">{{ notifications.length }}</div>
+  }
+</button>
+
+<mat-menu #messagesMenu="matMenu" [overlapTrigger]="false" class="toolbar-dropdown-menu messages">
+  <!-- Reduced width from 320px to 280px -->
+  <div (click)="stopClickPropagate($event)" style="width: 280px; background: white; border-radius: 6px; overflow: hidden;">
+
+    <!-- Colored Banner Header -->
+    <div class="notification-banner">
+      <span class="banner-title">Notifications</span>
+      <span class="banner-count">{{ notifications.length }} New</span>
+    </div>
+
+    <!-- Notification List -->
+    <!-- Reduced max-height slightly to fit the narrower width elegantly -->
+    <ng-scrollbar pointerEventsMethod="scrollbar" style="max-height: 320px;">
+      <div style="display: flex; flex-direction: column;">
+        @for (item of notifications; track item.title + item.date) {
+          <div class="notification-item">
+            <div style="margin-bottom: 4px; font-size: 13px; display: flex; align-items: center; flex-wrap: wrap;">
+              <span style="font-weight: 700; color: #1e293b;">{{ item.title }}</span>
+              <span style="color: #64748b; font-weight: 500; font-size: 12px;"> &nbsp;-&nbsp; {{ item.date }}</span>
+            </div>
+            <div style="font-size: 12px; color: #64748b; line-height: 1.4;">
+              {{ item.details }}
+            </div>
+          </div>
+        } @empty {
+          <div style="padding: 20px; text-align: center; color: #64748b; font-size: 13px;">
+            No new notifications
+          </div>
+        }
+      </div>
+    </ng-scrollbar>
+
+    <!-- Footer Link -->
+    <div class="notification-footer" style="background-color: #212121;" (click)="viewAllNotifications()">
+      <mat-icon style="font-size: 18px; width: 18px; height: 18px;">visibility</mat-icon>
+      <span>View All Notifications</span>
+    </div>
+
+  </div>
+</mat-menu>

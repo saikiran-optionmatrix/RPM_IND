@@ -1,0 +1,20 @@
+:host {
+	.state-dialog-body {
+		margin-bottom: 10px;
+	}
+
+	.state-field-row {
+		margin-bottom: 12px;
+	}
+
+	.state-field-label {
+		display: block;
+		margin-top: 5px;
+	}
+
+	.state-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 10px;
+	}
+}

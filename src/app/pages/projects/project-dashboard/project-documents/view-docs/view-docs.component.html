@@ -1,0 +1,48 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    View Documents
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 16px 24px; max-height: 75vh; overflow-y: auto;">
+  <!-- Readonly table with columns: Title, View -->
+  <div class="app-table-container" style="padding: 0; width: 100%; margin-bottom: 16px;">
+    <div class="table-responsive">
+      <table class="table app-table">
+        <thead>
+          <tr>
+            <th class="text-left" style="min-width: 280px;">Title</th>
+            <th class="text-center" style="width: 100px; min-width: 100px;">View</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (doc of documents; track doc.id) {
+            <tr>
+              <!-- Title -->
+              <td class="text-left font-weight-500" style="color: #0f172a; padding: 10px 14px;">
+                {{ doc.title }}
+              </td>
+
+              <!-- View (mat eye icon) -->
+              <td class="text-center" style="padding: 10px 14px;">
+                <button type="button" class="view-eye-btn" (click)="viewFile(doc)"
+                  matTooltip="View Document">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Close Action Button matching AddAssetComponent -->
+  <div style="margin-top: 16px; margin-bottom: 6px;">
+    <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+      <button type="button" class="app-btn app-btn-default" (click)="close()">
+        <mat-icon>cancel</mat-icon> Close
+      </button>
+    </div>
+  </div>
+</div>

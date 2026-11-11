@@ -1,0 +1,115 @@
+<div class="inner-screen-page" style="padding: 10px 25px 80px 25px">
+  <!-- Top Header Area -->
+  <header class="inner-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div class="header-left">
+      <div class="title-meta">
+        <h2 class="inner-title" style="margin: 0; font-size: 20px; font-weight: 600; color: #1e293b;">
+          {{ stageName ? stageName : 'Stage' }} {{ stageCode ? ('(' + stageCode + ')') : '' }} - History
+        </h2>
+        @if (division) {
+        <div class="activity-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #64748b; margin-top: 4px;">
+          <span class="activity-badge" style="background-color: #e2e8f0; color: #334155; padding: 1px 6px; border-radius: 4px; font-weight: 600; font-size: 12px;">{{ stageCode }}</span>
+          <span class="activity-text" style="font-weight: 500; color: #1e293b;">{{ division }}</span>
+          @if (gateCode && gateCode !== '-') {
+          <span class="stage-sep" style="color: #cbd5e1;">•</span>
+          <span class="stage-text">{{ gateCode }}</span>
+          }
+        </div>
+        }
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Table Container -->
+  <div class="app-table-container" style="padding: 0 !important; width: 100%;">
+    <div class="table-responsive" style="max-height: 540px; overflow-x: auto; overflow-y: auto;">
+      <table class="table app-table" style="min-width: 1200px; width: 100%;">
+        <thead>
+          <tr>
+            <th class="text-left" style="min-width: 180px;">Stage Name</th>
+            <th class="text-left" style="min-width: 160px;">Division</th>
+            <th class="text-center" style="width: 110px;">Stage Code</th>
+            <th class="text-center" style="width: 95px;">Sequence</th>
+            <th class="text-center" style="width: 110px;">Gate</th>
+            <th class="text-center" style="width: 130px;">Plan Effort (hrs)</th>
+            <th class="text-center" style="width: 140px;">Plan Duration (days)</th>
+            <th class="text-center" style="width: 130px;">Material Budget</th>
+            <th class="text-left" style="min-width: 250px;">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of paginatedRecords; track $index) {
+          <tr>
+            <!-- Stage Name -->
+            <td class="text-left" style="vertical-align: middle;">
+              <span style="font-weight: 500; color: #1e293b;" [matTooltip]="row.stageName">{{ row.stageName || '—' }}</span>
+            </td>
+
+            <!-- Division -->
+            <td class="text-left" style="vertical-align: middle;">
+              <span>{{ row.division || '—' }}</span>
+            </td>
+
+            <!-- Stage Code -->
+            <td class="text-center" style="vertical-align: middle;">
+              <span style="color: #334155; font-weight: 500;">{{ row.stageCode || '—' }}</span>
+            </td>
+
+            <!-- Sequence -->
+            <td class="text-center" style="vertical-align: middle;">
+              <span>{{ row.sequence || '—' }}</span>
+            </td>
+
+            <!-- Gate -->
+            <td class="text-center" style="vertical-align: middle;">
+              <span>{{ row.gateCode || '—' }}</span>
+            </td>
+
+            <!-- Plan Effort (hrs) -->
+            <td class="text-center" style="vertical-align: middle;">
+              {{ row.planEffort }}
+            </td>
+
+            <!-- Plan Duration (days) -->
+            <td class="text-center" style="vertical-align: middle;">
+              {{ row.planDuration }}
+            </td>
+
+            <!-- Material Budget -->
+            <td class="text-center" style="vertical-align: middle;">
+             {{ row.materialBudget || '—' }}
+            </td>
+
+            <!-- Description -->
+            <td class="text-left" style="vertical-align: middle;">
+              <span [matTooltip]="row.description">{{ row.description || '—' }}</span>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="9" class="empty-table text-center" style="padding: 24px; color: #64748b;">
+              No stage history records found.
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <mat-paginator
+      [length]="records.length"
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 20, 50]"
+      [showFirstLastButtons]="true"
+      (page)="handlePage($event)">
+    </mat-paginator>
+  </div>
+</div>

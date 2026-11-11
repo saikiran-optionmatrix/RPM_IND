@@ -1,0 +1,77 @@
+.analytics-page {
+  width: 100%;
+}
+
+.analytics-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 24px;
+
+  h1 {
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 36px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+ 
+
+.app-table-container {
+  width: 100%;
+  padding: 0;
+  background-color: transparent;
+
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    border: 1px solid #d1d5db;
+    // border-radius: 4px;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .app-table {
+    width: 100%;
+    margin-bottom: 0;
+    white-space: nowrap;
+
+    thead th {
+      white-space: nowrap;
+      padding: 10px 14px;
+      // font-size: 13px;
+      // font-weight: 600;
+    }
+
+    tbody td {
+      white-space: nowrap;
+      padding: 10px 14px;
+      // font-size: 13px;
+    }
+  }
+}
+
+.mine {
+  position: fixed;
+  bottom: 80px;
+  background-color: #dfdfdf !important;
+  color: #414141 !important;
+  z-index: 9999 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+  border-radius: 50% !important;
+  --mdc-fab-container-shape: 50%;
+  --mat-fab-container-shape: 50%;
+
+  mat-icon {
+    color: #414141 !important;
+  }
+}

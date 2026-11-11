@@ -1,0 +1,289 @@
+<div class="inner-screen-page" style="padding-top: 10px;">
+  <!-- Top Header Area -->
+  <header class="inner-header">
+    <div class="header-left">
+      
+
+      <div class="title-meta" style="padding-left: 25px;">
+        <h2 class="inner-title">{{ title }}</h2>
+        @if (activity) {
+        <div class="activity-subtitle">
+          <span class="activity-badge">{{ activity.jobCode }}</span>
+          <span class="activity-text">{{ activity.activityName }}</span>
+          @if (stageName) {
+          <span class="stage-sep">•</span>
+          <span class="stage-text">{{ stageName }} ({{ stageCode }})</span>
+          } @else if (gateName) {
+          <span class="stage-sep">•</span>
+          <span class="stage-text">{{ gateName }} ({{ gateCode }})</span>
+          }
+        </div>
+        }
+      </div>
+    </div>
+
+    <div class="header-actions" style="margin-right: 20px;">
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back</span>
+      </button>
+      <!-- <button type="button" class="app-btn app-btn-default" (click)="close()">
+        <mat-icon>cancel</mat-icon>
+        <span>Close</span>
+      </button>
+      <button type="button" class="app-btn app-btn-primary" (click)="save()">
+        <mat-icon>save</mat-icon>
+        <span>Save</span>
+      </button> -->
+    </div>
+  </header>
+
+  <!-- Inner Body Card -->
+  <div class="inner-card">
+    <!-- Top Right Add Button -->
+    <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 14px;">
+      <button type="button" class="app-btn app-btn-primary" (click)="addTask()">
+        <mat-icon>add</mat-icon>
+        <span>Add</span>
+      </button>
+    </div>
+
+    <!-- Scroll Buttons -->
+    <div class="d-flex justify-content-end mb-2" style="gap: 10px;">
+      <div class="d-flex justify-content-end mb-2">
+        <button class="mine" mat-fab style="background-color: #cecdcd; right: 110px; z-index: 9999;"
+          (click)="scrollLeft()">
+          <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+        </button>
+        <button class="mine" mat-fab style="background-color: #cecdcd; z-index: 9999;" (click)="scrollRight()">
+          <mat-icon style="color: #414141;">fast_forward</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Table Container -->
+    <div class="app-table-container" style="padding: 0 !important; width: 100%;">
+      <div #scrollContainer class="table-responsive" style="max-height: 540px; overflow-x: auto; overflow-y: auto; scroll-behavior: smooth;">
+        <table class="table app-table" style="min-width: 1500px; width: 100%;">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 90px; min-width: 90px;">Actions</th>
+              <th class="text-center" style="width: 75px; min-width: 75px;">Done</th>
+              <th class="text-center" style="width: 90px; min-width: 90px;">Approved</th>
+              <th class="text-left" style="min-width: 200px;">Task Name</th>
+              <th class="text-left" style="width: 110px; min-width: 110px;">Task Code</th>
+              <th class="text-left" style="min-width: 130px;">Reference</th>
+              <th class="text-left" style="width: 110px; min-width: 110px;">Job Code</th>
+              <th class="text-center" style="width: 120px; min-width: 120px;">Due Date</th>
+              <th class="text-center" style="width: 130px; min-width: 130px;">Completion Date</th>
+              <th class="text-left" style="min-width: 150px;">Responsibility</th>
+              <th class="text-left" style="min-width: 130px;">Department</th>
+              <th class="text-left" style="min-width: 150px;">Section</th>
+              <th class="text-center" style="width: 90px; min-width: 90px;">Documents</th>
+              <th class="text-center" style="width: 110px; min-width: 110px;">Updated</th>
+              <th class="text-center" style="width: 120px; min-width: 120px;">Updated By</th>
+              <th class="text-center" style="width: 80px; min-width: 80px;">History</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of paginatedTasks; track $index) {
+            <tr>
+
+              <!-- Actions -->
+              <td class="text-center" style="vertical-align: middle;">
+                <div class="table-actions" style="justify-content: center; gap: 4px;">
+                  <button
+                    type="button"
+                    class="table-action-button edit"
+                    matTooltip="Edit"
+                    aria-label="Edit task"
+                    (click)="editTask(row)">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="table-action-button delete"
+                    matTooltip="Delete"
+                    aria-label="Delete task"
+                    (click)="deleteTask(row)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+
+              <!-- Done -->
+              <td class="text-center" style="vertical-align: middle;">
+                <mat-checkbox
+                  [checked]="row.done"
+                  (click)="$event.preventDefault(); openDoneDialog(row)"
+                  color="primary">
+                </mat-checkbox>
+              </td>
+
+              <!-- Approved -->
+              <td class="text-center" style="vertical-align: middle;">
+                <mat-checkbox
+                  [(ngModel)]="row.approved"
+                  (change)="toggleApproved(row)"
+                  color="primary">
+                </mat-checkbox>
+              </td>
+
+              <!-- Task Name -->
+              <td class="text-left" style="vertical-align: middle;">
+                {{ row.taskName || '—' }}
+              </td>
+
+              <!-- Task Code -->
+              <td class="text-left" style="vertical-align: middle;">
+                {{ row.taskCode || '—' }}
+              </td>
+
+              <!-- Reference -->
+              <td class="text-left" style="vertical-align: middle;">
+                {{ row.reference || '—' }}
+              </td>
+
+              <!-- Job Code -->
+              <td class="text-left" style="vertical-align: middle;">
+                {{ row.jobCode || '—' }}
+              </td>
+
+              <!-- Due Date -->
+              <td class="text-center" style="vertical-align: middle;">
+                {{ row.dueDate || '—' }}
+              </td>
+
+              <!-- Completion Date -->
+              <td class="text-center" style="vertical-align: middle;">
+                {{ row.completedDate || '—' }}
+              </td>
+
+              <!-- Responsibility -->
+              <td class="text-left" style="vertical-align: middle;">
+                {{ row.responsibility || '—' }}
+              </td>
+
+              <!-- Department -->
+              <td class="text-left" style="vertical-align: middle;">
+                {{ row.department || '—' }}
+              </td>
+
+              <!-- Section -->
+              <td class="text-left" style="vertical-align: middle;">
+                {{ row.section || '—' }}
+              </td>
+
+              <!-- Documents -->
+              <td class="text-center" style="vertical-align: middle;">
+                <a href="javascript:void(0)" class="history-number-link" (click)="openDocuments()" matTooltip="View Documents">
+                  {{ row.documentsCount || getDocumentsCount($index) }}
+                </a>
+              </td>
+
+              <!-- Updated -->
+              <td class="text-center" style="vertical-align: middle;">
+                {{ row.updatedDate || '—' }}
+              </td>
+
+              <!-- Updated By -->
+              <td class="text-center" style="vertical-align: middle;">
+                {{ row.updatedBy || '—' }}
+              </td>
+
+              <!-- History -->
+              <td class="text-center" style="vertical-align: middle;">
+                <a href="javascript:void(0)" class="history-number-link" (click)="openHistory(row, $index)" matTooltip="View Record History">
+                  {{ row.historyCount || getHistoryCount($index) }}
+                </a>
+              </td>
+
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="16" class="empty-table text-center" style="padding: 24px; color: #64748b;">
+                No tasks found.
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Paginator matching assets -->
+      <mat-paginator
+        [length]="tasksList.length"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 20, 50]"
+        [showFirstLastButtons]="true"
+        (page)="handlePage($event)">
+      </mat-paginator>
+    </div>
+
+    <!-- Bottom Actions: Close and Save -->
+    <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+      <!-- <button type="button" class="app-btn app-btn-default" (click)="close()">
+        <mat-icon>cancel</mat-icon> Close
+      </button>
+      <button type="button" class="app-btn app-btn-primary" (click)="save()">
+        <mat-icon>save</mat-icon> Save
+      </button> -->
+    </div>
+  </div>
+</div>
+
+<!-- ============ TASK COMPLETION DATE POPUP DIALOG ============ -->
+<ng-template #completionDialog>
+  <div class="NewHeader">
+    <h1 mat-dialog-title>
+      Task Completion Date
+    </h1>
+  </div>
+
+  <div mat-dialog-content style="padding: 20px 24px 10px 24px;">
+    <!-- Task Info Summary -->
+    <!-- <div style="margin-bottom: 16px;">
+      <label style="font-weight: 600; font-size: 13px; color: #475569; display: block; margin-bottom: 4px;">Task Name :</label>
+      <div style="font-size: 14px; font-weight: 500; color: #1e293b; background: #f8fafc; padding: 8px 12px; border-radius: 4px; border: 1px solid #e2e8f0;">
+        {{ activeTaskForDone?.taskName }}
+        @if (activeTaskForDone?.taskCode) {
+          <span style="color: #64748b; font-size: 12px; margin-left: 6px;">({{ activeTaskForDone?.taskCode }})</span>
+        }
+      </div>
+    </div> -->
+
+    <!-- Date Picker Input -->
+    <div style="margin-bottom: 16px;">
+      <label class="add-member-label control-label" style="font-weight: 600; font-size: 13px; color: #475569; display: block; margin-bottom: 6px;">
+        Completion Date :
+      </label>
+      <input
+        type="date"
+        class="form-control"
+        [(ngModel)]="selectedCompletionDate"
+        required
+        style="height: 38px; font-size: 14px; border: 1px solid #cbd5e1; border-radius: 4px; width: 100%; padding: 6px 12px;"
+      />
+    </div>
+  </div>
+
+  <div mat-dialog-actions style="display: flex; justify-content: flex-end; align-items: center; gap: 10px; padding: 12px 24px 20px 24px; margin-bottom: 0;">
+    @if (activeTaskForDone?.done) {
+      <!-- <button
+        type="button"
+        class="app-btn"
+        style="background-color: #fef2f2; color: #dc2626; border: 1px solid #fecaca; margin-right: auto; padding: 6px 14px;"
+        (click)="markIncomplete()">
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px; vertical-align: middle; margin-right: 4px;">remove_circle_outline</mat-icon>
+        Mark Incomplete
+      </button> -->
+    }
+    <button type="button" class="app-btn app-btn-default" (click)="closeCompletionDialog()">
+      <mat-icon>cancel</mat-icon> Close
+    </button>
+    <button type="button" class="app-btn app-btn-primary" (click)="saveCompletionDate()">
+      <mat-icon>save</mat-icon> Save
+    </button>
+  </div>
+</ng-template>

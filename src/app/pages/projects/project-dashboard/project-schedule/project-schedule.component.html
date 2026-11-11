@@ -1,0 +1,615 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+  <header class="analytics-header">
+    <h1>{{ projectName }}</h1>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <!-- <button mat-raised-button (click)="filterToggle = !filterToggle"
+        style="background-color: black; color: white; height: 38px;">
+        <mat-icon>filter_list</mat-icon> Filter
+      </button> -->
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon><span>Back</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="schedule-dashboard">
+    <!-- Toggleable Filter Card Matching Application Design -->
+    @if (filterToggle) {
+      <div style="margin-bottom: 15px; width: 100%;">
+        <mat-card class="filter" style="width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; background: white;">
+          <mat-card-content style="padding: 15px;">
+            <div style="display: flex; flex-wrap: wrap; align-items: center; width: 100%; gap: 15px; box-sizing: border-box;">
+
+              <!-- Stage Field -->
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <label style="font-weight: 600; font-size: 13px; color: #374151; white-space: nowrap; margin: 0;">Stage:</label>
+                <select [(ngModel)]="stageFilter" class="form-control"
+                  style="height: 36px; min-width: 150px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0 10px; font-size: 13px; background: white; font-weight: 500; cursor: pointer;">
+                  @for (st of stages; track st) {
+                    <option [value]="st">{{ st }}</option>
+                  }
+                </select>
+              </div>
+
+              <!-- Sprint Field -->
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <label style="font-weight: 600; font-size: 13px; color: #374151; white-space: nowrap; margin: 0;">Sprint:</label>
+                <select [(ngModel)]="sprintFilter" class="form-control"
+                  style="height: 36px; min-width: 150px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0 10px; font-size: 13px; background: white; font-weight: 500; cursor: pointer;">
+                  <option value="all">All Sprints</option>
+                  @for (sp of sprints; track sp) {
+                    <option [value]="sp">{{ sp }}</option>
+                  }
+                </select>
+              </div>
+
+              <!-- Modules Field -->
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <label style="font-weight: 600; font-size: 13px; color: #374151; white-space: nowrap; margin: 0;">Modules:</label>
+                <select [(ngModel)]="moduleFilter" class="form-control"
+                  style="height: 36px; min-width: 210px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0 10px; font-size: 13px; background: white; font-weight: 500; cursor: pointer;">
+                  <option value="all">All Modules</option>
+                  @for (mod of modules; track mod) {
+                    <option [value]="mod">{{ mod }}</option>
+                  }
+                </select>
+              </div>
+
+              <!-- Action Buttons Right Aligned -->
+              <div style="margin-left: auto; display: flex; align-items: center; gap: 10px;">
+                <button mat-raised-button color="primary" (click)="applyFilter()" style="height: 36px;">
+                  <mat-icon>search</mat-icon> Search
+                </button>
+                <button mat-raised-button (click)="clearFilter()"
+                  style="height: 36px; background-color: #f1f5f9; color: #334155;">
+                  <mat-icon>settings_backup_restore</mat-icon> Clear
+                </button>
+                <a (click)="filterToggle = !filterToggle"
+                  style="font-size: 22px; cursor: pointer; color: #475569; display: flex; align-items: center; margin-left: 5px;"
+                  title="Close Filter">
+                  <mat-icon>expand_less</mat-icon>
+                </a>
+              </div>
+
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    }
+
+    <!-- Badges and Critical Path Controls -->
+    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+      <div class="stats-badges" style="margin: 0;">
+        <div class="badge-item">
+          <span class="dot pending"></span>
+          <span class="label">Pending</span>
+          <span class="value">{{ stats.pending }}</span>
+        </div>
+
+        <div class="badge-item">
+          <span class="dot in-process"></span>
+          <span class="label">In Process</span>
+          <span class="value">{{ stats.inProcess }}</span>
+        </div>
+
+        <div class="badge-item">
+          <span class="dot completed"></span>
+          <span class="label">Completed</span>
+          <span class="value">{{ stats.completed }}</span>
+        </div>
+
+        <div class="badge-item">
+          <span class="dot overdue"></span>
+          <span class="label">Overdue</span>
+          <span class="value">{{ stats.overdue }}</span>
+        </div>
+      </div>
+
+      <!-- Stages filter dropdown and Critical Path button -->
+      <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-weight: 600; font-size: 13px; color: #333;">Stages:</span>
+          <select [(ngModel)]="stageFilter" (change)="onStageChange()"
+            style="padding: 6px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; background: white; outline: none; cursor: pointer; min-width: 140px; font-weight: 500;">
+            @for (st of stages; track st) {
+              <option [value]="st">{{ st }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Critical Path Button -->
+        <button mat-raised-button
+          [style.background-color]="isCriticalPath ? '#ef4444' : '#ffffff'"
+          [style.color]="isCriticalPath ? '#ffffff' : '#ef4444'"
+          [style.border]="isCriticalPath ? '1px solid #dc2626' : '1px solid #ef4444'"
+          (click)="toggleCriticalPath()"
+          style="height: 34px; font-weight: 600; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; border-radius: 6px; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.08); transition: all 0.2s ease;">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px;">alt_route</mat-icon>
+          Critical Path
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Card -->
+    <div class="main-card">
+      <div class="toolbar">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <!-- Separate Allocation Button left to Grid view and Gantt view toggle -->
+          <button type="button" class="app-btn"
+                  [class.app-btn-filter]="viewMode === 'allocation'"
+                  [class.app-btn-default]="viewMode !== 'allocation'"
+                  (click)="setView('allocation')"
+                  style="height: 34px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+            <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px;">event_note</mat-icon>
+            <span>Allocation</span>
+          </button>
+
+          <div class="view-toggle" style="background: #f1f5f9; border-radius: 6px; padding: 4px; display: inline-flex;">
+            <button type="button" class="app-btn"
+                    [class.app-btn-filter]="viewMode === 'gantt'"
+                    [class.app-btn-default]="viewMode !== 'gantt'"
+                    (click)="setView('gantt')">
+              <mat-icon>view_week</mat-icon>
+              <span>Gantt View</span>
+            </button>
+            <button type="button" class="app-btn"
+                    [class.app-btn-filter]="viewMode === 'grid'"
+                    [class.app-btn-default]="viewMode !== 'grid'"
+                    (click)="setView('grid')">
+              <mat-icon>grid_on</mat-icon>
+              <span>Grid View</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="toolbar-actions">
+          @if (viewMode === 'allocation') {
+            <div class="legend">
+              <span><span class="legend-color in-process" style="background-color: #16a34a;"></span>Approved</span>
+              <span><span class="legend-color overdue" style="background-color: #dc2626;"></span>Declined</span>
+              <span><span class="legend-color pending" style="background-color: #f59e0b;"></span>Pending</span>
+            </div>
+          } @else if (!isCriticalPath) {
+            <div class="legend">
+              <span><span class="legend-color pending"></span>Pending</span>
+              <span><span class="legend-color in-process"></span>In Process</span>
+              <span><span class="legend-color completed"></span>Completed</span>
+              <span><span class="legend-color overdue"></span>Overdue</span>
+            </div>
+          } @else {
+            <div class="legend">
+              <span><span class="legend-color" style="background: #ef4444;"></span>Critical Path (Zero Float)</span>
+            </div>
+          }
+
+          @if (viewMode !== 'allocation') {
+            <button class="btn-mask" [class.active]="isMaskingPending" (click)="toggleMaskPending()">
+              @if (!isMaskingPending) {
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"></path>
+                  <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"></path>
+                  <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"></path>
+                  <path d="m2 2 20 20"></path>
+                </svg>
+              } @else {
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              }
+              {{ isMaskingPending ? 'Show pending' : 'Mask pending' }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- ─── GRID VIEW TABLE ─── -->
+      @if (viewMode === 'grid') {
+        <div class="app-table-container">
+          <div class="table-responsive">
+            <table class="table app-table">
+              <thead>
+                <tr>
+                  <th class="text-left pl-4">Activity</th>
+                  <th class="text-left">Deliverables</th>
+                  <th class="text-center">Start date</th>
+                  <th class="text-center">Finish Date</th>
+                  <th class="text-center">Status</th>
+                  <th class="text-center pr-4 w-180">Completion</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (task of displayedTasks; track task.id) {
+                  <tr>
+                    <td class="text-left pl-4">
+                      <div class="task-name">{{ task.name }}</div>
+                      <div class="task-id">{{ task.id }}</div>
+                    </td>
+                    <td class="text-left">{{ task.module }}</td>
+                    <td class="text-center text-muted">{{ formatDate(task.planStart) }}</td>
+                    <td class="text-center text-muted">{{ formatDate(task.planEnd) }}</td>
+                    <td class="text-center">
+                      <div class="status-pill" [ngClass]="getStatusClass(task.status)">
+                        <span class="dot"></span>{{ task.status }}
+                      </div>
+                    </td>
+                    <td class="text-center pr-4">
+                      <div class="progress-wrapper">
+                        <div class="progress-bg">
+                          <div class="progress-fill" [ngClass]="getStatusClass(task.status)" [style.width.%]="task.completion">
+                          </div>
+                        </div>
+                        <span class="progress-text">{{ task.completion }}%</span>
+                      </div>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="6" class="empty-table">
+                      No tasks found matching current filter criteria.
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+
+      <!-- ─── GANTT SPLIT LAYOUT VIEW ─── -->
+      @if (viewMode === 'gantt') {
+        <div class="gantt-view">
+          <!-- Navigation Scroll Bar Action -->
+          <div class="table-actions-bar">
+            <span style="margin-right: auto; font-size: 13px; font-weight: 600; color: #475569; padding-left: 8px; display: flex; align-items: center; gap: 8px;">
+              @if (isCriticalPath) {
+                <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background-color: #ef4444;"></span>
+              }
+              {{ isCriticalPath ? 'Critical Path Gantt Chart (Non-Overlapping)' : 'Project Gantt Chart' }}
+            </span>
+            <button class="scroll-btn" (click)="scrollGantt('left')" title="Scroll Left">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                style="width: 18px; height: 18px; color: #374151;">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+            <button class="scroll-btn" (click)="scrollGantt('right')" title="Scroll Right">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                style="width: 18px; height: 18px; color: #374151;">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+
+          <div class="gantt-split-container">
+            <!-- Left TreeGrid Pane -->
+            <div class="gantt-left-pane" [ngStyle]="{ 'width': leftPaneWidth + 'px' }">
+              <table class="gantt-left-table">
+                <thead class="tbl-head">
+                  <tr>
+                    <th class="col-name text-left">Activity</th>
+                    <th class="col-module text-left">Deliverable</th>
+                    <th class="col-date text-center">Start date</th>
+                    <th class="col-date text-center">Finish Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (task of displayedTasks; track task.id) {
+                    <tr>
+                      <td class="col-name font-weight-500" [title]="task.name">{{ task.name }}</td>
+                      <td class="col-module" [title]="task.module">{{ task.module }}</td>
+                      <td class="col-date text-center">{{ formatDate(task.planStart) }}</td>
+                      <td class="col-date text-center">{{ formatDate(task.planEnd) }}</td>
+                    </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="4" class="empty-table">No tasks available</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Resizable Divider Bar -->
+            <div class="gantt-splitter-bar" (mousedown)="initResize($event)" title="Drag to resize panels">
+              <div class="splitter-knob">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  style="width: 8px; height: 12px; color: #64748b; pointer-events: none;">
+                  <line x1="8" y1="3" x2="8" y2="21"></line>
+                  <line x1="16" y1="3" x2="16" y2="21"></line>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Right Timeline Pane -->
+            <div class="gantt-right-pane" #ganttViewport>
+              <div class="gantt-timeline-container" [style.width.px]="totalTimelineWidth" style="position: relative;">
+
+                <!-- Month Header Row -->
+                <div class="gantt-weeks-header">
+                  @for (m of timelineMonths; track m.name) {
+                    <div class="week-hdr-cell" [style.width.px]="m.width">
+                      {{ m.name }}
+                    </div>
+                  }
+                </div>
+
+                <!-- Day Header Row -->
+                <div class="gantt-days-header">
+                  @for (day of timelineDays; track $index) {
+                    <div class="day-hdr-cell" [style.width.px]="dayWidth">
+                      <span class="day-letter">{{ day.name }}</span>
+                      <span class="day-number">{{ day.date }}</span>
+                    </div>
+                  }
+                </div>
+
+                <!-- Timeline Rows Body -->
+                <div class="gantt-timeline-body">
+                  @for (task of displayedTasks; track task.id) {
+                    <div class="gantt-timeline-row">
+
+                      <!-- Grid Line Separators -->
+                      <div class="timeline-grid-overlay">
+                        @for (day of timelineDays; track $index) {
+                          <div class="grid-line" [style.width.px]="dayWidth"></div>
+                        }
+                      </div>
+
+                      <!-- Critical Path Bar (Red, non-overlapping) -->
+                      @if (isCriticalPath && getCriticalPathBar(task); as cpBar) {
+                        <div class="gantt-bar critical-bar"
+                          [ngStyle]="{ 'left': cpBar.left + 'px', 'width': cpBar.width + 'px' }">
+                          <span class="bar-label">Critical Path</span>
+                          @if (cpBar.completion !== undefined) {
+                            <span class="bar-percentage">{{ cpBar.completion }}%</span>
+                          }
+                        </div>
+                      }
+
+                      <!-- Plan Bar (Thin, light green, on top) -->
+                      @if (!isCriticalPath && getPlanBar(task); as pBar) {
+                        <div class="gantt-bar plan-bar"
+                          [ngStyle]="{ 'left': pBar.left + 'px', 'width': pBar.width + 'px' }">
+                          <span class="bar-label">Plan</span>
+                        </div>
+                      }
+
+                      <!-- Actual Bar (Thick, Status-colored, on bottom) -->
+                      @if (!isCriticalPath && getActualBar(task); as aBar) {
+                        <div class="gantt-bar actual-bar"
+                          [ngStyle]="{ 'left': aBar.left + 'px', 'width': aBar.width + 'px', 'background-color': aBar.color }">
+                          <span class="bar-label">Actual</span>
+                          @if (aBar.completion !== undefined) {
+                            <span class="bar-percentage">{{ aBar.completion }}%</span>
+                          }
+                        </div>
+                      }
+
+                    </div>
+                  }
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- ─── ALLOCATION CALENDAR & TABLE VIEW (AS IN PROJECT-HOURS) ─── -->
+      @if (viewMode === 'allocation') {
+        <div class="allocation-view-container" style="padding: 16px; background: #ffffff;">
+          <div class="dashboard-content" style="display: flex; gap: 16px; align-items: flex-start;">
+
+            <!-- Left Calendar Sidebar -->
+            <aside class="calendar-sidebar"
+              style="width: 310px; flex-shrink: 0; background: white; border-radius: 6px; border: 1px solid #cbd5e1; padding: 16px; box-sizing: border-box;">
+              <div class="calendar-card">
+                <div class="month-selector"
+                  style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                  <button class="nav-arrow" (click)="prevAllocationMonth()" aria-label="Previous month"
+                    style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                    <mat-icon style="font-size: 16px; width: 16px; height: 16px; line-height: 16px;">chevron_left</mat-icon>
+                  </button>
+                  <strong style="font-size: 14px; color: #0f172a;">{{ currentAllocationMonthLabel }}</strong>
+                  <button class="nav-arrow" (click)="nextAllocationMonth()" aria-label="Next month"
+                    style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                    <mat-icon style="font-size: 16px; width: 16px; height: 16px; line-height: 16px;">chevron_right</mat-icon>
+                  </button>
+                </div>
+
+                <div class="calendar-grid"
+                  style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; margin-bottom: 16px;">
+                  @for (d of dayNames; track $index) {
+                  <div class="weekday" style="font-size: 11.5px; color: #64748b; font-weight: 600; padding: 4px 0;">{{ d }}
+                  </div>
+                  }
+
+                  @for (day of allocationCalendarDays; track $index) {
+                  <div class="day-cell" [class.faded]="!day.inCurrentMonth" [class.active]="day.isSelected"
+                    (click)="filterAllocationByDate(day)"
+                    style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 42px; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;">
+                    <span class="date-num" style="font-size: 13px; line-height: 1;">{{ day.dayNumber }}</span>
+                    @if (day.claims > 0) {
+                    <span class="claims-num"
+                      style="display: block; font-size: 10px; font-weight: 700; color: #2563eb; line-height: 12px; margin-top: 2px;">
+                      {{ day.claims }}
+                    </span>
+                    }
+                  </div>
+                  }
+                </div>
+
+                <div class="total-claims-box"
+                  style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+                  <div class="box-text" style="display: flex; align-items: center; gap: 8px;">
+                    <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #475569;">event_available</mat-icon>
+                    <strong style="font-size: 12px; color: #334155;">Allocations in Month</strong>
+                  </div>
+                  <div class="total-number" style="font-size: 16px; font-weight: 700; color: #2563eb;">
+                    {{ totalAllocationsInRange }}
+                  </div>
+                </div>
+              </div>
+            </aside>
+
+            <!-- Right Table Container -->
+            <main class="app-table-container">
+              <div class="table-responsive">
+                <table class="table app-table">
+                  <thead>
+                    <tr>
+                      <th class="text-left">Name</th>
+                      <th class="text-center">Work Hours</th>
+                      <th class="text-center">Projects</th>
+                      <th class="text-center">Tasks</th>
+                      <th class="text-center">Approved</th>
+                      <th class="text-center">Declined</th>
+                      <th class="text-center">Pending</th>
+                      <th class="text-center">Total Hours</th>
+                      <th class="text-center">Load (%)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (entry of paginatedAllocations; track $index) {
+                    <tr>
+                      <!-- Name -->
+                      <td class="text-left">  
+                        <div class="name-wrapper">
+                          <mat-icon>person</mat-icon>
+                          <span>{{ entry.name }}</span>
+                        </div>
+                      </td>
+
+                      <!-- Work Hours -->
+                      <td class="text-center">
+                        {{ entry.workHours || 8.0 }}
+                      </td>
+
+                      <!-- Projects -->
+                      <td class="text-center">
+                        <a class="tdLink" role="button" tabindex="0" (click)="openAllocationProjects(entry)" matTooltip="View Projects">
+                          {{ entry.projectsCount }}
+                        </a>
+                      </td>
+
+                      <!-- Tasks -->
+                      <td class="text-center">
+                        <a class="tdLink" role="button" tabindex="0" (click)="openAllocationTasks(entry)" matTooltip="View Tasks Breakdown">
+                          {{ getTaskFraction(entry) }}
+                        </a>
+                      </td>
+
+                      <!-- Approved -->
+                      <td class="text-center col-approved">
+                        {{ entry.approved }}
+                      </td>
+
+                      <!-- Declined -->
+                      <td class="text-center col-declined">
+                        {{ entry.declined }}
+                      </td>
+
+                      <!-- Pending -->
+                      <td class="text-center col-pending">
+                        {{ entry.pending }}
+                      </td>
+
+                      <!-- Total Hours -->
+                      <td class="text-center col-total">
+                        {{ entry.totalHours }}
+                      </td>
+
+                      <!-- Load (percentage) -->
+                      <td class="text-center">
+                        {{ entry.loadPercentage }}%
+                      </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                      <td colspan="9" class="empty-table">
+                        No resource allocation found for the selected date.
+                      </td>
+                    </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Paginator -->
+              <mat-paginator [length]="filteredAllocations.length" [pageIndex]="allocationCurrentPage - 1" [pageSize]="allocationPageSize"
+                [pageSizeOptions]="[5, 10, 15, 20]" (page)="handleAllocationPageEvent($event)" [showFirstLastButtons]="true">
+              </mat-paginator>
+            </main>
+
+          </div>
+        </div>
+      }
+
+    </div>
+  </div>
+
+  <!-- ============ ALLOCATION TASKS DIALOG TEMPLATE ============ -->
+  <ng-template #allocationTasksDialog let-data>
+    <div class="NewHeader">
+      <h1 mat-dialog-title>
+        Allocation Tasks &mdash; {{ data.name }} ({{ formatAllocationDate(data.dateObj) }})
+      </h1>
+    </div>
+    <div mat-dialog-content class="dialog-content-body">
+      <div class="app-table-container dialog-table-container">
+        <div class="table-responsive">
+          <table class="table app-table">
+            <thead>
+              <tr>
+                <th class="text-left">Project</th>
+                <th class="text-left">Deliverable / Module</th>
+                <th class="text-left">Task</th>
+                <th class="text-center">Hours</th>
+                <th class="text-left">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (t of data.tasksList; track $index) {
+              <tr>
+                <td class="text-left">{{ t.project || projectName }}</td>
+                <td class="text-left">{{ t.module }}</td>
+                <td class="text-left font-weight-500">{{ t.task }}</td>
+                <td class="text-center dialog-task-hours">{{ t.hours }}</td>
+                <td class="text-left text-muted">{{ t.description || '—' }}</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <mat-dialog-actions class="dialog-actions-container">
+      <button class="app-btn app-btn-default" type="button" mat-dialog-close>Close</button>
+    </mat-dialog-actions>
+  </ng-template>
+
+  <!-- ============ ALLOCATION PROJECTS DIALOG TEMPLATE ============ -->
+  <ng-template #allocationProjectsDialog let-data>
+    <div class="NewHeader">
+      <h1 mat-dialog-title>
+        Assigned Projects &mdash; {{ data.name }}
+      </h1>
+    </div>
+    <div mat-dialog-content class="dialog-content-body">
+      <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+        @for (proj of (data.projects || defaultAllocationProjects); track $index) {
+        <li style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px;">
+          <mat-icon style="color: #2563eb; font-size: 20px; width: 20px; height: 20px;">folder</mat-icon>
+          <span style="font-size: 13px; font-weight: 500; color: #1e293b;">{{ proj }}</span>
+        </li>
+        }
+      </ul>
+    </div>
+    <mat-dialog-actions class="dialog-actions-container">
+      <button class="app-btn app-btn-default" type="button" mat-dialog-close>Close</button>
+    </mat-dialog-actions>
+  </ng-template>
+</div>

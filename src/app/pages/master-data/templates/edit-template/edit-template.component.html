@@ -1,0 +1,186 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>Update Template</h1>
+</div>
+
+<div mat-dialog-content class="edit-template-content">
+  <form [formGroup]="templateForm" (ngSubmit)="save()">
+    <div class="template-form-row">
+      <!-- Left Column (50% width) -->
+      <div class="template-column">
+        <div class="template-field-row">
+          <label for="templateName">Template Name :</label>
+          <input
+            id="templateName"
+            class="form-control"
+            formControlName="name"
+            placeholder="Enter Template Name"
+            type="text"
+          />
+        </div>
+
+        <div class="template-field-row">
+          <label for="templateDescription">Description :</label>
+          <textarea
+            id="templateDescription"
+            class="form-control"
+            formControlName="description"
+            placeholder="Enter Template Description"
+            rows="2"
+          ></textarea>
+        </div>
+
+        <div class="template-field-row">
+          <label for="templateDivision">Division :</label>
+          <select id="templateDivision" class="form-control" formControlName="division">
+            <option value="">Select Division</option>
+            @for (division of divisionsList; track division) {
+              <option [value]="division">{{ division }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- <div class="template-field-row">
+          <label for="templateProjectType">Project Type :</label>
+          <select id="templateProjectType" class="form-control" formControlName="projectType">
+            <option value="">Select Project Type</option>
+            @for (projectType of projectTypes; track projectType) {
+              <option [value]="projectType">{{ projectType }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="template-field-row">
+          <label for="templateStages">Stages :</label>
+          <input
+            id="templateStages"
+            class="form-control"
+            formControlName="stages"
+            placeholder="Enter Number of Stages"
+            type="number"
+            min="0"
+          />
+        </div>
+
+        <div class="template-field-row">
+          <label for="templateGates">Gates :</label>
+          <input
+            id="templateGates"
+            class="form-control"
+            formControlName="gates"
+            placeholder="Enter Number of Gates"
+            type="number"
+            min="0"
+          />
+        </div> -->
+
+        <!-- <div class="template-active-row">
+          <input id="templateActive" formControlName="active" type="checkbox" />
+          <label for="templateActive">Active</label>
+        </div> -->
+      </div>
+
+      <!-- Right Column (50% width) -->
+      <!-- <div class="template-column">
+        <div class="template-field-row">
+          <label for="templateDeliverables">Deliverables :</label>
+          <input
+            id="templateDeliverables"
+            class="form-control"
+            formControlName="deliverables"
+            placeholder="Enter Number of Deliverables"
+            type="number"
+            min="0"
+          />
+        </div>
+
+        <div class="template-field-row">
+          <label for="templateActivities">Activity :</label>
+          <input
+            id="templateActivities"
+            class="form-control"
+            formControlName="activities"
+            placeholder="Enter Number of Activities"
+            type="number"
+            min="0"
+          />
+        </div>
+
+        <div class="template-field-row">
+          <label for="templateSprint">Sprints :</label>
+          <input
+            id="templateSprint"
+            class="form-control"
+            formControlName="sprint"
+            placeholder="Enter Number of Sprints"
+            type="number"
+            min="0"
+          />
+        </div>
+
+        <div class="template-field-row">
+          <label for="templateBuffer">Buffer Days :</label>
+          <input
+            id="templateBuffer"
+            class="form-control"
+            formControlName="buffer"
+            placeholder="Enter Buffer Days"
+            type="number"
+            min="0"
+          />
+        </div>
+
+        <div class="template-field-row">
+          <label for="templateBufferStatus">Buffer Status :</label>
+          <select id="templateBufferStatus" class="form-control" formControlName="bufferStatus">
+            <option value="">Select Buffer Status</option>
+            @for (bufferStatus of bufferStatuses; track bufferStatus) {
+              <option [value]="bufferStatus">{{ bufferStatus }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="template-field-row">
+          <label for="templateResources">Resources :</label>
+          <input
+            id="templateResources"
+            class="form-control"
+            formControlName="resources"
+            placeholder="Enter Number of Resources"
+            type="number"
+            min="0"
+          />
+        </div>
+
+        <div class="template-field-row">
+          <label for="templateBudget">Budget ($) :</label>
+          <input
+            id="templateBudget"
+            class="form-control"
+            formControlName="budget"
+            placeholder="Enter Budget"
+            type="number"
+            min="0"
+          />
+        </div>
+      </div> -->
+    </div>
+
+    <div class="template-actions">
+      <button
+        type="button"
+        class="app-btn app-btn-default"
+        (click)="close()"
+        style="background-color: lightgray; color: red"
+      >
+        <mat-icon>cancel</mat-icon> Close
+      </button>
+      <button
+        type="submit"
+        class="app-btn app-btn-primary"
+        [disabled]="templateForm.invalid || isSubmitting"
+      >
+        <mat-icon>save</mat-icon> Save
+      </button>
+    </div>
+  </form>
+</div>

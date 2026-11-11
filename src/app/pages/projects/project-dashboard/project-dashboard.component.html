@@ -1,0 +1,262 @@
+<div class="nav-container" [class.nav-open]="isNavOpen" [class.nav-closed]="!isNavOpen">
+  <button (click)="toggleNav()" class="toggle-button">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <nav class="nav-links" (wheel)="$event.stopPropagation()">
+    <ul>
+      <!-- 13. Analytics (Hidden for Template) -->
+      @if (!isTemplate) {
+      <li routerLinkActive="active">
+        <a [routerLink]="['analytics']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Analytics">analytics</mat-icon>
+          } @else {
+          <span>Analytics</span>
+          }
+        </a>
+      </li>
+      }
+
+      <!-- 1. Overview (Hidden for Template) -->
+      @if (!isTemplate) {
+      <li routerLinkActive="active">
+        <a [routerLink]="['overview']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Overview">dashboard</mat-icon>
+          } @else {
+          <span>Overview</span>
+          }
+        </a>
+      </li>
+      }
+
+      <!-- NPV Calculator -->
+      <li routerLinkActive="active">
+        <a [routerLink]="['npv']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="NPV Calculator">calculate</mat-icon>
+          } @else {
+          <span>Feasibility</span>
+          }
+        </a>
+      </li>
+
+      <!-- 2. Setup -->
+      <li routerLinkActive="active">
+        <a [routerLink]="['setup']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Setup">settings</mat-icon>
+          } @else {
+          <span>Setup</span>
+          }
+        </a>
+      </li>
+
+      <!-- 3. Team (Hidden for Template) -->
+      @if (!isTemplate) {
+      <li routerLinkActive="active">
+        <a [routerLink]="['team']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Team">group</mat-icon>
+          } @else {
+          <span>Team</span>
+          }
+        </a>
+      </li>
+      }
+
+      <!-- 4. Stages -->
+      <li routerLinkActive="active" [class.active]="isStagesActive()">
+        <a [routerLink]="['stages']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Stages">layers</mat-icon>
+          } @else {
+          <span>Stages</span>
+          }
+        </a>
+      </li>
+      <li routerLinkActive="active" [class.active]="isGatesActive()">
+        <a [routerLink]="['gates']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Gates">layers</mat-icon>
+          } @else {
+          <span>Gates</span>
+          }
+        </a>
+      </li>
+
+       <li routerLinkActive="active">
+        <a [routerLink]="['ttd']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="TTD">description</mat-icon>
+          } @else {
+          <span>TTD</span>
+          }
+        </a>
+      </li>
+
+
+      <!-- 5. Budget -->
+      <li routerLinkActive="active">
+        <a [routerLink]="['budget']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Budget">account_balance_wallet</mat-icon>
+          } @else {
+          <span>Budget</span>
+          }
+        </a>
+      </li>
+
+      <!-- 6. Scrum -->
+      <li routerLinkActive="active">
+        <a [routerLink]="['backlog']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Backlog">list_alt</mat-icon>
+          } @else {
+          <span>Scrum</span>
+          }
+        </a>
+      </li>
+
+      <li routerLinkActive="active" [class.active]="isActivitiesActive()">
+        <a [routerLink]="['activities']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Activities">list_alt</mat-icon>
+          } @else {
+          <span>Activities</span>
+          }
+        </a>
+      </li>
+
+      <!-- 7. Schedule (Hidden for Template) -->
+      @if (!isTemplate) {
+      <li routerLinkActive="active">
+        <a [routerLink]="['schedule']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Schedule">calendar_month</mat-icon>
+          } @else {
+          <span>Scheduling</span>
+          }
+        </a>
+      </li>
+      }
+
+      <!-- Todo (Hidden for Template) -->
+      @if (!isTemplate) {
+      <li routerLinkActive="active" [class.active]="isTodoActive()">
+        <a [routerLink]="['todo']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Todo">check_box</mat-icon>
+          } @else {
+          <span>To do</span>
+          }
+        </a>
+      </li>
+      }
+
+
+
+      @if (!isTemplate) {
+      <li routerLinkActive="active">
+        <a [routerLink]="['sourcing']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Sourcing">shopping_cart</mat-icon>
+          } @else {
+          <span>Sourcing</span>
+          }
+        </a>
+      </li>
+      }
+
+
+
+
+      <!-- 8. Materials -->
+      <li routerLinkActive="active">
+        <a [routerLink]="['materials']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Materials">receipt_long</mat-icon>
+          } @else {
+          <span>Materials</span>
+          }
+        </a>
+      </li>
+
+      <!-- Resources -->
+      <li routerLinkActive="active">
+        <a [routerLink]="['resources']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Resources">people</mat-icon>
+          } @else {
+          <span>Resources</span>
+          }
+        </a>
+      </li>
+
+      <!-- Issues (Hidden for Template) -->
+      @if (!isTemplate) {
+      <li routerLinkActive="active" [class.active]="isIssuesActive()">
+        <a [routerLink]="['issues']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Issues">report_problem</mat-icon>
+          } @else {
+          <span>Issues</span>
+          }
+        </a>
+      </li>
+      }
+
+      <!-- 10. Hour (Hidden for Template) -->
+      @if (!isTemplate) {
+      <li routerLinkActive="active">
+        <a [routerLink]="['hours']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Hours">schedule</mat-icon>
+          } @else {
+          <span>Hours</span>
+          }
+        </a>
+      </li>
+      }
+
+      <!-- 11. Document (Hidden for Template) -->
+      @if (!isTemplate) {
+      <li routerLinkActive="active">
+        <a [routerLink]="['documents']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Documents">description</mat-icon>
+          } @else {
+          <span>Documents</span>
+          }
+        </a>
+      </li>
+      }
+
+
+
+     
+      <!-- 14. Notes (Hidden for Template) -->
+      @if (!isTemplate) {
+      <li routerLinkActive="active" style="margin-bottom: 100px">
+        <a [routerLink]="['notes']" queryParamsHandling="preserve">
+          @if (!isNavOpen) {
+          <mat-icon matTooltip="Notes">edit_note</mat-icon>
+          } @else {
+          <span>Notes</span>
+          }
+        </a>
+      </li>
+      }
+
+      
+
+
+      
+    </ul>
+  </nav>
+</div>
+
+<div class="col-sm-10 project-dashboard-content-wrapper">
+  <router-outlet></router-outlet>
+</div>

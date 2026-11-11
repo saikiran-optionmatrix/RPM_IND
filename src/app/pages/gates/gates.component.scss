@@ -1,0 +1,78 @@
+/* Optional CDK drag-drop aesthetic fixes */
+.cdk-drag-preview {
+  display: table;
+  box-sizing: border-box;
+  background: white;
+  box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+tbody.cdk-drop-list-dragging .drag-row:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Status specific overrides extending your global framework */
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+  border-color: #ffeeba;
+}
+
+.history-number-link {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 24px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #1d4ed8;
+    background-color: #eff6ff;
+    text-decoration: underline;
+  }
+}
+
+.info-icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+
+  &:hover {
+    background: rgba(37, 99, 235, 0.1);
+    transform: scale(1.1);
+  }
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: #2563eb;
+  }
+}
+
+.gate-name-col {
+  min-width: 380px !important;
+  white-space: nowrap !important;
+}
+

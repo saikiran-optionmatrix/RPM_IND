@@ -1,0 +1,299 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+
+  <!-- Header Section with Title & Action Buttons -->
+  <header class="analytics-header">
+    <h1>{{ projectName }}</h1>
+
+    <div class="header-actions">
+      <!-- <button type="button" class="app-btn app-btn-primary" (click)="uploaddoc()">
+        <mat-icon>add</mat-icon>
+        <span>Add Document</span>
+      </button> -->
+
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon><span>Back</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Master Layout: Sidenav on the Left & Content Table on the Right -->
+  <div class="documents-layout">
+
+    <!-- ============ LEFT SIDENAV PANEL ============ -->
+    <aside class="sidenav-panel">
+      <!-- Sidenav Top: Dropdown filter (All, Stages, Gates) -->
+      <div class="sidenav-header">
+        <label class="sidenav-filter-label" for="filterSelect">View Scope</label>
+        <div class="custom-select-wrap">
+          <select id="filterSelect" class="form-control scope-select" [(ngModel)]="selectedFilter" (change)="onFilterChange()">
+            <option value="All">All (Stages &amp; Gates)</option>
+            <option value="Stages">Stages</option>
+            <option value="Gates">Gates</option>
+          </select>
+          <mat-icon class="select-chevron">expand_more</mat-icon>
+        </div>
+      </div>
+
+      <!-- Sidenav Tree List -->
+      <div class="tree-container">
+        @for (node of filteredTreeNodes; track node.id) {
+
+          <!-- 1. STAGE NODE (Clickable: shows all tasks in stage; arrow toggles expansion) -->
+          @if (node.type === 'stage') {
+            <div class="tree-node stage-node">
+              <button type="button" class="tree-btn stage-btn"
+                [class.active]="selectedItemType === 'stage' && selectedStage?.id === node.id"
+                [class.active-parent]="(selectedItemType === 'deliverable' || selectedItemType === 'activity') && selectedStage?.id === node.id"
+                (click)="selectStage(node)"
+                [attr.aria-expanded]="node.expanded">
+                <div class="btn-content">
+                  <span class="node-badge stage-badge">{{ node.stageCode }}</span>
+                  <span class="node-title" [title]="node.stageName">{{ node.stageName }}</span>
+                </div>
+                <mat-icon class="arrow-icon" [class.rotated]="node.expanded"
+                  (click)="toggleStageArrow($event, node)">
+                  keyboard_arrow_right
+                </mat-icon>
+              </button>
+
+              <!-- Stage Children: Deliverables -->
+              @if (node.expanded) {
+                <div class="tree-children deliverables-group">
+                  @for (deliv of node.deliverables; track deliv.id) {
+                    <div class="tree-node deliverable-node">
+                      <!-- Deliverable Button (Clickable: shows all tasks in deliverable; arrow toggles expansion; NO folder icon) -->
+                      <button type="button" class="tree-btn deliverable-btn"
+                        [class.active]="selectedItemType === 'deliverable' && selectedDeliverable?.id === deliv.id"
+                        [class.active-parent]="selectedItemType === 'activity' && selectedDeliverable?.id === deliv.id"
+                        (click)="selectDeliverable(deliv, node)"
+                        [attr.aria-expanded]="deliv.expanded">
+                        <div class="btn-content">
+                          <span class="node-title" [title]="deliv.name">{{ deliv.name }}</span>
+                        </div>
+                        <mat-icon class="arrow-icon" [class.rotated]="deliv.expanded"
+                          (click)="toggleDeliverableArrow($event, deliv)">
+                          keyboard_arrow_right
+                        </mat-icon>
+                      </button>
+
+                      <!-- Deliverable Children: Activities (NO expand arrow, NO notepad icon; clicks to display activity tasks) -->
+                      @if (deliv.expanded) {
+                        <div class="tree-children activities-group">
+                          @for (act of deliv.activities; track act.id) {
+                            <div class="tree-node activity-node">
+                              <button type="button" class="tree-btn activity-btn"
+                                [class.active]="selectedItemType === 'activity' && selectedActivity?.id === act.id"
+                                (click)="selectActivity(act, deliv, node)">
+                                <div class="btn-content">
+                                  <span class="node-title" [title]="act.name">{{ act.name }}</span>
+                                </div>
+                              </button>
+                            </div>
+                          } @empty {
+                            <div class="tree-empty-item">No activities defined</div>
+                          }
+                        </div>
+                      }
+                    </div>
+                  } @empty {
+                    <div class="tree-empty-item">No deliverables defined</div>
+                  }
+                </div>
+              }
+            </div>
+          }
+
+          <!-- 2. GATE NODE (Clickable, NO expand arrow, NO shield icon) -->
+          @if (node.type === 'gate') {
+            <div class="tree-node gate-node">
+              <button type="button" class="tree-btn gate-btn"
+                [class.active]="selectedItemType === 'gate' && selectedGate?.id === node.id"
+                (click)="selectGate(node)">
+                <div class="btn-content">
+                  <span class="node-badge gate-badge">{{ node.gateCode }}</span>
+                  <span class="node-title" [title]="node.gateName">{{ node.gateName }}</span>
+                </div>
+              </button>
+            </div>
+          }
+
+        } @empty {
+          <div class="tree-empty-state">No matching items for the selected filter.</div>
+        }
+      </div>
+    </aside>
+
+    <!-- ============ RIGHT MAIN CONTENT AREA ============ -->
+    <main class="main-content-panel">
+
+      <!-- Breadcrumb Bar & Search -->
+      <div class="content-toolbar">
+        <div class="breadcrumb-container">
+          @if (selectedItemType === 'stage') {
+            <div class="breadcrumb-path">
+              <span class="breadcrumb-chip stage-chip active">{{ selectedStage?.stageCode }}: {{ selectedStage?.stageName }}</span>
+              <span class="scope-count-tag">All Stage Tasks ({{ filteredActivityTasks.length }})</span>
+            </div>
+          } @else if (selectedItemType === 'deliverable') {
+            <div class="breadcrumb-path">
+              <span class="breadcrumb-chip stage-chip">{{ selectedStage?.stageCode }}: {{ selectedStage?.stageName }}</span>
+              <mat-icon class="breadcrumb-sep">chevron_right</mat-icon>
+              <span class="breadcrumb-chip deliv-chip active">{{ selectedDeliverable?.name }}</span>
+              <span class="scope-count-tag">All Deliverable Tasks ({{ filteredActivityTasks.length }})</span>
+            </div>
+          } @else if (selectedItemType === 'activity') {
+            <div class="breadcrumb-path">
+              <span class="breadcrumb-chip stage-chip">{{ selectedStage?.stageCode }}: {{ selectedStage?.stageName }}</span>
+              <mat-icon class="breadcrumb-sep">chevron_right</mat-icon>
+              <span class="breadcrumb-chip deliv-chip">{{ selectedDeliverable?.name }}</span>
+              <mat-icon class="breadcrumb-sep">chevron_right</mat-icon>
+              <span class="breadcrumb-chip act-chip active">{{ selectedActivity?.name }}</span>
+              <span class="scope-count-tag">({{ filteredActivityTasks.length }} Tasks)</span>
+            </div>
+          } @else if (selectedItemType === 'gate') {
+            <div class="breadcrumb-path">
+              <span class="breadcrumb-chip gate-chip active">{{ selectedGate?.gateCode }} &bull; {{ selectedGate?.gateName }}</span>
+              <span class="scope-count-tag">Gate Documents ({{ filteredGateDocuments.length }})</span>
+            </div>
+          }
+        </div>
+
+        <!-- Search Bar -->
+        <!-- <div class="search-wrap">
+          <mat-icon class="search-icon">search</mat-icon>
+          <input type="text" class="search-input" [(ngModel)]="tableSearchKeyword"
+            (input)="filterTableData()" placeholder="Search records...">
+          @if (tableSearchKeyword) {
+            <button type="button" class="clear-search-btn" (click)="clearSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </div> -->
+      </div>
+
+      <!-- Scroll Buttons for Wide Tables -->
+      <div class="d-flex justify-content-end mb-2" style="gap: 10px;">
+        <button class="mine" mat-fab style="background-color: #cecdcd; right: 110px; z-index: 9999;"
+          (click)="scrollLeft()">
+          <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+        </button>
+        <button class="mine" mat-fab style="background-color: #cecdcd; z-index: 9999;"
+          (click)="scrollRight()">
+          <mat-icon style="color: #414141;">fast_forward</mat-icon>
+        </button>
+      </div>
+
+      <!-- ============ TABLE STRUCTURE MATCHING ASSETSCOMPONENT ============ -->
+      <div class="app-table-container" style="padding: 0; width: 100%;">
+        <div #scrollContainer class="table-responsive">
+
+          <!-- 1. TASKS TABLE (For Stage, Deliverable, or Activity selection) -->
+          @if (selectedItemType !== 'gate') {
+            <table class="table app-table">
+              <thead>
+                <tr>
+                  <th class="text-left" style="width: 170px; min-width: 150px;">Stage Name</th>
+                  <th class="text-left" style="min-width: 220px;">Deliverable </th>
+                  <th class="text-left" style="min-width: 200px;">Activity </th>
+                  <th class="text-left" style="min-width: 240px;">Task </th>
+                  <th class="text-center" style="width: 120px; min-width: 120px;">Documents</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (task of paginatedActivityTasks; track task.id) {
+                  <tr>
+                    <!-- Stage Name -->
+                    <td class="text-left font-weight-500" style="color: #1e293b;">
+                      {{ task.stageName }}
+                    </td>
+
+                    <!-- Deliverable Name -->
+                    <td class="text-left" style="color: #334155;">
+                      {{ task.deliverableName }}
+                    </td>
+
+                    <!-- Activity Name -->
+                    <td class="text-left font-weight-500" style="color: #2563eb;">
+                      {{ task.activityName }}
+                    </td>
+
+                    <!-- Task Name -->
+                    <td class="text-left font-weight-500" style="color: #0f172a;">
+                      {{ task.taskName }}
+                    </td>
+
+                    <!-- Documents (number) -->
+                    <td class="text-center">
+                     
+                      
+                        <span style="cursor: pointer; color: #2563eb;" (click)="openTaskDocuments(task)">{{ task.documentsCount }}</span>
+                      
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="5" class="empty-table">No records found</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
+
+          <!-- 2. GATES DOCUMENTS TABLE -->
+          @if (selectedItemType === 'gate') {
+            <table class="table app-table">
+              <thead>
+                <tr>
+                  <th class="text-left" style="width: 180px; min-width: 160px;">Gate</th>
+                  <th class="text-left" style="min-width: 340px;">Title</th>
+                  <th class="text-center" style="width: 100px; min-width: 100px;">View</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (doc of paginatedGateDocuments; track doc.id) {
+                  <tr>
+                    <!-- Gate Name -->
+                    <td class="text-left font-weight-500">
+                      <!-- <span class="gate-table-badge">{{ doc.gateCode }}</span> -->
+                      <span>{{ doc.gateName }}</span>
+                    </td>
+
+                    <!-- Document Title -->
+                    <td class="text-left font-weight-500" style="color: #0f172a;">
+                      {{ doc.documentTitle }}
+                    </td>
+
+                    <!-- View (mat eye icon) -->
+                    <td class="text-center">
+                      <button type="button" class="view-eye-btn" (click)="viewGateDocument(doc)"
+                        matTooltip="View Document">
+                        <mat-icon>visibility</mat-icon>
+                      </button>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="3" class="empty-table">No records found</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
+
+        </div>
+
+        <!-- Mat Paginator matching AssetsComponent -->
+        <mat-paginator
+          [length]="selectedItemType === 'gate' ? filteredGateDocuments.length : filteredActivityTasks.length"
+          [pageIndex]="pageIndex"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="[5, 10, 20, 50, 100]"
+          [showFirstLastButtons]="true"
+          (page)="handlePage($event)">
+        </mat-paginator>
+
+      </div>
+    </main>
+
+  </div>
+</div>

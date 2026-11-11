@@ -1,0 +1,184 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.inner-screen-page {
+  width: 100%;
+  padding-top: 10px;
+}
+
+// ─── TOP HEADER AREA ───
+.inner-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.title-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 25px;
+}
+
+.inner-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.activity-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #64748b;
+  flex-wrap: wrap;
+}
+
+.activity-badge {
+  background-color: #e2e8f0;
+  color: #334155;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.activity-text {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.stage-sep {
+  color: #cbd5e1;
+}
+
+.stage-text {
+  color: #64748b;
+}
+
+// Align Back Button to Top Right
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+@media (max-width: 520px) {
+  .back-btn span {
+    display: none;
+  }
+  .back-btn {
+    padding: 0 10px;
+  }
+}
+
+// ─── INNER BODY CARD ───
+.inner-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+// ─── TABLE CONTAINER & TABLE STYLES ───
+.app-table-container {
+  width: 100%;
+  padding: 0 !important;
+}
+
+.table-responsive {
+  max-height: 540px;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.table.app-table {
+  min-width: 1050px;
+  width: 100%;
+}
+
+.col-code {
+  width: 140px;
+  min-width: 130px;
+}
+
+.col-deliverable {
+  width: 160px;
+  min-width: 140px;
+}
+
+.col-activity {
+  width: 200px;
+  min-width: 170px;
+}
+
+.col-task {
+  min-width: 220px;
+}
+
+.col-hours {
+  width: 90px;
+  min-width: 85px;
+}
+
+.col-desc {
+  min-width: 260px;
+}
+
+.col-checkbox {
+  width: 95px;
+  min-width: 90px;
+}
+
+.project-code-text {
+  font-weight: 500;
+  color: #334155;
+}
+
+.task-title-cell {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.hours-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0284c7;
+  background-color: #e0f2fe;
+}
+
+.desc-text {
+  color: #475569;
+  font-size: 13px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+::ng-deep .col-checkbox .mat-mdc-checkbox.mat-mdc-checkbox-disabled {
+  opacity: 0.85;
+  cursor: default;
+}

@@ -1,0 +1,160 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="app-table-container">
+        <div class="app-page-actions">
+          <button type="button" class="app-btn app-btn-filter" (click)="toggleFilter()">
+            <mat-icon>filter_list</mat-icon>
+            <span>Filter</span>
+          </button>
+
+        </div>
+
+        @if (showFilter) {
+        <mat-card class="app-filter-panel">
+          <mat-card-content>
+            <div class="app-filter-grid">
+              <div class="app-filter-fields">
+                <div class="app-filter-field">
+                  <label for="itemKeyword">Keyword:</label>
+                  <mat-form-field appearance="outline" class="app-filter-control">
+                    <input matInput id="itemKeyword" [(ngModel)]="keyword" placeholder="Search Template" />
+                  </mat-form-field>
+                </div>
+
+                <div class="app-filter-field">
+                  <label for="itemStatus">Status:</label>
+                  <mat-form-field appearance="outline" class="app-filter-control">
+                    <mat-select id="itemStatus" [(ngModel)]="status" placeholder="Select Status">
+                      <mat-option value="Active">Active</mat-option>
+                      <mat-option value="Inactive">Inactive</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="app-filter-actions">
+                <button type="button" class="app-btn app-btn-primary" (click)="onSearch()">
+                  <mat-icon>search</mat-icon>
+                  <span>Search</span>
+                </button>
+                <button type="button" class="app-btn app-btn-default" (click)="onClear()">
+                  <mat-icon>settings_backup_restore</mat-icon>
+                  <span>Clear</span>
+                </button>
+              </div>
+
+              <div class="app-filter-toggle">
+                <button type="button" class="app-icon-btn" aria-label="Collapse filter" (click)="toggleFilter()">
+                  <mat-icon>keyboard_double_arrow_up</mat-icon>
+                </button>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        }
+
+        <div class="table-responsive">
+          <table class="table app-table">
+            <thead>
+              <tr>
+                <th class="text-center">Actions</th>
+                <th class="text-center">Status</th>
+                <th class="text-left">Template Name</th>
+                <th class="text-left">Description</th>
+                <th class="text-left">Division</th>
+                <th class="text-left">Project Type</th>
+                <th class="text-center">Stages</th>
+                <th class="text-center">Gates</th>
+                <th class="text-center">Deliverables</th>
+                <th class="text-center">Activities</th>
+                <th class="text-center">Sprint</th>
+                <th class="text-center">Buffer</th>
+                <th class="text-center">Plan Effort</th>
+                <th class="text-center">Plan Duration</th>
+                <th class="text-center">Resources</th>
+                <th class="text-center">Budget</th>
+                <th class="text-center">Updated Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of paginatedItems; track item.name) {
+              <tr>
+                <td class="text-center">
+                  <div class="table-actions">
+                    <button type="button" class="table-action-button edit" matTooltip="Edit" aria-label="Edit template"
+                      (click)="onEdit(item)">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button type="button" class="table-action-button delete" matTooltip="Delete"
+                      aria-label="Delete template" (click)="onDelete(item)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <button type="button" class="status-button" [class.status-active]="item.status === 'Active'"
+                    [class.status-inactive]="item.status === 'Inactive'" (click)="onStatusChange(item)">
+                    {{ item.status }}
+                  </button>
+                </td>
+                <td class="text-left">
+                  <a class="template-name-link" [routerLink]="['/master-data/template-dashboard']" [queryParams]="{ templateName: item.name }">
+                    {{ item.name }}
+                  </a>
+                </td>
+                <td class="text-left">{{ item.description }}</td>
+                <td class="text-left">{{ item.division }}</td>
+                <td class="text-left">{{ item.projectType }}</td>
+                <td class="text-center">
+                  <a class="route-link" [routerLink]="['/master-data/template-dashboard/stages']" [queryParams]="{ templateName: item.name }">
+                    {{ item.stages }}
+                  </a>
+                </td>
+                <td class="text-center">
+                  <a class="route-link" [routerLink]="['/master-data/template-dashboard/gates']" [queryParams]="{ templateName: item.name }">
+                    {{ item.gates }}
+                  </a>
+                </td>
+                <td class="text-center">{{ item.deliverables }}</td>
+                <td class="text-center">
+                  <a class="route-link" [routerLink]="['/master-data/template-dashboard/activities']" [queryParams]="{ templateName: item.name }">
+                    {{ item.activities }}
+                  </a>
+                </td>
+                <td class="text-center">
+                  <a class="route-link" [routerLink]="['/master-data/template-dashboard/scrum']" [queryParams]="{ templateName: item.name }">
+                    {{ item.sprint }}
+                  </a>
+                </td>
+                <td class="text-center">{{ item.buffer }}</td>
+                <td class="text-center">{{ item.planEffort }}</td>
+                <td class="text-center">{{ item.planDuration }}</td>
+                <td class="text-center">
+                  <a class="route-link" [routerLink]="['/master-data/template-dashboard/resources']" [queryParams]="{ templateName: item.name }">
+                    {{ item.resources }}
+                  </a>
+                </td>
+                <td class="text-center">
+                  <a class="route-link" [routerLink]="['/master-data/template-dashboard/budget']" [queryParams]="{ templateName: item.name }">
+                    {{ item.budget }}
+                  </a>
+                </td>
+                <td class="text-center">{{ item.updatedDate }}</td>
+              </tr>
+              } @empty {
+              <tr>
+                <td colspan="17" class="empty-table">No records found</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <mat-paginator [length]="filteredItems.length" [pageIndex]="pageIndex" [pageSize]="pageSize"
+          [pageSizeOptions]="[5, 10, 20, 50, 100]" [showFirstLastButtons]="true" (page)="handlePage($event)">
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

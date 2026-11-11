@@ -1,0 +1,169 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    {{ isEditMode ? 'Update Resource' : 'Add Resource' }}
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 20px 24px; width: 100%; box-sizing: border-box; overflow-x: hidden;">
+  <div style="margin-bottom: 10px; width: 100%;">
+    <form (ngSubmit)="save()">
+      <div class="row" style="display: flex; flex-wrap: wrap; margin: 0 -12px;">
+        <!-- Left Column -->
+        <div class="col-sm-6" style="padding: 0 12px; flex: 1; min-width: 380px;">
+          <!-- Resource Name -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 110px; width: 110px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">
+              Resource Name:<span style="color: red;">*</span>
+            </label>
+            <div style="flex: 1;">
+              <mat-select class="form-control" [(ngModel)]="resource" name="resource" placeholder="Select Resource">
+                <mat-select-trigger style="font-size: 13px; display: flex; align-items: center; width: 100%;">
+                  @if (resource) {
+                    <span style="color: #1e293b;">{{ resource }}</span>
+                  } @else {
+                    <span style="color: #6b7280;">Select Resource</span>
+                  }
+                </mat-select-trigger>
+                <div style="padding: 6px 10px; position: sticky; top: 0; background: white; z-index: 100; border-bottom: 1px solid #e2e8f0;">
+                  <input type="text" class="form-control" placeholder="Search Resource..." [(ngModel)]="resourceSearchTerm" name="resourceSearchTerm" (keydown)="$event.stopPropagation()" style="height: 32px; font-size: 13px;">
+                </div>
+                @for (opt of filteredResourceOptions; track opt) {
+                  <mat-option [value]="opt">{{ opt }}</mat-option>
+                } @empty {
+                  <mat-option disabled style="font-size: 12px; color: #94a3b8;">No matching resources</mat-option>
+                }
+              </mat-select>
+            </div>
+          </div>
+
+          <!-- Stage -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 110px; width: 110px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Stage:</label>
+            <div style="flex: 1;">
+              <mat-select class="form-control" [(ngModel)]="stage" name="stage" placeholder="Select Stage">
+                <mat-select-trigger style="font-size: 13px; display: flex; align-items: center; width: 100%;">
+                  @if (stage) {
+                    <span style="color: #1e293b;">{{ stage }}</span>
+                  } @else {
+                    <span style="color: #6b7280;">Select Stage</span>
+                  }
+                </mat-select-trigger>
+                @for (stg of stages; track stg) {
+                  <mat-option [value]="stg">{{ stg }}</mat-option>
+                }
+              </mat-select>
+            </div>
+          </div>
+
+          <!-- Module -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 110px; width: 110px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Module:</label>
+            <div style="flex: 1;">
+              <mat-select class="form-control" [(ngModel)]="module" name="module" placeholder="Select Module">
+                <mat-select-trigger style="font-size: 13px; display: flex; align-items: center; width: 100%;">
+                  @if (module) {
+                    <span style="color: #1e293b;">{{ module }}</span>
+                  } @else {
+                    <span style="color: #6b7280;">Select Module</span>
+                  }
+                </mat-select-trigger>
+                @for (mod of modules; track mod) {
+                  <mat-option [value]="mod">{{ mod }}</mat-option>
+                }
+              </mat-select>
+            </div>
+          </div>
+
+          <!-- Task -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 110px; width: 110px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Task:</label>
+            <div style="flex: 1;">
+              <mat-select class="form-control" [(ngModel)]="task" name="task" placeholder="Select Task">
+                <mat-select-trigger style="font-size: 13px; display: flex; align-items: center; width: 100%;">
+                  @if (task) {
+                    <span style="color: #1e293b;">{{ task }}</span>
+                  } @else {
+                    <span style="color: #6b7280;">Select Task</span>
+                  }
+                </mat-select-trigger>
+                @for (tsk of tasks; track tsk) {
+                  <mat-option [value]="tsk">{{ tsk }}</mat-option>
+                }
+              </mat-select>
+            </div>
+          </div>
+
+          <!-- From Date -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 110px; width: 110px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">From Date:</label>
+            <input type="date" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="fromDate" name="fromDate">
+          </div>
+
+          <!-- To Date -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 110px; width: 110px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">To Date:</label>
+            <input type="date" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="toDate" name="toDate">
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-sm-6" style="padding: 0 12px; flex: 1; min-width: 380px;">
+          <!-- From Time -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 110px; width: 110px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">From Time:</label>
+            <input type="text" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="fromTime" name="fromTime" placeholder="e.g. 09:00 AM">
+          </div>
+
+          <!-- To Time -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 110px; width: 110px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">To Time:</label>
+            <input type="text" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="toTime" name="toTime" placeholder="e.g. 05:00 PM">
+          </div>
+
+          <!-- Plan Duration -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 110px; width: 110px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Plan Duration:</label>
+            <input type="text" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="planDuration" name="planDuration" placeholder="e.g. 4 hours">
+          </div>
+
+          <!-- Actual Duration -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 110px; width: 110px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Actual Duration:</label>
+            <input type="text" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="actualDuration" name="actualDuration" placeholder="e.g. 4 hours">
+          </div>
+
+          <!-- Status -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 110px; width: 110px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Status:</label>
+            <div style="flex: 1;">
+              <mat-select class="form-control" [(ngModel)]="status" name="status" placeholder="Select Status">
+                <mat-select-trigger style="font-size: 13px; display: flex; align-items: center; width: 100%;">
+                  @if (status) {
+                    <span style="color: #1e293b;">{{ status }}</span>
+                  } @else {
+                    <span style="color: #6b7280;">Select Status</span>
+                  }
+                </mat-select-trigger>
+                @for (st of statuses; track st) {
+                  <mat-option [value]="st">{{ st }}</mat-option>
+                }
+              </mat-select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 10px; margin-top: 20px;">
+        <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button class="app-btn app-btn-default" type="button" (click)="close()" style="background-color: lightgray; color: red;">
+            <mat-icon>cancel</mat-icon> Close
+          </button>
+          <button class="app-btn app-btn-primary" type="submit">
+            <mat-icon>save</mat-icon> {{ isEditMode ? 'Update' : 'Save' }}
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

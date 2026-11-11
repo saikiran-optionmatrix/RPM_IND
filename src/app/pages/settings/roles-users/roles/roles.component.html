@@ -1,0 +1,129 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="app-table-container">
+
+        <!-- Top Action Buttons -->
+        <div class="app-page-actions">
+          <button type="button" class="app-btn app-btn-filter" (click)="toggleFilter()">
+            <mat-icon>filter_list</mat-icon>
+            <span>Filter</span>
+          </button>
+
+          <button type="button" class="app-btn app-btn-primary" (click)="onAdd()">
+            <mat-icon>add</mat-icon>
+            <span>Add Role</span>
+          </button>
+        </div>
+
+        <!-- Filter Panel -->
+        @if (showFilter) {
+        <mat-card class="app-filter-panel">
+          <mat-card-content>
+            <div class="app-filter-grid">
+
+              <div class="app-filter-fields">
+                <div class="app-filter-field">
+                  <label for="roleKeyword">Keyword:</label>
+                  <mat-form-field appearance="outline" class="app-filter-control">
+                    <input matInput id="roleKeyword" [(ngModel)]="keyword" placeholder="Search Roles">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!-- Filter Actions -->
+              <div class="app-filter-actions">
+                <button type="button" class="app-btn app-btn-primary" (click)="onSearch()">
+                  <mat-icon>search</mat-icon>
+                  <span>Search</span>
+                </button>
+                <button type="button" class="app-btn app-btn-default" (click)="onClear()">
+                  <mat-icon>settings_backup_restore</mat-icon>
+                  <span>Clear</span>
+                </button>
+              </div>
+
+              <!-- Filter Toggle -->
+              <div class="app-filter-toggle">
+                <button type="button" class="app-icon-btn" aria-label="Collapse filter" (click)="toggleFilter()">
+                  <mat-icon>keyboard_double_arrow_up</mat-icon>
+                </button>
+              </div>
+
+            </div>
+          </mat-card-content>
+        </mat-card>
+        }
+
+        <!-- Roles Table -->
+        <div class="table-responsive">
+          <table class="table app-table">
+            <thead>
+              <tr>
+                <th class="text-center" style="width: 140px;">Actions</th>
+                <th style="padding-left: 20px;">Role</th>
+                <th class="text-center" style="width: 250px;">Users</th>
+                <th class="text-center" style="width: 350px;">Screen Permissions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (role of paginatedRoles; track role.id) {
+              <tr>
+                <!-- Actions -->
+                <td class="text-center">
+                  <div class="table-actions">
+                    <button type="button" class="table-action-button edit" [disabled]="role.isSystem"
+                      [style.opacity]="role.isSystem ? '0.35' : '1'"
+                      [style.cursor]="role.isSystem ? 'not-allowed' : 'pointer'" matTooltip="Edit"
+                      aria-label="Edit role" (click)="onEdit(role)">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button type="button" class="table-action-button delete" [disabled]="role.isSystem"
+                      [style.opacity]="role.isSystem ? '0.35' : '1'"
+                      [style.cursor]="role.isSystem ? 'not-allowed' : 'pointer'" matTooltip="Delete"
+                      aria-label="Delete role" (click)="onDelete(role)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </td>
+
+                <!-- Role Name -->
+                <td style="padding-left: 20px; font-weight: 500;">
+                  {{ role.roleName }}
+                </td>
+
+                <!-- Users Count Link -->
+                <td class="text-center">
+                  <a href="javascript:void(0)" class="link-primary" style="color: #2563eb; font-weight: 500;">
+                    {{ role.usersCount }}
+                  </a>
+                </td>
+
+                <!-- Screen Permissions Link -->
+                <td class="text-center">
+                  <a href="javascript:void(0)" class="link-primary" style="color: #2563eb; font-weight: 500;"
+                    (click)="onPermissionsClick(role)">
+                    {{ role.screenPermissions }}
+                  </a>
+                </td>
+              </tr>
+              } @empty {
+              <tr>
+                <td colspan="4" class="empty-table text-center" style="padding: 24px; color: #64748b;">
+                  No roles found
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Paginator -->
+        <mat-paginator [length]="filteredRoles.length" [pageIndex]="pageIndex" [pageSize]="pageSize"
+          [pageSizeOptions]="[5, 10, 20, 50, 100]" [showFirstLastButtons]="true" (page)="handlePage($event)">
+        </mat-paginator>
+
+      </div>
+    </div>
+  </div>
+</div>

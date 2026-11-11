@@ -1,0 +1,78 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>{{ isEditMode ? 'Update Section' : 'Add Section' }}</h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="col-sm-12 section-dialog-body">
+    <form [formGroup]="myGroup" (ngSubmit)="upsertSection()">
+      <div class="row section-field-row">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label section-field-label">Section Name :</label>
+        </div>
+        <div class="col-sm-9">
+          <input
+            class="form-control name back"
+            maxlength="50"
+            placeholder="Enter Section Name"
+            formControlName="SectionName"
+            type="text"
+          />
+        </div>
+      </div>
+
+      <div class="row section-field-row">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label section-field-label">Section Code :</label>
+        </div>
+        <div class="col-sm-9">
+          <input
+            class="form-control name back"
+            maxlength="50"
+            placeholder="Enter Section Code"
+            formControlName="SectionCode"
+            type="text"
+          />
+        </div>
+      </div>
+
+      <div class="row section-field-row">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label section-field-label">Department :</label>
+        </div>
+        <div class="col-sm-9">
+          <select class="form-control name back" formControlName="Department" style="cursor: pointer;">
+            <option value="" disabled selected>Select Department</option>
+            @for (dept of departments; track dept) {
+              <option [value]="dept">{{ dept }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="row section-field-row">
+        <div class="col-sm-3">
+          <label class="add-member control-label section-field-label">Remarks :</label>
+        </div>
+        <div class="col-sm-9">
+          <textarea
+            class="form-control white name back"
+            rows="4"
+            placeholder="Enter Remarks"
+            formControlName="Remarks"
+          ></textarea>
+        </div>
+      </div>
+
+       <div style="margin-bottom: 10px;">
+        <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="app-btn app-btn-default" (click)="close()" style="background-color: lightgray; color: red;">
+            <mat-icon>cancel</mat-icon> Close
+          </button>
+          <button type="submit" class="app-btn app-btn-primary">
+            <mat-icon>save</mat-icon> Save
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

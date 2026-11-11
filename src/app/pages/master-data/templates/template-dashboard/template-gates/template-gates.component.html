@@ -1,0 +1,524 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+  <header class="analytics-header">
+    <h1>{{ projectName }}</h1>
+    <button type="button" class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon><span>Back</span>
+    </button>
+  </header>
+
+  <div class="gates-page-container">
+
+    <!-- ==================== GATES GRID TABLE ==================== -->
+    <!-- Scroll Buttons -->
+    <div class="d-flex justify-content-end mb-2" style="gap: 10px;">
+      <div class="d-flex justify-content-end mb-2">
+        <button class="mine" mat-fab style="background-color: #cecdcd; right: 110px; z-index: 9999;"
+          (click)="scrollLeft()">
+          <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+        </button>
+        <button class="mine" mat-fab style="background-color: #cecdcd; z-index: 9999;" (click)="scrollRight()">
+          <mat-icon style="color: #414141;">fast_forward</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="app-table-container" style="padding: 0; width: 100%;">
+      <div #scrollContainer class="table-responsive" style="overflow-x: auto; scroll-behavior: smooth;">
+        <table class="table app-table">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 90px !important;">Actions</th>
+              <th class="text-center" style="width: 100px !important;">Gate Code</th>
+              <th class="text-center" style="width: 90px !important;">Checklist</th>
+              <th class="text-center" style="width: 90px !important;">Activities</th>
+              <th class="text-center" style="width: 90px !important;">Workflow</th>
+              <th class="text-center" style="width: 80px !important;">Timeline</th>
+              <th class="text-center" style="width: 60px !important;">Go</th>
+              <th class="text-center" style="width: 60px !important;">Kill</th>
+              <th class="text-center" style="width: 70px !important;">Rework</th>
+              <th class="text-center" style="min-width: 200px !important;">Redirect</th>
+              <th class="text-center" style="width: 110px !important;">Updated</th>
+              <th class="text-left">Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (g of pagedGates; track g.gateCode; let idx = $index) {
+            <tr [ngClass]="{'readonly-gate-row': isGateReadonly(g)}">
+              <!-- 1. Actions (Edit / Delete) using table-actions from assets -->
+              <td class="text-center">
+                <div class="table-actions">
+                  <button type="button" class="table-action-button edit"
+                    [matTooltip]="isGateReadonly(g) ? 'Gate is read-only' : 'Edit'" [disabled]="isGateReadonly(g)"
+                    aria-label="Edit gate" (click)="!isGateReadonly(g) && openEditGate(g, idx)">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <button type="button" class="table-action-button delete"
+                    [matTooltip]="isGateReadonly(g) ? 'Gate is read-only' : 'Delete'" [disabled]="isGateReadonly(g)"
+                    aria-label="Delete gate" (click)="!isGateReadonly(g) && deleteGate(g)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+
+              <!-- 2. Gate Code (with Tooltip showing Gate Name) -->
+              <td class="text-center">
+                <strong class="gate-code-text" [matTooltip]="g.gateName" matTooltipPosition="above"
+                  style="cursor: pointer;" [style.color]="isGateReadonly(g) ? '#64748b' : '#2563eb'">{{ g.gateCode
+                  }}</strong>
+              </td>
+
+              <!-- 3. Checklist (Fractional number ex: 7/7) -->
+              <td class="text-center">
+                <a (click)="openChecklistModal(g)" class="checklist-link" matTooltip="View Checklist Items">
+                  {{ getChecklistFraction(g) }}
+                </a>
+              </td>
+
+              <!-- 4. Activities (Number navigating to activities) -->
+              <td class="text-center">
+                <a (click)="navigateToActivities(g)" class="checklist-link" matTooltip="View Gate Activities"
+                  style="cursor: pointer; color: #2563eb; font-weight: 600; text-decoration: underline;">
+                  {{ getActivitiesCount(g) }}
+                </a>
+              </td>
+
+              <!-- 5. Workflow (Fractional number ex: 3/5) -->
+              <td class="text-center">
+                <a (click)="openWorkflowModal(g)" class="checklist-link" matTooltip="View Gate Workflow"
+                  style="cursor: pointer; color: #2563eb; font-weight: 600; text-decoration: underline;">
+                  {{ g.workflow || '3/5' }}
+                </a>
+              </td>
+
+              <!-- 6. Timeline -->
+              <td class="text-center">
+                <button mat-icon-button (click)="openTimelineModal(g)" matTooltip="View Timeline"
+                  class="timeline-cal-btn">
+                  <mat-icon class="timeline-cal-icon">calendar_today</mat-icon>
+                </button>
+              </td>
+
+              <!-- 7. Go Checkbox -->
+              <td class="text-center" style="vertical-align: middle;">
+                <mat-checkbox color="primary" [checked]="g.decision === 'Go'" [disabled]="isGateReadonly(g)"
+                  (change)="onDecisionChange(g, 'Go', $event.checked)">
+                </mat-checkbox>
+              </td>
+
+              <!-- 8. Kill Checkbox -->
+              <td class="text-center" style="vertical-align: middle;">
+                <mat-checkbox color="primary" [checked]="g.decision === 'Kill'" [disabled]="isGateReadonly(g)"
+                  (change)="onDecisionChange(g, 'Kill', $event.checked)">
+                </mat-checkbox>
+              </td>
+
+              <!-- 9. Rework Checkbox -->
+              <td class="text-center" style="vertical-align: middle;">
+                @if (!isGateZero(g)) {
+                <mat-checkbox color="primary" [checked]="g.decision === 'Hold'" [disabled]="isGateReadonly(g)"
+                  (change)="onDecisionChange(g, 'Hold', $event.checked)">
+                </mat-checkbox>
+                } @else {
+                <span style="color: #94a3b8; font-weight: 500;">—</span>
+                }
+              </td>
+
+              <!-- 10. Redirect Checkbox & Always-Visible Dropdown -->
+              <td class="text-center" style="vertical-align: middle;">
+                @if (!isGateZero(g)) {
+                <div class="redirect-cell-wrap">
+                  <mat-checkbox color="primary" [checked]="g.decision === 'Redirect'" [disabled]="isGateReadonly(g)"
+                    (change)="onDecisionChange(g, 'Redirect', $event.checked)">
+                  </mat-checkbox>
+                  <div class="redirect-dropdown-wrap">
+                    <mat-select [(ngModel)]="g.redirectToStage"
+                      [disabled]="isGateReadonly(g) || g.decision !== 'Redirect'" placeholder="Redirect to stage"
+                      class="form-control redirect-stage-select">
+                      @for (opt of redirectStageOptions; track opt) {
+                      <mat-option [value]="opt">
+                        {{ opt }}
+                      </mat-option>
+                      }
+                    </mat-select>
+                  </div>
+                </div>
+                } @else {
+                <span style="color: #94a3b8; font-weight: 500;">—</span>
+                }
+              </td>
+
+              <!-- 11. Updated Date Column -->
+              <td class="text-center" style="white-space: nowrap;">
+                {{ g.updatedDate ? (g.updatedDate | date:'dd MMM yyyy') : '—' }}
+              </td>
+
+              <!-- 12. Remarks -->
+              <td class="text-left">
+                <span class="remarks-text">{{ (g.remarks && g.remarks.trim()) ? g.remarks : '—' }}</span>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="12" class="empty-table">No gates configured.</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Table Paginator from Assets -->
+      <mat-paginator [length]="gates.length" [pageIndex]="currentPage" [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions" [showFirstLastButtons]="true" (page)="onPageChange($event)">
+      </mat-paginator>
+    </div>
+
+  </div>
+
+  <!-- ============ TIMELINE POP-UP MODAL ============ -->
+  @if (showTimelineModal) {
+  <div class="bl-modal-overlay" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+    <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+      <!-- Header Row -->
+      <div class="timeline-popup-header">
+        <div class="timeline-popup-title-wrap">
+          <div class="timeline-icon-box">
+            <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+          </div>
+          <h3 class="timeline-popup-title">
+            Timeline &mdash; {{ selectedTimelineItem?.name || selectedTimelineItem?.gateName }}
+          </h3>
+        </div>
+        <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+          <mat-icon
+            style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Dates Grid -->
+      <div class="timeline-dates-container">
+        <div class="timeline-accent-bar"></div>
+
+        <div class="timeline-grid-content">
+          <!-- Row 1: Plan Start Date, Plan End Date, Actual Start Date -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planStart ? (selectedTimelineItem.planStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan End Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planEnd ? (selectedTimelineItem.planEnd | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Actual Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualStart ? (selectedTimelineItem.actualStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row-divider"></div>
+
+          <!-- Row 2: Actual End Date, ETA, Actual Duration -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Actual End Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualEnd ? (selectedTimelineItem.actualEnd | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">ETA</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.eta ? (selectedTimelineItem.eta | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Actual Duration</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualDuration || '—' }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 3: Actual Effort, Plan Duration, Plan Effort -->
+          <div class="timeline-row-divider"></div>
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Actual Effort</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualEffort || '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan Duration</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planDuration || '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Plan Effort</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planEffort || '—' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description Box -->
+      <div class="timeline-desc-box">
+        <div class="timeline-desc-header">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #3b82f6;">description</mat-icon>
+          <span>Description</span>
+        </div>
+        <p class="timeline-desc-text">
+          {{ selectedTimelineItem?.description || ('This timeline provides an overview of the key planned and actual
+          dates for ' + (selectedTimelineItem?.name || selectedTimelineItem?.gateName || 'this gate') + ' of the
+          project.') }}
+        </p>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- ============ ADD / EDIT GATE MODAL ============ -->
+  @if (showGateModal) {
+  <div class="bl-modal-overlay" (click)="closeGateModal()">
+    <div class="bl-modal" (click)="$event.stopPropagation()"
+      style="max-width: 800px; width: 800px; padding: 24px; box-sizing: border-box; display: flex; flex-direction: column; background: #ffffff; border-radius: 4px; overflow: hidden; box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);">
+      <!-- Header -->
+      <div class="NewHeader">
+        @if (!isEditGateMode) {
+        <h3 style="padding-top:10px;">Add Gate</h3>
+        } @else {
+        <h3 style="padding-top:10px;">Edit Gate</h3>
+        }
+      </div>
+
+      <!-- Body -->
+      <div style="flex-grow: 1; overflow: hidden; width: 100%;">
+        <div style="display: flex; width: 100%; margin: 0; padding: 0;">
+          <!-- Sidebar Navigation -->
+          <div style="margin-bottom: 10px; padding: 0; width: 140px; flex-shrink: 0;">
+            <div class="m-auto pills pt-2 pr-0">
+              <ul class="nav flex-column pr-0" style="list-style-type: none; padding: 0; margin: 0;">
+                <li class="nav-item" style="margin-top: 10px;"
+                  [ngClass]="gateModalStep == 1 ? 'active nav-item' : 'nav-item'" (click)="gateModalStep = 1">
+                  <a mat-raised-button class="nav-link text-left py-2 width">Overview</a>
+                </li>
+                <li class="nav-item" style="margin-top: 10px;"
+                  [ngClass]="gateModalStep == 2 ? 'active nav-item' : 'nav-item'" (click)="gateModalStep = 2">
+                  <a mat-raised-button class="nav-link text-left py-2 width">Timeline</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Form Fields -->
+          <div style="padding-left: 24px; padding-top: 8px; flex: 1; min-width: 0; box-sizing: border-box;">
+            <!-- Section 1: Overview -->
+            @if (gateModalStep === 1) {
+            <div>
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="control-label" style="line-height: 35px; margin: 0; font-weight: 500;">Gate
+                    Code:</label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="text" class="form-control" [(ngModel)]="gateModalData.gateCode" readonly
+                    style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Gate
+                    Name:<span style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="text" class="form-control back" [(ngModel)]="gateModalData.gateName"
+                    placeholder="Gate 0 — Concept Review" style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Status:<span
+                      style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <mat-select [(ngModel)]="gateModalData.status" class="form-control back" placeholder="Select Status"
+                    style="height: 35px; line-height: 23px;">
+                    <mat-option value="Approved">Approved</mat-option>
+                    <mat-option value="Pending">Pending</mat-option>
+                    <mat-option value="On Hold">On Hold</mat-option>
+                    <mat-option value="Rejected">Rejected</mat-option>
+                    <mat-option value="Redirect">Redirect</mat-option>
+                  </mat-select>
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Remarks:<span
+                      style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="text" class="form-control back" [(ngModel)]="gateModalData.remarks"
+                    placeholder="Scope frozen with sponsor" style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Buffer:<span
+                      style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="text" class="form-control back" [(ngModel)]="gateModalData.buffer" placeholder="3 days"
+                    style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Plan
+                    Effort:<span style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="text" class="form-control back" [(ngModel)]="gateModalData.planEffort"
+                    placeholder="160 hrs" style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Plan
+                    Duration:<span style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="text" class="form-control back" [(ngModel)]="gateModalData.planDuration"
+                    placeholder="40 days" style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: flex-start;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="control-label"
+                    style="line-height: 35px; margin: 0; font-weight: 500;">Description:</label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <textarea class="form-control back" rows="2" [(ngModel)]="gateModalData.description"
+                    placeholder="Description..." style="resize: vertical;"></textarea>
+                </div>
+              </div>
+            </div>
+            }
+
+            <!-- Section 2: Timeline -->
+            @if (gateModalStep === 2) {
+            <div>
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Review
+                    Date:<span style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="date" class="form-control back" [(ngModel)]="gateModalData.timelineDate"
+                    style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Plan Start
+                    Date:<span style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="date" class="form-control back" [(ngModel)]="gateModalData.planStart"
+                    style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Plan End
+                    Date:<span style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="date" class="form-control back" [(ngModel)]="gateModalData.planEnd"
+                    style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Actual Start
+                    Date:<span style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="date" class="form-control back" [(ngModel)]="gateModalData.actualStart"
+                    style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Actual End
+                    Date:<span style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="date" class="form-control back" [(ngModel)]="gateModalData.actualEnd"
+                    style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">ETA:<span
+                      style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="date" class="form-control back" [(ngModel)]="gateModalData.eta" style="height: 35px;" />
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <mat-dialog-actions align="end"
+        style="margin-top: 15px; width: 100%; box-sizing: border-box; flex-shrink: 0; display: flex; justify-content: flex-end; gap: 8px;">
+        <button (click)="closeGateModal()" type="button" class="app-btn app-btn-default">
+          <mat-icon>cancel</mat-icon> Close
+        </button>
+        <button type="button" class="app-btn app-btn-primary" (click)="saveGate()">
+          <mat-icon>save</mat-icon> Save
+        </button>
+      </mat-dialog-actions>
+    </div>
+  </div>
+  }
+
+</div>

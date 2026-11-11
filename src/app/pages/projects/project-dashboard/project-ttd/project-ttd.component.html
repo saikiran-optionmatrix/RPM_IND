@@ -1,0 +1,145 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+
+  <!-- Header Section with Title & Action Buttons -->
+  <header class="analytics-header">
+    <h1>{{ productName }}</h1>
+
+    <div class="header-actions">
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon><span>Back</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 1st Table: Top Information Table (Product Name, Strength, Market, TTD Number, Version Number) -->
+  <div class="app-table-container" style="padding: 0; width: 100%; margin-bottom: 28px;">
+    <div class="table-responsive">
+      <table class="table app-table ttd-info-table">
+        <tbody>
+          <!-- Product Name (Readonly from query params) -->
+          <tr>
+            <th class="info-label-cell">Product Name</th>
+            <td class="info-value-cell">
+              <input type="text" class="form-control form-control-readonly" [value]="productName" readonly>
+            </td>
+          </tr>
+
+          <!-- Strength (Readonly) -->
+          <tr>
+            <th class="info-label-cell">Strength</th>
+            <td class="info-value-cell">
+              <input type="text" class="form-control form-control-readonly" [value]="strength" readonly>
+            </td>
+          </tr>
+
+          <!-- Market (Readonly) -->
+          <tr>
+            <th class="info-label-cell">Market</th>
+            <td class="info-value-cell">
+              <input type="text" class="form-control form-control-readonly" [value]="market" readonly>
+            </td>
+          </tr>
+
+          <!-- TTD Number (Text input with save icon beside it) -->
+          <tr>
+            <th class="info-label-cell">TTD Number</th>
+            <td class="info-value-cell">
+              <div class="input-with-action">
+                <input type="text" class="form-control" [(ngModel)]="ttdNumber" placeholder="Enter TTD Number">
+                <button type="button" class="table-save-btn" matTooltip="Save TTD Number" (click)="saveTtdNumber()">
+                  <mat-icon [class.saved-icon]="ttdNumberSaved">
+                    {{ ttdNumberSaved ? 'check_circle' : 'save' }}
+                  </mat-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Version Number (Text input with save icon beside it) -->
+          <tr>
+            <th class="info-label-cell">Version Number</th>
+            <td class="info-value-cell">
+              <div class="input-with-action">
+                <input type="text" class="form-control" [(ngModel)]="versionNumber" placeholder="Enter Version Number">
+                <button type="button" class="table-save-btn" matTooltip="Save Version Number" (click)="saveVersionNumber()">
+                  <mat-icon [class.saved-icon]="versionNumberSaved">
+                    {{ versionNumberSaved ? 'check_circle' : 'save' }}
+                  </mat-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 2nd Table: Check Points Table matching Image 1 and Image 2 -->
+  <div class="app-table-container" style="padding: 0; width: 100%;">
+    <div #scrollContainer class="table-responsive">
+      <table class="table app-table ttd-checkpoints-table">
+        <thead>
+          <tr>
+            <th class="text-center" style="width: 80px; min-width: 80px;">S. No.</th>
+            <th class="text-left" style="min-width: 320px;">Check Points</th>
+            <th class="text-center" style="width: 250px; min-width: 240px;">Status</th>
+            <th class="text-center" style="width: 100px; min-width: 100px;">Remarks</th>
+            <th class="text-center" style="width: 120px; min-width: 120px;">Documents</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of checkPointsList; track item.id) {
+            <tr>
+              <!-- S.No (Handles rowspan for S.No 13 Stability Plan Group) -->
+              @if (item.isGroupHeader) {
+                <td [attr.rowspan]="item.groupSpan" class="text-center font-weight-bold" style="vertical-align: middle; background-color: #f8fafc;">
+                  {{ item.sNo }}
+                </td>
+              } @else if (!item.isGroupPart) {
+                <td class="text-center font-weight-bold" style="background-color: #f8fafc;">
+                  {{ item.sNo }}
+                </td>
+              }
+
+              <!-- Check Points Title -->
+              <td class="text-left font-weight-500" style="color: #0f172a;">
+                {{ item.checkPoint }}
+              </td>
+
+              <!-- Status (3 mat checkboxes: Yes, No, N/A) -->
+              <td class="text-center">
+                <div class="status-checkbox-group">
+                  <mat-checkbox color="primary" [checked]="item.status === 'Yes'" (change)="setStatus(item, 'Yes')">
+                    Yes
+                  </mat-checkbox>
+                  <mat-checkbox color="warn" [checked]="item.status === 'No'" (change)="setStatus(item, 'No')">
+                    No
+                  </mat-checkbox>
+                  <mat-checkbox color="accent" [checked]="item.status === 'N/A'" (change)="setStatus(item, 'N/A')">
+                    N/A
+                  </mat-checkbox>
+                </div>
+              </td>
+
+              <!-- Remarks (mat info icon with tooltip) -->
+              <td class="text-center">
+                <mat-icon class="remarks-info-icon" [matTooltip]="item.remarks || 'No remarks provided'"
+                  matTooltipPosition="above" (click)="openRemarks(item)">
+                  info
+                </mat-icon>
+              </td>
+
+              <!-- Documents (Clickable number that opens DocumentsPopComponent) -->
+              <td class="text-center">
+                <span class="doc-number-link" (click)="openDocuments(item)" matTooltip="View Attached Documents">
+                  {{ item.documentsCount }}
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

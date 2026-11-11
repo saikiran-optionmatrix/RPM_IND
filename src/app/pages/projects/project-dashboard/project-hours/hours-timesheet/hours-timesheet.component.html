@@ -1,0 +1,176 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title style="color: white; margin: 0; text-align: center;">
+    {{ isEditMode ? 'Edit Timesheet' : 'Add Timesheet' }}
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 20px 25px;">
+  <form #hoursForm="ngForm">
+    <!-- Date -->
+    <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+      <div class="col-sm-3">
+        <label class="control-label" style="font-weight: 500; margin: 0; white-space: nowrap;">Date:</label>
+      </div>
+      <div class="col-sm-9">
+        <input type="date" name="dateStr" [(ngModel)]="dateStr" style="height: 35px;" class="form-control back" required>
+      </div>
+    </div>
+
+    <!-- Employee Name -->
+    <div class="row" style="margin-bottom: 20px; display: flex; align-items: center;">
+      <div class="col-sm-3">
+        <label class="control-label" style="font-weight: 500; margin: 0; white-space: nowrap;">Name:</label>
+      </div>
+      <div class="col-sm-9">
+        <mat-select class="form-control back" [(ngModel)]="name" name="name" placeholder="Select Employee Name" required>
+          <mat-select-trigger style="font-size: 13px; display: flex; align-items: center; width: 100%;">
+            @if (name) {
+              <span style="color: #1e293b;">{{ name }}</span>
+            } @else {
+              <span style="color: #6b7280;">Select Employee Name</span>
+            }
+          </mat-select-trigger>
+          <div style="padding: 6px 10px; position: sticky; top: 0; background: white; z-index: 100; border-bottom: 1px solid #e2e8f0;">
+            <input type="text" class="form-control" placeholder="Search Name..." [(ngModel)]="nameSearchTerm" name="nameSearchTerm" (keydown)="$event.stopPropagation()" style="height: 32px; font-size: 13px;">
+          </div>
+          @for (opt of filteredEmployeeOptions; track opt) {
+            <mat-option [value]="opt">{{ opt }}</mat-option>
+          } @empty {
+            <mat-option disabled style="font-size: 12px; color: #94a3b8;">No matching employees</mat-option>
+          }
+        </mat-select>
+      </div>
+    </div>
+
+    <!-- Timesheet Entries Section -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 25px; margin-bottom: 10px;">
+      <h3 style="margin: 0; font-size: 15px; font-weight: 600; color: #3f3f3f;">Timesheet Details</h3>
+      <button type="button" class="app-btn app-btn-primary" (click)="addRow()" >
+        Add
+      </button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive">
+      <table class="timesheet-table">
+        <thead>
+          <tr>
+            <th style="width: 20%;">Project</th>
+            <th style="width: 17%;">Deliverable</th>
+            <th style="width: 20%;">Activity</th>
+            <th style="width: 8%;">Hours</th>
+            <th style="width: 29%;">Task Description</th>
+            <th style="width: 6%; text-align: center;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of rows; track $index; let idx = $index) {
+            <tr>
+              <!-- Project (Searchable Dropdown) -->
+              <td>
+                <mat-select [name]="'project_' + idx" [(ngModel)]="row.project" class="form-control back table-input" placeholder="Select Project" required>
+                  <mat-select-trigger style="font-size: 13px; display: flex; align-items: center; width: 100%;">
+                    @if (row.project) {
+                      <span style="color: #1e293b; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ row.project }}</span>
+                    } @else {
+                      <span style="color: #6b7280;">Select Project</span>
+                    }
+                  </mat-select-trigger>
+                  <div style="padding: 8px; position: sticky; top: 0; background: white; z-index: 1; border-bottom: 1px solid #e2e8f0;">
+                    <input type="text" [name]="'search_proj_' + idx" class="form-control" placeholder="Search Project..." 
+                           [(ngModel)]="row.searchProjectText" 
+                           [ngModelOptions]="{standalone: true}"
+                           (keydown)="$event.stopPropagation()"
+                           style="height: 30px; font-size: 12px;">
+                  </div>
+                  @for (p of getFilteredProjects(row.searchProjectText); track p) {
+                    <mat-option [value]="p">{{ p }}</mat-option>
+                  } @empty {
+                    <mat-option disabled style="font-size: 12px; color: #94a3b8;">No matching projects</mat-option>
+                  }
+                </mat-select>
+              </td>
+
+              <!-- Module (Searchable Dropdown) -->
+              <td>
+                <mat-select [name]="'module_' + idx" [(ngModel)]="row.module" class="form-control table-input" placeholder="Select Deliverable">
+                  <mat-select-trigger style="font-size: 13px; display: flex; align-items: center; width: 100%;">
+                    @if (row.module) {
+                      <span style="color: #1e293b; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ row.module }}</span>
+                    } @else {
+                      <span style="color: #6b7280;">Select Deliverable</span>
+                    }
+                  </mat-select-trigger>
+                  <div style="padding: 8px; position: sticky; top: 0; background: white; z-index: 1; border-bottom: 1px solid #e2e8f0;">
+                    <input type="text" [name]="'search_mod_' + idx" class="form-control" placeholder="Search..." 
+                           [(ngModel)]="row.searchModuleText" 
+                           [ngModelOptions]="{standalone: true}"
+                           (keydown)="$event.stopPropagation()"
+                           style="height: 30px; font-size: 12px;">
+                  </div>
+                  @for (m of getFilteredModules(row.searchModuleText); track m) {
+                    <mat-option [value]="m">{{ m }}</mat-option>
+                  } @empty {
+                    <mat-option disabled style="font-size: 12px; color: #94a3b8;">No matching modules</mat-option>
+                  }
+                </mat-select>
+              </td>
+
+              <!-- Task (Searchable Dropdown) -->
+              <td>
+                <mat-select [name]="'task_' + idx" [(ngModel)]="row.task" class="form-control back table-input" placeholder="Select Activity" required>
+                  <mat-select-trigger style="font-size: 13px; display: flex; align-items: center; width: 100%;">
+                    @if (row.task) {
+                      <span style="color: #1e293b; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ row.task }}</span>
+                    } @else {
+                      <span style="color: #6b7280;">Select Activity</span>
+                    }
+                  </mat-select-trigger>
+                  <div style="padding: 8px; position: sticky; top: 0; background: white; z-index: 1;">
+                    <input type="text" [name]="'search_' + idx" class="form-control" placeholder="Search..." 
+                           [(ngModel)]="row.searchText" 
+                           [ngModelOptions]="{standalone: true}"
+                           (keydown)="$event.stopPropagation()"
+                           style="height: 30px; font-size: 12px;">
+                  </div>
+                  @for (t of getFilteredTasks(row.searchText); track t) {
+                    <mat-option [value]="t">{{ t }}</mat-option>
+                  } @empty {
+                    <mat-option disabled style="font-size: 12px; color: #94a3b8;">No matching tasks</mat-option>
+                  }
+                </mat-select>
+              </td>
+
+              <!-- Hours -->
+              <td>
+                <input type="number" [name]="'hours_' + idx" [(ngModel)]="row.hours" class="form-control back table-input" placeholder="Hours" required min="0.1" step="0.5">
+              </td>
+
+              <!-- Description -->
+              <td>
+                <input type="text" [name]="'desc_' + idx" [(ngModel)]="row.description" class="form-control back table-input" placeholder="Description" required>
+              </td>
+
+              <!-- Actions -->
+              <td class="text-center editDel" style="text-align: center;">
+                <button type="button" class="table-action-button delete" matTooltip="Delete Row" (click)="deleteRow(idx)" style="background: none; border: none; cursor: pointer;">
+                  <mat-icon style="color: red; font-size: 18px; width: 18px; height: 18px;">delete</mat-icon>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Dialog Actions -->
+    <div style="margin-top: 25px; display: flex; justify-content: flex-end; gap: 10px;">
+      <button class="app-btn app-btn-default" type="button" (click)="close()" style="background-color: lightgray; color: red;">
+        <mat-icon>cancel</mat-icon> Close
+      </button>
+      <button class="app-btn app-btn-primary" type="button" (click)="save()" [disabled]="!hoursForm.valid">
+        <mat-icon>save</mat-icon> Save
+      </button>
+    </div>
+  </form>
+</div>

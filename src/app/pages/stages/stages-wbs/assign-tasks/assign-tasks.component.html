@@ -1,0 +1,166 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    Assign Tasks
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 16px 24px;">
+  <div class="col-sm-12" style="margin-bottom: 10px; padding: 0;">
+
+    <!-- Top Right: Add Button -->
+    <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 14px; margin-top: 4px;">
+      <button type="button" class="app-btn app-btn-primary" (click)="addTask()">
+        <mat-icon>add</mat-icon>
+        <span>Add</span>
+      </button>
+    </div>
+
+    <!-- Table with only Action and Task Name columns -->
+    <div class="app-table-container" style="padding: 0 !important; width: 100%;">
+      <div class="table-responsive" style="max-height: 520px; overflow-x: auto; overflow-y: auto;">
+        <table class="table app-table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 100px; min-width: 100px;">Actions</th>
+              <th class="text-left" style="min-width: 220px;">Task Name</th>
+              <th class="text-left" style="width: 160px; min-width: 140px;">Task Code</th>
+              <th class="text-left" style="width: 180px; min-width: 160px;">Job Code</th>
+              <th class="text-center" style="width: 80px; min-width: 80px;">History</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of paginatedTasks; track $index) {
+            <tr [class.row-editing]="row.isEditing">
+
+              <!-- Actions -->
+              <td class="text-center" style="vertical-align: middle;">
+                <div class="table-actions" style="justify-content: center; gap: 4px;">
+                  @if (row.isEditing) {
+                    <button
+                      type="button"
+                      class="table-action-button"
+                      style="color: #1485cc;"
+                      matTooltip="Save"
+                      aria-label="Save"
+                      (click)="saveRow(row)">
+                      <mat-icon>save</mat-icon>
+                    </button>
+                    <button
+                      type="button"
+                      class="table-action-button"
+                      style="color: #dc2626;"
+                      matTooltip="Cancel"
+                      aria-label="Cancel"
+                      (click)="cancelEdit(row)">
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  } @else {
+                    <button
+                      type="button"
+                      class="table-action-button edit"
+                      matTooltip="Edit"
+                      aria-label="Edit task"
+                      (click)="startEdit(row)">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="table-action-button delete"
+                      matTooltip="Delete"
+                      aria-label="Delete task"
+                      (click)="deleteTask(row)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  }
+                </div>
+              </td>
+
+              <!-- Task Name -->
+              <td class="text-left" style="vertical-align: middle;">
+                @if (row.isEditing) {
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="row.taskName"
+                    placeholder="Enter task name"
+                    style="font-size: 13px; height: 34px;"
+                  />
+                } @else {
+                  <span style="font-weight: 500; color: #1e293b;">{{ row.taskName || '—' }}</span>
+                }
+              </td>
+
+              <!-- Task Code -->
+              <td class="text-left" style="vertical-align: middle;">
+                @if (row.isEditing) {
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="row.taskCode"
+                    placeholder="Enter task code"
+                    style="font-size: 13px; height: 34px;"
+                  />
+                } @else {
+                  <span style="font-weight: 500; color: #334155;">{{ row.taskCode || '—' }}</span>
+                }
+              </td>
+
+              <!-- Job Code (dropdown) -->
+              <td class="text-left" style="vertical-align: middle;">
+                @if (row.isEditing) {
+                  <select
+                    class="form-control"
+                    [(ngModel)]="row.jobCode"
+                    style="font-size: 13px; height: 34px; background-color: white; cursor: pointer;">
+                    <option value="" disabled selected>Select Job Code</option>
+                    @for (code of jobCodeOptions; track code) {
+                      <option [value]="code">{{ code }}</option>
+                    }
+                  </select>
+                } @else {
+                  <span style="font-weight: 500; color: #334155;">{{ row.jobCode || '—' }}</span>
+                }
+              </td>
+
+              <!-- History -->
+              <td class="text-center" style="vertical-align: middle;">
+                <a href="javascript:void(0)" class="history-number-link" (click)="openHistory(row, $index)" matTooltip="View Task History">
+                  {{ row.historyCount || getHistoryCount($index) }}
+                </a>
+              </td>
+
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="5" class="empty-table text-center" style="padding: 24px; color: #64748b;">No tasks found</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Paginator matching assets.component.html -->
+      <mat-paginator
+        [length]="tasksList.length"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 20, 50, 100]"
+        [showFirstLastButtons]="true"
+        (page)="handlePage($event)">
+      </mat-paginator>
+    </div>
+
+    <!-- Bottom Actions: Close and Save matching AddAssetComponent -->
+    <div style="margin-top: 20px; margin-bottom: 10px;">
+      <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="app-btn app-btn-default" (click)="close()">
+          <mat-icon>cancel</mat-icon> Close
+        </button>
+        <button type="button" class="app-btn app-btn-primary" (click)="save()">
+          <mat-icon>save</mat-icon> Save
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

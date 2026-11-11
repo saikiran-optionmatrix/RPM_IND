@@ -1,0 +1,134 @@
+<div class="inner-screen-page">
+  <!-- Top Header Area -->
+  <header class="inner-header">
+    <div class="header-left">
+      <div class="title-meta">
+        <h2 class="inner-title">
+          {{ taskName ? taskName : 'Scheduling Tasks' }} - History
+        </h2>
+        <div class="activity-subtitle">
+          @if (projectCode) {
+            <span class="activity-badge">{{ projectCode }}</span>
+          }
+          @if (projectName) {
+            <span class="activity-text">{{ projectName }}</span>
+          }
+          @if (deliverable) {
+            <span class="stage-sep">•</span>
+            <span class="stage-text">{{ deliverable }}</span>
+          }
+          @if (activity) {
+            <span class="stage-sep">•</span>
+            <span class="stage-text">{{ activity }}</span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Inner Body Card -->
+  <div class="inner-card">
+    <!-- Standard Application Table Container matching AssetsComponent -->
+    <div class="app-table-container">
+      <div class="table-responsive">
+        <table class="table app-table">
+          <thead>
+            <tr>
+              <th class="text-center col-code">Project Code</th>
+              <th class="text-left col-deliverable">Deliverable</th>
+              <th class="text-left col-activity">Activity</th>
+              <th class="text-left col-task">Task</th>
+              <th class="text-center col-hours">Hours</th>
+              <th class="text-left col-desc">Description</th>
+              <th class="text-center col-checkbox">Approved</th>
+              <th class="text-center col-checkbox">Declined</th>
+              <th class="text-center col-checkbox">Pending</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of paginatedHistory; track $index) {
+              <tr>
+                <!-- 1. Project Code -->
+                <td class="text-center col-code">
+                  <span class="project-code-text">{{ row.projectCode || '—' }}</span>
+                </td>
+
+                <!-- 2. Deliverable -->
+                <td class="text-left col-deliverable">
+                  <span>{{ row.deliverable || '—' }}</span>
+                </td>
+
+                <!-- 3. Activity -->
+                <td class="text-left col-activity">
+                  <span>{{ row.activity || '—' }}</span>
+                </td>
+
+                <!-- 4. Task -->
+                <td class="text-left col-task">
+                  <span class="task-title-cell" [matTooltip]="row.task">{{ row.task || '—' }}</span>
+                </td>
+
+                <!-- 5. Hours -->
+                <td class="text-center col-hours">
+                  <span class="hours-badge">{{ row.hours !== undefined && row.hours !== null ? row.hours.toFixed(1) : '—' }}</span>
+                </td>
+
+                <!-- 6. Description -->
+                <td class="text-left col-desc">
+                  <span class="desc-text" [matTooltip]="row.description">{{ row.description || '—' }}</span>
+                </td>
+
+                <!-- 7. Approved -->
+                <td class="text-center col-checkbox">
+                  <mat-checkbox
+                    [checked]="row.approved"
+                    [disabled]="true"
+                    color="primary">
+                  </mat-checkbox>
+                </td>
+
+                <!-- 8. Declined -->
+                <td class="text-center col-checkbox">
+                  <mat-checkbox
+                    [checked]="row.declined"
+                    [disabled]="true"
+                    color="warn">
+                  </mat-checkbox>
+                </td>
+
+                <!-- 9. Pending -->
+                <td class="text-center col-checkbox">
+                  <mat-checkbox
+                    [checked]="row.pending"
+                    [disabled]="true"
+                    color="accent">
+                  </mat-checkbox>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="9" class="empty-table">No records found</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <mat-paginator
+        [length]="historyList.length"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 20, 50, 100]"
+        [showFirstLastButtons]="true"
+        (page)="handlePage($event)">
+      </mat-paginator>
+    </div>
+  </div>
+</div>

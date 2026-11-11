@@ -1,0 +1,7 @@
+.guidelines-dropzone {
+  transition: all 0.2s ease-in-out;
+  &.dragging {
+    border-color: #2563eb !important;
+    background-color: #eff6ff !important;
+  }
+}

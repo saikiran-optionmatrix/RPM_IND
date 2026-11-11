@@ -1,0 +1,146 @@
+<div class="permission-page-wrapper">
+
+  <!-- Top Header Action Row -->
+  <div class="permission-header-row">
+    <div class="header-left">
+      <!-- Optional breadcrumb or title space -->
+    </div>
+    <div class="header-right">
+      <span class="role-title">Role: <strong>{{ roleName }}</strong></span>
+
+      <button type="button" class="app-btn app-btn-toggle" (click)="toggleAll()">
+        <mat-icon>select_all</mat-icon>
+        <span>Toggle All</span>
+      </button>
+
+      <button type="button" class="app-btn app-btn-primary" (click)="savePermissions()">
+        <mat-icon>save</mat-icon>
+        <span>Save</span>
+      </button>
+
+      <button type="button" class="app-btn app-btn-default" (click)="nextTab()">
+        <mat-icon>arrow_forward</mat-icon>
+        <span>Next</span>
+      </button>
+
+      <button type="button" class="app-btn app-btn-default" (click)="prevTab()">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Previous</span>
+      </button>
+
+      <button type="button" class="app-btn app-btn-default" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content Layout (Left 6 Tabs + Right Permissions Table) -->
+  <div class="permission-main-layout">
+
+    <!-- Left 6 Side Tabs -->
+    <div class="permission-side-tabs">
+      <div class="pills">
+        <ul class="nav nav-pills">
+          @for (tab of tabs; track tab.id; let i = $index) {
+            <li [class.active]="activeTabIndex === i">
+              <a mat-raised-button (click)="selectTab(i)">{{ tab.name }}</a>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Permissions Table -->
+    <div class="permission-table-wrapper">
+      <div class="table-responsive">
+        <table class="table app-table">
+          <thead>
+            <tr>
+              <th class="screen-col">Screen Permissions</th>
+              <th class="text-center action-col">Create</th>
+              <th class="text-center action-col">Read</th>
+              <th class="text-center action-col">Update</th>
+              <th class="text-center action-col">Delete</th>
+              <th class="text-center action-col">Upload</th>
+              <th class="text-center action-col">Download</th>
+              <th class="text-center action-col">Access</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of currentTab.items; track item.screenName) {
+              <tr>
+                <td class="screen-col-data">{{ item.screenName }}</td>
+
+                <!-- Create -->
+                <td class="text-center">
+                  @if (item.create !== null) {
+                    <mat-checkbox [(ngModel)]="item.create" color="primary"></mat-checkbox>
+                  } @else {
+                    <span class="dash-cell">-</span>
+                  }
+                </td>
+
+                <!-- Read -->
+                <td class="text-center">
+                  @if (item.read !== null) {
+                    <mat-checkbox [(ngModel)]="item.read" color="primary"></mat-checkbox>
+                  } @else {
+                    <span class="dash-cell">-</span>
+                  }
+                </td>
+
+                <!-- Update -->
+                <td class="text-center">
+                  @if (item.update !== null) {
+                    <mat-checkbox [(ngModel)]="item.update" color="primary"></mat-checkbox>
+                  } @else {
+                    <span class="dash-cell">-</span>
+                  }
+                </td>
+
+                <!-- Delete -->
+                <td class="text-center">
+                  @if (item.delete !== null) {
+                    <mat-checkbox [(ngModel)]="item.delete" color="primary"></mat-checkbox>
+                  } @else {
+                    <span class="dash-cell">-</span>
+                  }
+                </td>
+
+                <!-- Upload -->
+                <td class="text-center">
+                  @if (item.upload !== null) {
+                    <mat-checkbox [(ngModel)]="item.upload" color="primary"></mat-checkbox>
+                  } @else {
+                    <span class="dash-cell">-</span>
+                  }
+                </td>
+
+                <!-- Download -->
+                <td class="text-center">
+                  @if (item.download !== null) {
+                    <mat-checkbox [(ngModel)]="item.download" color="primary"></mat-checkbox>
+                  } @else {
+                    <span class="dash-cell">-</span>
+                  }
+                </td>
+
+                <!-- Access -->
+                <td class="text-center">
+                  @if (item.access !== null) {
+                    <mat-checkbox [(ngModel)]="item.access" color="primary"></mat-checkbox>
+                  } @else {
+                    <span class="dash-cell">-</span>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</div>

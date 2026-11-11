@@ -1,0 +1,279 @@
+<div class="dashboard-container" style="padding-left: 20px;">
+
+  <!-- ==========================================
+       1. FULL-WIDTH HEADER & ACTIONS
+       ========================================== -->
+  <div
+    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 16px;">
+
+    <!-- Left Side: Stage Title Information -->
+    <div class="stage-info-header" style="    margin-left: 10px;margin-top: 15px;">
+      <h2
+        style="font-size: 22px; font-weight: 450; color: #1e293b; margin: 0; display: flex; align-items: center; gap: 8px;">
+        <span>{{ stageName }}</span>
+        <span
+          style="font-size: 14px; font-weight: 500; color: #64748b; background: #e2e8f0; padding: 2px 8px; border-radius: 4px;">
+          {{ stageCode }}
+        </span>
+      </h2>
+      @if (gateCode) {
+      <span style="font-size: 16px; color: #64748b; margin-top: 4px; display: inline-block;">
+        Gate Reference: <strong style="color: #334155;">{{ gateCode }}</strong>
+      </span>
+      }
+    </div>
+
+    <!-- Right Side: Standard Action Buttons -->
+    <div class="app-page-actions" style="margin-bottom: 0;
+    margin-right: 37px;
+ flex-wrap: wrap;">
+      <button type="button" class="app-btn app-btn-default">
+        <mat-icon>grid_on</mat-icon>
+        <span>Grid Columns</span>
+      </button>
+
+      <button type="button" class="app-btn app-btn-primary" (click)="openAddDeliverableDialog()">
+        <mat-icon>add</mat-icon>
+        <span>Add Deliverable</span>
+      </button>
+
+      <button type="button" class="app-btn app-btn-primary" (click)="openAddActivityDialog()">
+        <mat-icon>add</mat-icon>
+        <span>Add Activity</span>
+      </button>
+
+      <button type="button" class="app-btn app-btn-default" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back</span>
+      </button>
+    </div>
+  </div>
+
+
+  <!-- ==========================================
+       2. SPLIT VIEW: SIDEBAR + TABLE (Side-by-side)
+       ========================================== -->
+  <div style="display: flex; gap: 20px; align-items: flex-start;">
+
+    <!-- Sidebar -->
+    <div class="sidebar" style="width: 340px; min-width: 340px; flex-shrink: 0;" cdkDropList
+      (cdkDropListDropped)="onDeliverableDrop($event)">
+      @for (menu of sidebarMenus; track menu.name; let i = $index) {
+      <div class="accordion-item" cdkDrag>
+        <div class="accordion-header" role="button" tabindex="0" [class.active-menu]="menu.isOpen"
+          (click)="selectMenu(i)" (keydown.enter)="selectMenu(i)" (keydown.space)="selectMenu(i)">
+          <!-- Drag Handle (Left) -->
+          <mat-icon cdkDragHandle class="deliverable-drag-handle" matTooltip="Drag to reorder"
+            aria-label="Drag to reorder" (click)="$event.stopPropagation()">
+            drag_indicator
+          </mat-icon>
+
+          @if (menu.slNo) {
+          <span class="deliverable-slno-badge">{{ menu.slNo }}</span>
+          }
+          <span class="deliverable-text">{{ menu.name }}</span>
+          <span class="deliverable-count">({{ menu.count }})</span>
+
+          <!-- Deliverable Actions (Right): Info, Edit & Delete -->
+          <div class="deliverable-actions" (click)="$event.stopPropagation()">
+            <button type="button" class="deliverable-action-btn info" matTooltip="View Description"
+              aria-label="View Description" (click)="openDeliverableDescription(menu, $event)">
+              <mat-icon style="color: #2563eb;">info</mat-icon>
+            </button>
+            <button type="button" class="deliverable-action-btn edit" matTooltip="Edit Deliverable"
+              aria-label="Edit Deliverable" (click)="editDeliverable(menu, i, $event)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button type="button" class="deliverable-action-btn delete" matTooltip="Delete Deliverable"
+              aria-label="Delete Deliverable" (click)="deleteDeliverable(menu, i, $event)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="accordion-content" [class.open]="menu.isOpen">
+          @if (menu.subItems && menu.subItems.length) {
+          <ul>
+            @for (item of menu.subItems; track item) {
+            <li>{{ item }}</li>
+            }
+          </ul>
+          }
+        </div>
+      </div>
+      }
+    </div>
+
+    <!-- Main Table Content -->
+    <div class="main-content" style="flex: 1 1 0%; min-width: 0;">
+      <div class="app-table-container" style="    margin-top: -3%;    width: 100%;">
+
+        <!-- Table Responsive Wrapper -->
+        <div class="table-responsive" #tableContainer (scroll)="onTableScroll()">
+          <table class="table app-table">
+            <thead>
+              <tr>
+                <th class="text-center" style="width: 100px;">Actions</th>
+                <th class="text-center" style="width: 70px;">Serial</th>
+
+
+                <th class="text-left" style="min-width: 200px;" >Activity</th>
+                <th class="text-left">Activity Code</th>
+                <th class="text-center">Tasks</th>
+                <th class="text-center">Requirements</th>
+                <th class="text-center">Predecessor</th>
+                 <th class="text-center">Department</th>
+                <!-- <th class="text-left">Task Code</th>
+                <th class="text-left">Job Code</th> -->
+                <th class="text-center">Plan Duration</th>
+                <th class="text-center">Plan Effort</th>
+                <th class="text-center">Material Budget</th>
+                <th class="text-center">Applicability</th>
+
+                <th class="text-center">Description</th>
+                <th class="text-center">Guidelines</th>
+                <th class="text-center" style="width: 110px; min-width: 110px;">Updated</th>
+                <th class="text-center" style="width: 130px; min-width: 130px;">Update By</th>
+                <th class="text-center" style="width: 80px;">History</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of paginatedData; track row.slNo) {
+              <tr>
+
+                <!-- Action Buttons -->
+                <td class="text-center">
+                  <div class="table-actions" style="justify-content: center;">
+                    <button type="button" class="table-action-button edit" matTooltip="Edit Task" aria-label="Edit Task"
+                      (click)="openEditActivityDialog(row)">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button type="button" class="table-action-button delete" matTooltip="Delete Task"
+                      aria-label="Delete Task" (click)="deleteTask(row)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </td>
+
+                <!-- Serial -->
+                <td class="text-center font-weight-bold">{{ row.slNo }}</td>
+
+
+
+
+                <!-- Activity -->
+                <td class="text-left">{{ row.task }}</td>
+
+                <!-- activity code -->
+                <td class="text-left">{{ row.activityCode || row.taskCode || '—' }}</td>
+
+                <!-- Tasks -->
+                <td class="text-center font-weight-bold"> <span style="color:blue ; cursor: pointer;"
+                    (click)="assigntasks(row)"> {{ row.tasks || '—' }}</span></td>
+
+
+
+                <!-- Requirements -->
+                <td class="text-center font-weight-bold"> <span style="color:blue ; cursor: pointer;"
+                    (click)="assignrequirement(row)"> {{ row.requirements || '—' }}</span> </td>
+
+
+
+                <!-- Predecessor -->
+                <td class="text-center font-weight-bold">
+                  <span style="color: blue; cursor: pointer;" (click)="openPredecessor(row)">
+                    {{ row.predecessor || '—' }}
+                  </span>
+                </td>
+
+                <td class="text-center">{{row.department}}</td>
+
+                <!-- Data Columns -->
+
+                <!-- <td class="text-left">{{ row.taskCode }}</td>
+                <td class="text-left">{{ row.jobCode }}</td> -->
+                <td class="text-center">{{ row.duration }}</td>
+                <td class="text-center">{{ row.effort }}</td>
+                <td class="text-center">
+                  <!-- Formats the cost/budget nicely -->
+                  {{ row.cost ? (row.cost | currency:'USD') : '—' }}
+                </td>
+
+
+                <td class="text-center">{{ row.applicability || 'All Products' }}</td>
+                <!-- Description Icon -->
+                <td class="text-center" style="vertical-align: middle;">
+                  @if (row.description) {
+                  <button type="button" class="info-icon-btn" (click)="openDescription(row)"
+                    matTooltip="View Description" aria-label="View description">
+                    <mat-icon style="color: #2563eb; font-size: 20px; width: 20px; height: 20px; vertical-align: middle;">
+                      info
+                    </mat-icon>
+                  </button>
+                  } @else {
+                  <span style="color: #94a3b8;">—</span>
+                  }
+                </td>
+
+
+
+                <!-- View Guidelines -->
+                <td class="text-center">
+                  <div class="table-actions" style="justify-content: center;">
+                    <button type="button" class="table-action-button" matTooltip="View Procedure"
+                      aria-label="View Procedure" (click)="openfilepop()">
+                      <mat-icon style="color: #334155;">visibility</mat-icon>
+                    </button>
+                  </div>
+                </td>
+
+                <!-- Updated -->
+                <td class="text-center" style="white-space: nowrap;">
+                  {{ row.updatedDate ? (row.updatedDate | date:'dd-MMM-yyyy') : '—' }}
+                </td>
+
+                <!-- Update By -->
+                <td class="text-center" style="white-space: nowrap;">
+                  {{ row.updatedBy || '—' }}
+                </td>
+
+                <!-- History -->
+                <td class="text-center" style="vertical-align: middle;">
+                  <a href="javascript:void(0)" class="history-number-link" (click)="openHistory(row, $index)" matTooltip="View Activity History">
+                    {{ row.historyCount || getHistoryCount($index) }}
+                  </a>
+                </td>
+              </tr>
+              } @empty {
+              <tr>
+                <td colspan="17" class="empty-table text-center" style="padding: 24px; color: #64748b;">
+                  No activities found for this deliverable.
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+          <!-- Scroll Buttons -->
+          <div class="d-flex justify-content-end mb-2" style="gap: 10px;">
+            <div class="d-flex justify-content-end mb-2">
+              <button class="mine" mat-fab style="background-color: #cecdcd; right: 110px; z-index: 9999;"
+                (click)="scrollLeft()">
+                <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+              </button>
+              <button class="mine" mat-fab style="background-color: #cecdcd; z-index: 9999;" (click)="scrollRight()">
+                <mat-icon style="color: #414141;">fast_forward</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageIndex]="pageIndex"
+          [pageSizeOptions]="[5, 10, 20]" (page)="onPageChange($event)" showFirstLastButtons>
+        </mat-paginator>
+
+      </div>
+    </div>
+
+  </div>
+</div>

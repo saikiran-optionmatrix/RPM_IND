@@ -1,0 +1,247 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+  <header class="analytics-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h1>
+      {{ projectName ? (projectName + ' - ') : '' }}
+      {{ gateName ? (gateName + ' - ') : '' }}
+      {{ activityName ? activityName : 'Gate Activity' }} - History
+    </h1>
+    <button type="button" class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon><span>Back</span>
+    </button>
+  </header>
+
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-12">
+        <div class="app-table-container">
+
+          <div class="table-responsive">
+            <table class="table app-table">
+              <thead>
+                <tr>
+                  <th class="text-center" style="width: 80px;">Status</th>
+                  <th class="text-center" style="width: 70px;">Timeline</th>
+                  <th class="text-left" style="min-width: 220px;">Activity Name</th>
+                  <th class="text-center" style="width: 80px;">Tasks</th>
+                  <th class="text-center" style="width: 90px;">Requirements</th>
+                  <th class="text-left" style="min-width: 200px;">Delay Reason</th>
+                  <th class="text-left" style="width: 150px;">Responsibility</th>
+                  <th class="text-left" style="width: 160px;">Department</th>
+                  <th class="text-center" style="width: 100px;">Plan Duration</th>
+                  <th class="text-center" style="width: 90px;">Plan Effort</th>
+                  <th class="text-center" style="width: 100px;">Actual Duration</th>
+                  <th class="text-center" style="width: 90px;">Actual Effort</th>
+                  <th class="text-center" style="width: 80px;">Priority</th>
+                  <th class="text-left" style="min-width: 160px;">Remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of paginatedRecords; track item.id) {
+                  <tr>
+                    <!-- Status -->
+                    <td class="text-center">
+                      <button type="button" class="status-button"
+                        [class.status-active]="item.status"
+                        [class.status-inactive]="!item.status">
+                        {{ item.status ? 'Active' : 'Inactive' }}
+                      </button>
+                    </td>
+
+                    <!-- Timeline -->
+                    <td class="text-center" style="vertical-align: middle;">
+                      <button mat-icon-button (click)="openTimelineModal(item)" matTooltip="View Timeline"
+                        style="min-width: 32px; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; outline: none; padding: 0;">
+                        <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
+                          calendar_today
+                        </mat-icon>
+                      </button>
+                    </td>
+
+                    <!-- Activity Name -->
+                    <td class="text-left font-weight-500" style="color: #1e293b; vertical-align: middle;">
+                      <span [matTooltip]="item.activityName">{{ item.activityName }}</span>
+                    </td>
+
+                    <!-- Tasks -->
+                    <td class="text-center font-weight-bold" style="vertical-align: middle;">
+                      <span class="wbs-link">{{ item.tasks }}</span>
+                    </td>
+
+                    <!-- Requirements -->
+                    <td class="text-center font-weight-bold" style="vertical-align: middle;">
+                      <span class="wbs-link">{{ item.requirements }}</span>
+                    </td>
+
+                    <!-- Delay Reason -->
+                    <td class="text-left" style="vertical-align: middle;">
+                      <span [matTooltip]="item.delayReason" [style.color]="item.delayReason && item.delayReason !== '—' ? '#b45309' : '#64748b'">
+                        {{ item.delayReason || '—' }}
+                      </span>
+                    </td>
+
+                    <!-- Responsibility -->
+                    <td class="text-left" style="vertical-align: middle;">
+                      <span style="color: #334155; font-size: 13.5px;">{{ item.responsibility || '—' }}</span>
+                    </td>
+
+                    <!-- Department -->
+                    <td class="text-left" style="vertical-align: middle;">
+                      <span style="color: #475569; font-size: 13px;">{{ item.department || '—' }}</span>
+                    </td>
+
+                    <!-- Plan Duration -->
+                    <td class="text-center" style="vertical-align: middle;">{{ item.planDuration || '—' }}</td>
+
+                    <!-- Plan Effort -->
+                    <td class="text-center" style="vertical-align: middle;">{{ item.planEffort || '—' }}</td>
+
+                    <!-- Actual Duration -->
+                    <td class="text-center" style="vertical-align: middle;">{{ item.actualDuration || '—' }}</td>
+
+                    <!-- Actual Effort -->
+                    <td class="text-center" style="vertical-align: middle;">{{ item.actualEffort || '—' }}</td>
+
+                    <!-- Priority -->
+                    <td class="text-center" style="vertical-align: middle;">
+                      <span class="priority-badge" [ngClass]="'priority-badge--' + item.priority.toLowerCase()">
+                        {{ item.priority }}
+                      </span>
+                    </td>
+
+                    <!-- Remarks -->
+                    <td class="text-left" style="vertical-align: middle;">
+                      <span [matTooltip]="item.remarks">{{ item.remarks || '—' }}</span>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="14" class="empty-table text-center">No records found</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <mat-paginator
+            [length]="historyRecords.length"
+            [pageIndex]="pageIndex"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[5, 10, 20]"
+            [showFirstLastButtons]="true"
+            (page)="handlePage($event)">
+          </mat-paginator>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TIMELINE POP-UP MODAL ============ -->
+  @if (showTimelineModal) {
+  <div class="bl-modal-overlay" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+    <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+      <!-- Header Row -->
+      <div class="timeline-popup-header">
+        <div class="timeline-popup-title-wrap">
+          <div class="timeline-icon-box">
+            <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+          </div>
+          <h3 class="timeline-popup-title">
+            Timeline &mdash; {{ selectedTimelineItem?.activityName }}
+          </h3>
+        </div>
+        <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Dates Grid -->
+      <div class="timeline-dates-container">
+        <div class="timeline-accent-bar"></div>
+
+        <div class="timeline-grid-content">
+          <!-- Row 1: Plan Start Date, Plan End Date, Actual Start Date -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planStart ? (selectedTimelineItem.planStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan End Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planEnd ? (selectedTimelineItem.planEnd | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Actual Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualStart ? (selectedTimelineItem.actualStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row-divider"></div>
+
+          <!-- Row 2: Actual End Date, ETA, Actual Duration -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Actual End Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualEnd ? (selectedTimelineItem.actualEnd | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">ETA</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.eta ? (selectedTimelineItem.eta | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Actual Duration</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualDuration || '—' }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 3: Actual Effort, Plan Duration, Plan Effort -->
+          <div class="timeline-row-divider"></div>
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Actual Effort</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualEffort || '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan Duration</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planDuration || '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Plan Effort</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planEffort || '—' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description Box -->
+      <div class="timeline-desc-box">
+        <div class="timeline-desc-header">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #3b82f6;">description</mat-icon>
+          <span>Description</span>
+        </div>
+        <p class="timeline-desc-text">
+          {{ selectedTimelineItem?.description || ('This timeline provides an overview of the key planned and actual milestone dates for ' + (selectedTimelineItem?.activityName || 'this activity') + '.') }}
+        </p>
+      </div>
+    </div>
+  </div>
+  }
+</div>

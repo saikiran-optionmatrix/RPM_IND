@@ -1,0 +1,769 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+  <header class="analytics-header">
+    <h1>{{ projectName }}</h1>
+    <button type="button" class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon><span>Back</span>
+    </button>
+  </header>
+
+  @if (!showAssignmentView) {
+  <div class="backlog-container">
+    <!-- Tab bar -->
+    <div class="tab-bar">
+      @for (s of sprints; track s.id) {
+      <button type="button" [class]="getTabClasses(s)" (click)="selectTab(s.id)">
+        @if (s.kind === 'completed') {
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px;">check_circle</mat-icon>
+        }
+        @if (s.kind === 'active') {
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px;">play_circle</mat-icon>
+        }
+        @if (s.kind === 'backlog') {
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px;">inbox</mat-icon>
+        }
+        <span>{{ s.label }}</span>
+      </button>
+      }
+
+      <button type="button" class="app-btn app-btn-primary add-sprint-btn" (click)="openAddSprint()">
+        <mat-icon>add</mat-icon> <span>Add Sprint</span>
+      </button>
+
+      <div class="tab-bar__spacer"></div>
+
+      <span
+        style="font-weight: 600; font-size: 13px; color: #333; margin-right: 8px; align-self: center;">Stages:</span>
+      <select class="stage-select" [(ngModel)]="stageFilter" (change)="initViewData()">
+        <option value="all">All Stages</option>
+        @for (st of stages; track st) {
+        <option [value]="st">{{ st }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Panel -->
+    <div class="panel">
+      <div class="panel__header"
+        style="display: flex; justify-content: flex-end; align-items: center; padding: 10px 16px 6px 16px; margin-bottom: 4px; border-bottom: none;">
+
+        <!-- View Toggler Bar -->
+        <div class="view-toggler-bar"
+          style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 0;">
+          <button type="button" class="app-btn app-btn-primary" style="margin-right: 8px; height: 36px;"
+            (click)="openAssignmentPopup('task')">
+            <mat-icon>add</mat-icon> <span>Setup</span>
+          </button>
+          <div style="background: #f1f5f9; border-radius: 6px; padding: 4px; display: inline-flex;">
+            <button type="button" class="app-btn" [class.app-btn-filter]="activeView === 'grid'"
+              [class.app-btn-default]="activeView !== 'grid'" (click)="setView('grid')">
+              <mat-icon>grid_on</mat-icon>
+              <span>Grid View</span>
+            </button>
+            @if (!isTemplate) {
+            <button type="button" class="app-btn" [class.app-btn-filter]="activeView === 'kanban'"
+              [class.app-btn-default]="activeView !== 'kanban'" (click)="setView('kanban')">
+              <mat-icon>dashboard</mat-icon>
+              <span>Kanban View</span>
+            </button>
+            <button type="button" class="app-btn" [class.app-btn-filter]="activeView === 'calendar'"
+              [class.app-btn-default]="activeView !== 'calendar'" (click)="setView('calendar')">
+              <mat-icon>calendar_today</mat-icon>
+              <span>Calendar View</span>
+            </button>
+            }
+            <button type="button" class="app-btn" [class.app-btn-filter]="activeView === 'gantt'"
+              [class.app-btn-default]="activeView !== 'gantt'" (click)="setView('gantt')">
+              <mat-icon>view_week</mat-icon>
+              <span>Gantt View</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ GRID VIEW ============ -->
+      @if (activeView === 'grid') {
+      <div style="position: relative; height: 0; margin: 0; padding: 0;">
+        <button class="mine" mat-fab style="background-color: #cecdcd; right: 110px; z-index: 9999;"
+          (click)="scrollLeft()">
+          <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+        </button>
+        <button class="mine" mat-fab style="background-color: #cecdcd; z-index: 9999;" (click)="scrollRight()">
+          <mat-icon style="color: #414141;">fast_forward</mat-icon>
+        </button>
+      </div>
+
+      <div class="table-wrap app-table-container" #scrollContainer style="overflow-x: auto; scroll-behavior: smooth;">
+        <table class="table app-table">
+          <thead>
+            <tr>
+              <th class="text-center" style="min-width: 80px;">Actions</th>
+              <th class="text-center" style="min-width: 90px;">Timeline</th>
+              <th class="text-left" style="min-width: 180px;">Activity</th>
+              <th class="text-center" style="min-width: 95px;">Activity Code</th>
+              <th class="text-center" style="min-width: 95px;">Job Code</th>
+              @if (activeSprint.kind !== 'backlog') {
+              <th class="text-left" style="min-width: 120px;">Assigned</th>
+              <th class="text-center" style="min-width: 105px;">Status</th>
+              <th class="text-center" style="min-width: 85px;">Approved</th>
+              <th class="text-center" style="min-width: 85px;">Messages</th>
+              <th class="text-center" style="min-width: 130px;">Progress</th>
+              }
+              @if (activeSprint.kind === 'backlog') {
+              <th class="text-center" style="min-width: 90px;">Effort (hrs)</th>
+              <th class="text-center" style="min-width: 95px;">Duration (days)</th>
+              }
+              <th class="text-left" style="min-width: 100px;">Stage</th>
+              @if (activeSprint.kind === 'backlog') {
+              <th class="text-left" style="min-width: 250px;">Description</th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (t of filteredTasks; track t.id) {
+            <tr>
+              <td class="text-center">
+                <div class="table-actions">
+                  <button type="button" class="table-action-button edit" matTooltip="Edit" aria-label="Edit task"
+                    (click)="editAsset(t)">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <button type="button" class="table-action-button delete" matTooltip="Delete" aria-label="Delete task"
+                    (click)="deleteAsset(t)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+              <!-- Timeline Action -->
+              <td class="text-center">
+                <button type="button" class="timeline-trigger-btn" (click)="openTimelineModal(t)"
+                  matTooltip="View Timeline">
+                  <mat-icon>calendar_today</mat-icon>
+                </button>
+              </td>
+              <td class="text-left" style="font-weight: 600;">{{ t.task }}</td>
+              <td class="text-center"><span class="code-badge">{{ t.taskCode }}</span></td>
+              <td class="text-center"><span class="code-badge">{{ t.jobCode }}</span></td>
+
+              <!-- Sprint-only columns -->
+              @if (activeSprint.kind !== 'backlog') {
+              <td class="text-left">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  @if (t.assigned) {
+                  <!-- <div class="user-avatar">{{ initials(t.assigned) }}</div> -->
+                  }
+                  <span>{{ t.assigned || '—' }}</span>
+                </div>
+              </td>
+              <td class="text-center">
+                {{ getStatusLabel(t.status || 'Pending') }}
+              </td>
+              <td class="text-center">
+                <mat-checkbox [checked]="t.approved" (change)="t.approved = !t.approved" color="primary"></mat-checkbox>
+              </td>
+              <td class="text-center">
+                <a class="notes-link" (click)="openNotesDialog(t)" matTooltip="View Notes / Messages"
+                  style="cursor: pointer;">
+                  {{ t.notes?.length || 0 }}
+                </a>
+              </td>
+              <td class="text-center">
+                <div style="display: flex; align-items: center; gap: 8px; justify-content: center;">
+                  <input type="range" min="0" max="100" [ngModel]="t.progress || 0"
+                    (ngModelChange)="t.progress = $event" class="custom-range-slider"
+                    [style.accent-color]="getSliderColor(t.progress || 0)" style="width: 70px;" />
+                  <span style="font-size: 12px; font-weight: 600; min-width: 32px; text-align: right;">
+                    {{ t.progress || 0 }}%
+                  </span>
+                </div>
+              </td>
+              }
+
+              <!-- Backlog-only columns -->
+              @if (activeSprint.kind === 'backlog') {
+              <td class="text-center">{{ t.effort }}h</td>
+              <td class="text-center">{{ t.duration }}d</td>
+              }
+              <td class="text-left">
+                <span [class]="getStageClasses(t.stage)">{{ t.stage }}</span>
+              </td>
+              @if (activeSprint.kind === 'backlog') {
+              <td class="text-left" style="max-width: 300px; white-space: normal;">
+                {{ t.description }}
+              </td>
+              }
+            </tr>
+            } @empty {
+            <tr>
+              <td [attr.colspan]="colSpanForActiveSprint()" class="empty-table text-center">
+                No tasks match the current filter.
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
+
+      <!-- ============ KANBAN VIEW ============ -->
+      @if (activeView === 'kanban') {
+      <div class="kanban-view">
+        <div class="kanban-board" cdkDropListGroup
+          style="display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px;">
+          @for (status of kanbanStatuses; track status) {
+          <div class="kanban-column"
+            style="flex: 1; min-width: 230px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px;">
+            <!-- Column Header -->
+            <div
+              style="background-color: #374151; color: white; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span [class]="getStatusClasses(status)">{{ status }}</span>
+              </div>
+              <span
+                style="background-color: white; color: #1e293b; font-weight: 700; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 12px;">
+                {{ kanbanCards[status]?.length || 0 }}
+              </span>
+            </div>
+            <!-- Card List Drop Zone -->
+            <div cdkDropList [id]="status" [cdkDropListData]="kanbanCards[status]"
+              (cdkDropListDropped)="dropStatus($event, status)" class="kanban-cards-container"
+              style="min-height: 150px;">
+              @for (t of kanbanCards[status]; track t.id) {
+              <div cdkDrag class="kanban-card">
+                <div class="kanban-card-header">
+                  <span class="kanban-card-title">{{ t.task }}</span>
+                  <div class="table-actions">
+                    <button type="button" class="table-action-button edit" matTooltip="Edit" (click)="editAsset(t)">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button type="button" class="table-action-button delete" matTooltip="Delete"
+                      (click)="deleteAsset(t)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="kanban-card-codes">
+                  <span>{{ t.taskCode }}</span> &middot; <span>{{ t.jobCode }}</span>
+                </div>
+                <div class="kanban-card-description">{{ t.description }}</div>
+                <div class="kanban-card-footer">
+                  <span class="kanban-card-date">{{ t.planStart | date:'yyyy-MM-dd' }}</span>
+                  <span class="kanban-card-effort">{{ t.effort }}h</span>
+                </div>
+              </div>
+              } @empty {
+              <div class="kanban-empty-state">No tasks</div>
+              }
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+      }
+
+      <!-- ============ CALENDAR VIEW ============ -->
+      @if (activeView === 'calendar') {
+      <div class="calendar-view-container">
+        <!-- Calendar Controls Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+          <button type="button" class="app-btn app-btn-primary" (click)="toggleWeekend()"
+            style="height: 34px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px;">
+            <mat-icon style="font-size: 16px; width: 16px; height: 16px;">weekend</mat-icon>
+            <span>{{ showWeekend ? 'Hide Weekend' : 'Show Weekend' }}</span>
+          </button>
+
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <mat-checkbox id="excludeCompletedCb" [(ngModel)]="excludeCompleted" (change)="generateCalendarData()"
+              color="primary">
+              <span style="font-weight: 500; font-size: 13px; cursor: pointer; color: #1e293b;">Exclude Completed</span>
+            </mat-checkbox>
+          </div>
+        </div>
+
+        <!-- Calendar Table -->
+        <div class="calendar-container" style="overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 4px;">
+          <table class="table table-bordered" style="margin-bottom: 0; width: 100%;">
+            <thead>
+              <tr>
+                <th
+                  style="background-color: black; color: white; min-width: 170px; padding: 10px 14px; text-align: left; font-size: 13px; font-weight: 600;">
+                  Monday</th>
+                <th
+                  style="background-color: black; color: white; min-width: 170px; padding: 10px 14px; text-align: left; font-size: 13px; font-weight: 600;">
+                  Tuesday</th>
+                <th
+                  style="background-color: black; color: white; min-width: 170px; padding: 10px 14px; text-align: left; font-size: 13px; font-weight: 600;">
+                  Wednesday</th>
+                <th
+                  style="background-color: black; color: white; min-width: 170px; padding: 10px 14px; text-align: left; font-size: 13px; font-weight: 600;">
+                  Thursday</th>
+                <th
+                  style="background-color: black; color: white; min-width: 170px; padding: 10px 14px; text-align: left; font-size: 13px; font-weight: 600;">
+                  Friday</th>
+                @if (showWeekend) {
+                <th
+                  style="background-color: black; color: white; min-width: 170px; padding: 10px 14px; text-align: left; font-size: 13px; font-weight: 600;">
+                  Saturday</th>
+                <th
+                  style="background-color: black; color: white; min-width: 170px; padding: 10px 14px; text-align: left; font-size: 13px; font-weight: 600;">
+                  Sunday</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                @for (day of displayDays; track day) {
+                <td class="calendar-day-column"
+                  style="vertical-align: top; padding: 10px; background-color: #fafafa; min-height: 420px;">
+                  <div class="day-card-container" style="display: flex; flex-direction: column; gap: 10px;">
+                    @for (card of calendarCards; track card.id) {
+                    @if (card.dayPlacement === day) {
+                    <div [style.background-color]="card.color" (click)="editAsset(card.originalTask)"
+                      style="border-radius: 6px; padding: 8px 10px; font-size: 12px; border-left: 4px solid #555; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer;"
+                      [matTooltip]="'Click to edit ' + card.taskName">
+                      <div style="font-weight: bold; color: #1e293b; line-height: 1.3; margin-bottom: 2px;">{{
+                        card.pInitials }} — {{ card.taskName }}</div>
+                      <div style="color: #475569; font-size: 11.5px; margin-bottom: 6px;">{{ card.projectName }}</div>
+                      <div
+                        style="color: #475569; font-size: 11.5px; margin-bottom: 6px; display: flex; align-items: center; gap: 4px;">
+                        <mat-icon
+                          style="font-size: 13px; width: 13px; height: 13px; line-height: 13px;">person</mat-icon>
+                        <span>{{ card.user }}</span>
+                      </div>
+                      <div>
+                        <span
+                          style="font-size: 11px; background: rgba(0,0,0,0.08); border-radius: 3px; padding: 1px 6px; font-weight: 500; display: inline-block;">
+                          {{ card.status }}
+                        </span>
+                      </div>
+                    </div>
+                    }
+                    }
+                  </div>
+                </td>
+                }
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      }
+
+      <!-- ============ GANTT VIEW ============ -->
+      @if (activeView === 'gantt') {
+      <div class="gantt-view" style="padding: 0;">
+        <!-- Scale Toggler Bar -->
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+          <div class="view-toggle" style="margin-bottom: 0;">
+            <button type="button" class="view-btn" [class.active]="ganttScale === 'monthly'"
+              (click)="setGanttScale('monthly')">
+              Monthly
+            </button>
+            <button type="button" class="view-btn" [class.active]="ganttScale === 'weekly'"
+              (click)="setGanttScale('weekly')">
+              Weekly
+            </button>
+            <button type="button" class="view-btn" [class.active]="ganttScale === 'daily'"
+              (click)="setGanttScale('daily')">
+              Daily
+            </button>
+          </div>
+        </div>
+
+        @if (filteredTasks.length > 0) {
+        <div class="gantt-container">
+          <!-- Left vertical Task Column -->
+          <div class="gantt-tasks-column">
+            <div class="gantt-header-cell"
+              [class.gantt-header-cell--two-rows]="ganttScale === 'weekly' || ganttScale === 'daily'">TASK</div>
+            @for (t of filteredTasks; track t.id) {
+            <div class="gantt-task-cell">
+              <div class="gantt-task-name">{{ t.task }}</div>
+              <div class="gantt-task-code">{{ t.taskCode }}</div>
+            </div>
+            }
+          </div>
+
+          <!-- Right scrollable Timeline Area -->
+          <div class="gantt-timeline-area">
+            <div [style.min-width]="ganttScale === 'daily' ? 'max-content' : '100%'"
+              style="display: inline-block; width: 100%;">
+              <!-- Timeline Header: MONTHLY -->
+              @if (ganttScale === 'monthly') {
+              <div class="gantt-header-row">
+                @for (m of ganttMonths; track m.name) {
+                <div class="gantt-header-date-cell gantt-header-month-cell">
+                  <div class="gantt-header-month-title">{{ m.name }}</div>
+                </div>
+                }
+              </div>
+              }
+
+              <!-- Timeline Header: WEEKLY -->
+              @if (ganttScale === 'weekly') {
+              <div class="gantt-header-row gantt-header-row--two-rows">
+                @for (w of ganttWeeks; track w.label + w.monthName) {
+                <div class="gantt-header-date-cell gantt-header-week-cell">
+                  <div class="gantt-header-month">{{ w.monthName }}</div>
+                  <div class="gantt-header-day">{{ w.label }}</div>
+                </div>
+                }
+              </div>
+              }
+
+              <!-- Timeline Header: DAILY -->
+              @if (ganttScale === 'daily') {
+              <div class="gantt-header-row gantt-header-row--two-rows">
+                @for (day of ganttDays; track day.getTime()) {
+                <div class="gantt-header-date-cell gantt-header-day-cell">
+                  <div class="gantt-header-month">{{ day | date:'MMM' }}</div>
+                  <div class="gantt-header-day">{{ day | date:'d' }}</div>
+                </div>
+                }
+              </div>
+              }
+
+              <!-- Timeline Rows -->
+              <div class="gantt-rows-container">
+                @for (t of filteredTasks; track t.id) {
+                <div class="gantt-row">
+                  <!-- Grid background line indicators -->
+                  <div class="gantt-grid-background">
+                    @if (ganttScale === 'monthly') {
+                    @for (m of ganttMonths; track m.name) {
+                    <div class="gantt-grid-column"></div>
+                    }
+                    }
+                    @if (ganttScale === 'weekly') {
+                    @for (w of ganttWeeks; track w.label + w.monthName) {
+                    <div class="gantt-grid-column gantt-grid-column--week"></div>
+                    }
+                    }
+                    @if (ganttScale === 'daily') {
+                    @for (day of ganttDays; track day.getTime()) {
+                    <div class="gantt-grid-column gantt-grid-column--day"></div>
+                    }
+                    }
+                  </div>
+
+                  <!-- Bars -->
+                  @for (bar of getGanttBars(t); track bar.planStart + bar.planFinish) {
+                  <div [ngClass]="getStageClasses(bar.stage || t.stage)" [ngStyle]="getGanttBarStyleFor(bar)"
+                    class="gantt-task-bar" (click)="editAsset(t)"
+                    [matTooltip]="t.task + ' (' + (bar.planStart | date:'dd MMM yyyy') + ' to ' + (bar.planFinish | date:'dd MMM yyyy') + ') - Effort: ' + (bar.effort || t.effort) + 'h. Click to Edit'">
+                    <span class="gantt-bar-label">{{ bar.stage || t.stage }} &middot; {{ bar.effort || t.effort
+                      }}h</span>
+                  </div>
+                  }
+                </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        } @else {
+        <div class="empty-table text-center" style="padding: 24px;">No tasks scheduled to display in Gantt chart.</div>
+        }
+      </div>
+      }
+
+    </div>
+  </div>
+  }
+
+  <!-- ============ FULL SCREEN ASSIGNMENT VIEW ============ -->
+  @if (showAssignmentView) {
+  <div class="backlog-container">
+    <div class="panel" style="margin-top: 10px; padding: 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="font-size: 18px; font-weight: 600; margin: 0;">Task Assignments</h2>
+        <button type="button" class="back-btn" (click)="showAssignmentView = false">
+          <mat-icon>arrow_back</mat-icon><span>Back</span>
+        </button>
+      </div>
+
+      @if (isAddSprintMode) {
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+        <label style="font-weight: 600; font-size: 14px; color: #1e293b; margin: 0;">Select Sprint:</label>
+        <div style="position: relative; display: inline-block;">
+          <select class="form-control" [(ngModel)]="selectedAssignmentSprintId" (change)="onAssignmentSprintChange()"
+            style="width: 240px; height: 38px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 13px; font-weight: 500; background-color: #fff; cursor: pointer;">
+            @for (s of sprints; track s.id) {
+            <option [value]="s.id">{{ s.label }}</option>
+            }
+          </select>
+        </div>
+      </div>
+      }
+
+      <div style="display: flex; justify-content: space-between; align-items: stretch; gap: 24px; flex-wrap: wrap;">
+
+        <!-- Available Tasks Card -->
+        <div
+          style="flex: 1; min-width: 380px; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow: hidden;">
+          <div
+            style="background-color: white; color: #286ba5; padding: 12px 16px; font-weight: 600; font-size: 18px; display: flex; justify-content: space-between; align-items: center; margin: -8px -16px 16px -12px; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+            <span>Available Activities</span>
+            <span
+              style="background-color: rgba(47, 45, 45, 0.15); color: #286ba5; font-size: 12px; padding: 2px 8px; border-radius: 12px; font-weight: 700;">
+              {{ assignAvailableTasks.length }}
+            </span>
+          </div>
+
+          <div class="table-responsive app-table-container" style="padding: 0;">
+            <table class="table app-table" style="width: 100%; border-collapse: collapse; margin-bottom: 0;">
+              <thead>
+                <tr>
+                  <th style="width: 60px; text-align: center;">Select</th>
+                  <th style="text-align: left;">Activity Name</th>
+                  <th>Activity Code</th>
+                  <th>Module</th>
+                  <th>Duration</th>
+                  <th>Effort</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (t of assignAvailableTasks; track t.id) {
+                <tr class="assign-row" [style.background-color]="t.selected ? '#eff6ff' : 'transparent'"
+                  (click)="toggleAssignAvailable(t)" style="cursor: pointer;">
+                  <td style="text-align: center;" (click)="$event.stopPropagation()">
+                    <mat-checkbox [checked]="t.selected" (change)="toggleAssignAvailable(t)"
+                      color="primary"></mat-checkbox>
+                  </td>
+                  <td style="text-align: left; font-weight: 500; color: #2563eb;">{{ t.name }}</td>
+                  <td>{{ t.code }}</td>
+                  <td>{{ t.module }}</td>
+                  <td>{{ t.duration }}</td>
+                  <td>{{ t.effort }}</td>
+                </tr>
+                } @empty {
+                <tr>
+                  <td colspan="6" class="empty-table text-center">No available Activities.</td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Action Buttons Column -->
+        <div
+          style="display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center; min-width: 120px;">
+          <button type="button" class="app-btn app-btn-primary" [disabled]="!canAddAssignTasks()"
+            (click)="addSelectedAssignTasks()"
+            style="width: 120px; height: 40px; border-radius: 8px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+            Add <mat-icon style="font-size: 18px; width: 18px; height: 18px;">arrow_forward</mat-icon>
+          </button>
+          <button type="button" class="app-btn app-btn-default" [disabled]="!canRemoveAssignTasks()"
+            (click)="removeSelectedAssignTasks()"
+            style="width: 120px; height: 40px; border-radius: 8px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+            <mat-icon style="font-size: 18px; width: 18px; height: 18px;">arrow_back</mat-icon> Remove
+          </button>
+        </div>
+
+        <!-- Assigned Tasks Card -->
+        <div
+          style="flex: 1; min-width: 380px; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow: hidden;">
+          <div
+            style="background-color: white; color: #286ba5; padding: 12px 16px; font-weight: 600; font-size: 18px; display: flex; justify-content: space-between; align-items: center; margin: -8px -16px 16px -12px; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+            <span>Assigned Activities</span>
+            <span
+              style="background-color: rgba(47, 45, 45, 0.15); color: #286ba5; font-size: 12px; padding: 2px 8px; border-radius: 12px; font-weight: 700;">
+              {{ assignAssignedTasks.length }}
+            </span>
+          </div>
+
+          <div class="table-responsive app-table-container" style="padding: 0;">
+            <table class="table app-table" style="width: 100%; border-collapse: collapse; margin-bottom: 0;">
+              <thead>
+                <tr>
+                  <th style="width: 60px; text-align: center;">Select</th>
+                  <th style="text-align: left;">Activity Name</th>
+                  <th>Activity Code</th>
+                  <th>Module</th>
+                  <th>Duration</th>
+                  <th>Effort</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (t of assignAssignedTasks; track t.id) {
+                <tr class="assign-row" [style.background-color]="t.selected ? '#eff6ff' : 'transparent'"
+                  (click)="toggleAssignAssigned(t)" style="cursor: pointer;">
+                  <td style="text-align: center;" (click)="$event.stopPropagation()">
+                    <mat-checkbox [checked]="t.selected" (change)="toggleAssignAssigned(t)"
+                      color="primary"></mat-checkbox>
+                  </td>
+                  <td style="text-align: left; font-weight: 500; color: #2563eb;">{{ t.name }}</td>
+                  <td>{{ t.code }}</td>
+                  <td>{{ t.module }}</td>
+                  <td>{{ t.duration }}</td>
+                  <td>{{ t.effort }}</td>
+                </tr>
+                } @empty {
+                <tr>
+                  <td colspan="6" class="empty-table text-center">No assigned tasks.</td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- Notes Pop-up Dialog Template -->
+  <ng-template #notesDialog let-data>
+    <div class="NewHeader">
+      <h1 mat-dialog-title style="color: white; margin: 0; font-size: 20px; text-align: center;">Notes History</h1>
+    </div>
+    <div mat-dialog-content style="padding: 15px; max-height: 350px; overflow-y: auto;">
+      @if (data.notes && data.notes.length > 0) {
+      @for (note of data.notes; track note.date + note.sender) {
+      <div style="margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
+        <div
+          style="display: flex; justify-content: space-between; font-size: 12px; color: #718096; font-weight: 500; margin-bottom: 4px;">
+          <span>{{ note.sender }}</span>
+          <span>{{ note.date }}</span>
+        </div>
+        <p style="margin: 0; font-size: 14px; color: #2d3748; line-height: 1.4;">{{ note.text }}</p>
+      </div>
+      }
+      } @else {
+      <p style="text-align: center; color: #a0aec0; margin: 20px 0;">No notes yet for this task.</p>
+      }
+
+      <div style="margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 15px;">
+        <label style="font-weight: 600; font-size: 13px; color: #4a5568; display: block; margin-bottom: 6px;">Add New
+          Note</label>
+        <div style="display: flex; gap: 8px;">
+          <input type="text" #newNoteInput class="form-control" placeholder="Type note details..."
+            style="flex-grow: 1; height: 38px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 0 10px; font-size: 13px;">
+          <button type="button" class="app-btn app-btn-primary" style="height: 38px;"
+            (click)="addNoteMessage(data, newNoteInput.value); newNoteInput.value=''">Send</button>
+        </div>
+      </div>
+    </div>
+    <div
+      style="display: flex; justify-content: flex-end; padding: 10px 15px 15px; width: 100%; box-sizing: border-box;">
+      <button type="button" class="app-btn app-btn-default" mat-dialog-close
+        style="background-color: lightgray; color: red; height: 38px;">
+        <mat-icon>cancel</mat-icon> Close
+      </button>
+    </div>
+  </ng-template>
+
+  <!-- ============ TIMELINE POP-UP MODAL ============ -->
+  @if (showTimelineModal) {
+  <div class="bl-modal-overlay" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+    <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+      <!-- Header Row -->
+      <div class="timeline-popup-header">
+        <div class="timeline-popup-title-wrap">
+          <div class="timeline-icon-box">
+            <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+          </div>
+          <h3 class="timeline-popup-title">
+            Timeline &mdash; {{ selectedTimelineTask?.task }}
+          </h3>
+        </div>
+        <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #475569;">close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Dates Grid -->
+      <div class="timeline-dates-container">
+        <div class="timeline-accent-bar"></div>
+
+        <div class="timeline-grid-content">
+          <!-- Row 1: Plan Start Date, Plan End Date, Actual Start Date -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineTask?.planStart ? (selectedTimelineTask.planStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan End Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineTask?.planFinish ? (selectedTimelineTask.planFinish | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Actual Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineTask?.actualStart ? (selectedTimelineTask.actualStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row-divider"></div>
+
+          <!-- Row 2: Actual End Date, ETA -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Actual End Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineTask?.actualFinish ? (selectedTimelineTask.actualFinish | date:'dd-MMM-yyyy') : '—'
+                }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">ETA</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineTask?.eta ? (selectedTimelineTask.eta | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <!-- empty for grid alignment -->
+            </div>
+          </div>
+
+          <div class="timeline-row-divider"></div>
+
+          <!-- Row 3: Expenses, Effort, Duration -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Expenses</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineTask?.expenses ? (selectedTimelineTask.expenses | number:'1.2-2') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Effort (hrs)</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineTask?.effort !== undefined && selectedTimelineTask?.effort !== null ?
+                selectedTimelineTask.effort : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Duration (days)</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineTask?.duration !== undefined && selectedTimelineTask?.duration !== null ?
+                selectedTimelineTask.duration : '—' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description Box -->
+      @if (activeSprint.kind !== 'backlog') {
+      <div class="timeline-desc-box">
+        <div class="timeline-desc-header">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #2563eb;">description</mat-icon>
+          <span>Description</span>
+        </div>
+        <p class="timeline-desc-text">
+          {{ selectedTimelineTask?.description || 'No description available for this task.' }}
+        </p>
+      </div>
+      }
+    </div>
+  </div>
+  }
+
+</div>

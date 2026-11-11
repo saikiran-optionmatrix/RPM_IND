@@ -1,0 +1,119 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 90vh;
+  box-sizing: border-box;
+}
+
+.stage-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.stage-dialog-content {
+  flex: 1 1 auto;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  max-height: calc(90vh - 130px) !important;
+  padding: 16px 24px !important;
+  margin: 0 !important;
+  box-sizing: border-box;
+}
+
+.stage-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -12px;
+}
+
+.stage-column {
+  flex: 0 0 50%;
+  max-width: 50%;
+  width: 50%;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+.stage-field-row {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+
+  label {
+    color: #222;
+    font-size: 13.5px;
+    font-weight: 500;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .form-control {
+    min-height: 36px;
+    height: 36px;
+    padding: 4px 10px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  mat-select.form-control {
+    display: inline-flex;
+    align-items: center;
+    line-height: 24px;
+    height: auto;
+    min-height: 36px;
+  }
+
+  &.stage-textarea-row {
+    align-items: flex-start;
+
+    label {
+      margin-top: 6px;
+    }
+
+    textarea.form-control {
+      min-height: 80px;
+      height: 80px;
+      resize: vertical;
+    }
+  }
+}
+
+.stage-dialog-actions {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 24px 16px 24px !important;
+  margin: 0 !important;
+  border-top: 1px solid #e5e7eb;
+  background-color: #ffffff;
+}
+
+.back {
+  background-color: #fefec4 !important;
+}
+
+.white {
+  background-color: #ffffff !important;
+}
+
+@media (max-width: 768px) {
+  .stage-column {
+    flex: 0 0 100%;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .stage-field-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}

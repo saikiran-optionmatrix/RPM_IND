@@ -1,0 +1,77 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    Details &mdash; {{ data?.itemName || data?.task }}
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 24px 28px; width: 100%; box-sizing: border-box;">
+  <!-- Dates Grid -->
+  <div class="timeline-dates-container" style="display: flex; align-items: stretch; gap: 16px; margin-bottom: 20px;">
+    <div class="timeline-accent-bar" style="width: 4px; background: #2563eb; border-radius: 4px; flex-shrink: 0;"></div>
+
+    <div class="timeline-grid-content" style="flex: 1; display: flex; flex-direction: column;">
+      <!-- Row 1: Target Date, Request Date, Issue Date -->
+      <div class="timeline-grid-row" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+        <div class="timeline-date-col" style="border-right: 1px dashed #e2e8f0; padding-right: 16px;">
+          <div class="timeline-date-label" style="font-size: 13.5px; font-weight: 600; color: #1e293b; margin-bottom: 6px;">Target Date</div>
+          <div class="timeline-date-value" style="font-size: 14px; font-weight: 600; color: #2563eb;">
+            {{ data?.targetDate || '—' }}
+          </div>
+        </div>
+        <div class="timeline-date-col" style="border-right: 1px dashed #e2e8f0; padding-right: 16px;">
+          <div class="timeline-date-label" style="font-size: 13.5px; font-weight: 600; color: #1e293b; margin-bottom: 6px;">Request Date</div>
+          <div class="timeline-date-value" style="font-size: 14px; font-weight: 600; color: #2563eb;">
+            {{ data?.requestDate || '—' }}
+          </div>
+        </div>
+        <div class="timeline-date-col timeline-date-col--last" style="padding-right: 0;">
+          <div class="timeline-date-label" style="font-size: 13.5px; font-weight: 600; color: #1e293b; margin-bottom: 6px;">Issue Date</div>
+          <div class="timeline-date-value" style="font-size: 14px; font-weight: 600; color: #2563eb;">
+            {{ data?.issueDate || '—' }}
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-row-divider" style="border-bottom: 1px dashed #cbd5e1; margin: 18px 0;"></div>
+
+      <!-- Row 2: Requested Quantity, Issued Quantity, Material Cost -->
+      <div class="timeline-grid-row" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+        <div class="timeline-date-col" style="border-right: 1px dashed #e2e8f0; padding-right: 16px;">
+          <div class="timeline-date-label" style="font-size: 13.5px; font-weight: 600; color: #1e293b; margin-bottom: 6px;">Requested Quantity</div>
+          <div class="timeline-date-value" style="font-size: 14px; font-weight: 600; color: #1e293b;">
+            {{ data?.requestedQuantity ?? data?.quantity ?? '—' }}
+          </div>
+        </div>
+        <div class="timeline-date-col" style="border-right: 1px dashed #e2e8f0; padding-right: 16px;">
+          <div class="timeline-date-label" style="font-size: 13.5px; font-weight: 600; color: #1e293b; margin-bottom: 6px;">Issued Quantity</div>
+          <div class="timeline-date-value" style="font-size: 14px; font-weight: 600; color: #2563eb;">
+            {{ data?.issuedQuantity ?? '—' }}
+          </div>
+        </div>
+        <div class="timeline-date-col timeline-date-col--last" style="padding-right: 0;">
+          <div class="timeline-date-label" style="font-size: 13.5px; font-weight: 600; color: #1e293b; margin-bottom: 6px;">Material Cost</div>
+          <div class="timeline-date-value" style="font-size: 14px; font-weight: 600; color: #10b981;">
+            {{ data?.materialCost ? (data!.materialCost | currency:'INR') : '—' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Remarks Box -->
+  <div class="timeline-desc-box" style="background: #f8fafc; border-radius: 12px; padding: 16px 20px; margin-top: 20px; border: 1px solid #e2e8f0;">
+    <div class="timeline-desc-header" style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #1e293b; margin-bottom: 6px;">
+      <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #3b82f6;">description</mat-icon>
+      <span>Remarks</span>
+    </div>
+    <p class="timeline-desc-text" style="margin: 0; font-size: 13.5px; color: #64748b; line-height: 1.5;">
+      {{ data?.remarks || 'No remarks provided for this material requisition.' }}
+    </p>
+  </div>
+
+  <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
+    <button class="app-btn app-btn-default" type="button" (click)="close()" style="background-color: lightgray; color: red;">
+      <mat-icon>cancel</mat-icon> Close
+    </button>
+  </div>
+</div>

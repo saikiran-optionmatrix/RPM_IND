@@ -1,0 +1,425 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="app-table-container">
+
+        <!-- ==========================================
+             PAGE ACTIONS & TOGGLES
+             ========================================== -->
+        <div class="app-page-actions" style="justify-content: flex-end; flex-wrap: wrap; gap: 12px; align-items: center;">
+
+          <!-- Mask Closed Checkbox -->
+          <mat-checkbox [(ngModel)]="maskClosed" (change)="applyFilters()" color="primary"
+            style="margin-right: 8px;">
+            Mask Closed
+          </mat-checkbox>
+
+          <!-- Overdue Checkbox -->
+          <mat-checkbox [(ngModel)]="isOverdueOnly" (change)="onOverdueChange()" color="primary"
+            style="margin-right: 8px;">
+            Overdue
+          </mat-checkbox>
+          <!-- 1. View Toggles -->
+          <div class="view-toggle" style="background: #f1f5f9; border-radius: 6px; padding: 4px; display: inline-flex;">
+            <button type="button" class="app-btn" [class.app-btn-filter]="isKanbanView"
+              [class.app-btn-default]="!isKanbanView" (click)="isKanbanView = true">
+              <mat-icon>view_kanban</mat-icon>
+              <span>Kanban View</span>
+            </button>
+            <button type="button" class="app-btn" [class.app-btn-filter]="!isKanbanView"
+              [class.app-btn-default]="isKanbanView" (click)="isKanbanView = false">
+              <mat-icon>view_column</mat-icon>
+              <span>Table View</span>
+            </button>
+          </div>
+
+          <!-- 2. Grid Columns -->
+          <button type="button" class="app-btn app-btn-default">
+            <mat-icon>grid_on</mat-icon>
+            <span>Grid Columns</span>
+          </button>
+
+          <!-- 3. Filter -->
+          <button type="button" class="app-btn app-btn-filter" (click)="toggleFilter()" [class.active]="showFilter">
+            <mat-icon>filter_list</mat-icon>
+            <span>Filter</span>
+          </button>
+
+          <!-- 4. Add Issue -->
+          <button type="button" class="app-btn app-btn-primary" style="margin-left: 8px;">
+            <mat-icon>add</mat-icon>
+            <span>Add Issue</span>
+          </button>
+        </div>
+
+        <!-- ==========================================
+             FILTER PANEL
+             ========================================== -->
+        @if (showFilter) {
+        <mat-card class="app-filter-panel" style="margin-bottom: 20px;">
+          <mat-card-content>
+            <form [formGroup]="filterForm" class="app-filter-grid">
+
+              <div class="app-filter-fields">
+                <!-- Keyword Field using MatInput -->
+                <div class="app-filter-field">
+                  <label>Keyword:</label>
+                  <mat-form-field appearance="outline" class="app-filter-control">
+                    <input matInput formControlName="Keyword" placeholder="Search by keyword">
+                  </mat-form-field>
+                </div>
+
+                <!-- Status Field using MatSelect -->
+                <div class="app-filter-field">
+                  <label>Status:</label>
+                  <mat-form-field appearance="outline" class="app-filter-control">
+                    <mat-select formControlName="Status" placeholder="Select Status">
+                      <mat-option value="Pending">Pending</mat-option>
+                      <mat-option value="Allocated">Allocated</mat-option>
+                      <mat-option value="Process">Process</mat-option>
+                      <mat-option value="Hold">Hold</mat-option>
+                      <mat-option value="Cancelled">Cancelled</mat-option>
+                      <mat-option value="Closed">Closed</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="app-filter-actions">
+                <button type="button" class="app-btn app-btn-primary" (click)="onSearch()">
+                  <mat-icon>search</mat-icon>
+                  <span>Search</span>
+                </button>
+                <button type="button" class="app-btn app-btn-default" (click)="onClear()">
+                  <mat-icon>settings_backup_restore</mat-icon>
+                  <span>Clear</span>
+                </button>
+              </div>
+
+              <div class="app-filter-toggle">
+                <button type="button" class="app-icon-btn" aria-label="Collapse filter" (click)="toggleFilter()">
+                  <mat-icon>keyboard_double_arrow_up</mat-icon>
+                </button>
+              </div>
+
+            </form>
+          </mat-card-content>
+        </mat-card>
+        }
+
+        <!-- Scroll Buttons -->
+        <div class="d-flex justify-content-end mb-2" style="gap: 10px;">
+          <div class="d-flex justify-content-end mb-2">
+            <button class="mine" mat-fab style="background-color: #cecdcd; right: 110px; z-index: 9999;"
+              (click)="scrollLeft()">
+              <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+            </button>
+            <button class="mine" mat-fab style="background-color: #cecdcd; z-index: 9999;" (click)="scrollRight()">
+              <mat-icon style="color: #414141;">fast_forward</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             TABLE VIEW
+             ========================================== -->
+        @if (!isKanbanView) {
+        <div #tableContainer class="table-responsive" style="overflow-x: auto; scroll-behavior: smooth;">
+          <table class="table app-table" style="white-space: nowrap;">
+            <thead>
+              <tr>
+                <th class="text-center" style="width: 100px;">Actions</th>
+                <th class="text-center" style="width: 70px;">Closed</th>
+                <th class="text-left" style="min-width: 180px;">Project Name</th>
+                <th class="text-left" style="min-width: 150px;">Project Code</th>
+                <th class="text-left" style="min-width: 180px;">Subject</th>
+                <th class="text-left" style="min-width: 180px;">Delay Reason</th>
+                <th class="text-left" style="min-width: 150px;">Responsibility</th>
+                <th class="text-left" style="min-width: 200px;">Remarks</th>
+                <th class="text-center" style="min-width: 120px;">Status</th>
+                <th class="text-center" style="min-width: 120px;">Due date</th>
+                <th class="text-center" style="min-width: 130px;">Completed date</th>
+                <th class="text-center" style="min-width: 80px;">Image</th>
+                <th class="text-center" style="min-width: 100px;">Document</th>
+                <!-- <th class="text-center" style="min-width: 100px;">Timeline</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of tableList; track item.id) {
+              <tr>
+                <!-- Actions -->
+                <td class="text-center">
+                  <div class="table-actions" style="justify-content: center;">
+                    <button type="button" class="table-action-button edit" matTooltip="Edit Issue" (click)="onEditIssue(item)">
+                      <i class="fa fa-edit" ></i>
+                    </button>
+                    <button type="button" class="table-action-button delete" matTooltip="Delete Issue" (click)="onDeleteIssue(item)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </td>
+
+                <!-- Closed Checkbox -->
+                <td class="text-center" style="vertical-align: middle;">
+                  <mat-checkbox color="primary" [checked]="item.closed || item.status === 'Closed'"
+                    (change)="onClosedChange(item, $event.checked)">
+                  </mat-checkbox>
+                </td>
+
+                <!-- Route Links -->
+                <td class="text-left">
+                  <a class="app-route-link font-weight-500" role="button" tabindex="0" (click)="openProject(item)"
+                    (keydown.enter)="openProject(item)" [matTooltip]="item.projectName" matTooltipPosition="above"
+                    [style.color]="isDateExceeded(item) ? '#dc2626' : null">
+                    {{ item.projectName }}
+                  </a>
+                </td>
+                <td class="text-left">
+                  <a class="app-route-link font-weight-500" role="button" tabindex="0" (click)="openProject(item)"
+                    (keydown.enter)="openProject(item)"
+                    [style.color]="isDateExceeded(item) ? '#dc2626' : null">
+                    {{ item.projectCode }}
+                  </a>
+                </td>
+
+                <!-- Data Fields -->
+                <td class="text-left font-weight-500" [style.color]="isDateExceeded(item) ? '#dc2626' : '#1e293b'">
+                  {{ item.subject }}
+                </td>
+                <td class="text-left font-weight-500" [style.color]="isDateExceeded(item) ? '#dc2626' : '#94a3b8'">
+                  {{ isDateExceeded(item) ? (item.delayReason || 'Investigation in Progress') : '-' }}
+                </td>
+                <td class="text-left">
+                  <div style="display: flex; align-items: center; gap: 4px;">
+                    <mat-icon style="font-size: 16px; width: 16px; height: 16px;" [style.color]="isDateExceeded(item) ? '#dc2626' : '#64748b'">person</mat-icon>
+                    <span [style.color]="isDateExceeded(item) ? '#dc2626' : '#1e293b'">{{ item.responsibility }}</span>
+                  </div>
+                </td>
+                <td class="text-left font-weight-500" style="white-space: normal;" [style.color]="isDateExceeded(item) ? '#dc2626' : null">
+                  {{ item.remarks }}
+                </td>
+
+                <!-- Status -->
+                <td class="text-center font-weight-500" [style.color]="isDateExceeded(item) ? '#dc2626' : null">
+                  <span>
+                    {{ item.status }}
+                  </span>
+                </td>
+
+                <!-- Due date -->
+                <td class="text-center font-weight-500" [style.color]="isDateExceeded(item) ? '#dc2626' : '#475569'">
+                  {{ item.dueDate ? (item.dueDate | date: 'dd-MMM-yyyy') : (item.targetDate ? (item.targetDate | date: 'dd-MMM-yyyy') : '—') }}
+                </td>
+
+                <!-- Completed date -->
+                <td class="text-center font-weight-500" [style.color]="isDateExceeded(item) && item.completedDate ? '#dc2626' : (item.completedDate ? '#16a34a' : '#94a3b8')">
+                  {{ item.completedDate ? (item.completedDate | date: 'dd-MMM-yyyy') : '—' }}
+                </td>
+
+                <!-- Image / Doc Links -->
+                <td class="text-center">
+                  @if (item.image) {
+                  <div class="table-actions" style="justify-content: center; gap: 4px;">
+                    <a [href]="item.image" target="_blank" class="table-action-button"
+                      matTooltip="View Image"><mat-icon>visibility</mat-icon></a>
+                    <a [href]="item.image" download class="table-action-button"
+                      matTooltip="Download"><mat-icon>download</mat-icon></a>
+                  </div>
+                  } @else {
+                  <span style="color: #94a3b8;">NA</span>
+                  }
+                </td>
+                <td class="text-center">
+                  @if (item.document) {
+                  <div class="table-actions" style="justify-content: center; gap: 4px;">
+                    <a [href]="item.document" target="_blank" class="table-action-button"
+                      matTooltip="View Doc"><mat-icon>visibility</mat-icon></a>
+                    <a [href]="item.document" download class="table-action-button"
+                      matTooltip="Download"><mat-icon>download</mat-icon></a>
+                  </div>
+                  } @else {
+                  <span style="color: #94a3b8;">NA</span>
+                  }
+                </td>
+
+                <!-- Timeline -->
+                <!-- <td class="text-center">
+                  <div class="table-actions" style="justify-content: center;">
+                    <button type="button" class="table-action-button" matTooltip="View Timeline"
+                      (click)="openTimelineModal(item)">
+                      <mat-icon style="color: #2563eb;">calendar_today</mat-icon>
+                    </button>
+                  </div>
+                </td> -->
+              </tr>
+              } @empty {
+              <tr>
+                <td colspan="14" class="empty-table text-center">No records found matching criteria</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+
+
+        <mat-paginator [length]="totalSize" [pageSize]="pageSize" [pageIndex]="currentPage"
+          [pageSizeOptions]="[5, 10, 25, 50, 100]" (page)="handlePage($event)" showFirstLastButtons>
+        </mat-paginator>
+        }
+
+        <!-- ==========================================
+             KANBAN VIEW
+             ========================================== -->
+        @if (isKanbanView) {
+        <div #kanbanContainer class="kanban-board-container" (scroll)="updateScrollButtons()" style="overflow-x: auto; padding-top: 10px; position: relative;">
+          <div class="kanban-board" cdkDropListGroup style="display: flex; gap: 16px; min-width: max-content; padding-bottom: 20px;">
+
+            @for (list of kanbanLists; track list) {
+            <div class="kanban-list" style="width: 320px; background-color: #f8fafc; border: 1px solid #e2e8f0; display: flex; flex-direction: column;">
+
+              <!-- Column Header -->
+              <div class="kanban-list-header tbl-head" style="background-color: #3f3f3f; color: white; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span class="status-dot" [style.background-color]="getKanbanColor(list)" style="width: 10px; height: 10px; border-radius: 50%; display: inline-block; border: 1px solid rgba(255,255,255,0.3);"></span>
+                  <h3 style="margin: 0; font-size: 14px; font-weight: 600;">{{ list }}</h3>
+                </div>
+                <span style="background-color: rgba(255,255,255,0.2); color: white; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 4px;">
+                  {{ kanbanCards[list]?.length || 0 }}
+                </span>
+              </div>
+
+              <!-- Drop Zone -->
+              <div cdkDropList [id]="list" [cdkDropListData]="kanbanCards[list]" (cdkDropListDropped)="onDrop($event, list)"
+                    class="drop-container" style="padding: 12px; min-height: 200px; display: flex; flex-direction: column; gap: 10px;">
+
+                @for (card of kanbanCards[list]; track card.id) {
+                <div cdkDrag class="kanban-card" [ngClass]="getCardClass(list)" style="background: white; border: 1px solid #e2e8f0; border-radius: 4px; padding: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); cursor: grab;">
+
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                    <span style="font-weight: 600; color: #1e293b; font-size: 13px; line-height: 1.3;">{{ card.subject }}</span>
+                    <button type="button" style="background: none; border: none; cursor: pointer; color: #64748b; padding: 2px;" (click)="toggleCard(card)">
+                      <mat-icon style="font-size: 18px; width: 18px; height: 18px;">{{ card.expanded ? 'remove' : 'add' }}</mat-icon>
+                    </button>
+                  </div>
+
+                  <div style="display: flex; align-items: flex-start; gap: 6px; margin-bottom: 12px; color: #64748b; font-size: 12px;">
+                    <mat-icon style="font-size: 16px; width: 16px; height: 16px;">business</mat-icon>
+                    <a class="app-route-link" role="button" tabindex="0" (click)="openProject(card)"
+                      [matTooltip]="card.projectName" matTooltipPosition="above" style="white-space: normal; line-height: 1.4;">
+                      {{ card.projectName }} ({{ card.projectCode }})
+                    </a>
+                  </div>
+
+                  <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 10px;">
+                    <div style="display: flex; align-items: center; gap: 4px; color: #475569; font-size: 12px;">
+                      <mat-icon style="font-size: 14px; width: 14px; height: 14px; color: #3b82f6;">schedule</mat-icon>
+                      <span>{{ card.status }}</span>
+                    </div>
+                    <div style="display: inline-flex; align-items: center; gap: 4px; background: #f8fafc; border: 1px solid #e2e8f0; color: #475569; padding: 2px 6px; border-radius: 4px; font-size: 11px;">
+                      <mat-icon style="font-size: 12px; width: 12px; height: 12px;">alarm</mat-icon>
+                      <span>ETA {{ card.dueDate | date: 'dd MMM' }}</span>
+                    </div>
+                  </div>
+
+                  @if (card.expanded) {
+                  <div class="card-expanded-details" style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e2e8f0; font-size: 12px; color: #475569;">
+                    <p style="margin: 0 0 4px 0;"><strong>Created By:</strong> {{ card.createdBy }}</p>
+                    <p style="margin: 0 0 4px 0;"><strong>Assigned To:</strong> {{ card.assignedTo }}</p>
+                    <p style="margin: 0 0 8px 0;"><strong>Expedite:</strong> {{ card.expedite ? 'Yes' : 'No' }}</p>
+
+                    @if (card.notes && card.notes.length > 0) {
+                      <strong>Notes:</strong>
+                      <ul style="margin: 4px 0 0 0; padding-left: 16px;">
+                        @for (note of card.notes; track note.date) {
+                          <li>{{ note.text }} — {{ note.author }}, {{ note.date }}</li>
+                        }
+                      </ul>
+                    } @else {
+                      <p style="color: #94a3b8; font-style: italic; margin: 0;">No notes added.</p>
+                    }
+                  </div>
+                  }
+                </div>
+                }
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+
+        }
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     TIMELINE POP-UP MODAL
+     ========================================== -->
+@if (showTimelineModal && selectedTimelineTask) {
+<div class="bl-modal-overlay" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+  <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+
+    <div class="timeline-popup-header">
+      <div class="timeline-popup-title-wrap">
+        <div class="timeline-icon-box">
+          <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+        </div>
+        <h3 class="timeline-popup-title">
+          Timeline &mdash; {{ selectedTimelineTask.subject || selectedTimelineTask.projectName }}
+        </h3>
+      </div>
+      <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="timeline-dates-container">
+      <div class="timeline-accent-bar"></div>
+      <div class="timeline-grid-content">
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Due / Target Date</div>
+            <div class="timeline-date-value">{{ selectedTimelineTask.targetDate ? (selectedTimelineTask.targetDate |
+              date:'dd-MMM-yyyy') : '—' }}</div>
+          </div>
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Responsibility</div>
+            <div class="timeline-date-value">{{ selectedTimelineTask.responsibility || '—' }}</div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Status</div>
+            <div class="timeline-date-value">{{ selectedTimelineTask.status || '—' }}</div>
+          </div>
+        </div>
+        <div class="timeline-row-divider"></div>
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Project Name</div>
+            <div class="timeline-date-value">{{ selectedTimelineTask.projectName || '—' }}</div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Project Code</div>
+            <div class="timeline-date-value">{{ selectedTimelineTask.projectCode || '—' }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-desc-box">
+      <div class="timeline-desc-header">
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #2563eb;">description</mat-icon>
+        <span>Issue Description & Remarks</span>
+      </div>
+      <div class="timeline-desc-content">
+        <p style="margin: 0 0 6px 0;"><strong>Issue:</strong> {{ selectedTimelineTask.issueDescription || 'No
+          description' }}</p>
+        <p style="margin: 0;"><strong>Remarks:</strong> {{ selectedTimelineTask.remarks || 'No remarks' }}</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+}

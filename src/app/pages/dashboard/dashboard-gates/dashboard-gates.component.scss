@@ -1,0 +1,38 @@
+/* Custom Header Styling with reduced font sizes */
+.gates-header-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px 0 5px;
+  /* Removed side padding to align with the grid below */
+  margin-bottom: 12px;
+
+  .gates-title {
+    margin: 0 0 2px;
+    font-size: 20px;
+    /* Reduced from 29px */
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.2px;
+    color: #222;
+    /* Slightly softer than pure black */
+    text-transform: none;
+  }
+
+  .gates-subtitle-text {
+    margin-left: 30px;
+    font-size: 15px;
+    /* Reduced from 14px */
+    font-weight: 420;
+    line-height: 1.4;
+    color: #666;
+    text-transform: none;
+  }
+}
+
+/* Ensure the search bar aligns properly without a title taking up space */
+.app-page-actions.justify-content-end {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 16px;
+}

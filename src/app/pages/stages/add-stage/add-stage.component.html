@@ -1,0 +1,95 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    {{ isEditMode ? 'Update Stage' : 'Add Stage' }}
+  </h1>
+</div>
+
+<form [formGroup]="myGroup" (ngSubmit)="save()" class="stage-form">
+  <div mat-dialog-content class="stage-dialog-content">
+    <div class="stage-form-row">
+
+      <!-- Left Column (50% width) -->
+      <div class="stage-column">
+        <!-- Stage Name -->
+        <div class="stage-field-row">
+          <label class="add-member-label control-label">Stage Name:</label>
+          <input class="form-control name back" maxlength="100" placeholder="Enter Stage Name"
+            formControlName="stageName" type="text">
+        </div>
+
+        <!-- Select Division -->
+        <div class="stage-field-row">
+          <label class="add-member-label control-label">Select Division:</label>
+          <mat-select multiple class="form-control back" placeholder="Select Division" formControlName="division">
+            @for (div of divisionOptions; track div) {
+              <mat-option [value]="div">{{ div }}</mat-option>
+            }
+          </mat-select>
+        </div>
+
+        <!-- Stage Code -->
+        <div class="stage-field-row">
+          <label class="add-member-label control-label">Stage Code:</label>
+          <input class="form-control name back" maxlength="10" placeholder="Enter Stage Code"
+            formControlName="stageCode" type="text">
+        </div>
+
+        <!-- Sequence -->
+        <div class="stage-field-row">
+          <label class="add-member-label control-label">Sequence:</label>
+          <input matInput class="form-control name back" placeholder="Enter Sequence"
+            formControlName="stageSerial" type="number" min="1">
+        </div>
+
+        <!-- Select Gate -->
+        <div class="stage-field-row">
+          <label class="control-label">Select Gate:</label>
+          <mat-select class="form-control white" placeholder="Select Gate" formControlName="gateCode">
+            @for (gate of gateOptions; track gate) {
+              <mat-option [value]="gate">{{ gate }}</mat-option>
+            }
+          </mat-select>
+        </div>
+      </div>
+
+      <!-- Right Column (50% width) -->
+      <div class="stage-column">
+        <!-- Plan Effort (hrs) -->
+        <div class="stage-field-row">
+          <label class="add-member-label control-label">Plan Effort (hrs):</label>
+          <input class="form-control name back" placeholder="0" formControlName="planEffort" type="number" min="0">
+        </div>
+
+        <!-- Plan Duration (days) -->
+        <div class="stage-field-row">
+          <label class="add-member-label control-label">Plan Duration (days):</label>
+          <input class="form-control name back" placeholder="0" formControlName="planDuration" type="number" min="0">
+        </div>
+
+        <!-- Material Budget -->
+        <div class="stage-field-row">
+          <label class="add-member-label control-label">Material Budget:</label>
+          <input class="form-control name back" placeholder="e.g. $15,000" formControlName="materialBudget" type="text">
+        </div>
+
+        <!-- Description -->
+        <div class="stage-field-row stage-textarea-row">
+          <label class="control-label">Description:</label>
+          <textarea class="form-control white" rows="3" placeholder="Enter Description"
+            formControlName="stageDescription"></textarea>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Action Buttons Footer -->
+  <mat-dialog-actions align="end" class="stage-dialog-actions">
+    <button type="button" class="app-btn app-btn-default" (click)="close()" style="background-color: lightgray; color: red;">
+      <mat-icon>cancel</mat-icon> Close
+    </button>
+    <button type="submit" class="app-btn app-btn-primary" [disabled]="myGroup.invalid">
+      <mat-icon>save</mat-icon> Save
+    </button>
+  </mat-dialog-actions>
+</form>

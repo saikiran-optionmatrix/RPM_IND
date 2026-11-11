@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.NewHeader {
+  background-color: #3f3f3f;
+  padding: 15px 20px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+
+  h1 {
+    color: #ffffff !important;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+
+.drag-drop-zone {
+  &.dragging {
+    background-color: #eff6ff !important;
+    border-color: #2563eb !important;
+  }
+}

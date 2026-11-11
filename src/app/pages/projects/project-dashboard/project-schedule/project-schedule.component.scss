@@ -1,0 +1,878 @@
+// Brand Colors
+$bg: #f8fafc;
+$card: #ffffff;
+$border: #e2e8f0;
+$text-main: #0f172a;
+$text-muted: #64748b;
+
+$c-emerald: #10b981;
+$c-blue: #3b82f6;
+$c-red: #ef4444;
+$c-pending: #a1a1aa;
+
+:host {
+  display: block;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: #333333;
+}
+
+// Preserve existing header & page layout
+.analytics-page {
+  width: 100%;
+}
+
+.analytics-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 24px;
+
+  h1 {
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 36px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+ 
+
+@media (max-width: 520px) {
+  .analytics-header h1 {
+    font-size: 22px;
+  }
+
+  .back-btn span {
+    display: none;
+  }
+
+  .back-btn {
+    padding: 0 10px;
+  }
+}
+
+.schedule-dashboard {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: #333333;
+}
+
+// Stats Badges
+.stats-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  .badge-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: $card;
+    border: 1px solid $border;
+    padding: 6px 12px;
+    border-radius: 8px;
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+
+      &.pending {
+        background: rgba($c-pending, 0.5);
+      }
+
+      &.in-process,
+      &.inprocess,
+      &.ongoing {
+        background: $c-blue;
+      }
+
+      &.completed {
+        background: $c-emerald;
+      }
+
+      &.overdue,
+      &.exceeded {
+        background: $c-red;
+      }
+    }
+
+    .label {
+      font-size: 12px;
+      color: $text-muted;
+    }
+
+    .value {
+      font-size: 14px;
+      font-weight: 600;
+      color: $text-main;
+    }
+  }
+}
+
+// Main Card & Toolbar
+.main-card {
+  background: $card;
+  border: 1px solid $border;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 10px;
+
+  .app-table-container {
+    padding: 0;
+    width: 100%;
+  }
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid $border;
+
+  .view-toggle {
+    display: flex;
+    background: #f1f5f9;
+    padding: 2px;
+    border-radius: 6px;
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      border: none;
+      background: transparent;
+      border-radius: 4px;
+      cursor: pointer;
+      color: $text-muted;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      &.active {
+        background: $text-main;
+        color: white;
+      }
+    }
+  }
+
+  .toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    .legend {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      color: $text-muted;
+      flex-wrap: wrap;
+
+      span {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .legend-color {
+        width: 12px;
+        height: 8px;
+        border-radius: 2px;
+      }
+
+      .pending {
+        background: rgba($c-pending, 0.3);
+      }
+
+      .in-process,
+      .inprocess,
+      .ongoing {
+        background: $c-blue;
+      }
+
+      .completed {
+        background: $c-emerald;
+      }
+
+      .overdue,
+      .exceeded {
+        background: $c-red;
+      }
+    }
+
+    .btn-mask {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      background: $card;
+      border: 1px solid $border;
+      border-radius: 6px;
+      color: $text-main;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      &.active {
+        background: $text-main;
+        color: white;
+        border-color: $text-main;
+      }
+    }
+  }
+}
+
+// Shared Status Colors for both views
+.completed {
+  background: $c-emerald;
+}
+
+.overdue,
+.exceeded {
+  background: $c-red;
+}
+
+.in-process,
+.inprocess,
+.ongoing {
+  background: $c-blue;
+}
+
+.pending {
+  background: rgba($c-pending, 0.3);
+}
+
+// Grid View
+.grid-view {
+  overflow-x: auto;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    text-align: left;
+
+    th {
+      padding: 10px 8px;
+      font-weight: 600 !important;
+      color: #ffffff !important;
+      border-bottom: 1px solid #555555;
+      background: #3f3f3f !important;
+      font-size: 14px !important;
+    }
+
+    td {
+      padding: 8px;
+      border-bottom: 1px solid $border;
+      font-size: 14px !important;
+      color: #333333 !important;
+    }
+
+    .pl-4 {
+      padding-left: 16px;
+    }
+
+    .pr-4 {
+      padding-right: 16px;
+    }
+
+    .w-180 {
+      width: 180px;
+    }
+
+    .text-muted {
+      color: $text-muted;
+    }
+
+    .task-name {
+      font-weight: 500;
+      color: $text-main;
+    }
+
+    .task-id {
+      font-size: 11px;
+      color: $text-muted;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+
+      .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+      }
+
+      &.completed {
+        background: rgba($c-emerald, 0.1);
+        color: darken($c-emerald, 10%);
+
+        .dot {
+          background: $c-emerald;
+        }
+      }
+
+      &.overdue,
+      &.exceeded {
+        background: rgba($c-red, 0.1);
+        color: $c-red;
+
+        .dot {
+          background: $c-red;
+        }
+      }
+
+      &.in-process,
+      &.inprocess,
+      &.ongoing {
+        background: rgba($c-blue, 0.1);
+        color: darken($c-blue, 10%);
+
+        .dot {
+          background: $c-blue;
+        }
+      }
+
+      &.pending {
+        background: #f1f5f9;
+        color: $text-muted;
+
+        .dot {
+          background: rgba($c-pending, 0.8);
+        }
+      }
+    }
+
+    .progress-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .progress-bg {
+        flex: 1;
+        height: 6px;
+        background: #f1f5f9;
+        border-radius: 4px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+      }
+
+      .progress-text {
+        width: 36px;
+        text-align: right;
+        font-size: 12px;
+        color: $text-muted;
+      }
+    }
+  }
+}
+
+// Custom Split Gantt Chart View
+.gantt-view {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.table-actions-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 8px 16px;
+  background: #f9fafb;
+  border-bottom: 1px solid $border;
+  gap: 8px;
+
+  .scroll-btn {
+    background: white;
+    border: 1px solid $border;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-muted;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #f1f5f9;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+.gantt-split-container {
+  display: flex;
+  width: 100%;
+  border-top: none;
+  overflow: hidden;
+  background: #ffffff;
+  user-select: none;
+  /* prevent text highlights while dragging */
+  align-items: stretch;
+}
+
+// Left Pane Grid styles
+.gantt-left-pane {
+  flex-shrink: 0;
+  display: block;
+  background: #ffffff;
+  overflow-x: auto;
+  border-right: 1px solid $border;
+}
+
+.gantt-left-table {
+  min-width: 560px;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+
+  th,
+  td {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #cbd5e1;
+    height: 65px;
+    box-sizing: border-box;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  th {
+    height: 70px;
+    background-color: #3f3f3f !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    text-transform: none;
+    font-size: 14px;
+    letter-spacing: normal;
+    border-color: #555555 !important;
+  }
+
+  tbody tr {
+    height: 65px;
+
+    &:hover {
+      background-color: #f8fafc;
+    }
+  }
+
+  .col-name {
+    width: 200px;
+  }
+
+  .col-module {
+    width: 140px;
+  }
+
+  .col-date {
+    width: 110px;
+  }
+}
+
+// Splitter Divider Bar
+.gantt-splitter-bar {
+  width: 8px;
+  background-color: #cbd5e1;
+  cursor: col-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: background-color 0.2s ease;
+  z-index: 3;
+  flex-shrink: 0;
+  align-self: stretch;
+
+  &:hover,
+  &:active {
+    background-color: #1a73e8;
+
+    .splitter-knob {
+      background-color: #1a73e8;
+      border-color: #1a73e8;
+      box-shadow: 0 2px 8px rgba(26, 115, 232, 0.4);
+
+      svg {
+        color: #ffffff !important;
+      }
+    }
+  }
+
+  .splitter-knob {
+    width: 18px;
+    height: 36px;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    cursor: col-resize;
+    z-index: 4;
+  }
+}
+
+// Right Pane Timeline styles
+.gantt-right-pane {
+  flex-grow: 1;
+  overflow-x: auto;
+  background: #ffffff;
+  scroll-behavior: smooth;
+}
+
+.gantt-timeline-container {
+  background: #ffffff;
+  position: relative;
+}
+
+// Weeks Header
+.gantt-weeks-header {
+  height: 35px;
+  display: flex;
+  background: #f8fafc;
+  border-bottom: 1px solid $border;
+  align-items: center;
+  box-sizing: border-box;
+
+  .week-hdr-cell {
+    font-size: 11px;
+    font-weight: 600;
+    color: #475569;
+    text-align: center;
+    border-right: 1px solid #e2e8f0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+}
+
+// Days Header
+.gantt-days-header {
+  height: 35px;
+  display: flex;
+  background: #f8fafc;
+  border-bottom: 2px solid $border;
+  align-items: center;
+  box-sizing: border-box;
+
+  .day-hdr-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #e2e8f0;
+    height: 100%;
+    box-sizing: border-box;
+
+    .day-letter {
+      font-size: 9px;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+
+    .day-number {
+      font-size: 10px;
+      font-weight: 700;
+      color: #475569;
+    }
+  }
+}
+
+// Timeline Rows
+.gantt-timeline-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.gantt-timeline-row {
+  height: 65px;
+  position: relative;
+  border-bottom: 1px solid #f1f5f9;
+  box-sizing: border-box;
+
+  &:hover {
+    background-color: #f8fafc;
+  }
+}
+
+// Vertical background grid lines
+.timeline-grid-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  pointer-events: none;
+  z-index: 1;
+
+  .grid-line {
+    height: 100%;
+    border-right: 1px solid #f1f5f9;
+    box-sizing: border-box;
+  }
+}
+
+// Base gantt bar container styles
+.gantt-bar {
+  position: absolute;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+  .bar-label {
+    font-size: 8px;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .bar-percentage {
+    font-size: 8px;
+    font-weight: 800;
+  }
+}
+
+// Plan bar details
+.plan-bar {
+  top: 12px;
+  height: 14px;
+  background-color: #bbf7d0;
+  border: 1px solid #86efac;
+  z-index: 1;
+
+  .bar-label {
+    color: #166534;
+  }
+}
+
+// Critical Path bar details (Red, non-overlapping)
+.critical-bar {
+  top: 18px;
+  height: 28px;
+  background-color: #ef4444;
+  border: 1px solid #dc2626;
+  color: #ffffff;
+  z-index: 2;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.35);
+  justify-content: space-between;
+
+  .bar-label {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .bar-percentage {
+    color: #ffffff;
+    font-weight: 800;
+  }
+}
+
+// Actual bar details
+.actual-bar {
+  top: 32px;
+  height: 20px;
+  z-index: 2;
+  color: #ffffff;
+  justify-content: space-between;
+
+  .bar-label {
+    color: #ffffff;
+  }
+}
+
+// ==================== ALLOCATION CALENDAR & TABLE STYLES ====================
+.allocation-view-container {
+  width: 100%;
+  box-sizing: border-box;
+
+  .dashboard-content {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .app-table-container {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+}
+
+.calendar-sidebar {
+  .month-selector {
+    strong {
+      font-size: 14px;
+      color: #0f172a;
+    }
+  }
+
+  .day-cell {
+    &:not(.faded):hover {
+      background-color: #f1f5f9;
+    }
+
+    &.faded {
+      cursor: default;
+      .date-num {
+        color: #cbd5e1;
+      }
+    }
+
+    &.active {
+      background-color: #2563eb !important;
+
+      .date-num {
+        color: #ffffff !important;
+        font-weight: 700;
+      }
+
+      .claims-num {
+        color: #bfdbfe !important;
+      }
+    }
+
+    .date-num {
+      font-size: 13px;
+      color: #1e293b;
+    }
+  }
+}
+
+.name-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    color: #64748b;
+  }
+}
+
+.col-approved {
+  color: #16a34a !important;
+  font-weight: 600 !important;
+}
+
+.col-declined {
+  color: #dc2626 !important;
+  font-weight: 600 !important;
+}
+
+.col-pending {
+  color: #d97706 !important;
+  font-weight: 600 !important;
+}
+
+.col-total {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+.font-weight-500 {
+  font-weight: 500;
+}
+
+.tdLink {
+  color: #2563eb !important;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.dialog-content-body {
+  padding: 20px 25px;
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.dialog-table-container {
+  padding: 0 !important;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  overflow: hidden;
+
+  .dialog-task-hours {
+    font-weight: 600;
+    color: #2563eb;
+  }
+}
+
+.dialog-actions-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 20px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.NewHeader {
+  background-color: #3f3f3f;
+  padding: 15px 20px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+
+  h1 {
+    color: white !important;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+}

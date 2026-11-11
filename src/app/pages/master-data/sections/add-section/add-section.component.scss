@@ -1,0 +1,22 @@
+:host {
+	.section-dialog-body {
+		margin-bottom: 10px;
+	}
+
+	.section-field-row {
+		margin-bottom: 12px;
+	}
+
+	.section-field-label {
+		display: flex;
+		align-items: center;
+		margin-top: 5px;
+		white-space: nowrap;
+	}
+
+	.section-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 10px;
+	}
+}

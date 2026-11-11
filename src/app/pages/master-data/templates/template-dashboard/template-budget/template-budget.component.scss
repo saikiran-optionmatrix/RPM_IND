@@ -1,0 +1,218 @@
+.analytics-page {
+  width: 100%;
+}
+
+.analytics-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 24px;
+
+  h1 {
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 36px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.back-btn {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  height: 40px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: rgb(130, 130, 130);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+
+  &:hover {
+    background-color: rgb(110, 110, 110);
+  }
+}
+
+@media (max-width: 520px) {
+  .analytics-header h1 {
+    font-size: 22px;
+  }
+  .back-btn span {
+    display: none;
+  }
+  .back-btn {
+    padding: 0 10px;
+  }
+}
+
+.budget-page-container {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: #333333;
+}
+
+// --- Filter Bar ---
+.filter-bar {
+  background: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  border: 1px solid #e2e8f0;
+  margin-bottom: 24px;
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    label {
+      color: #64748b;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    select {
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      padding: 6px 12px;
+      min-width: 140px;
+      color: #1e293b;
+      outline: none;
+      background-color: #fff;
+      font-size: 13.5px;
+
+      &:focus {
+        border-color: #2563eb;
+      }
+    }
+  }
+
+  .btn-go {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background-color: #1d4ed8;
+    }
+  }
+}
+
+// --- Summary Stats Grid ---
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 15px;
+  margin-bottom: 24px;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-card {
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 1px solid transparent;
+
+    .value {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    &.blue { background-color: #ebf3ff; color: #2e5da3; border-color: #d6e6ff; }
+    &.green { background-color: #ebf9f1; color: #329663; border-color: #d1f0df; }
+    &.orange { background-color: #fff4e5; color: #c2781d; border-color: #ffe8cc; }
+    &.purple { background-color: #f6f0ff; color: #8e5bd6; border-color: #ecd9ff; }
+    &.red { background-color: #fff0f0; color: #d64545; border-color: #ffd6d6; }
+    &.cyan { background-color: #e6fcf5; color: #208d8d; border-color: #c3fae8; }
+  }
+}
+
+.label {
+  color: #385590;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.label1 {
+  color: #225c45;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.label2 {
+  color: #c2781d;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.label3 {
+  color: #8e5bd6;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.label4 {
+  color: #d64545;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.label5 {
+  color: #208d8d;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.font-bold {
+  font-weight: 600;
+}
+
+.mine {
+  position: fixed;
+  bottom: 80px;
+  right: 40px;
+  background-color: #dfdfdf !important;
+  color: #414141 !important;
+  z-index: 9999 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+
+  mat-icon {
+    color: #414141 !important;
+  }
+}

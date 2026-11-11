@@ -1,0 +1,67 @@
+<div class="checklist-popup-card">
+  <!-- Dialog Header -->
+  <div class="NewHeader">
+    <h3 style="padding-top: 10px;">Gate Checklist &mdash; {{ gateCode }}</h3>
+  </div>
+
+  <div class="checklist-modal-body">
+    <div class="checklist-gate-title">
+      <strong>{{ gateName }}</strong>
+      @if (isReadonly) {
+        <span class="badge-readonly">Read Only</span>
+      }
+    </div>
+
+    <!-- Add Item Row (if not readonly) -->
+    @if (!isReadonly) {
+      <div class="add-checklist-row">
+        <input type="text" class="form-control" [(ngModel)]="newChecklistText" (keyup.enter)="addChecklistItem()"
+          placeholder="Add new checklist requirement..." style="height: 36px; border-radius: 4px;" />
+        <button type="button" class="app-btn app-btn-primary" (click)="addChecklistItem()" >
+          <mat-icon>add</mat-icon> Add
+        </button>
+      </div>
+    }
+
+    <!-- Items List -->
+    <div class="checklist-items-list">
+      @for (item of checklistItems; track item.id; let i = $index) {
+        <div class="checklist-item-row">
+          <mat-checkbox color="primary" [checked]="item.done" [disabled]="isReadonly" (change)="toggleChecklistItem(item)">
+            <span [class.checklist-done-text]="item.done" [class.mandatory-item-text]="item.mandatory">
+              {{ item.text }}
+              @if (item.mandatory) {
+                <span class="mandatory-asterisk" title="Mandatory Criterion">*</span>
+              }
+            </span>
+          </mat-checkbox>
+          @if (!isReadonly) {
+            <!-- <div class="checklist-item-meta">
+              <a (click)="deleteChecklistItem(i)" class="checklist-delete-btn" matTooltip="Delete item">
+                <i class="fa fa-trash"></i>
+              </a>
+            </div> -->
+          }
+        </div>
+      } @empty {
+        <div class="empty-checklist-state">
+          No checklist items defined for this gate yet.
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <mat-dialog-actions align="end"
+    style="margin-top: 15px; width: 100%; box-sizing: border-box; flex-shrink: 0; display: flex; justify-content: flex-end; gap: 8px;">
+    <button  type="button" class="app-btn app-btn-default" (click)="onClose()"
+      style="background-color: lightgray; color: red;">
+      <mat-icon>cancel</mat-icon> Close
+    </button>
+    @if (!isReadonly) {
+      <button type="button" class="app-btn app-btn-primary" (click)="onSave()">
+        <mat-icon>save</mat-icon> Save
+      </button>
+    }
+  </mat-dialog-actions>
+</div>

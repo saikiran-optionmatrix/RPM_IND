@@ -1,0 +1,45 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    Stage Divisions {{ stageName ? '- ' + stageName : '' }}
+  </h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="col-sm-12" style="margin-bottom: 10px;">
+    <div class="app-table-container">
+      <div class="table-responsive">
+        <table class="table app-table">
+          <thead>
+            <tr>
+              <th class="text-center">Division Name</th>
+              <th class="text-center" style="width: 80px; min-width: 80px;">
+                <mat-checkbox [checked]="isAllSelected()" (change)="toggleAll($event.checked)" color="primary"></mat-checkbox>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (div of divisionsList; track div.name) {
+              <tr>
+                <td class="text-center">{{ div.name }}</td>
+                <td class="text-center">
+                  <mat-checkbox [(ngModel)]="div.selected" color="primary"></mat-checkbox>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 10px; margin-top: 15px;">
+      <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="app-btn app-btn-default" (click)="close()">
+          <mat-icon>cancel</mat-icon> Close
+        </button>
+        <button type="button" class="app-btn app-btn-primary" (click)="save()">
+          <mat-icon>save</mat-icon> Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

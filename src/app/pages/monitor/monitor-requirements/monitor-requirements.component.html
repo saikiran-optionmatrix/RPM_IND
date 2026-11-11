@@ -1,0 +1,248 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="app-table-container">
+
+        <!-- ==========================================
+             PAGE ACTIONS & TOGGLES (from MonitorActivities)
+             ========================================== -->
+        <div class="app-page-actions"
+          style="justify-content: flex-end; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 16px;">
+
+          <!-- 1. Exclude Completed Checkbox -->
+          <mat-checkbox [(ngModel)]="excludeCompleted" (change)="onExcludeCompletedChange()" color="primary"
+            style="margin-right: 8px;">
+            Exclude Completed
+          </mat-checkbox>
+
+          <!-- 2. Overdue Checkbox -->
+          <mat-checkbox [(ngModel)]="isOverdueOnly" (change)="onOverdueChange()" color="primary"
+            style="margin-right: 8px;">
+            Overdue
+          </mat-checkbox>
+
+          
+
+          <!-- 4. Grid Columns Button -->
+          <button type="button" class="app-btn app-btn-default">
+            <mat-icon>grid_on</mat-icon>
+            <span>Grid Columns</span>
+          </button>
+
+          <!-- 5. Filter Button -->
+          <button type="button" class="app-btn app-btn-filter" (click)="toggleFilter()" [class.active]="showFilter">
+            <mat-icon>filter_list</mat-icon>
+            <span>Filter</span>
+          </button>
+
+        </div>
+
+        <!-- ==========================================
+             FILTER PANEL
+             ========================================== -->
+        @if (showFilter) {
+        <mat-card class="app-filter-panel" style="margin-bottom: 20px;">
+          <mat-card-content>
+            <form [formGroup]="filterForm" class="app-filter-grid">
+
+              <div class="app-filter-fields">
+                <div class="app-filter-field">
+                  <label>Keyword:</label>
+                  <input class="app-filter-control" formControlName="Keyword" placeholder="Search keyword">
+                </div>
+
+                <div class="app-filter-field">
+                  <label>Project Code:</label>
+                  <input class="app-filter-control" formControlName="ProjectCode" placeholder="Search project code">
+                </div>
+
+                <div class="app-filter-field">
+                  <label>Department:</label>
+                  <select class="app-filter-control" formControlName="Department">
+                    <option [value]="null">All Departments</option>
+                    @for (dept of departmentOptions; track dept) {
+                    <option [value]="dept">{{ dept }}</option>
+                    }
+                  </select>
+                </div>
+
+                <div class="app-filter-field">
+                  <label>Role:</label>
+                  <select class="app-filter-control" formControlName="Role">
+                    <option [value]="null">All Roles</option>
+                    @for (r of roleOptions; track r) {
+                    <option [value]="r">{{ r }}</option>
+                    }
+                  </select>
+                </div>
+
+                <div class="app-filter-field">
+                  <label>From Due Date:</label>
+                  <input type="date" class="app-filter-control" formControlName="FromDate">
+                </div>
+
+                <div class="app-filter-field">
+                  <label>To Due Date:</label>
+                  <input type="date" class="app-filter-control" formControlName="ToDate">
+                </div>
+              </div>
+
+              <div class="app-filter-actions">
+                <button type="button" class="app-btn app-btn-primary" (click)="onSearch()">
+                  <mat-icon>search</mat-icon>
+                  <span>Search</span>
+                </button>
+                <button type="button" class="app-btn app-btn-default" (click)="onClear()">
+                  <mat-icon>settings_backup_restore</mat-icon>
+                  <span>Clear</span>
+                </button>
+              </div>
+
+              <div class="app-filter-toggle">
+                <button type="button" class="app-icon-btn" aria-label="Collapse filter" (click)="toggleFilter()">
+                  <mat-icon>keyboard_double_arrow_up</mat-icon>
+                </button>
+              </div>
+
+            </form>
+          </mat-card-content>
+        </mat-card>
+        }
+
+        <!-- Scroll Buttons -->
+        <div class="d-flex justify-content-end mb-2" style="gap: 10px;">
+          <div class="d-flex justify-content-end mb-2">
+            <button class="mine" mat-fab style="background-color: #cecdcd; right: 110px; z-index: 9999;"
+              (click)="scrollLeft()">
+              <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+            </button>
+            <button class="mine" mat-fab style="background-color: #cecdcd; z-index: 9999;" (click)="scrollRight()">
+              <mat-icon style="color: #414141;">fast_forward</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             TABLE VIEW (Requirements Grid)
+             ========================================== -->
+        <div #scrollContainer class="table-responsive" style="overflow-x: auto; scroll-behavior: smooth;">
+          <table class="table app-table" style="white-space: nowrap;">
+            <thead>
+              <tr>
+                <th class="text-center" style="width: 80px;">Action</th>
+                <th class="text-center" style="width: 60px;">Active</th>
+                <th class="text-center" style="width: 60px;">Done</th>
+                <th class="text-left" style="min-width: 140px;">Project Code</th>
+                <th class="text-left" style="min-width: 220px;">Requirement Name</th>
+                <th class="text-left" style="min-width: 180px;">Delay Reason</th>
+                <th class="text-left" style="min-width: 160px;">Department</th>
+                <th class="text-left" style="min-width: 180px;">Role</th>
+                <th class="text-center" style="min-width: 130px;">Due date</th>
+                <th class="text-center" style="min-width: 140px;">Completed date</th>
+                <th class="text-center" style="width: 80px;">Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of paginatedRequirements; track item.id) {
+              <tr>
+                <!-- 1. Action -->
+                <td class="text-center">
+                  <div class="table-actions" style="justify-content: center;">
+                    <button type="button" class="table-action-button edit" matTooltip="Edit Requirement" (click)="onEditRequirement(item)">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button type="button" class="table-action-button delete" matTooltip="Delete Requirement" (click)="onDeleteRequirement(item)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </td>
+
+                <!-- 2. Active -->
+                <td class="text-center">
+                  <mat-checkbox color="primary" [(ngModel)]="item.IsActive"></mat-checkbox>
+                </td>
+
+                <!-- 3. Done -->
+                <td class="text-center">
+                  <mat-checkbox color="primary" [(ngModel)]="item.Done" (change)="onDoneChange(item)"></mat-checkbox>
+                </td>
+
+                <!-- 4. Project Code -->
+                <td class="text-left">
+                  <a class="app-route-link font-weight-500" role="button" tabindex="0" (click)="openProject(item)"
+                    [matTooltip]="item.ProjectName" matTooltipPosition="above"
+                    [style.color]="isDateExceeded(item) ? '#dc2626' : null">
+                    {{ item.ProjectCode }}
+                  </a>
+                </td>
+
+                <!-- 5. Requirement Name -->
+                <td class="text-left font-weight-500" [style.color]="isDateExceeded(item) ? '#dc2626' : '#1e293b'">
+                  {{ item.RequirementName }}
+                </td>
+
+                <!-- Delay Reason -->
+                <td class="text-left font-weight-500" [style.color]="isDateExceeded(item) ? '#dc2626' : '#94a3b8'">
+                  {{ isDateExceeded(item) ? (item.delayReason || 'Raw Material Shortage') : '-' }}
+                </td>
+
+                <!-- 6. Department -->
+                <td class="text-left font-weight-500" [style.color]="isDateExceeded(item) ? '#dc2626' : '#334155'">
+                  {{ item.Department }}
+                </td>
+
+                <!-- 7. Role -->
+                <td class="text-left">
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <mat-icon style="font-size: 16px; width: 16px; height: 16px;" [style.color]="isDateExceeded(item) ? '#dc2626' : '#64748b'">person</mat-icon>
+                    <span [style.color]="isDateExceeded(item) ? '#dc2626' : '#1e293b'">{{ item.Role }}</span>
+                  </div>
+                </td>
+
+                <!-- 8. Due date -->
+                <td class="text-center font-weight-500" [style.color]="isDateExceeded(item) ? '#dc2626' : '#475569'">
+                  {{ item.DueDate | date:'dd-MMM-yyyy' }}
+                  
+                </td>
+
+                <!-- 9. Completed date -->
+                <td class="text-center font-weight-500" [style.color]="isDateExceeded(item) && item.CompletedDate ? '#dc2626' : (item.CompletedDate ? '#16a34a' : '#94a3b8')">
+                  {{ item.CompletedDate ? (item.CompletedDate | date:'dd-MMM-yyyy') : '—' }}
+                  
+                </td>
+
+                <!-- 10. Remarks -->
+                <td class="text-center" style="vertical-align: middle;">
+                  @if (item.Remarks) {
+                  <mat-icon
+                    [matTooltip]="item.Remarks"
+                    matTooltipPosition="above"
+                    style="color: #2563eb; cursor: pointer; font-size: 20px; width: 20px; height: 20px; vertical-align: middle;">
+                    info
+                  </mat-icon>
+                  } @else {
+                  <span style="color: #94a3b8;">—</span>
+                  }
+                </td>
+
+              </tr>
+              } @empty {
+              <tr>
+                <td colspan="11" class="empty-table text-center">No records found matching criteria</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ==========================================
+             PAGINATION
+             ========================================== -->
+        <mat-paginator [length]="totalSize" [pageSize]="pageSize" [pageIndex]="currentPage"
+          [pageSizeOptions]="[5, 10, 25, 50, 100]" (page)="handlePage($event)" showFirstLastButtons>
+        </mat-paginator>
+
+      </div>
+    </div>
+  </div>
+</div>

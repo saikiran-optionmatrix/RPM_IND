@@ -1,0 +1,20 @@
+:host {
+	.city-dialog-body {
+		margin-bottom: 10px;
+	}
+
+	.city-field-row {
+		margin-bottom: 12px;
+	}
+
+	.city-field-label {
+		display: block;
+		margin-top: 5px;
+	}
+
+	.city-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 10px;
+	}
+}

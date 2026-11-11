@@ -1,0 +1,81 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title tabindex="-1">
+    Job Code Categories
+  </h1>
+</div>
+
+<div mat-dialog-content class="job-code-dialog-content">
+  <div class="row tables-row">
+
+    <!-- Left Column Table -->
+    <div class="col-sm-6 table-col">
+      <div class="app-table-container">
+        <div class="table-responsive">
+          <table class="table app-table">
+            <thead>
+              <tr>
+                <th class="text-center" style="width: 70px; min-width: 70px;">
+                  <mat-checkbox [checked]="isAllLeftSelected()" (change)="toggleAllLeft($event.checked)" color="primary"></mat-checkbox>
+                </th>
+                <th class="text-center" style="width: 120px; min-width: 120px;">Job Code</th>
+                <th class="text-center">Job Title</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of leftColumn; track item.code) {
+                <tr [class.row-selected]="item.selected">
+                  <td class="text-center">
+                    <mat-checkbox [(ngModel)]="item.selected" color="primary"></mat-checkbox>
+                  </td>
+                  <td class="text-center font-weight-500" style="color: #2563eb;">{{ item.code }}</td>
+                  <td class="text-center">{{ item.title }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column Table -->
+    <div class="col-sm-6 table-col">
+      <div class="app-table-container">
+        <div class="table-responsive">
+          <table class="table app-table">
+            <thead>
+              <tr>
+                <th class="text-center" style="width: 70px; min-width: 70px;">
+                  <mat-checkbox [checked]="isAllRightSelected()" (change)="toggleAllRight($event.checked)" color="primary"></mat-checkbox>
+                </th>
+                <th class="text-center" style="width: 120px; min-width: 120px;">Job Code</th>
+                <th class="text-center">Job Title</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of rightColumn; track item.code) {
+                <tr [class.row-selected]="item.selected">
+                  <td class="text-center">
+                    <mat-checkbox [(ngModel)]="item.selected" color="primary"></mat-checkbox>
+                  </td>
+                  <td class="text-center font-weight-500" style="color: #2563eb;">{{ item.code }}</td>
+                  <td class="text-center">{{ item.title }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Action Buttons Footer -->
+<mat-dialog-actions align="end" class="job-code-dialog-actions">
+  <button type="button" class="app-btn app-btn-default" (click)="close()" style="background-color: lightgray; color: red;">
+    <mat-icon>cancel</mat-icon> Close
+  </button>
+  <button type="button" class="app-btn app-btn-primary" (click)="save()">
+    <mat-icon>save</mat-icon> Save
+  </button>
+</mat-dialog-actions>

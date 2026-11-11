@@ -1,0 +1,174 @@
+<mat-sidenav-container [dir]="settings.rtl ? 'rtl' : 'ltr'">
+    <mat-sidenav-content #mainSidenavContent id="main" (scroll)="onPageScroll($event)">
+
+        <mat-toolbar color="primary" class="px-2">
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <a class="logo" routerLink="/">
+                        <!-- <img src="img/logo/rpm.png" alt="OptionMatrix" class="app-logo"> -->
+                         <p class="header-text">PRAGATI</p>
+                    </a>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="end center" class="navbar-actions">
+
+                    <!-- <div style="color: white !important; display: flex; align-items: center; gap: 6px; margin-right: 8px; min-width: 150px;">
+                        <label for="divSelect" style="font-size: 14px; font-weight: 500; cursor: pointer; color: white;">Div :</label>
+                        <select id="divSelect" style="padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(255, 255, 255, 0.4); background: rgba(255, 255, 255, 0.15); color: white; font-size: 13px; outline: none; cursor: pointer; min-width: 150px;">
+                            <option value="DIV -1" style="color: #333; background-color: #fff;">  Oral Solids - OS</option>
+                            <option value="DIV -2" style="color: #333; background-color: #fff;"> Injectables - IJ</option>
+                              <option value="DIV -1" style="color: #333; background-color: #fff;">  Complex  Injectables - CI</option>
+                            <option value="DIV -2" style="color: #333; background-color: #fff;"> Biotech - BT</option>
+                        </select>
+                    </div> -->
+                    <button mat-icon-button class="navbar-settings-button" routerLink="/settings" routerLinkActive="active" [routerLinkActiveOptions]="{exact:false}">
+                        <mat-icon>settings</mat-icon>
+                    </button>
+                    <button mat-icon-button class="navbar-ai-button" (click)="toggleAi()" matTooltip="PRAGATI AI Assistant" aria-label="Toggle AI Agent">
+                        <mat-icon>auto_awesome</mat-icon>
+                    </button>
+                    <app-messages></app-messages>
+                    <app-fullscreen></app-fullscreen>
+                    <app-user-menu></app-user-menu>
+                </div>
+            </div>
+        </mat-toolbar>
+
+        <mat-toolbar id="horizontal-menu" color="primary" class="horizontal-menu px-0 transition-2" style="padding: 0 !important;">
+            <div fxLayout="row" fxLayoutAlign="center center" class="w-100 h-100">
+                <app-horizontal-menu [menuParentId]="0" class="w-100 h-100"></app-horizontal-menu>
+            </div>
+        </mat-toolbar>
+
+<div id="main-content" class="sidenav-content-inner transition-2" [class.full-bleed]="isFullBleed()">
+
+    @if (!isFullBleed()) {
+        <app-breadcrumb></app-breadcrumb>
+    }
+
+    <router-outlet></router-outlet>
+</div>
+
+        <div #backToTop fxLayout="row" fxLayoutAlign="center center" class="back-to-top" (click)="scrollToTop()">
+            <mat-icon>arrow_upward</mat-icon>
+        </div>
+
+        <!-- Floating AI Agent Widget (Right side of page) -->
+        <div class="ai-agent-wrapper">
+            <!-- Collapsed Floating AI Trigger -->
+            <!-- @if (!isAiOpen()) {
+                <button type="button" 
+                        class="ai-trigger-fab" 
+                        (click)="toggleAi()" 
+                        matTooltip="Chat with RPM AI Assistant"
+                        aria-label="Open AI Assistant">
+                    <span class="ai-pulse-ring"></span>
+                    <div class="ai-fab-icon-wrap">
+                        <mat-icon class="ai-fab-icon">auto_awesome</mat-icon>
+                    </div>
+                    <span class="ai-fab-label">AI Agent</span>
+                </button>
+            } -->
+
+            <!-- Expanded AI Chat Panel -->
+            @if (isAiOpen()) {
+                <div class="ai-chat-card" role="dialog" aria-label="RPM AI Assistant">
+                    <!-- Header -->
+                    <div class="ai-chat-header">
+                        <div class="ai-header-lead">
+                            <div class="ai-avatar-badge">
+                                <mat-icon>auto_awesome</mat-icon>
+                                <span class="ai-live-dot"></span>
+                            </div>
+                            <div class="ai-header-meta">
+                                <div class="ai-name">PRAGATI AI Assistant</div>
+                                <div class="ai-status-text">
+                                    <span class="dot-indicator"></span> Online &bull; Ready to assist
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ai-header-controls">
+                            <button type="button" class="ai-tool-btn" (click)="clearAiChat()" matTooltip="Clear Chat" aria-label="Reset chat history">
+                                <mat-icon>refresh</mat-icon>
+                            </button>
+                            <button type="button" class="ai-tool-btn ai-close-btn" (click)="closeAi()" matTooltip="Minimize" aria-label="Close AI agent">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Chat Body / Scrollable stream -->
+                    <div #aiChatBody class="ai-chat-body">
+                        <!-- Suggested Quick Prompts -->
+                        <div class="ai-suggestions-panel">
+                            <span class="suggestions-caption">Suggested queries:</span>
+                            <div class="suggestions-tags">
+                                @for (suggestion of aiSuggestions; track suggestion) {
+                                    <button type="button" class="suggestion-tag" (click)="selectAiSuggestion(suggestion)">
+                                        {{ suggestion }}
+                                    </button>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Messages Stream -->
+                        @for (msg of aiMessages(); track msg.id) {
+                            <div class="ai-message-row" [class.user-align]="msg.sender === 'user'" [class.ai-align]="msg.sender === 'ai'">
+                                @if (msg.sender === 'ai') {
+                                    <div class="ai-msg-avatar">
+                                        <mat-icon>auto_awesome</mat-icon>
+                                    </div>
+                                }
+                                <div class="ai-message-content">
+                                    <div class="ai-bubble" [class.bubble-user]="msg.sender === 'user'" [class.bubble-ai]="msg.sender === 'ai'">
+                                        {{ msg.text }}
+                                    </div>
+                                    <span class="ai-time">{{ msg.time }}</span>
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Typing State -->
+                        @if (isAiTyping()) {
+                            <div class="ai-message-row ai-align">
+                                <div class="ai-msg-avatar">
+                                    <mat-icon>auto_awesome</mat-icon>
+                                </div>
+                                <div class="ai-message-content">
+                                    <div class="ai-bubble bubble-ai typing-indicator">
+                                        <span class="bounce-dot"></span>
+                                        <span class="bounce-dot"></span>
+                                        <span class="bounce-dot"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Chat Input Footer -->
+                    <div class="ai-chat-footer">
+                        <form class="ai-input-wrapper" (ngSubmit)="submitAiMessage()">
+                            <input #aiInputField
+                                   type="text"
+                                   class="ai-input"
+                                   placeholder="Ask AI agent anything..."
+                                   [value]="aiInputText()"
+                                   (input)="onAiInput($event)"
+                                   (keydown.enter)="$event.preventDefault(); submitAiMessage()"
+                                   aria-label="Type your message" />
+                            <button type="submit" 
+                                    class="ai-send-btn" 
+                                    [disabled]="!aiInputText().trim() || isAiTyping()" 
+                                    matTooltip="Send message"
+                                    aria-label="Send message">
+                                <mat-icon>send</mat-icon>
+                            </button>
+                        </form>
+                        <div class="ai-footer-badge">UI Prototype &bull; Simulated Assistant</div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>

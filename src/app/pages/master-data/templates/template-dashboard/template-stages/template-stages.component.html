@@ -1,0 +1,261 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+  <header class="analytics-header">
+    <h1>{{ projectName }}</h1>
+    <button type="button" class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon><span>Back</span>
+    </button>
+  </header>
+
+  <div class="stages-page-container">
+    <!-- Scroll Buttons -->
+    <div class="d-flex justify-content-end mb-2" style="gap: 10px;">
+      <div class="d-flex justify-content-end mb-2">
+        <button class="mine" mat-fab style="background-color: #cecdcd; right: 110px; z-index: 9999;"
+          (click)="scrollLeft()">
+          <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+        </button>
+        <button class="mine" mat-fab style="background-color: #cecdcd; z-index: 9999;" (click)="scrollRight()">
+          <mat-icon style="color: #414141;">fast_forward</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Table wrapping using app-table-container and app-table from assets -->
+    <div class="app-table-container" style="padding: 0; width: 100%;">
+      <div #scrollContainer class="table-responsive" style="overflow-x: auto; scroll-behavior: smooth;">
+        <table class="table app-table">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 100px !important">Actions</th>
+              <th class="text-center">Status</th>
+              <!-- <th class="text-center">Done</th> -->
+              <th class="text-center">WBS</th>
+              <th class="text-center">Timeline</th>
+              <!-- <th class="text-center">Completion</th> -->
+              <th class="text-center">Stage Code</th>
+              <th class="text-left" style="min-width: 140px;">Stage Name</th>
+              <th class="text-center">Plan Effort</th>
+              <th class="text-center">Plan Duration</th>
+              <th class="text-center">Buffer</th>
+              <th class="text-left">Gate Name</th>
+              <!-- <th class="text-center">Gate Status</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            @for (s of pagedStages; track s.stageCode; let idx = $index) {
+            <tr>
+              <!-- Actions: Edit/Delete as simple buttons without any functionality -->
+              <td class="text-center">
+                <div class="table-actions">
+                  <button type="button" class="table-action-button edit" matTooltip="Edit" aria-label="Edit stage">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <button type="button" class="table-action-button delete" matTooltip="Delete" aria-label="Delete stage">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+
+              <!-- Status toggle -->
+              <td class="text-center">
+                <button type="button" class="status-button" [class.status-active]="s.status"
+                  [class.status-inactive]="!s.status" (click)="toggleStatus(s)">
+                  {{ s.status ? 'Active' : 'Inactive' }}
+                </button>
+              </td>
+
+              <!-- Done Checkbox (unticked for all) -->
+              <!-- <td class="text-center" style="vertical-align: middle;">
+                <mat-checkbox color="primary" [checked]="s.done"
+                  (change)="onDoneChange(s, $event.checked)">
+                </mat-checkbox>
+              </td> -->
+
+              <!-- WBS / Setup Action -->
+              <td class="text-center">
+                <a (click)="openSetup(s)" style="cursor: pointer;" class="setup-link" matTooltip="View WBS Activities">
+                  {{ s.setupCount }}
+                </a>
+              </td>
+
+              <!-- Timeline Action -->
+              <td class="text-center">
+                <button mat-icon-button (click)="openTimelineModal(s)" matTooltip="View Timeline"
+                  style="min-width: 32px; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; outline: none; padding: 0;">
+                  <mat-icon
+                    style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
+                    calendar_today
+                  </mat-icon>
+                </button>
+              </td>
+
+              <!-- Completion Slider -->
+              <!-- <td class="text-center" style="vertical-align: middle;">
+                <input type="range" min="0" max="100" [(ngModel)]="s.percentCompletion" class="custom-range"
+                  [style.--slider-color]="getSliderColor(s.percentCompletion || 0)"
+                  [style.--slider-fill]="(s.percentCompletion || 0) + '%'" matTooltip="{{ s.percentCompletion || 0 }}%">
+              </td> -->
+
+              <!-- Stage Code -->
+              <td class="text-center">{{ s.stageCode }}</td>
+
+              <!-- Stage Name -->
+              <td class="text-left" style="max-width: 220px; min-width: 140px; vertical-align: middle;">
+                <span [matTooltip]="s.name" matTooltipPosition="above"
+                  style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer;">
+                  {{ s.name }}
+                </span>
+              </td>
+
+              <!-- Plan Effort -->
+              <td class="text-center">{{ s.planEffort }}</td>
+
+              <!-- Plan Duration -->
+              <td class="text-center">{{ s.planDuration }}</td>
+
+              <!-- Buffer -->
+              <td class="text-center">{{ s.buffer }}</td>
+
+              <!-- Gate Name -->
+              <td class="text-left">{{ s.gateName }}</td>
+
+              <!-- Gate Status
+              <td class="text-center">
+                @if (s.gateStatus && s.gateStatus !== 'Pending') {
+                <span class="gate-status-badge" [class]="'gate-status-badge--' + s.gateStatus.toLowerCase()">
+                  {{ s.gateStatus }}
+                </span>
+                } @else if (s.gateStatus === 'Pending') {
+                <span class="gate-status-badge gate-status-badge--pending">
+                  {{ s.gateStatus }}
+                </span>
+                } @else {
+                -
+                }
+              </td> -->
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="13" class="empty-table">No records found</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <mat-paginator [length]="stages.length" [pageIndex]="currentPage" [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions" [showFirstLastButtons]="true" (page)="onPageChange($event)">
+      </mat-paginator>
+    </div>
+  </div>
+
+  <!-- ============ TIMELINE POP-UP MODAL ============ -->
+  @if (showTimelineModal) {
+  <div class="bl-modal-overlay" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+    <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+      <!-- Header Row -->
+      <div class="timeline-popup-header">
+        <div class="timeline-popup-title-wrap">
+          <div class="timeline-icon-box">
+            <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+          </div>
+          <h3 class="timeline-popup-title">
+            Timeline &mdash; {{ selectedTimelineItem?.name }}
+          </h3>
+        </div>
+        <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+          <mat-icon
+            style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Dates Grid -->
+      <div class="timeline-dates-container">
+        <div class="timeline-accent-bar"></div>
+
+        <div class="timeline-grid-content">
+          <!-- Row 1: Plan Start Date, Plan End Date, Actual Start Date -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planStart ? (selectedTimelineItem.planStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan End Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planEnd ? (selectedTimelineItem.planEnd | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Actual Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualStart ? (selectedTimelineItem.actualStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row-divider"></div>
+
+          <!-- Row 2: Actual End Date, ETA, Actual Duration -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Actual End Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualEnd ? (selectedTimelineItem.actualEnd | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">ETA</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.eta ? (selectedTimelineItem.eta | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Actual Duration</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualDuration || '—' }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 3: Actual Effort, Plan Duration, Plan Effort -->
+          <div class="timeline-row-divider"></div>
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Actual Effort</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualEffort || '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan Duration</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planDuration || '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Plan Effort</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planEffort || '—' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description Box -->
+      <div class="timeline-desc-box">
+        <div class="timeline-desc-header">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #3b82f6;">description</mat-icon>
+          <span>Description</span>
+        </div>
+        <p class="timeline-desc-text">
+          {{ selectedTimelineItem?.description || ('Timeline overview for ' + selectedTimelineItem?.name) }}
+        </p>
+      </div>
+    </div>
+  </div>
+  }
+</div>

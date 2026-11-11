@@ -1,0 +1,51 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>Reset Template Confirmation</h1>
+</div>
+
+<div mat-dialog-content class="reset-template-content">
+  <div class="confirmation-box">
+    <mat-icon class="warning-icon" style="margin-bottom: -10px;">warning_amber</mat-icon>
+    <div class="confirmation-message">
+      <p class="main-text">
+        Are you sure you want to reset template for
+        <strong>{{ projectName }}</strong>?
+     
+        This action cannot be undone. All existing stages, deliverables, gates, activities, and tasks
+        will be reset to the selected template.
+      </p>
+    </div>
+  </div>
+
+  <div class="template-field-row">
+    <label for="loadFromTemplate">Load from Template :</label>
+    <select
+      id="loadFromTemplate"
+      class="form-control"
+      [(ngModel)]="selectedTemplate"
+    >
+      <option value="">Select Template</option>
+      @for (tmpl of templatesList; track tmpl) {
+      <option [value]="tmpl">{{ tmpl }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="template-actions">
+    <button
+      class="app-btn app-btn-default"
+      type="button"
+      (click)="close()"
+      style="background-color: lightgray; color: red;"
+    >
+      <mat-icon>cancel</mat-icon> Close
+    </button>
+    <button
+      class="app-btn app-btn-primary"
+      type="button"
+      (click)="save()"
+      [disabled]="!selectedTemplate"
+    >
+      <mat-icon>save</mat-icon> Save
+    </button>
+  </div>
+</div>

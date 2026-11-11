@@ -1,0 +1,45 @@
+<div class="horizontal-menu-wrapper" [class.root-menu]="menuParentId == 0" [fxLayout]="(menuParentId == 0) ? 'row' : 'column'" [fxLayoutAlign]="(menuParentId == 0) ? 'center center' : 'start center'">
+    @for (menu of menuItems; track menu.id) {
+        <div class="horizontal-menu-item" [class.w-100]="menuParentId != 0">
+            @if (menu.routerLink && !menu.hasSubMenu) {
+                <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+                    [routerLink]="[menu.routerLink]"
+                    routerLinkActive="active-link"
+                    [routerLinkActiveOptions]="{ exact: menu.routerLink === '/' || menu.routerLink === '' }"
+                    [matTooltip]="menu.title" matTooltipPosition="above" [matTooltipDisabled]="(settings.menuType=='mini') ? 'false' : 'true'"
+                    [id]="'horizontal-menu-item-'+menu.id">
+                    <mat-icon class="horizontal-menu-icon">{{menu.icon}}</mat-icon>
+                    <span class="horizontal-menu-title">{{menu.title}}</span>
+                </a>
+            }
+            @if (menu.href && !menu.subMenu) {
+                <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+                    [attr.href]="menu.href || ''" [attr.target]="menu.target || ''"
+                    [matTooltip]="menu.title" matTooltipPosition="above" [matTooltipDisabled]="(settings.menuType=='mini') ? 'false' : 'true'"
+                    [id]="'horizontal-menu-item-'+menu.id">
+                    <mat-icon class="horizontal-menu-icon">{{menu.icon}}</mat-icon>
+                    <span class="horizontal-menu-title">{{menu.title}}</span>
+                </a>
+            }
+            @if (menu.hasSubMenu) {
+                <a mat-button fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
+                    [matTooltip]="menu.title" matTooltipPosition="above" [matTooltipDisabled]="(settings.menuType=='mini') ? 'false' : 'true'"
+                    [id]="'horizontal-menu-item-'+menu.id">
+                    <mat-icon class="horizontal-menu-icon">{{menu.icon}}</mat-icon>
+                    <span class="horizontal-menu-title">{{menu.title}}</span>
+                </a>
+                <div class="horizontal-sub-menu" [id]="'horizontal-sub-menu-'+menu.id">
+                    <app-horizontal-menu [menuParentId]="menu.id"></app-horizontal-menu>
+                </div>
+            }
+        </div>
+    }
+
+    @if (menuParentId == 0) {
+        <div class="horizontal-menu-backlog-container">
+            <button type="button" class="backlog-nav-btn" (click)="openBacklog()" matTooltip="Backlog" aria-label="Backlog">
+                {{ backlogText }}
+            </button>
+        </div>
+    }
+</div>

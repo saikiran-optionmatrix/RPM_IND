@@ -1,0 +1,118 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+  <header class="analytics-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h1>{{ projectName }} {{ projectCode ? ('(' + projectCode + ')') : '' }} - History</h1>
+    <button type="button" class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon><span>Back</span>
+    </button>
+  </header>
+
+  <!-- Scroll Buttons (Fast Rewind & Fast Forward) -->
+  <button class="mine" mat-fab style="background-color: #cecdcd; right: 110px; z-index: 9999;"
+    (click)="scrollLeft()" matTooltip="Scroll Left">
+    <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+  </button>
+  <button class="mine" mat-fab style="background-color: #cecdcd; right: 40px; z-index: 9999;" (click)="scrollRight()"
+    matTooltip="Scroll Right">
+    <mat-icon style="color: #414141;">fast_forward</mat-icon>
+  </button>
+
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-12">
+        <div class="app-table-container">
+
+          <div #scrollContainer class="table-responsive" style="overflow-x: auto; scroll-behavior: smooth;">
+            <table class="table app-table">
+              <thead>
+                <tr>
+                  <th>Project Code</th>
+                  <th>Project Owner</th>
+                  <th>Project Lead</th>
+                  <th>Molecule</th>
+                  <th>Product Name</th>
+                  <th>Division</th>
+                  <th>Location</th>
+                  <th>Dosage Form</th>
+                  <th>Strength</th>
+                  <th>Target Market</th>
+                  <th>Estimated Cost for Development</th>
+                  <th>Market Size in USD</th>
+                  <th>Level of Competition</th>
+                  <th>Competitor Name</th>
+                  <th>Market Access Strategy</th>
+                  <th>Proj Market Share</th>
+                  <th>Proj. NPV</th>
+                  <th>Comm. Attractiveness</th>
+                  <th>Priority of Project</th>
+                  <th>Timeline for Completion of Project</th>
+                  <th>Proj. Initiated on</th>
+                  <th>Product Status</th>
+                  <th>Pre EB Activities Completed on</th>
+                  <th>Tentative Batch Size</th>
+                  <th>Tentative EB Batch Plan</th>
+                  <th>Proj. Completed Date</th>
+                  <th>Expected MA Cost</th>
+                  <th>Drug Authority Name</th>
+                  <th>Remarks</th>
+                  <th>Last Updated</th>
+                  <th>Updated By</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of paginatedRecords; track $index) {
+                  <tr>
+                    <td>{{ item.projectCode }}</td>
+                    <td>{{ item.projectOwner }}</td>
+                    <td>{{ item.projectLead }}</td>
+                    <td>{{ item.molecule }}</td>
+                    <td>{{ item.productName }}</td>
+                    <td>{{ item.division }}</td>
+                    <td>{{ item.location }}</td>
+                    <td>{{ item.dosageForm }}</td>
+                    <td>{{ item.strength }}</td>
+                    <td>{{ item.targetMarket }}</td>
+                    <td>{{ item.estimatedCostForDevelopment }}</td>
+                    <td>{{ item.marketSizeInUsd }}</td>
+                    <td>{{ item.levelOfCompetition }}</td>
+                    <td [matTooltip]="item.competitorName">{{ item.competitorName }}</td>
+                    <td>{{ item.marketAccessStrategy }}</td>
+                    <td>{{ item.projectedMarketShare }}</td>
+                    <td>{{ item.projectedNpv }}</td>
+                    <td>{{ item.commercialAttractiveness }}</td>
+                    <td>{{ item.priorityOfProject }}</td>
+                    <td>{{ item.timelineForCompletionOfProject }}</td>
+                    <td>{{ item.projectInitiatedOn }}</td>
+                    <td>{{ item.productStatus }}</td>
+                    <td>{{ item.preEbActivitiesCompletedOn }}</td>
+                    <td>{{ item.tentativeBatchSize }}</td>
+                    <td>{{ item.tentativeEbBatchPlan }}</td>
+                    <td>{{ item.projectCompletedDate }}</td>
+                    <td>{{ item.expectedMaCost }}</td>
+                    <td>{{ item.drugAuthorityName }}</td>
+                    <td [matTooltip]="item.remarks">{{ item.remarks }}</td>
+                    <td>{{ item.lastUpdated }}</td>
+                    <td>{{ item.updatedBy }}</td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="31" class="empty-table text-center">No records found</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <mat-paginator
+            [length]="historyRecords.length"
+            [pageIndex]="pageIndex"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[5, 10, 20, 50]"
+            [showFirstLastButtons]="true"
+            (page)="handlePage($event)">
+          </mat-paginator>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

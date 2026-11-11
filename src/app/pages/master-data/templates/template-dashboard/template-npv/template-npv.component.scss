@@ -1,0 +1,260 @@
+.analytics-page { width: 100%; }
+.analytics-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; margin-bottom: 24px; }
+.analytics-header h1 { min-width: 0; margin: 0; overflow: hidden; color: rgba(0, 0, 0, 0.87); font-size: 28px; font-weight: 500; line-height: 36px; text-overflow: ellipsis; white-space: nowrap; }
+// .back-btn { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 6px; height: 40px; padding: 0 16px; border: none; border-radius: 4px; background-color: rgb(130, 130, 130); color: #fff; cursor: pointer; font: inherit; font-size: 14px; font-weight: 500; }
+// .back-btn:hover { background-color: rgb(110, 110, 110); }
+@media (max-width: 520px) { .analytics-header h1 { font-size: 22px; } .back-btn span { display: none; } .back-btn { padding: 0 10px; } }
+/* --- Action Buttons --- */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .btn-primary {
+      height: 36px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      font-weight: 500;
+  }
+
+ 
+}
+
+/* --- Table Container Card --- */
+.table-container-card {
+  border: 1px solid #cbd5e1;
+  border-radius: 0px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  box-sizing: border-box;
+
+  &::-webkit-scrollbar {
+      height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+      background: #f1f5f9;
+  }
+
+  &::-webkit-scrollbar-thumb {
+      background: #94a3b8;
+      border-radius: 4px;
+  }
+}
+
+/* --- Stages Grid Table Styling --- */
+.stages-grid-table {
+  width: 100%;
+  margin-bottom: 0;
+  border-collapse: collapse;
+
+  th {
+      padding: 10px 14px;
+      font-size: 14px;
+      white-space: nowrap;
+      border: 1px solid #6d6f72;
+      color: #1e293b;
+  }
+
+  td {
+      padding: 10px 14px;
+      font-size: 14px;
+      color: #334155;
+      border: 1px solid #e6e7e9;
+      vertical-align: middle;
+      white-space: nowrap;
+  }
+}
+
+/* --- NPV Table Specific Themes --- */
+.npv-grid-table {
+  /* Banner Header (Yellow) */
+  .banner-header-row th {
+      background-color: #3f3f3f !important;
+      color: #ffffff !important;
+      font-size: 14.5px;
+      padding: 12px 14px;
+      letter-spacing: 0.3px;
+  }
+
+  .amt-usd-badge {
+      color: #dc2626 !important;
+      font-weight: 700;
+  }
+
+  /* Column names header */
+  .column-names-header-row th {
+      background-color: #3f3f3f !important;
+      color: #ffffff !important;
+      font-size: 13.5px;
+  }
+
+  /* Sub header row */
+  .sub-header-row th {
+      background-color: #3f3f3f !important;
+      color: #ffffff !important;
+      padding: 6px 14px;
+      font-size: 12.5px;
+  }
+
+  .italic-header {
+      font-style: italic;
+      color: #ffffff !important;
+  }
+
+  .underline-text {
+      text-decoration: underline;
+      color: #0f172a;
+  }
+
+  /* Empty Divider Row */
+  .empty-divider-row td {
+      height: 20px;
+      padding: 0;
+      background-color: #ffffff;
+      border-left: 1px solid #e2e8f0;
+      border-right: 1px solid #e2e8f0;
+      border-top: none;
+      border-bottom: none;
+  }
+
+  .highlight-subtotal-row {
+      background-color: #f8fafc;
+
+      td {
+          font-weight: 600;
+      }
+  }
+
+  /* NPV Final Summary Row */
+  .npv-final-summary-row {
+      td {
+          padding: 12px 14px;
+          font-size: 14.5px;
+          border-top: 2px solid #0284c7;
+          border-bottom: 2px solid #0284c7;
+      }
+
+      .npv-title-cell {
+          color: #0284c7;
+          font-weight: 700;
+          background-color: #f0f9ff;
+      }
+
+      .npv-value-cell {
+          color: #0284c7;
+          font-size: 16px;
+          font-weight: 800;
+          background-color: #f0f9ff;
+      }
+  }
+
+  .npv-table-input {
+      width: 100%;
+      height: 30px;
+      padding: 2px 8px;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      text-align: right;
+      font-size: 14px;
+      background-color: #ffffff !important;
+      background: #ffffff !important;
+      color: #1e293b;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+      &:focus {
+          border-color: #2563eb;
+          box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+          background-color: #ffffff !important;
+      }
+
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus {
+          -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+          -webkit-text-fill-color: #1e293b !important;
+          box-shadow: 0 0 0px 1000px #ffffff inset !important;
+      }
+  }
+}
+
+/* --- Expenditure Working Table --- */
+.expenditure-table-header {
+  background: #ffffff;
+  border-bottom: 1px solid #cbd5e1;
+
+  .btn-primary {
+      height: 36px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      font-weight: 500;
+  }
+}
+
+.expenditure-table {
+  .expenditure-header-row th {
+      background-color: #3f3f3f !important;
+      color: #ffffff !important;
+      font-size: 13.5px;
+      font-weight: 700;
+      border: 1px solid #0d465c;
+      padding: 10px 14px;
+      letter-spacing: 0.2px;
+  }
+
+  .expenditure-subtotal-row td {
+      border-top: 2px solid #cbd5e1;
+      background-color: #f1f5f9;
+      font-size: 13.5px;
+      font-weight: 700;
+  }
+
+  .exchange-rate-row td {
+      background-color: #ffffff;
+      color: #0f172a;
+      font-size: 13.5px;
+      font-weight: 700;
+  }
+
+  .usd-total-row td {
+      border-top: 2px solid #ef4444;
+      border-bottom: 2px solid #ef4444;
+      background-color: #fef2f2;
+      font-size: 14px;
+      font-weight: 700;
+  }
+}
+
+/* Utility Classes */
+.text-left {
+  text-align: left !important;
+}
+.text-right {
+  text-align: right !important;
+}
+.text-center {
+  text-align: center !important;
+}
+.font-weight-bold {
+  font-weight: 700 !important;
+}
+.font-weight-500 {
+  font-weight: 500 !important;
+}
+.text-danger {
+  color: #dc2626 !important;
+}

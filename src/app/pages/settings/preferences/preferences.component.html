@@ -1,0 +1,67 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="app-table-container">
+
+        <!-- Preferences Table Grid -->
+        <div class="table-responsive">
+          <table class="table app-table">
+            <thead>
+              <tr>
+                <th style="width: 20%; padding-left: 16px;">Subject</th>
+                <th style="width: 28%; padding-left: 16px;">Description</th>
+                <th style="width: 20%; padding-left: 16px;">Previous Value</th>
+                <th style="width: 22%; padding-left: 16px;">New Value</th>
+                <th class="text-center" style="width: 10%;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of preferences; track item.id) {
+              <tr>
+                <!-- Subject -->
+                <td style="padding-left: 16px;">
+                  {{ item.subject }}
+                </td>
+
+                <!-- Description -->
+                <td style="padding-left: 16px; color: #475569;">
+                  {{ item.description }}
+                </td>
+
+                <!-- Previous Value -->
+                <td style="padding-left: 16px; color: #334155;">
+                  {{ item.previousValue }}
+                </td>
+
+                <!-- New Value Input/Select -->
+                <td style="padding: 8px 16px;">
+                  @if (item.type === 'select') {
+                  <select class="form-control" [(ngModel)]="item.newValue">
+                    <option value="" disabled selected>{{ item.placeholder }}</option>
+                    @for (opt of item.options; track opt) {
+                    <option [value]="opt">{{ opt }}</option>
+                    }
+                  </select>
+                  } @else {
+                  <input class="form-control" [type]="item.type" [(ngModel)]="item.newValue"
+                    [placeholder]="item.placeholder">
+                  }
+                </td>
+
+                <!-- Actions Save Button -->
+                <td class="text-center" style="padding: 8px 12px;">
+                  <button type="button" class="app-btn app-btn-primary" (click)="savePreference(item)">
+                    <mat-icon>save</mat-icon>
+                    <span>Save</span>
+                  </button>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

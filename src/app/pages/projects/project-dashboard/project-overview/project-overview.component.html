@@ -1,0 +1,93 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+
+  <!-- Header Section with Title & Back Button -->
+  <header class="analytics-header">
+    <h1>{{ projectName }}</h1>
+
+    <div class="header-actions" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Top Overview Card -->
+  <div class="overview-card top-card">
+    <div class="header-row">
+      <div class="title-group">
+        <div class="accent-bar"></div>
+        <h2 class="project-title">{{ projectName || 'Generic Tablet Development' }}</h2>
+        <span class="project-id">{{ projectCode || '2026/GEN/001' }}</span>
+      </div>
+      <div class="status-badge">IN PROGRESS</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="kpi-grid">
+      <div class="kpi-item">
+        <label>MANAGER</label>
+        <span class="value">Sarah Kestner</span>
+      </div>
+      <div class="kpi-item">
+        <label>START DATE</label>
+        <span class="value">Jan 15, 2026</span>
+      </div>
+      <div class="kpi-item">
+        <label>DUE DATE</label>
+        <span class="value">Jul 31, 2027</span>
+      </div>
+      <div class="kpi-item">
+        <label>ETA</label>
+        <span class="value">Aug 12, 2027</span>
+      </div>
+      <div class="kpi-item">
+        <label>HOURS</label>
+        <span class="value">1,248 / 4,000</span>
+      </div>
+      <div class="kpi-item">
+        <label>STAGE</label>
+        <span class="value">Design</span>
+      </div>
+      <div class="kpi-item">
+        <label>GATE</label>
+        <span class="value">Prototyping</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="progress-row">
+      <span class="progress-label">HOURS CONSUMED</span>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" style="width: 31%;"></div>
+      </div>
+      <span class="progress-percentage">31%</span>
+    </div>
+  </div>
+
+  <!-- Timeline Card -->
+  <div class="overview-card timeline-card">
+    <div class="timeline-header">
+      <h2 class="timeline-title">Project Timeline — Jan 2026 to Jul 2027</h2>
+
+      <div class="timeline-legend">
+        <div class="legend-item">
+          <span class="legend-color bg-green"></span>
+          <span>COMPLETE</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color bg-gray"></span>
+          <span>PLANNED</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color bg-red-pipe"></span>
+          <span>GATE</span>
+        </div>
+      </div>
+    </div>
+
+    <div #ganttChartRef class="gantt-wrapper"></div>
+  </div>
+</div>

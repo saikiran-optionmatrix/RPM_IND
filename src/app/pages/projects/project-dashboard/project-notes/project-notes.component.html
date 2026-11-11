@@ -1,0 +1,274 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+
+  <!-- Header Section with Title & Back Button -->
+  <header class="analytics-header">
+    <h1>{{ projectName }}</h1>
+
+    <div class="header-actions" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon><span>Back</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="content-wrapper" style="margin-left: 0px; width: 100%;">
+
+    <!-- Add Note Card -->
+    <mat-card class="add-note-card" appearance="outlined"
+      style="margin-bottom: 24px; border-radius: 8px; border: 1px solid #cbd5e1; background: white;">
+      <mat-card-header style="padding: 14px 20px; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+        <mat-card-title style="margin: 0; font-size: 15px; font-weight: 600; color: #1e293b;">Add Note</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content style="padding: 18px 20px;">
+        <div class="form-container"
+          style="display: flex; gap: 12px; align-items: center; width: 100%; flex-wrap: wrap;">
+
+          <!-- Select Tag -->
+          <div style="width: 220px; min-width: 180px;">
+            <mat-select [(value)]="selectedTag" placeholder="Select Tag*" class="form-control"
+              style="height: 38px; line-height: 24px; padding: 4px 12px; border: 1px solid #cbd5e1; border-radius: 4px; background-color: white; box-sizing: border-box; width: 100%;">
+              @for (tag of availableTags; track tag) {
+              <mat-option [value]="tag">{{ tag }}</mat-option>
+              }
+            </mat-select>
+          </div>
+
+          <!-- Enter text -->
+          <div style="flex: 1; min-width: 260px;">
+            <input type="text" [(ngModel)]="noteText" (keyup.enter)="addNote()" placeholder="Enter text*"
+              class="form-control"
+              style="height: 38px; border: 1px solid #cbd5e1; border-radius: 4px; padding: 6px 12px; width: 100%; background-color: white; box-sizing: border-box; font-size: 13.5px;">
+          </div>
+
+          <!-- Actions toolbar -->
+          <div style="display: flex; align-items: center; gap: 8px; white-space: nowrap;">
+            <button mat-icon-button aria-label="Attach document" (click)="uploaddoc(null)" matTooltip="Attach Document"
+              style="width: 38px; height: 38px; border: 1px solid #cbd5e1; border-radius: 4px; background: white; display: inline-flex; align-items: center; justify-content: center;">
+              <mat-icon style="color: #475569;">attach_file</mat-icon>
+            </button>
+
+            <button mat-icon-button aria-label="Clear" (click)="clearForm()" matTooltip="Clear"
+              style="width: 38px; height: 38px; border: 1px solid #cbd5e1; border-radius: 4px; background: white; display: inline-flex; align-items: center; justify-content: center;">
+              <mat-icon style="color: #475569;">refresh</mat-icon>
+            </button>
+
+            <button type="button" class="app-btn app-btn-primary" (click)="addNote()"
+              [disabled]="!selectedTag || !noteText.trim()"
+              style="height: 38px; min-height: 38px; padding: 0 16px; border-radius: 4px; font-weight: 500;"
+              matTooltip="Add Note">
+              <mat-icon>send</mat-icon> <span>Send</span>
+            </button>
+          </div>
+        </div>
+
+        @if (attachedDocument) {
+        <div
+          style="margin-top: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 4px; font-size: 12px; color: #1e40af;">
+          <mat-icon style="font-size: 16px; width: 16px; height: 16px; line-height: 16px;">attach_file</mat-icon>
+          <span>Attached: <strong>{{ attachedDocument }}</strong></span>
+          <a style="cursor: pointer; color: #ef4444; margin-left: 4px; display: inline-flex; align-items: center;"
+            (click)="attachedDocument = ''" matTooltip="Remove attachment">
+            <mat-icon style="font-size: 14px; width: 14px; height: 14px;">close</mat-icon>
+          </a>
+        </div>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <!-- AI Overview Summary Card -->
+    <div class="ai-overview-card"
+      style="margin-bottom: 24px; border-radius: 8px; border: 1px solid #bfdbfe; background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%); padding: 18px 22px; box-shadow: 0 1px 3px rgba(37, 99, 235, 0.08);">
+      <div class="ai-overview-header"
+        style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <mat-icon class="sparkle-icon"
+            style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">auto_awesome</mat-icon>
+          <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #1e3a8a;">AI Overview Summary</h3>
+        </div>
+      </div>
+
+      <div class="ai-overview-content" style="font-size: 13.5px; line-height: 1.6; color: #334155;">
+        <p style="margin: 0;">
+          Project notes indicate steady progress across Formulation and Analytical streams for <em>{{ projectName ||
+            'Generic Tablet Development' }}</em>. Key active raw material qualifications are complete with two validated
+          DMF suppliers. No critical analytical deviations or stability flags were detected in recent laboratory
+          intervals.
+        </p>
+      </div>
+    </div>
+
+    <!-- Notes Table View -->
+    <div class="app-table-container" style="padding: 0; width: 100%;">
+      <div class="table-responsive">
+        <table class="table app-table">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 80px;">Actions</th>
+              <th class="text-center" style="width: 120px;">Date</th>
+              <th class="text-left" style="min-width: 150px;">Posted By</th>
+              <th class="text-left" style="min-width: 250px;">Description</th>
+              <th class="text-center" style="width: 100px;">Document</th>
+              <th class="text-center" style="width: 140px;">Tags</th>
+              <th class="text-center" style="width: 110px; min-width: 110px;">Updated</th>
+              <th class="text-center" style="width: 130px; min-width: 130px;">Update By</th>
+              <th class="text-center" style="width: 90px;">History</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (element of paginatedNotes; track $index) {
+            <tr>
+              <!-- Actions -->
+              <td class="text-center">
+                <div class="table-actions">
+                  <button type="button" class="table-action-button edit" matTooltip="Edit Note" aria-label="Edit note"
+                    (click)="editNote(element)">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <button type="button" class="table-action-button delete" matTooltip="Delete Note"
+                    aria-label="Delete note" (click)="deleteNote(element)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+
+              <!-- Date -->
+              <td class="text-center" style="color: #64748b;">
+                {{ element.date }}
+              </td>
+
+              <!-- Posted By -->
+              <td class="text-left" style="color: #1e293b; font-weight: 500;">
+                <div style="display: flex; align-items: center; gap: 6px; white-space: nowrap;">
+                  <mat-icon
+                    style="font-size: 16px; width: 16px; height: 16px; line-height: 16px; color: #64748b;">person</mat-icon>
+                  <span>{{ element.postedBy }}</span>
+                </div>
+              </td>
+
+              <!-- Description -->
+              <td class="text-left"
+                style="color: #334155; white-space: normal; word-break: break-word; max-width: 450px;">
+                {{ element.message }}
+              </td>
+
+              <!-- Document -->
+              <td class="text-center">
+                @if (element.document) {
+                <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                  <a matTooltip="View PDF"
+                    style="cursor: pointer; color: #0284c7; display: inline-flex; align-items: center;"
+                    (click)="viewPdf(element.document)">
+                    <mat-icon style="font-size: 18px; width: 18px; height: 18px;">visibility</mat-icon>
+                  </a>
+                  <a matTooltip="Download PDF"
+                    style="cursor: pointer; color: #334155; display: inline-flex; align-items: center;"
+                    (click)="downloadPdf(element.document)">
+                    <mat-icon style="font-size: 18px; width: 18px; height: 18px;">download</mat-icon>
+                  </a>
+                </div>
+                } @else {
+                <span style="color: #94a3b8;">—</span>
+                }
+              </td>
+
+              <!-- Tags -->
+              <td class="text-center">
+                <span class="badge"
+                  style="background-color: #f1f5f9; color: #475569; padding: 5px 10px; border-radius: 4px; font-weight: 600; font-size: 11.5px; border: 1px solid #cbd5e1; display: inline-block;">
+                  {{ element.tags }}
+                </span>
+              </td>
+
+              <!-- Updated -->
+              <td class="text-center" style="white-space: nowrap;">
+                {{ element.updatedDate ? (element.updatedDate | date:'dd-MMM-yyyy') : '—' }}
+              </td>
+
+              <!-- Update By -->
+              <td class="text-center" style="white-space: nowrap;">
+                {{ element.updatedBy || '—' }}
+              </td>
+
+              <!-- History -->
+              <td class="text-center" style="vertical-align: middle;">
+                <a href="javascript:void(0)" class="history-number-link" (click)="openHistory(element, $index)" matTooltip="View Record History">
+                  {{ element.historyCount || getHistoryCount($index) }}
+                </a>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="9" class="empty-table">No notes available</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <mat-paginator [length]="notesList.length" [pageSize]="pageSize" [pageIndex]="currentPage"
+        [pageSizeOptions]="[5, 10, 20, 50]" (page)="handlePageEvent($event)" [showFirstLastButtons]="true">
+      </mat-paginator>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ EDIT NOTE TEMPLATE DIALOG ============ -->
+<ng-template #editNoteDialog>
+  <div class="NewHeader">
+    <h1 mat-dialog-title style="color: white; margin: 0; text-align: center;">
+      Edit Note
+    </h1>
+  </div>
+
+  <div mat-dialog-content class="custom-dialog-content pt-2" style="padding: 20px 25px;">
+    <form class="layout-container"
+      style="display: flex; flex-direction: column; gap: 15px; width: 100%; box-sizing: border-box;">
+
+      <!-- Select Tag Row -->
+      <div class="row align-items-center" style="display: flex; align-items: center; width: 100%; margin-bottom: 12px;">
+        <div class="col-sm-4 text-end" style="padding-right: 12px;">
+          <label class="control-label" style="font-weight: 500; font-size: 13px; margin: 0; white-space: nowrap;">
+            Select Tag <span style="color: red;">*</span> :
+          </label>
+        </div>
+        <div class="col-sm-8">
+          <mat-select [(value)]="editSelectedTag" placeholder="Select Tag*" class="form-control"
+            style="line-height: 24px; height: 36px; padding: 4px 10px; border: 1px solid #cbd5e1; border-radius: 4px; background-color: #ffffff; width: 100%;">
+            @for (tag of availableTags; track tag) {
+            <mat-option [value]="tag">{{ tag }}</mat-option>
+            }
+          </mat-select>
+        </div>
+      </div>
+
+      <!-- Description Row -->
+      <div class="row" style="display: flex; align-items: flex-start; width: 100%;">
+        <div class="col-sm-4 text-end" style="padding-top: 6px; padding-right: 12px;">
+          <label class="control-label" style="font-weight: 500; font-size: 13px; margin: 0; white-space: nowrap;">
+            Description <span style="color: red;">*</span> :
+          </label>
+        </div>
+        <div class="col-sm-8">
+          <textarea [(ngModel)]="editNoteText" name="editNoteText" placeholder="Enter text*" class="form-control"
+            rows="4"
+            style="border: 1px solid #cbd5e1; border-radius: 4px; padding: 6px 12px; width: 100%; background-color: #ffffff; resize: vertical; font-size: 13.5px;"></textarea>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <mat-dialog-actions
+    style="display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #cbd5e1; margin-top: 0; padding: 15px 25px; width: 100%; box-sizing: border-box; background: white;">
+    <button class="app-btn app-btn-default" type="button" (click)="closeEditDialog()"
+      style="background-color: lightgray; color: red;">
+      <mat-icon>cancel</mat-icon> Close
+    </button>
+    <button class="app-btn app-btn-primary" type="button" (click)="saveEditDialog()"
+      [disabled]="!editSelectedTag || !editNoteText.trim()">
+      <mat-icon>save</mat-icon> Save
+    </button>
+  </mat-dialog-actions>
+</ng-template>

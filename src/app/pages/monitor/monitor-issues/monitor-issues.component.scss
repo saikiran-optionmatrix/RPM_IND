@@ -1,0 +1,44 @@
+
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 6px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  background: white;
+  border: 2px solid #3b82f6; /* Highlight while dragging */
+  cursor: grabbing !important;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+  background: #e2e8f0;
+  border: 1px dashed #94a3b8;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.kanban-list.cdk-drop-list-dragging .kanban-card:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.pending-card { border-left: 4px solid #e24b4a !important; }
+.allocated-card { border-left: 4px solid #ef9f27 !important; }
+.progress-card { border-left: 4px solid #378add !important; }
+.hold-card { border-left: 4px solid #f0995b !important; }
+.cancelled-card { border-left: 4px solid #888780 !important; }
+.completed-card { border-left: 4px solid #639922 !important; }
+.mine {
+  position: fixed;
+  bottom: 80px;
+  right: 40px;
+  background-color: #dfdfdf !important;
+  color: #414141 !important;
+  z-index: 9999 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+
+  mat-icon {
+    color: #414141 !important;
+  }
+}

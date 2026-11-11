@@ -1,0 +1,305 @@
+<div class="inner-screen-page">
+  <!-- Top Header Area -->
+  <header class="inner-header">
+    <div class="header-left">
+     
+
+      <div class="title-meta" style="padding-left: 25px;">
+        <h2 class="inner-title">{{ title }}</h2>
+        @if (activity) {
+        <div class="activity-subtitle">
+          <span class="activity-badge">{{ activity.jobCode }}</span>
+          <span class="activity-text">{{ activity.activityName }}</span>
+          @if (stageName) {
+          <span class="stage-sep">•</span>
+          <span class="stage-text">{{ stageName }} ({{ stageCode }})</span>
+          } @else if (gateName) {
+          <span class="stage-sep">•</span>
+          <span class="stage-text">{{ gateName }} ({{ gateCode }})</span>
+          }
+        </div>
+        }
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <!-- <button type="button" class="app-btn app-btn-default" (click)="close()">
+        <mat-icon>cancel</mat-icon>
+        <span>Close</span>
+      </button> -->
+      <!-- <button type="button" class="app-btn app-btn-primary" (click)="save()">
+        <mat-icon>save</mat-icon>
+        <span>Save</span>
+      </button> -->
+
+       <button type="button" class="back-btn" (click)="goBack()" style="margin-right: 20px;">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Inner Body Card -->
+  <div class="inner-card">
+    <!-- Top Right Add Button -->
+    <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 14px;">
+      <button type="button" class="app-btn app-btn-primary" (click)="addRequirement()">
+        <mat-icon>add</mat-icon>
+        <span>Add</span>
+      </button>
+    </div>
+
+    <!-- Table Container -->
+    <div class="app-table-container" style="padding: 0 !important; width: 100%;">
+      <div class="table-responsive" style="max-height: 540px; overflow-x: auto; overflow-y: auto;">
+        <table class="table app-table" style="min-width: 1050px; width: 100%;">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 90px; min-width: 90px;">Action</th>
+              <th class="text-center" style="width: 75px; min-width: 75px;">Active</th>
+              <th class="text-center" style="width: 75px; min-width: 75px;">Done</th>
+              <th class="text-left" style="min-width: 220px;">Requirement Name</th>
+              <th class="text-left" style="min-width: 140px;">Department</th>
+              <th class="text-left" style="min-width: 130px;">Role</th>
+              <th class="text-center" style="min-width: 135px;">Due date</th>
+              <th class="text-center" style="min-width: 135px;">Completed date</th>
+              <th class="text-left" style="min-width: 180px;">Remarks</th>
+              <th class="text-center" style="width: 80px; min-width: 80px;">Documents</th>
+              <th class="text-center" style="width: 110px; min-width: 110px;">Updated</th>
+              <th class="text-center" style="width: 130px; min-width: 130px;">Update By</th>
+              <th class="text-center" style="width: 80px; min-width: 80px;">History</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of paginatedRequirements; track $index) {
+            <tr [class.row-editing]="row.isEditing">
+
+              <!-- Action -->
+              <td class="text-center" style="vertical-align: middle;">
+                <div class="table-actions" style="justify-content: center; gap: 4px;">
+                  @if (row.isEditing) {
+                    <button
+                      type="button"
+                      class="table-action-button"
+                      style="color: #1485cc;"
+                      matTooltip="Save"
+                      aria-label="Save"
+                      (click)="saveRow(row)">
+                      <mat-icon>save</mat-icon>
+                    </button>
+                    <button
+                      type="button"
+                      class="table-action-button"
+                      style="color: #dc2626;"
+                      matTooltip="Cancel"
+                      aria-label="Cancel"
+                      (click)="cancelEdit(row)">
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  } @else {
+                    <button
+                      type="button"
+                      class="table-action-button edit"
+                      matTooltip="Edit"
+                      aria-label="Edit requirement"
+                      (click)="startEdit(row)">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="table-action-button delete"
+                      matTooltip="Delete"
+                      aria-label="Delete requirement"
+                      (click)="deleteRequirement(row)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  }
+                </div>
+              </td>
+
+              <!-- Active -->
+              <td class="text-center" style="vertical-align: middle;">
+                <mat-checkbox
+                  [(ngModel)]="row.active"
+                  [disabled]="!row.isEditing"
+                  color="primary">
+                </mat-checkbox>
+              </td>
+
+              <!-- Done -->
+              <td class="text-center" style="vertical-align: middle;">
+                <mat-checkbox
+                  [(ngModel)]="row.done"
+                  [disabled]="!row.isEditing"
+                  color="primary">
+                </mat-checkbox>
+              </td>
+
+              <!-- Requirement Name -->
+              <td class="text-left" style="vertical-align: middle;">
+                @if (row.isEditing) {
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="row.requirementName"
+                    placeholder="Enter requirement name"
+                    style="font-size: 13px; height: 34px;"
+                  />
+                } @else {
+                  <span style="font-weight: 500; color: #1e293b;">{{ row.requirementName || '—' }}</span>
+                }
+              </td>
+
+              <!-- Department -->
+              <td class="text-left" style="vertical-align: middle;">
+                @if (row.isEditing) {
+                  <input
+                    type="text"
+                    list="reqDeptList"
+                    class="form-control"
+                    [(ngModel)]="row.department"
+                    placeholder="Department"
+                    style="font-size: 13px; height: 34px;"
+                  />
+                  <datalist id="reqDeptList">
+                    <option value="Analytical"></option>
+                    <option value="Formulation"></option>
+                    <option value="Regulatory"></option>
+                    <option value="Quality Assurance"></option>
+                    <option value="Quality Control"></option>
+                    <option value="Clinical"></option>
+                    <option value="Production"></option>
+                    <option value="Packaging"></option>
+                    <option value="Microbiology"></option>
+                  </datalist>
+                } @else {
+                  <span>{{ row.department || '—' }}</span>
+                }
+              </td>
+
+              <!-- Role -->
+              <td class="text-left" style="vertical-align: middle;">
+                @if (row.isEditing) {
+                  <input
+                    type="text"
+                    list="reqRoleList"
+                    class="form-control"
+                    [(ngModel)]="row.role"
+                    placeholder="Role"
+                    style="font-size: 13px; height: 34px;"
+                  />
+                  <datalist id="reqRoleList">
+                    <option value="Lead"></option>
+                    <option value="Reviewer"></option>
+                    <option value="Approver"></option>
+                    <option value="Scientist"></option>
+                    <option value="Manager"></option>
+                    <option value="Analyst"></option>
+                    <option value="Engineer"></option>
+                  </datalist>
+                } @else {
+                  <span>{{ row.role || '—' }}</span>
+                }
+              </td>
+
+              <!-- Due date -->
+              <td class="text-center" style="vertical-align: middle;">
+                @if (row.isEditing) {
+                  <input
+                    type="date"
+                    class="form-control text-center"
+                    [(ngModel)]="row.dueDate"
+                    style="font-size: 13px; height: 34px;"
+                  />
+                } @else {
+                  <span>{{ row.dueDate || '—' }}</span>
+                }
+              </td>
+
+              <!-- Completed date -->
+              <td class="text-center" style="vertical-align: middle;">
+                @if (row.isEditing) {
+                  <input
+                    type="date"
+                    class="form-control text-center"
+                    [(ngModel)]="row.completedDate"
+                    style="font-size: 13px; height: 34px;"
+                  />
+                } @else {
+                  <span>{{ row.completedDate || '—' }}</span>
+                }
+              </td>
+
+              <!-- Remarks -->
+              <td class="text-left" style="vertical-align: middle;">
+                @if (row.isEditing) {
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="row.remarks"
+                    placeholder="Enter remarks"
+                    style="font-size: 13px; height: 34px;"
+                  />
+                } @else {
+                  <span>{{ row.remarks || '—' }}</span>
+                }
+              </td>
+
+              <!-- Documents -->
+              <td class="text-center" style="vertical-align: middle;">
+                <a href="javascript:void(0)" class="history-number-link" (click)="openDocuments()" matTooltip="View Documents">
+                  {{ row.documentsCount || getDocumentsCount($index) }}
+                </a>
+              </td>
+
+              <!-- Updated -->
+              <td class="text-center" style="white-space: nowrap; vertical-align: middle;">
+                {{ (row.updatedDate || row.updatedBy) ? ((row.updatedDate || row.updatedBy) | date:'dd-MMM-yyyy') : '—' }}
+              </td>
+
+              <!-- Update By -->
+              <td class="text-center" style="white-space: nowrap; vertical-align: middle;">
+                {{ row.updatedBy || '—' }}
+              </td>
+
+              <!-- History -->
+              <td class="text-center" style="vertical-align: middle;">
+                <a href="javascript:void(0)" class="history-number-link" (click)="openHistory(row, $index)" matTooltip="View Record History">
+                  {{ row.historyCount || getHistoryCount($index) }}
+                </a>
+              </td>
+
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="13" class="empty-table text-center" style="padding: 24px; color: #64748b;">
+                No requirements found.
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Paginator matching assets -->
+      <mat-paginator
+        [length]="requirementsList.length"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 20, 50]"
+        [showFirstLastButtons]="true"
+        (page)="handlePage($event)">
+      </mat-paginator>
+    </div>
+
+    <!-- Bottom Actions: Close and Save -->
+    <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+      <!-- <button type="button" class="app-btn app-btn-default" (click)="close()">
+        <mat-icon>cancel</mat-icon> Close
+      </button>
+      <button type="button" class="app-btn app-btn-primary" (click)="save()">
+        <mat-icon>save</mat-icon> Save
+      </button> -->
+    </div>
+  </div>
+</div>

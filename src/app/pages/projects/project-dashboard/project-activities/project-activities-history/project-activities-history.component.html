@@ -1,0 +1,133 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+  <header class="analytics-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h1>
+      {{ projectName ? (projectName + ' - ') : '' }}
+      {{ activityName ? activityName : 'Activity' }} - History
+    </h1>
+    <button type="button" class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon><span>Back</span>
+    </button>
+  </header>
+
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-12">
+        <div class="app-table-container">
+
+          <div class="table-responsive">
+            <table class="table app-table">
+              <thead>
+                <tr>
+                  <th class="text-left" style="min-width: 220px;">Activity</th>
+                  <th class="text-left" style="min-width: 200px;">Delay Reason</th>
+                  <th class="text-center" style="width: 100px;">Stage</th>
+                  <th class="text-center" style="width: 150px;">Deliverable</th>
+                  <th class="text-center" style="width: 130px;">Responsibility</th>
+                  <th class="text-center" style="width: 120px; white-space: nowrap;">Start Date</th>
+                  <th class="text-center" style="width: 110px;">Duration</th>
+                  <th class="text-center" style="width: 120px;">Effort (Hours)</th>
+                  <th class="text-center" style="width: 100px;">Timesheet</th>
+                  <th class="text-center" style="width: 110px;">Status</th>
+                  <th class="text-center" style="width: 110px;">Priority</th>
+                  <th class="text-center" style="width: 110px;">Complexity</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of paginatedRecords; track item.id) {
+                  <tr>
+                    <!-- Activity -->
+                    <td class="text-left font-weight-500" style="color: #1e293b; vertical-align: middle;">
+                      <span [matTooltip]="item.activityName">{{ item.activityName }}</span>
+                    </td>
+
+                    <!-- Delay Reason -->
+                    <td class="text-left" style="vertical-align: middle;">
+                      <span [matTooltip]="item.delayReason" [style.color]="item.delayReason && item.delayReason !== '—' ? '#b45309' : '#64748b'">
+                        {{ item.delayReason || '—' }}
+                      </span>
+                    </td>
+
+                    <!-- Stage -->
+                    <td class="text-center" style="white-space: nowrap; vertical-align: middle;">
+                      <span>{{ item.stage || 'S1' }}</span>
+                    </td>
+
+                    <!-- Deliverable -->
+                    <td class="text-center" style="white-space: nowrap; vertical-align: middle;">
+                      <span  >{{ item.deliverable || '—' }}</span>
+                    </td>
+
+                    <!-- Responsibility -->
+                    <td class="text-center" style="vertical-align: middle;">
+                      <span class="user-avatar" [matTooltip]="item.responsibility">
+                        {{ getInitials(item.responsibility) }}
+                      </span>
+                    </td>
+
+                    <!-- Start Date -->
+                    <td class="text-center" style="white-space: nowrap; vertical-align: middle;">
+                      {{ item.startDate ? (item.startDate | date:'dd-MMM-yyyy') : '—' }}
+                    </td>
+
+                    <!-- Duration -->
+                    <td class="text-center" style="white-space: nowrap; vertical-align: middle;">
+                      {{ item.duration || '—' }}
+                    </td>
+
+                    <!-- Effort (Hours) -->
+                    <td class="text-center" style="white-space: nowrap; vertical-align: middle;">
+                      {{ item.effort || '—' }}
+                    </td>
+
+                    <!-- Timesheet -->
+                    <td class="text-center" style="vertical-align: middle;">
+                      <button type="button" class="timesheet-link-btn" (click)="openTimesheet()" matTooltip="View Timesheet">
+                        View
+                      </button>
+                    </td>
+
+                    <!-- Status -->
+                    <td class="text-center" style="vertical-align: middle;">
+                      <button type="button" class="status-button"
+                       >
+                        {{ item.status }}
+                      </button>
+                    </td>
+
+                    <!-- Priority -->
+                    <td class="text-center" style="vertical-align: middle;">
+                      <span   >
+                        {{ item.priority }}
+                      </span>
+                    </td>
+
+                    <!-- Complexity -->
+                    <td class="text-center" style="vertical-align: middle;">
+                      <span >
+                        {{ item.complexity }}
+                      </span>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="12" class="empty-table text-center">No records found</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <mat-paginator
+            [length]="historyRecords.length"
+            [pageIndex]="pageIndex"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[5, 10, 20]"
+            [showFirstLastButtons]="true"
+            (page)="handlePage($event)">
+          </mat-paginator>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

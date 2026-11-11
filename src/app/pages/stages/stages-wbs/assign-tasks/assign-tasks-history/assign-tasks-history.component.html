@@ -1,0 +1,87 @@
+<div class="inner-screen-page" style="padding: 10px 25px 80px 25px">
+  <!-- Top Header Area -->
+  <header class="inner-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div class="header-left">
+      <div class="title-meta">
+        <h2 class="inner-title" style="margin: 0; font-size: 20px; font-weight: 600; color: #1e293b;">
+          {{ taskName ? taskName : 'Task' }} - History
+        </h2>
+        <div class="activity-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #64748b; margin-top: 4px;">
+          @if (taskCode) {
+            <span class="activity-badge" style="background-color: #e2e8f0; color: #334155; padding: 1px 6px; border-radius: 4px; font-weight: 600; font-size: 12px;">{{ taskCode }}</span>
+          }
+          @if (jobCode) {
+            <span class="activity-badge" style="background-color: #dbeafe; color: #1e40af; padding: 1px 6px; border-radius: 4px; font-weight: 600; font-size: 12px;">{{ jobCode }}</span>
+          }
+          @if (activityName) {
+            <span class="activity-text" style="font-weight: 500; color: #1e293b;">{{ activityName }}</span>
+          }
+          @if (stageName) {
+            <span class="stage-sep" style="color: #cbd5e1;">•</span>
+            <span class="stage-text">{{ stageName }} ({{ stageCode }})</span>
+          }
+          @if (gateCode && gateCode !== '-') {
+            <span class="stage-sep" style="color: #cbd5e1;">•</span>
+            <span class="stage-text">{{ gateCode }}</span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Table Container with Task Name, Task Code, Job Code -->
+  <div class="app-table-container" style="padding: 0 !important; width: 100%;">
+    <div class="table-responsive" style="max-height: 540px; overflow-x: auto; overflow-y: auto;">
+      <table class="table app-table" style="width: 100%;">
+        <thead>
+          <tr>
+            <th class="text-left" style="min-width: 320px;">Task Name</th>
+            <th class="text-left" style="width: 220px; min-width: 180px;">Task Code</th>
+            <th class="text-left" style="width: 220px; min-width: 180px;">Job Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of paginatedRecords; track $index) {
+          <tr>
+            <!-- Task Name -->
+            <td class="text-left" style="vertical-align: middle;">
+              <span style="font-weight: 500; color: #1e293b;" [matTooltip]="row.taskName">{{ row.taskName || '—' }}</span>
+            </td>
+
+            <!-- Task Code -->
+            <td class="text-left" style="vertical-align: middle;">
+              <span style="font-weight: 500; color: #334155;">{{ row.taskCode || '—' }}</span>
+            </td>
+
+            <!-- Job Code -->
+            <td class="text-left" style="vertical-align: middle;">
+              <span style="font-weight: 500; color: #2563eb;">{{ row.jobCode || '—' }}</span>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="3" class="empty-table text-center" style="padding: 24px; color: #64748b;">No task history records found</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginator -->
+    <mat-paginator
+      [length]="records.length"
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 20, 50]"
+      [showFirstLastButtons]="true"
+      (page)="handlePage($event)">
+    </mat-paginator>
+  </div>
+</div>

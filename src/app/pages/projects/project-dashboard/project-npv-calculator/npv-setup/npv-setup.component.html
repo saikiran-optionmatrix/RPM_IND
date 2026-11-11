@@ -1,0 +1,85 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    NPV Calculator Setup
+  </h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="col-sm-12" style="margin-bottom: 10px;">
+    <form [formGroup]="setupForm" (ngSubmit)="save()">
+      
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-4">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Project / Subject   :</label>
+        </div>
+        <div class="col-sm-8">
+          <input class="form-control name back" placeholder="Enter Subject"
+                 formControlName="subject" type="text">
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-4">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Years   :</label>
+        </div>
+        <div class="col-sm-8">
+          <input class="form-control name back" placeholder="e.g. 4"
+                 formControlName="years" type="text">
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-4">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Period for DCF   :</label>
+        </div>
+        <div class="col-sm-8">
+          <input class="form-control name back" placeholder="e.g. Year 0 to Year 3"
+                 formControlName="periodForDcf" type="text">
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-4">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Discount Rate (%)   :</label>
+        </div>
+        <div class="col-sm-8">
+          <input class="form-control name back" placeholder="e.g. 12"
+                 formControlName="discountRate" type="number" step="0.1">
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-4">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Exchange Rate (INR/USD)   :</label>
+        </div>
+        <div class="col-sm-8">
+          <input class="form-control name back" placeholder="e.g. 95.25"
+                 formControlName="exchangeRate" type="number" step="0.01">
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-4">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Rate Date  :</label>
+        </div>
+        <div class="col-sm-8">
+          <input class="form-control name back" placeholder="DD-MM-YYYY"
+                 formControlName="rateDate" type="text">
+        </div>
+      </div>
+
+      <div style="margin-bottom: 10px;">
+        <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button class="app-btn app-btn-default" type="button" (click)="close()" style="background-color: lightgray; color: red;">
+            <mat-icon>cancel</mat-icon> Close
+          </button>
+          <button class="app-btn app-btn-primary" type="submit">
+            <mat-icon>save</mat-icon> Save
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+

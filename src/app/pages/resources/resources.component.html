@@ -1,0 +1,282 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="app-table-container">
+
+        <!-- ==========================================
+             PAGE ACTIONS & TOGGLES (Header Section)
+             ========================================== -->
+        <div class="app-page-actions"
+          style="display: flex; justify-content: flex-end; gap: 12px; align-items: center; margin-bottom: 20px;">
+
+          <!-- Right: View Toggles & Actions -->
+          <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+
+            <!-- Contextual Weekend Toggle for Calendar View -->
+            @if (isCalendarView()) {
+            <button type="button" class="app-btn app-btn-default" (click)="toggleWeekend()">
+              <mat-icon>{{ showWeekend() ? 'view_week' : 'weekend' }}</mat-icon>
+              <span>{{ showWeekend() ? 'Hide Weekend' : 'Show Weekend' }}</span>
+            </button>
+            }
+
+            <!-- View Toggles (Grid vs Calendar) -->
+            <div class="view-toggle"
+              style="background: #f1f5f9; border-radius: 6px; padding: 4px; display: inline-flex;">
+              <button type="button" class="app-btn" [class.app-btn-filter]="!isCalendarView()"
+                [class.app-btn-default]="isCalendarView()" (click)="showGridView()">
+                <mat-icon>view_headline</mat-icon>
+                <span>Table View</span>
+              </button>
+              <button type="button" class="app-btn" [class.app-btn-filter]="isCalendarView()"
+                [class.app-btn-default]="!isCalendarView()" (click)="showCalendarView()">
+                <mat-icon>calendar_today</mat-icon>
+                <span>Calendar View</span>
+              </button>
+            </div>
+
+            <!-- Add Resource Button -->
+            <button type="button" class="app-btn app-btn-primary" (click)="openAddResourceScheduleDialog()">
+              <mat-icon>add</mat-icon>
+              <span>Add Resource</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- ==========================================
+             GRID / TABLE VIEW
+             ========================================== -->
+        @if (!isCalendarView()) {
+        <!-- Scroll Buttons -->
+        <div class="d-flex justify-content-end mb-2" style="gap: 10px;">
+          <div class="d-flex justify-content-end mb-2">
+            <button class="mine" mat-fab style="background-color: #cecdcd; right: 110px; z-index: 9999;"
+              (click)="scrollTable('left')">
+              <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+            </button>
+            <button class="mine" mat-fab style="background-color: #cecdcd; z-index: 9999;" (click)="scrollTable('right')">
+              <mat-icon style="color: #414141;">fast_forward</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div #tableContainer class="table-responsive" (scroll)="checkScroll()" style="overflow-x: auto; scroll-behavior: smooth;">
+          <table class="table app-table" style="white-space: nowrap;">
+            <thead>
+              <tr>
+                <th class="text-center" style="width: 120px;">Actions</th>
+                <th class="text-left">Resource</th>
+                <th class="text-left">Stage</th>
+                <th class="text-left">Deliverable</th>
+                <th class="text-left">Activity</th>
+                <th class="text-center">From Date</th>
+                <th class="text-center">From Time</th>
+                <th class="text-center">To Date</th>
+                <th class="text-center">To Time</th>
+                <th class="text-center">Plan Duration</th>
+                <th class="text-center">Actual Duration</th>
+                <th class="text-center">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (s of paginatedSchedules(); track s.task) {
+              <tr>
+                <!-- Actions -->
+                <td class="text-center">
+                  <div class="table-actions" style="justify-content: center;">
+                    <button type="button" class="table-action-button" matTooltip="View Timeline"
+                      (click)="openTimelineModal(s)">
+                      <mat-icon style="color: #2563eb;">calendar_today</mat-icon>
+                    </button>
+                    <button type="button" class="table-action-button edit" matTooltip="Edit Resource"
+                      (click)="editSchedule(s)">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button type="button" class="table-action-button delete" matTooltip="Delete Resource"
+                      (click)="deleteSchedule(s)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </td>
+                <!-- Data Columns -->
+                <td class="text-left font-weight-bold">{{ s.resource }}</td>
+                <td class="text-left">{{ s.stage }}</td>
+                <td class="text-left">{{ s.module }}</td>
+                <td class="text-left" style="font-weight: 500; color: #1e3a8a;">{{ s.task }}</td>
+                <td class="text-center">{{ s.fromDate }}</td>
+                <td class="text-center">{{ s.fromTime }}</td>
+                <td class="text-center">{{ s.toDate }}</td>
+                <td class="text-center">{{ s.toTime }}</td>
+                <td class="text-center">{{ s.planDuration }}</td>
+                <td class="text-center">{{ s.actualDuration }}</td>
+                <td class="text-center">
+                  <span>
+                    {{ s.status }}
+                  </span>
+                </td>
+              </tr>
+              } @empty {
+              <tr>
+                <td colspan="12" class="empty-table text-center">No schedules available.</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Paginator -->
+        <mat-paginator [length]="schedules().length" [pageSize]="pageSize()" [pageSizeOptions]="[5, 10, 15, 20]"
+          (page)="handlePageEvent($event)" showFirstLastButtons>
+        </mat-paginator>
+        }
+
+        <!-- ==========================================
+             CALENDAR VIEW
+             ========================================== -->
+        @if (isCalendarView()) {
+        <div class="calendar-container" style="margin-top: 10px; width: 100%; overflow-x: auto;">
+          <table class="table app-table" style="width: 100%; table-layout: fixed; min-width: 800px;">
+            <thead>
+              <tr>
+                @for (day of displayDays(); track day) {
+                <th class="text-center" [style.opacity]="day === 'Saturday' || day === 'Sunday' ? '0.9' : '1'">
+                  {{ day }}
+                </th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                @for (day of displayDays(); track day) {
+                <td class="calendar-day-column"
+                  style="vertical-align: top; padding: 10px; background-color: #f8fafc; border: 1px solid #e2e8f0; height: 450px;">
+
+                  <div class="day-card-container" style="display: flex; flex-direction: column; gap: 10px;">
+
+                    @if (getSchedulesForDay(day).length === 0) {
+                    <div style="text-align: center; color: #94a3b8; font-size: 12px; padding: 20px 0;">
+                      No tasks scheduled.
+                    </div>
+                    }
+
+                    @for (card of getSchedulesForDay(day); track card.task) {
+                    <div [style.background-color]="card.color"
+                      [style.border-left-color]="card.status === 'Completed' ? '#16a34a' : (card.status === 'Active' ? '#2563eb' : '#dc2626')"
+                      style="border-radius: 6px; padding: 8px 10px; font-size: 12px; border-left: 5px solid; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer;"
+                      (click)="openTimelineModal(card)">
+
+                      <div
+                        style="font-weight: 600; color: #1e293b; margin-bottom: 4px; white-space: normal; word-break: break-word;">
+                        {{ card.initials }} — {{ card.task }}
+                      </div>
+                      <div style="color: #475569; font-size: 11px; white-space: normal; font-weight: 500;">
+                        {{ card.module }}
+                      </div>
+                      <div
+                        style="color: #334155; margin-top: 6px; display: flex; align-items: center; gap: 4px; font-weight: 500;">
+                        <mat-icon style="font-size: 14px; width: 14px; height: 14px;">person</mat-icon>
+                        <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ card.resource
+                          }}</span>
+                      </div>
+                      <div style="margin-top: 6px; display: flex; justify-content: space-between; align-items: center;">
+                        <span class="badge" [ngClass]="{
+                                      'stage-approved': card.status === 'Completed',
+                                      'stage-review': card.status === 'Active',
+                                      'stage-declined': card.status === 'Pending'
+                                    }" style="font-size: 10px; padding: 2px 6px; border-radius: 4px;">
+                          {{ card.status }}
+                        </span>
+                        <span style="font-size: 10px; color: #64748b;">
+                          {{ card.fromTime }}
+                        </span>
+                      </div>
+
+                    </div>
+                    }
+                  </div>
+                </td>
+                }
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        }
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     TIMELINE POP-UP MODAL (Standard UI Match)
+     ========================================== -->
+@if (showTimelineModal() && selectedScheduleItem()) {
+<div class="bl-modal-overlay" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+  <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+
+    <!-- Header -->
+    <div class="timeline-popup-header">
+      <div class="timeline-popup-title-wrap">
+        <div class="timeline-icon-box">
+          <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+        </div>
+        <h3 class="timeline-popup-title">
+          Timeline &mdash; {{ selectedScheduleItem()?.resource }}
+        </h3>
+      </div>
+      <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Dates Grid -->
+    <div class="timeline-dates-container">
+      <div class="timeline-accent-bar"></div>
+      <div class="timeline-grid-content">
+
+        <!-- Row 1 -->
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">From Date</div>
+            <div class="timeline-date-value">{{ selectedScheduleItem()?.fromDate || '—' }}</div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">To Date</div>
+            <div class="timeline-date-value">{{ selectedScheduleItem()?.toDate || '—' }}</div>
+          </div>
+        </div>
+
+        <div class="timeline-row-divider"></div>
+
+        <!-- Row 2 -->
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">From Time</div>
+            <div class="timeline-date-value">{{ selectedScheduleItem()?.fromTime || '—' }}</div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">To Time</div>
+            <div class="timeline-date-value">{{ selectedScheduleItem()?.toTime || '—' }}</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Description / Task Info Box -->
+    <div class="timeline-desc-box">
+      <div class="timeline-desc-header">
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #2563eb;">description</mat-icon>
+        <span>Task &amp; Stage Details</span>
+      </div>
+      <div class="timeline-desc-content" style="display: flex; flex-direction: column; gap: 4px;">
+        <div><strong>Stage:</strong> {{ selectedScheduleItem()?.stage }}</div>
+        <div><strong>Deliverable:</strong> {{ selectedScheduleItem()?.module }}</div>
+        <div><strong>Activity:</strong> {{ selectedScheduleItem()?.task }}</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+}

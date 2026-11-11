@@ -1,0 +1,63 @@
+.app-table th:nth-child(4),
+.app-table td:nth-child(4) {
+  min-width: 320px;
+  width: 32%;
+}
+
+.app-table th:nth-child(1),
+.app-table td:nth-child(1),
+.app-table th:nth-child(2),
+.app-table td:nth-child(2),
+.app-table th:nth-child(3),
+.app-table td:nth-child(3),
+.app-table th:nth-child(5),
+.app-table td:nth-child(5),
+.app-table th:nth-child(6),
+.app-table td:nth-child(6),
+.app-table th:nth-child(7),
+.app-table td:nth-child(7),
+.app-table th:nth-child(8),
+.app-table td:nth-child(8),
+.app-table th:nth-child(9),
+.app-table td:nth-child(9),
+.app-table th:nth-child(10),
+.app-table td:nth-child(10),
+.app-table th:nth-child(11),
+.app-table td:nth-child(11),
+.app-table th:nth-child(12),
+.app-table td:nth-child(12),
+.app-table th:nth-child(13),
+.app-table td:nth-child(13),
+.app-table th:nth-child(14),
+.app-table td:nth-child(14),
+.app-table th:nth-child(15),
+.app-table td:nth-child(15),
+.app-table th:nth-child(16),
+.app-table td:nth-child(16),
+.app-table th:nth-child(17),
+.app-table td:nth-child(17) {
+  white-space: nowrap;
+}
+
+.template-name-link {
+  color: #1976d2;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.route-link {
+  color: #2563eb;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+  }
+}

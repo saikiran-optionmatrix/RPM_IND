@@ -1,0 +1,50 @@
+:host {
+  display: block;
+}
+
+.app-table-container {
+  width: 100%;
+  padding: 0 !important;
+}
+
+.row-editing {
+  background-color: #f8fafc !important;
+}
+
+.form-control {
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 4px 8px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  color: #1e293b;
+
+  &:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  }
+}
+
+.history-number-link {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 24px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #1d4ed8;
+    background-color: #eff6ff;
+    text-decoration: underline;
+  }
+}

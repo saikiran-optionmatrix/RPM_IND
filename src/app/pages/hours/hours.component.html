@@ -1,0 +1,259 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+
+
+
+      <!-- ==========================================
+           SPLIT VIEW (Calendar Sidebar + Table)
+           ========================================== -->
+      <div style="display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;">
+
+        <!-- Sidebar Calendar -->
+        <aside class="calendar-sidebar" style="width: 320px; flex-shrink: 0;    margin-top: 3%; margin-left: 3%;">
+          <div class="calendar-card">
+
+            <div class="month-selector">
+              <button type="button" class="nav-arrow" (click)="prevMonth()" aria-label="Previous month">
+                <mat-icon>chevron_left</mat-icon>
+              </button>
+              <strong>{{ currentMonthLabel }}</strong>
+              <button type="button" class="nav-arrow" (click)="nextMonth()" aria-label="Next month">
+                <mat-icon>chevron_right</mat-icon>
+              </button>
+            </div>
+
+            <div class="calendar-grid">
+              @for (d of dayNames; track d) {
+              <div class="weekday">{{ d }}</div>
+              }
+              @for (day of calendarDays; track day.date) {
+              <div class="day-cell" [class.faded]="!day.inCurrentMonth" [class.active]="day.isSelected"
+                (click)="filterByDate(day)">
+                <span class="date-num">{{ day.dayNumber }}</span>
+                @if (day.claims > 0) {
+                <span class="claims-num">{{ day.claims }}</span>
+                }
+              </div>
+              }
+            </div>
+
+            <div class="total-claims-box">
+              <div class="box-text">
+                <mat-icon style="color: #2563eb; font-size: 20px; width: 20px; height: 20px;">assignment</mat-icon>
+                <strong>Total Claims in Month</strong>
+              </div>
+              <div class="total-number">{{ totalClaimsInRange }}</div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Content Table -->
+        <main class="main-content" style="flex: 1 1 0%; min-width: 0;">
+          <div class="app-table-container">
+            <div class="table-responsive" #tableWrapper>
+              <table class="table app-table" style="white-space: nowrap;">
+                <thead>
+                  <tr>
+                    <th class="text-center" style="width: 100px;">Actions</th>
+                    <th class="text-center">Date</th>
+                    <th class="text-left">Name</th>
+                    <th class="text-center">Projects</th>
+                    <th class="text-center">Tasks</th>
+
+                    <th class="text-center">Hours</th>
+                    <th class="text-center">Approved</th>
+                    <th class="text-center">Declined</th>
+                    <th class="text-center">Pending</th>
+                    <th class="text-center">Messages</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (entry of paginatedEntries; track entry.jobCode) {
+                  <tr>
+                    <td class="text-center">
+                      <div class="table-actions" style="justify-content: center;">
+                        <button type="button" class="table-action-button edit" matTooltip="Edit"
+                          (click)="editEntry(entry)">
+                          <i class="fa fa-edit"></i>
+                        </button>
+                        <button type="button" class="table-action-button delete" matTooltip="Delete"
+                          (click)="deleteEntry(entry)">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    </td>
+                    <td class="text-center font-weight-bold" [style.color]="entry.isOvertime ? '#dc2626' : null">{{ formatDate(entry.dateObj) }}</td>
+                    <td class="text-left font-weight-bold" [style.color]="entry.isOvertime ? '#dc2626' : null">
+                      {{ entry.name }}
+                      @if (entry.isOvertime) {
+                        <span style="font-size: 11px; color: #dc2626; font-weight: 600; margin-left: 6px;">(Overtime)</span>
+                      }
+                    </td>
+
+                    <td class="text-center">
+                      <a class="app-route-link" role="button" tabindex="0" (click)="openProjectsDialog(entry)"
+                        (keydown.enter)="openProjectsDialog(entry)">
+                        {{ entry.projectsCount || 3 }}
+                      </a>
+                    </td>
+
+                    <td class="text-center">
+                      <a class="app-route-link" role="button" tabindex="0" (click)="openTasksDialog(entry)"
+                        (keydown.enter)="openTasksDialog(entry)">
+                        {{ entry.tasksList?.length || 0 }}
+                      </a>
+                    </td>
+
+                    <td class="text-center font-weight-bold" [style.color]="entry.isOvertime ? '#dc2626' : null">
+                      {{ entry.totalHours }}
+                      @if (entry.isOvertime) {
+                        <span style="font-size: 11px; color: #dc2626; font-weight: 600; display: block; line-height: 1;">+{{ (entry.totalHours - 8.0).toFixed(1) }}h OT</span>
+                      }
+                    </td>
+
+                    <td class="text-center">
+                      <input type="checkbox" class="status-checkbox approved-cb" [checked]="entry.approved"
+                        (change)="toggleRowStatus(entry, 'approved')">
+                    </td>
+                    <td class="text-center">
+                      <input type="checkbox" class="status-checkbox declined-cb" [checked]="entry.declined"
+                        (change)="toggleRowStatus(entry, 'declined')">
+                    </td>
+                    <td class="text-center">
+                      <input type="checkbox" class="status-checkbox pending-cb" [checked]="entry.pending"
+                        (change)="toggleRowStatus(entry, 'pending')">
+                    </td>
+
+                    <td class="text-center">
+                      <a class="app-route-link" role="button" tabindex="0" (click)="openMessagesDialog(entry)"
+                        (keydown.enter)="openMessagesDialog(entry)">
+                        {{ entry.messages?.length || 0 }}
+                      </a>
+                    </td>
+                  </tr>
+                  } @empty {
+                  <tr>
+                    <td colspan="10" class="empty-table text-center">No hours logged for this selection.</td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <mat-paginator [length]="totalSize" [pageIndex]="currentPage - 1" [pageSize]="pageSize"
+              [pageSizeOptions]="[5, 10, 15, 20]" (page)="handlePageEvent($event)" showFirstLastButtons>
+            </mat-paginator>
+          </div>
+        </main>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     DIALOG TEMPLATES
+     ========================================== -->
+
+<!-- Tasks Dialog -->
+<ng-template #tasksDialog let-data>
+  <div class="NewHeader">
+    <h1 mat-dialog-title>
+      Timesheet Details — <span [style.color]="data.isOvertime ? '#dc2626' : 'inherit'">{{ data.name }}</span> ({{ formatDate(data.dateObj) }})
+      @if (data.isOvertime) {
+        <span style="font-size: 13px; color: #dc2626; margin-left: 8px; font-weight: 600;">[Overtime: {{ data.totalHours }} hrs]</span>
+      }
+    </h1>
+  </div>
+  <div mat-dialog-content style="padding: 16px 24px;">
+    <div class="col-sm-12" style="padding: 0; margin-bottom: 15px;">
+      <div class="app-table-container" style="padding: 0; width: 100%; margin-bottom: 0;">
+        <div class="table-responsive" style="max-height: 450px; overflow-y: auto;">
+          <table class="table app-table" style="width: 100%; margin-bottom: 0;">
+            <thead>
+              <tr>
+                <th class="text-left" style="width: 22%; min-width: 170px;">Module</th>
+                <th class="text-left" style="width: 28%; min-width: 200px;">Task Name</th>
+                <th class="text-center" style="width: 80px; min-width: 80px;">Hours</th>
+                <th class="text-left" style="min-width: 320px;">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (t of data.tasksList; track t.task) {
+              <tr>
+                <td class="text-left">{{ t.module || 'General' }}</td>
+                <td class="text-left font-weight-bold" style="color: #1e3a8a;">{{ t.task }}</td>
+                <td class="text-center font-weight-bold" [style.color]="data.isOvertime ? '#dc2626' : null">{{ t.hours }}</td>
+                <td class="text-left" style="white-space: normal;">{{ t.description || '-' }}</td>
+              </tr>
+              } @empty {
+              <tr>
+                <td colspan="4" class="empty-table text-center">No tasks logged.</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+      <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="app-btn app-btn-default" mat-dialog-close>
+          <mat-icon>cancel</mat-icon> Close
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Messages Dialog -->
+<ng-template #messageDialog let-data>
+  <div class="NewHeader">
+    <h1 mat-dialog-title>
+      Messages History
+    </h1>
+  </div>
+  <div mat-dialog-content>
+    <div class="col-sm-12" style="padding: 0; margin-bottom: 15px;">
+      <div style="max-height: 250px; overflow-y: auto; padding-right: 5px;">
+        @if (data.messages && data.messages.length > 0) {
+        @for (msg of data.messages; track msg.date) {
+        <div style="margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
+          <div
+            style="display: flex; justify-content: space-between; font-size: 12px; color: #64748b; font-weight: 600; margin-bottom: 4px;">
+            <span>{{ msg.sender }}</span>
+            <span>{{ msg.date }}</span>
+          </div>
+          <p style="margin: 0; font-size: 14px; color: #1e293b; line-height: 1.4;">{{ msg.text }}</p>
+        </div>
+        }
+        } @else {
+        <p style="text-align: center; color: #94a3b8; font-style: italic; margin: 20px 0;">No messages yet for this
+          timesheet.</p>
+        }
+      </div>
+
+      <div style="margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 15px;">
+        <label class="control-label" style="margin-bottom: 8px;">Add New Message :</label>
+        <div style="display: flex; gap: 8px; margin-bottom: 5px;">
+          <input type="text" #newMsgInput class="form-control name back" placeholder="Type message details..."
+            style="flex-grow: 1;">
+          <button type="button" class="app-btn app-btn-primary"
+            (click)="addMessage(data, newMsgInput.value); newMsgInput.value=''">
+            <mat-icon>send</mat-icon> Send
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+      <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="app-btn app-btn-default" mat-dialog-close>
+          <mat-icon>cancel</mat-icon> Close
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

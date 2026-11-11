@@ -1,0 +1,126 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title style="color: white; margin: 0;">
+    {{ data ? 'Edit' : 'Add' }} Issue
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 20px 25px;">
+  <div class="col-sm-12" style="margin-bottom: 10px;">
+    <form [formGroup]="form" (ngSubmit)="save()">
+
+      <!-- Task -->
+      <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+        <div class="col-4">
+          <label class="add-member-label control-label" style="font-weight: 500; margin: 0; white-space: nowrap;">
+            Task : 
+          </label>
+        </div>
+        <div class="col-8">
+          <input class="form-control back" placeholder="Enter Task Name" formControlName="task" type="text"
+            style="height: 35px;" />
+        </div>
+      </div>
+
+      <!-- Subject -->
+      <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+        <div class="col-4">
+          <label class="add-member-label control-label" style="font-weight: 500; margin: 0; white-space: nowrap;">
+            Subject : 
+          </label>
+        </div>
+        <div class="col-8">
+          <input class="form-control back" placeholder="Enter Subject" formControlName="subject" type="text"
+            required style="height: 35px;" />
+        </div>
+      </div>
+
+      <!-- Issue Description -->
+      <div class="row" style="margin-bottom: 12px; display: flex; align-items: flex-start;">
+        <div class="col-4" style="padding-top: 5px;">
+          <label class="control-label" style="font-weight: 500; margin: 0; white-space: nowrap;">Description :</label>
+        </div>
+        <div class="col-8">
+          <textarea class="form-control" rows="3" placeholder="Enter Issue Description"
+            formControlName="issueDescription" style="resize: vertical;"></textarea>
+        </div>
+      </div>
+
+      <!-- Due Date -->
+      <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+        <div class="col-4">
+          <label class="control-label" style="font-weight: 500; margin: 0; white-space: nowrap;">Due Date :</label>
+        </div>
+        <div class="col-8">
+          <input class="form-control" type="date" formControlName="targetDate" style="height: 35px;" />
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+        <div class="col-4">
+          <label class="add-member-label control-label" style="font-weight: 500; margin: 0; white-space: nowrap;">
+            Status : 
+          </label>
+        </div>
+        <div class="col-8">
+          <mat-select formControlName="status" class="form-control back" placeholder="Select Status"
+            style="height: 35px; line-height: 23px;">
+            <mat-option value="Pending">Pending</mat-option>
+            <mat-option value="Allocated">Allocated</mat-option>
+            <mat-option value="Process">Process</mat-option>
+            <mat-option value="Hold">Hold</mat-option>
+            <mat-option value="Cancelled">Cancelled</mat-option>
+            <mat-option value="Closed">Closed</mat-option>
+          </mat-select>
+        </div>
+      </div>
+
+      <!-- Remarks -->
+      <div class="row" style="margin-bottom: 12px; display: flex; align-items: flex-start;">
+        <div class="col-4" style="padding-top: 5px;">
+          <label class="control-label" style="font-weight: 500; margin: 0; white-space: nowrap;">Remarks :</label>
+        </div>
+        <div class="col-8">
+          <textarea class="form-control" rows="2" placeholder="Enter Remarks" formControlName="remarks"
+            style="resize: vertical;"></textarea>
+        </div>
+      </div>
+
+      <!-- Upload Image -->
+      <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+        <div class="col-4">
+          <label class="control-label" style="font-weight: 500; margin: 0; white-space: nowrap;">Upload Image :</label>
+        </div>
+        <div class="col-8">
+          <input type="file" (change)="onFileSelected($event, 'image')" accept="image/*" class="form-control"
+            style="height: auto; padding: 4px;" />
+        </div>
+      </div>
+
+      <!-- Upload File -->
+      <div class="row" style="margin-bottom: 12px; display: flex; align-items: center;">
+        <div class="col-4">
+          <label class="control-label" style="font-weight: 500; margin: 0; white-space: nowrap;">Upload File :</label>
+        </div>
+        <div class="col-8">
+          <input type="file" (change)="onFileSelected($event, 'document')" class="form-control"
+            style="height: auto; padding: 4px;" />
+        </div>
+      </div>
+
+      <!-- Actions Footer -->
+      <div style="margin-bottom: 10px; margin-top: 20px;">
+        <div class="pull-right" style="display: flex; gap: 10px; justify-content: flex-end;">
+          <button class="app-btn app-btn-default" type="button" (click)="close()"
+            style="background-color: lightgray; color: red;">
+            <mat-icon>cancel</mat-icon> Close
+          </button>
+          <button class="app-btn app-btn-primary" type="submit" [disabled]="!form.valid">
+            <mat-icon>save</mat-icon> {{ data ? 'Update' : 'Save' }}
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

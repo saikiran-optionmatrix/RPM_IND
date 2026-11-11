@@ -1,0 +1,219 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+  <header class="analytics-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h1>
+      {{ projectName ? (projectName + ' - ') : '' }}{{ itemName ? itemName : 'Material' }} - History
+    </h1>
+    <button type="button" class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon><span>Back</span>
+    </button>
+  </header>
+
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-12">
+        <div class="app-table-container">
+
+          <div class="table-responsive">
+            <table class="table app-table">
+              <thead>
+                <tr>
+                  <th class="text-center" style="width: 80px;">Timeline</th>
+                  <th class="text-left" style="min-width: 130px;">Stage</th>
+                  <th class="text-left" style="min-width: 140px;">Deliverable</th>
+                  <th class="text-left" style="min-width: 140px;">Activity</th>
+                  <th class="text-left" style="min-width: 180px;">Item Name</th>
+                  <th class="text-center" style="width: 100px;">Requested</th>
+                  <th class="text-center" style="width: 100px;">Issued</th>
+                  <th class="text-left" style="min-width: 140px;">Requested By</th>
+                  <th class="text-center" style="width: 80px;">Available</th>
+                  <th class="text-center" style="width: 80px;">Reserved</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of paginatedRecords; track $index) {
+                  <tr>
+                    <!-- Timeline -->
+                    <td class="text-center" style="vertical-align: middle;">
+                      <button mat-icon-button (click)="openTimelineModal(item)" matTooltip="View Timeline"
+                        style="min-width: 32px; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; outline: none; padding: 0;">
+                        <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
+                          calendar_today
+                        </mat-icon>
+                      </button>
+                    </td>
+
+                    <!-- Stage -->
+                    <td class="text-left" style="vertical-align: middle;">{{ item.stage }}</td>
+
+                    <!-- Deliverable -->
+                    <td class="text-left" style="vertical-align: middle;">{{ item.deliverable }}</td>
+
+                    <!-- Activity -->
+                    <td class="text-left" style="vertical-align: middle;">{{ item.activity }}</td>
+
+                    <!-- Item Name -->
+                    <td class="text-left font-weight-500" style="vertical-align: middle; color: #1e293b;">
+                      <span [matTooltip]="item.itemName">{{ item.itemName }}</span>
+                    </td>
+
+                    <!-- Requested -->
+                    <td class="text-center" style="vertical-align: middle; font-weight: 600; color: #1e293b;">
+                      {{ item.requestedQuantity }}
+                    </td>
+
+                    <!-- Issued -->
+                    <td class="text-center" style="vertical-align: middle; font-weight: 600; color: #2563eb;">
+                      {{ item.issuedQuantity }}
+                    </td>
+
+                    <!-- Requested By -->
+                    <td class="text-left" style="vertical-align: middle;">
+                      <div style="display: flex; align-items: center; gap: 6px; white-space: nowrap;">
+                        <mat-icon style="font-size: 16px; width: 16px; height: 16px; line-height: 16px; color: #64748b;">person</mat-icon>
+                        <span>{{ item.requestedBy }}</span>
+                      </div>
+                    </td>
+
+                    <!-- Available -->
+                    <td class="text-center" style="vertical-align: middle;">
+                      <mat-checkbox [checked]="item.available" [disabled]="true" color="primary"></mat-checkbox>
+                    </td>
+
+                    <!-- Reserved -->
+                    <td class="text-center" style="vertical-align: middle;">
+                      <mat-checkbox [checked]="item.reserved" [disabled]="true" color="primary"></mat-checkbox>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="10" class="empty-table text-center">No records found</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <mat-paginator
+            [length]="historyRecords.length"
+            [pageIndex]="pageIndex"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[5, 10, 20]"
+            [showFirstLastButtons]="true"
+            (page)="handlePage($event)">
+          </mat-paginator>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TIMELINE POP-UP MODAL ============ -->
+  @if (showTimelineModal) {
+  <div class="bl-modal-overlay" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+    <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+      <!-- Header Row -->
+      <div class="timeline-popup-header">
+        <div class="timeline-popup-title-wrap">
+          <div class="timeline-icon-box">
+            <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+          </div>
+          <h3 class="timeline-popup-title">
+            Timeline &mdash; {{ selectedTimelineItem?.itemName }}
+          </h3>
+        </div>
+        <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Dates Grid -->
+      <div class="timeline-dates-container">
+        <div class="timeline-accent-bar"></div>
+
+        <div class="timeline-grid-content">
+          <!-- Row 1: Plan Start Date, Plan End Date, Actual Start Date -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planStart ? (selectedTimelineItem.planStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan End Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planEnd ? (selectedTimelineItem.planEnd | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Actual Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualStart ? (selectedTimelineItem.actualStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row-divider"></div>
+
+          <!-- Row 2: Actual End Date, ETA, Target Date -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Actual End Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualEnd ? (selectedTimelineItem.actualEnd | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">ETA</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.eta ? (selectedTimelineItem.eta | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Target Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.targetDate || '—' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row-divider"></div>
+
+          <!-- Row 3: Requested Qty, Issued Qty, Requested By -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Requested Quantity</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.requestedQuantity ?? 0 }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Issued Quantity</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.issuedQuantity ?? 0 }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Requested By</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.requestedBy || '—' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Remarks / Description Box -->
+      <div class="timeline-desc-box">
+        <div class="timeline-desc-header">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #3b82f6;">description</mat-icon>
+          <span>Remarks</span>
+        </div>
+        <p class="timeline-desc-text">
+          {{ selectedTimelineItem?.remarks || 'No remarks available for this requisition revision.' }}
+        </p>
+      </div>
+    </div>
+  </div>
+  }
+</div>

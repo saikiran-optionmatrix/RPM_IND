@@ -1,0 +1,58 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    Timeline &mdash; {{ data?.resource }}
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 24px 28px; width: 100%; box-sizing: border-box;">
+  <!-- Dates Grid -->
+  <div class="timeline-dates-container" style="display: flex; gap: 0; padding: 10px 0 16px;">
+    <div class="timeline-accent-bar" style="width: 4px; border-radius: 4px; background: linear-gradient(180deg, #2563eb 0%, #7c3aed 100%); flex-shrink: 0; margin-right: 16px;"></div>
+    <div class="timeline-grid-content" style="flex: 1; display: flex; flex-direction: column;">
+      <!-- Row 1: From Date, To Date -->
+      <div class="timeline-grid-row" style="display: flex;">
+        <div class="timeline-date-col" style="flex: 1; padding: 8px 12px; border-right: 1px solid #f1f5f9;">
+          <div class="timeline-date-label" style="font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">From Date</div>
+          <div class="timeline-date-value" style="font-size: 15px; font-weight: 700; color: #2563eb;">{{ data?.fromDate || '—' }}</div>
+        </div>
+        <div class="timeline-date-col timeline-date-col--last" style="flex: 1; padding: 8px 12px;">
+          <div class="timeline-date-label" style="font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">To Date</div>
+          <div class="timeline-date-value" style="font-size: 15px; font-weight: 700; color: #2563eb;">{{ data?.toDate || '—' }}</div>
+        </div>
+      </div>
+
+      <div class="timeline-row-divider" style="height: 1px; background: #f1f5f9; margin: 8px 0;"></div>
+
+      <!-- Row 2: From Time, To Time -->
+      <div class="timeline-grid-row" style="display: flex;">
+        <div class="timeline-date-col" style="flex: 1; padding: 8px 12px; border-right: 1px solid #f1f5f9;">
+          <div class="timeline-date-label" style="font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">From Time</div>
+          <div class="timeline-date-value" style="font-size: 15px; font-weight: 700; color: #2563eb;">{{ data?.fromTime || '—' }}</div>
+        </div>
+        <div class="timeline-date-col timeline-date-col--last" style="flex: 1; padding: 8px 12px;">
+          <div class="timeline-date-label" style="font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">To Time</div>
+          <div class="timeline-date-value" style="font-size: 15px; font-weight: 700; color: #2563eb;">{{ data?.toTime || '—' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Task Info Box -->
+  <div class="timeline-desc-box" style="margin: 0 0 18px 0; background: #f8fafc; border-radius: 10px; padding: 12px 16px; border: 1px solid #e2e8f0;">
+    <div class="timeline-desc-header" style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #475569; margin-bottom: 6px;">
+      <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #3b82f6;">assignment</mat-icon>
+      <span>Task &amp; Stage Details</span>
+    </div>
+    <p class="timeline-desc-text" style="font-size: 14px; color: #64748b; margin: 0; line-height: 1.5;">
+      <strong>Stage:</strong> {{ data?.stage }}&nbsp;&nbsp;
+      <strong>Module:</strong> {{ data?.module }}&nbsp;&nbsp;
+      <strong>Task:</strong> {{ data?.task }}
+    </p>
+  </div>
+
+  <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
+    <button class="app-btn app-btn-default" type="button" (click)="close()" style="background-color: lightgray; color: red;">
+      <mat-icon>cancel</mat-icon> Close
+    </button>
+  </div>
+</div>

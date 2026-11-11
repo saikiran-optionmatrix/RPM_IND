@@ -1,0 +1,78 @@
+<div class="nav-container" [class.nav-open]="isNavOpen" [class.nav-closed]="!isNavOpen">
+
+  <!-- Toggle Button -->
+  <button (click)="toggleNav()" class="toggle-button">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <nav class="nav-links">
+    <ul>
+
+      <!-- Roles & Users -->
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
+        <a [routerLink]="['./manage-users']">
+          @if (!isNavOpen) {
+            <mat-icon matTooltip="Roles & Users">person_add</mat-icon>
+          } @else {
+            <mat-icon>person_add</mat-icon>
+            <span>Roles & Users</span>
+          }
+        </a>
+      </li>
+
+      <!-- Dashboard / Lookup Options -->
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a [routerLink]="['./lookups']">
+          @if (!isNavOpen) {
+            <mat-icon matTooltip="Dashboard">dashboard</mat-icon>
+          } @else {
+            <mat-icon>dashboard</mat-icon>
+            <span>Lookup Options</span>
+          }
+        </a>
+      </li>
+
+      <!-- Preferences -->
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a [routerLink]="['./settings']">
+          @if (!isNavOpen) {
+            <mat-icon matTooltip="Preferences">tune</mat-icon>
+          } @else {
+            <mat-icon>tune</mat-icon>
+            <span>Preferences</span>
+          }
+        </a>
+      </li>
+
+      <!-- Event Log -->
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a [routerLink]="['./event-log']">
+          @if (!isNavOpen) {
+            <mat-icon matTooltip="Event Log">record_voice_over</mat-icon>
+          } @else {
+            <mat-icon>record_voice_over</mat-icon>
+            <span>Event Log</span>
+          }
+        </a>
+      </li>
+
+      <!-- Escalation Matrix -->
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
+        <a [routerLink]="['./escalation']">
+          @if (!isNavOpen) {
+            <mat-icon matTooltip="Escalation Matrix">mail</mat-icon>
+          } @else {
+            <mat-icon>mail</mat-icon>
+            <span>Escalation Matrix</span>
+          }
+        </a>
+      </li>
+
+    </ul>
+  </nav>
+
+</div>
+
+<div class="admin-main-wrapper" [class.content-nav-open]="isNavOpen" [class.content-nav-closed]="!isNavOpen">
+  <router-outlet></router-outlet>
+</div>

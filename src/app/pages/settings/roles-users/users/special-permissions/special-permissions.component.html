@@ -1,0 +1,52 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    Special Permissions
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 16px 24px;">
+  <div class="col-sm-12" style="margin-bottom: 10px; padding: 0;">
+
+    <div class="app-table-container">
+      <div class="table-responsive" style="max-height: 480px; overflow-y: auto;">
+        <table class="table app-table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th class="text-left">Permission</th>
+              <th class="text-center" style="width: 90px; min-width: 90px;">Select</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of permissions; track item.id) {
+              <tr>
+                <td class="text-left font-weight-500">
+                  {{ item.name }}
+                </td>
+                <td class="text-center" style="vertical-align: middle;">
+                  <mat-checkbox [(ngModel)]="item.selected" color="primary"></mat-checkbox>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="2" class="empty-table text-center">No records found</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="margin-top: 16px;">
+      <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="app-btn app-btn-default" (click)="close()">
+          <mat-icon>cancel</mat-icon> Close
+        </button>
+        <button type="button" class="app-btn app-btn-primary" (click)="save()">
+          <mat-icon>save</mat-icon> Save
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

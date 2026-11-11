@@ -1,0 +1,120 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+  <header class="analytics-header">
+    <h1>{{ projectName }}</h1>
+    <button type="button" class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon><span>Back</span>
+    </button>
+  </header>
+
+  <div class="budget-page-container">
+    <!-- Filter Bar -->
+    <!-- <div class="filter-bar">
+      <div class="filter-group">
+        <label>Stage</label>
+        <select #stageSelect>
+          <option value="Any">Any</option>
+          @for (s of stages; track s) {
+            <option [value]="s">{{ s }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>Module</label>
+        <select #moduleSelect>
+          <option value="Any">Any</option>
+          @for (m of modules; track m) {
+            <option [value]="m">{{ m }}</option>
+          }
+        </select>
+      </div>
+
+      <button class="btn-go" (click)="applyFilters(stageSelect.value, moduleSelect.value)">
+        GO
+      </button>
+    </div> -->
+
+    <!-- Stats Summary Grid -->
+    <div class="stats-grid">
+      <div class="stat-card blue">
+        <span class="label">BUDGET</span>
+        <span class="value">Rs. 20,00,000</span>
+      </div>
+      <div class="stat-card green">
+        <span class="label1">ACTUAL</span>
+        <span class="value">Rs. 8,50,000</span>
+      </div>
+      <div class="stat-card orange">
+        <span class="label2">COMPLETION</span>
+        <span class="value">45%</span>
+      </div>
+      <div class="stat-card purple">
+        <span class="label3">PROJECTED BUDGET</span>
+        <span class="value">Rs. 18,88,889</span>
+      </div>
+      <div class="stat-card red">
+        <span class="label4">DUE DATE</span>
+        <span class="value">30 Oct 2026</span>
+      </div>
+      <div class="stat-card cyan">
+        <span class="label5">ETA</span>
+        <span class="value">20 Oct 2026</span>
+      </div>
+    </div>
+
+    <!-- Scroll Buttons -->
+    <div class="d-flex justify-content-end mb-2" style="gap: 10px;">
+      <div class="d-flex justify-content-end mb-2">
+        <button class="mine" mat-fab style="background-color: #cecdcd; right: 110px; z-index: 9999;"
+          (click)="scrollLeft()">
+          <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+        </button>
+        <button class="mine" mat-fab style="background-color: #cecdcd; z-index: 9999;" (click)="scrollRight()">
+          <mat-icon style="color: #414141;">fast_forward</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Budget Table Container -->
+    <div class="app-table-container" style="padding: 0; width: 100%;">
+      <div #scrollContainer class="table-responsive" style="overflow-x: auto; scroll-behavior: smooth;">
+        <table class="table app-table">
+          <thead>
+            <tr>
+              <th class="text-left">Stage</th>
+              <th class="text-left">Deliverable</th>
+              <th class="text-left">Activity</th>
+              <th class="text-left">Allocation</th>
+              <th class="text-center">Standard Hours</th>
+              <th class="text-center">Actual Hours</th>
+              <th class="text-center">Budget (INR)</th>
+              <th class="text-center">Usage (INR)</th>
+              <th class="text-center">Completion</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of displayedRows; track row.task + row.stage) {
+              <tr>
+                <td class="text-left">{{ row.stage }}</td>
+                <td class="text-left">{{ row.module }}</td>
+                <td class="text-left">{{ row.task }}</td>
+                <td class="text-left">{{ row.allocation }}</td>
+                <td class="text-center">{{ row.standardHours }}</td>
+                <td class="text-center">{{ row.actualHours }}</td>
+                <td class="text-center">{{ fmt(row.budgetINR) }}</td>
+                <td class="text-center">{{ fmt(row.usageINR) }}</td>
+                <td class="text-center font-bold" [style.color]="getCompColor(row.completion)">
+                  {{ row.completion }}%
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="9" class="empty-table">No records found</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,156 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title style="color: white; margin: 0; text-align: center;">
+    {{ dialogTitle }}
+  </h1>
+</div>
+
+<div mat-dialog-content class="custom-dialog-content pt-2"
+  style="padding: 20px 25px; background: white; max-height: 75vh; overflow-y: auto;">
+  <div class="row" style="display: flex; align-items: stretch; flex-wrap: wrap;">
+
+    <!-- ========================= 1ST COLUMN: INPUT FILE & DRAG AND DROP BOX ========================= -->
+    <div class="col-sm-6" style="padding-right: 15px; display: flex; flex-direction: column; min-width: 300px; flex: 1;">
+
+      <!-- Enter Doc Title -->
+      <div style="margin-bottom: 14px;">
+        <label class="control-label" style="font-weight: 600; font-size: 13px; color: #1e293b; margin-bottom: 6px; display: block;">
+          Enter Doc Title :
+        </label>
+        <div style="display: flex; gap: 8px;">
+          <input
+            type="text"
+            [(ngModel)]="docTitle"
+            (keyup.enter)="addDocumentByTitle()"
+            placeholder="Enter Doc Title"
+            class="form-control"
+            style="flex: 1; height: 36px; padding: 5px 10px; font-size: 13px; background-color: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px;"
+          />
+         
+        </div>
+      </div>
+
+      <!-- Hidden file input for Browse Files & Drag/Drop -->
+      <input
+        #fileInput
+        type="file"
+        (change)="onFileSelected($event)"
+        accept=".pdf,application/pdf"
+        style="display: none;"
+      />
+
+      <!-- Upload PDF Label -->
+      <div style="margin-bottom: 8px; display: flex; align-items: center;">
+        <label class="control-label" style="margin: 0; font-weight: 600; font-size: 13px; color: #1e293b;">
+          Upload PDF :
+        </label>
+      </div>
+
+      <!-- Drag & Drop Box (Referenced from AddDocumentComponent) -->
+      <div
+        class="pdf-upload-dropzone"
+        [class.dragging]="isDragging"
+        (dragover)="$event.preventDefault(); isDragging = true;"
+        (dragleave)="isDragging = false;"
+        (drop)="onFileDropped($event)"
+        style="border: 2px dashed #22c55e; border-radius: 8px; background-color: #fafbfc; min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; cursor: pointer; transition: all 0.2s ease;"
+      >
+        <mat-icon
+          style="font-size: 38px; width: 38px; height: 38px; line-height: 38px; color: #475569; margin-bottom: 12px;">
+          file_upload
+        </mat-icon>
+
+        <div style="font-size: 14px; color: #334155; font-weight: 500; margin-bottom: 14px;">
+          Drag and drop files here
+        </div>
+
+        <button
+          type="button"
+          class="app-btn app-btn-primary"
+          (click)="fileInput.click()"
+          style="font-weight: 600; padding: 6px 22px; border-radius: 6px; font-size: 13px;"
+        >
+          Browse Files
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ========================= 2ND COLUMN: TABLE (ACTIONS ONLY DELETE & TITLE) ========================= -->
+    <div class="col-sm-6" style="padding-left: 15px; display: flex; flex-direction: column; min-width: 320px; flex: 1;">
+
+      <div style="margin-bottom: 8px; display: flex; align-items: center;">
+        <label class="control-label" style="margin: 0; font-weight: 600; font-size: 13px; color: #1e293b;">
+          Documents List :
+        </label>
+      </div>
+
+      <!-- Table with 2 columns: Actions (only delete) and Title -->
+      <div class="app-table-container" style="padding: 0 !important; width: 100%;">
+        <div class="table-responsive" style="max-height: 275px; min-height: 200px; overflow-x: auto; overflow-y: auto;">
+          <table class="table app-table" style="width: 100%; margin-bottom: 0;">
+            <thead>
+              <tr>
+                <th class="text-center" style="width: 80px; min-width: 80px;">Actions</th>
+                <th class="text-left" style="min-width: 220px;">Title</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of documentsList; track $index; let idx = $index) {
+              <tr>
+                <!-- Actions (only delete) -->
+                <td class="text-center" style="vertical-align: middle;">
+                  <div class="table-actions" style="justify-content: center;">
+                    <button
+                      type="button"
+                      class="table-action-button delete"
+                      matTooltip="Delete Document"
+                      aria-label="Delete document"
+                      (click)="deleteDocument(idx)"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </td>
+
+                <!-- Title -->
+                <td class="text-left" style="vertical-align: middle;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <a
+                      [href]="getDocumentUrl(row)"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="doc-title-link"
+                      [matTooltip]="'Open ' + row.title + ' in new tab'"
+                    >
+                      {{ row.title }}
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              } @empty {
+              <tr>
+                <td colspan="2" class="empty-table text-center" style="padding: 36px 16px; color: #64748b;">
+                  No documents found
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- ========================= FOOTER (CLOSE & SAVE) ========================= -->
+<mat-dialog-actions class="dialog-actions-right"
+  style="padding: 15px 25px; display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #cbd5e1; margin-top: 0; background: white;">
+  <button class="app-btn app-btn-default" type="button" (click)="close()" style="background-color: lightgray; color: red;">
+    <mat-icon>cancel</mat-icon> Close
+  </button>
+  <button class="app-btn app-btn-primary" type="button" (click)="save()">
+    <mat-icon>save</mat-icon> Save
+  </button>
+</mat-dialog-actions>

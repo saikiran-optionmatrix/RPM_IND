@@ -1,0 +1,142 @@
+.checklist-popup-card {
+  background: #ffffff;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+}
+
+.NewHeader {
+  background: #286ba5 !important;
+  border-bottom: 1px solid #cbd5e1;
+  padding: 14px 24px !important;
+  margin: 0 !important;
+  height: auto !important;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  text-align: center;
+  color: white;
+
+  h3 {
+    margin: 0 !important;
+    font-size: 20px !important;
+    font-weight: 500 !important;
+    padding-top: 0 !important;
+    color: white;
+  }
+}
+
+.checklist-modal-body {
+  padding: 20px 24px;
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: 60vh;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.checklist-gate-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  color: #1e293b;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e2e8f0;
+
+  .badge-readonly {
+    font-size: 11px;
+    background: #f1f5f9;
+    color: #64748b;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+}
+
+.add-checklist-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+
+  input {
+    border: 1px solid #cbd5e1;
+    font-size: 13.5px;
+    padding: 6px 12px;
+
+    &:focus {
+      border-color: #2563eb;
+      outline: none;
+    }
+  }
+}
+
+.checklist-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checklist-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: #f1f5f9;
+  }
+}
+
+.checklist-done-text {
+  text-decoration: none;
+}
+
+.mandatory-item-text {
+  color: #dc2626 !important;
+  font-weight: 500;
+}
+
+.mandatory-asterisk {
+  color: #dc2626;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+.checklist-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checklist-delete-btn {
+  cursor: pointer;
+  color: red;
+  font-size: 13px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.empty-checklist-state {
+  text-align: center;
+  color: #64748b;
+  font-style: italic;
+  padding: 20px;
+}
+
+mat-dialog-actions {
+  border-top: 1px solid #cbd5e1;
+  padding: 12px 24px !important;
+  margin: 0 !important;
+  box-sizing: border-box;
+}

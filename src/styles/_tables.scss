@@ -1,0 +1,621 @@
+/* ========================================
+   APPLICATION TABLE SYSTEM
+======================================== */
+
+.app-table-container {
+  width: 100%;
+  padding: 40px 36px;
+  box-sizing: border-box;
+}
+
+
+/* ========================================
+   PAGE ACTIONS
+======================================== */
+
+.app-page-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 12px;
+
+  width: 100%;
+
+  margin-bottom: 12px;
+}
+
+
+/* ========================================
+   RESPONSIVE TABLE
+======================================== */
+
+.app-table-container .table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+
+/* ========================================
+   TABLE
+======================================== */
+
+.app-table-container .app-table {
+  width: 100%;
+
+  margin-bottom: 0;
+
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  border: 1px solid #d1d5db;
+
+  background-color: #ffffff;
+
+  color: #334155;
+}
+
+
+/* ========================================
+   TABLE HEADER
+======================================== */
+
+.app-table-container .app-table>thead {
+  background-color: #3f3f3f;
+}
+
+
+.app-table-container .app-table>thead>tr>th {
+  padding: 9px 12px;
+
+  border: 1px solid #6b7280;
+
+  background-color: #3f3f3f;
+
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  vertical-align: middle;
+
+  white-space: nowrap;
+}
+
+
+/* ========================================
+   TABLE BODY
+======================================== */
+
+.app-table-container .app-table tbody td {
+  padding: 9px 12px;
+
+  border: 1px solid #d1d5db;
+
+  background-color: #ffffff;
+
+  color: #212529;
+
+  font-size: 14px;
+
+  vertical-align: middle;
+}
+
+
+/* ========================================
+   TABLE ROW HOVER
+======================================== */
+
+.app-table-container .app-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+
+.app-table-container .app-table tbody tr:hover td {
+  background-color: #f8fafc;
+}
+
+
+/* ========================================
+   EMPTY TABLE
+======================================== */
+
+.app-table-container .empty-table {
+  padding: 32px 16px !important;
+
+  color: #64748b;
+
+  text-align: center;
+}
+
+
+/* ========================================
+   TABLE ACTIONS
+======================================== */
+
+.table-actions {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+}
+
+
+.table-action-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+
+.table-action-button mat-icon {
+  width: 20px;
+  height: 20px;
+
+  font-size: 20px;
+  line-height: 20px;
+}
+
+
+/* ========================================
+   ACTION TYPES
+======================================== */
+
+.table-action-button.edit {
+  color: #5b8bd9;
+}
+
+
+.table-action-button.delete {
+  color: #ef1d1d;
+}
+
+
+.table-action-button.view {
+  color: #2563eb;
+}
+
+
+.table-action-button.add {
+  color: #16a34a;
+}
+
+
+/* ========================================
+   ACTION HOVER
+======================================== */
+
+.table-action-button:hover {
+  background-color: #f1f5f9;
+}
+
+
+.table-action-button:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+
+/* ========================================
+   STATUS BUTTON
+======================================== */
+
+.status-button {
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  font: inherit;
+
+  cursor: pointer;
+}
+
+
+.status-active {
+  color: #1e40af;
+  font-weight: 500;
+}
+
+
+.status-inactive {
+  color: #dc2626;
+  font-weight: 500;
+}
+
+
+.status-pending {
+  color: #d97706;
+  font-weight: 500;
+}
+
+
+.status-success {
+  color: #16a34a;
+  font-weight: 500;
+}
+
+
+.status-button:hover {
+  text-decoration: underline;
+}
+
+
+.status-button:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+
+/* ========================================
+   ROUTE LINK
+======================================== */
+
+.app-route-link {
+  color: #2563eb;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 500;
+
+  &:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+  }
+}
+
+
+/* ========================================
+   FILTER PANEL
+======================================== */
+
+.app-filter-panel {
+  width: 100%;
+
+  margin-bottom: 28px;
+
+  padding: 16px 22px;
+
+  background-color: #f1f3f5;
+
+  border: 1px solid #d1d5db;
+
+  border-radius: 0;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+
+/* ========================================
+   FILTER FIELD
+======================================== */
+
+.app-filter-field {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  width: 100%;
+}
+
+
+.app-filter-field label {
+  margin: 0;
+
+  color: #343a40;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+
+/* ========================================
+   MATERIAL FILTER CONTROL
+======================================== */
+
+.app-filter-control {
+  flex: 1;
+
+  min-width: 0;
+
+  margin: 0;
+}
+
+
+/* Remove Material hint/error spacing */
+
+.app-filter-control .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+
+/* Sharp Material field corners */
+
+.app-filter-control .mat-mdc-text-field-wrapper {
+  border-radius: 0 !important;
+}
+
+
+/* Keep filter controls visually compact */
+
+.app-filter-control .mat-mdc-form-field-infix {
+  min-height: 42px;
+
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+}
+
+
+/* Remove unnecessary outer bottom margin */
+
+.app-filter-control.mat-mdc-form-field {
+  margin-bottom: 0;
+}
+
+
+/* ========================================
+   FILTER ACTIONS
+======================================== */
+
+.app-filter-actions {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  width: 100%;
+
+  white-space: nowrap;
+}
+
+
+/* ========================================
+   APPLICATION BUTTON
+======================================== */
+
+.app-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  min-height: 48px;
+
+  padding: 0 20px;
+
+  border: 1px solid transparent;
+
+  border-radius: 0;
+
+  font-size: 16px;
+
+  font-weight: 500;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  box-sizing: border-box;
+
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+
+.app-btn mat-icon {
+  width: 24px;
+  height: 24px;
+
+  font-size: 24px;
+  line-height: 24px;
+}
+
+
+/* ========================================
+   PRIMARY BUTTON
+======================================== */
+
+.app-btn-primary {
+  background-color: #287db3 !important;
+
+  color: #ffffff !important;
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.20);
+}
+
+
+.app-btn-primary:hover {
+  background-color: #216b9b !important;
+}
+
+
+/* ========================================
+   FILTER BUTTON
+======================================== */
+
+.app-btn-filter {
+  background-color: #050505 !important;
+
+  color: #ffffff !important;
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+
+.app-btn-filter:hover {
+  background-color: #242424 !important;
+}
+
+
+/* ========================================
+   DEFAULT / CLEAR BUTTON
+======================================== */
+
+.app-btn-default,
+.app-btn-secondary {
+  background-color: #e9ecef !important;
+
+  border-color: #ced4da !important;
+
+  color: #343a40 !important;
+
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+
+.app-btn-default:hover,
+.app-btn-secondary:hover {
+  background-color: #dee2e6 !important;
+}
+
+
+/* ========================================
+   DISABLED BUTTON
+======================================== */
+
+.app-btn:disabled,
+.app-btn.mat-mdc-button-disabled {
+  background-color: #cccccc !important;
+
+  color: #777777 !important;
+
+  cursor: not-allowed;
+
+  box-shadow: none;
+}
+
+
+/* ========================================
+   ICON BUTTON
+======================================== */
+
+.app-icon-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  padding: 0;
+
+  border: 0;
+
+  border-radius: 0;
+
+  background: transparent;
+
+  color: #287db3;
+
+  cursor: pointer;
+}
+
+
+.app-icon-btn mat-icon {
+  width: 24px;
+  height: 24px;
+
+  font-size: 24px;
+}
+
+
+/* ========================================
+   ANGULAR MATERIAL PAGINATOR
+======================================== */
+
+.app-table-container .mat-mdc-paginator {
+  width: 100%;
+
+  min-height: 64px;
+
+  margin-top: 8px;
+
+  border: 0;
+
+  background-color: transparent;
+
+  border-radius: 0;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 992px) {
+
+  .app-filter-actions {
+    justify-content: flex-start;
+
+    flex-wrap: wrap;
+  }
+
+}
+
+
+@media (max-width: 768px) {
+
+  .app-table-container {
+    padding: 24px 16px;
+  }
+
+
+  .app-table-container .app-table {
+    min-width: 650px;
+  }
+
+
+  .app-page-actions {
+    justify-content: flex-end;
+
+    flex-wrap: wrap;
+  }
+
+
+  .app-filter-field {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 6px;
+  }
+
+
+  .app-filter-actions {
+    justify-content: flex-start;
+  }
+
+}

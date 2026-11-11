@@ -1,0 +1,123 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+  <!-- Header Section with Title & Action Buttons -->
+  <header class="analytics-header">
+    <h1>{{ projectName }}</h1>
+
+    <div class="header-actions" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+      <button type="button" class="app-btn app-btn-primary" (click)="addMaterial()">
+        <mat-icon>add</mat-icon>
+        <span>Add Requisition</span>
+      </button>
+
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon><span>Back</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Scroll Buttons -->
+  <div class="d-flex justify-content-end mb-2" style="gap: 10px;">
+    <div class="d-flex justify-content-end mb-2">
+      <button class="mine" mat-fab style="background-color: #cecdcd; right: 110px; z-index: 9999;"
+        (click)="scrollLeft()">
+        <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+      </button>
+      <button class="mine" mat-fab style="background-color: #cecdcd; z-index: 9999;" (click)="scrollRight()">
+        <mat-icon style="color: #414141;">fast_forward</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="app-table-container" style="padding: 0; width: 100%;">
+    <div #scrollContainer class="table-responsive" style="overflow-x: auto; scroll-behavior: smooth;">
+      <table class="table app-table">
+        <thead>
+          <tr>
+            <th class="text-center" style="width: 80px;">Actions</th>
+            <th class="text-center" style="width: 70px;">Timeline</th>
+            <th class="text-left" style="min-width: 130px;">Stage</th>
+            <th class="text-left" style="min-width: 140px;">Deliverable</th>
+            <th class="text-left" style="min-width: 140px;">Activity</th>
+            <th class="text-left" style="min-width: 180px;">Item Name</th>
+            <th class="text-center" style="min-width: 100px;">Requested</th>
+            @if (!isTemplate) {
+            <th class="text-center" style="min-width: 100px;">Issued</th>
+            }
+            <th class="text-left" style="min-width: 140px;">Requested By</th>
+            <th class="text-center" style="width: 80px;">Available</th>
+            <th class="text-center" style="width: 80px;">Reserved</th>
+            <th class="text-center" style="width: 110px; min-width: 110px;">Updated</th>
+            <th class="text-center" style="width: 130px; min-width: 130px;">Update By</th>
+            <th class="text-center" style="min-width: 130px;">History</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of displayedRows; track row.itemName + row.stage; let idx = $index) {
+          <tr>
+            <td class="text-center">
+              <div class="table-actions">
+                <button type="button" class="table-action-button edit" matTooltip="Edit Material"
+                  aria-label="Edit Material" (click)="editMaterial(row)">
+                  <i class="fa fa-edit"></i>
+                </button>
+                <button type="button" class="table-action-button delete" matTooltip="Delete Material"
+                  aria-label="Delete Material" (click)="deleteMaterial(row)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+            <td class="text-center">
+              <button type="button" class="table-action-button view" (click)="openTimelineModal(row)"
+                matTooltip="View Timeline" aria-label="View Timeline">
+                <mat-icon>calendar_today</mat-icon>
+              </button>
+            </td>
+            <td class="text-left">{{ row.stage }}</td>
+            <td class="text-left">{{ row.module }}</td>
+            <td class="text-left">{{ row.task }}</td>
+            <td class="text-left font-weight-500" style="color: #1e293b;">{{ row.itemName }}</td>
+
+            <!-- Numeric Requested & Issued Columns -->
+            <td class="text-center" style="font-weight: 600; color: #1e293b;">
+              {{ row.requestedQuantity ?? row.quantity ?? 0 }}
+            </td>
+            @if (!isTemplate) {
+            <td class="text-center" style="font-weight: 600; color: #2563eb;">
+              {{ row.issuedQuantity ?? 0 }}
+            </td>
+            }
+
+            <td class="text-left">{{ row.requestedBy }}</td>
+
+            <td class="text-center">
+              <mat-checkbox [(ngModel)]="row.available" color="primary"></mat-checkbox>
+            </td>
+            <td class="text-center">
+              <mat-checkbox [(ngModel)]="row.reserved" color="primary"></mat-checkbox>
+            </td>
+            <!-- Updated -->
+            <td class="text-center" style="white-space: nowrap;">
+              {{ (row.updatedDate || row.requestDate) ? ((row.updatedDate || row.requestDate) | date:'dd-MMM-yyyy') : '—' }}
+            </td>
+            <!-- Update By -->
+            <td class="text-center" style="white-space: nowrap;">
+              {{ row.updatedBy || row.requestedBy || '—' }}
+            </td>
+            <td class="text-center" style="vertical-align: middle;">
+              <a href="javascript:void(0)" class="history-number-link" (click)="openHistory(row.itemName)" matTooltip="View Record History">
+                {{ row.historyCount || ((idx % 10) + 1) }}
+              </a>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td [attr.colspan]="isTemplate ? 13 : 14" class="empty-table">
+              No records found
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

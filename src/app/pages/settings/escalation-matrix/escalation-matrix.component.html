@@ -1,0 +1,60 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="app-table-container">
+
+        <!-- Escalation Matrix Table Grid -->
+        <div class="table-responsive">
+          <table class="table app-table">
+            <thead>
+              <tr>
+                <th style="width: 15%; padding-left: 16px;">Escalation</th>
+                <th style="width: 45%; padding-left: 16px;">Description</th>
+                <th style="width: 12%; padding-left: 16px;">Current Value</th>
+                <th style="width: 18%; padding-left: 16px;">Revised Value</th>
+                <th class="text-center" style="width: 10%;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of escalationList; track item.id) {
+                <tr>
+                  <!-- Escalation -->
+                  <td style="padding-left: 16px;">
+                    {{ item.escalation }}
+                  </td>
+
+                  <!-- Description -->
+                  <td style="padding-left: 16px; color: #475569;">
+                    {{ item.description }}
+                  </td>
+
+                  <!-- Current Value -->
+                  <td style="padding-left: 16px; color: #334155;">
+                    {{ item.currentValue }}
+                  </td>
+
+                  <!-- Revised Value Input -->
+                  <td style="padding: 8px 16px;">
+                    <input class="form-control"
+                           type="text"
+                           [(ngModel)]="item.revisedValue"
+                           placeholder="Enter Revised Value">
+                  </td>
+
+                  <!-- Actions Save Button -->
+                  <td class="text-center" style="padding: 8px 12px;">
+                    <button type="button" class="app-btn app-btn-primary" (click)="save(item)">
+                      <mat-icon>save</mat-icon>
+                      <span>Save</span>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

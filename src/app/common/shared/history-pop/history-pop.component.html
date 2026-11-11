@@ -1,0 +1,56 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>{{ dialogTitle }}</h1>
+</div>
+
+<div mat-dialog-content style="padding: 16px 24px;">
+  <div class="col-sm-12" style="margin-bottom: 10px; padding: 0;">
+
+    <!-- Label displaying the Project / Entity Name -->
+    <div class="history-label-row">
+      <label class="control-label history-label">{{ label }} :</label>
+      <span class="history-value">{{ recordName }}</span>
+    </div>
+
+    <!-- Table using popup and table classes from AssetsComponent -->
+    <div class="app-table-container" style="padding: 0 !important; width: 100%;">
+      <div class="table-responsive" style="max-height: 480px; overflow-x: auto; overflow-y: auto;">
+        <table class="table app-table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th class="text-center" style="font-weight: 600;">Column Name</th>
+              <th class="text-center" style="font-weight: 600;">Previous Value</th>
+              <th class="text-center" style="font-weight: 600;">Updated Value</th>
+              <th class="text-center" style="font-weight: 600;">Updated Date</th>
+              <th class="text-center" style="font-weight: 600;">Updated By</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of historyRecords; track $index) {
+              <tr>
+                <td class="text-center" style="font-weight: 500;">{{ row.columnName }}</td>
+                <td class="text-center">{{ row.previousValue }}</td>
+                <td class="text-center">{{ row.updatedValue }}</td>
+                <td class="text-center">{{ row.updatedDate }}</td>
+                <td class="text-center">{{ row.updatedBy }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="5" class="empty-table text-center p-3">No records found</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Dialog Actions with AssetsComponent button styling -->
+    <div style="margin-top: 20px; margin-bottom: 10px;">
+      <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="app-btn app-btn-default" (click)="close()">
+          <mat-icon>cancel</mat-icon> Close
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

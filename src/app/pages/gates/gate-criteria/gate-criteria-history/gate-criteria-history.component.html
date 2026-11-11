@@ -1,0 +1,93 @@
+<div class="inner-screen-page" style="padding: 10px 25px 80px 25px">
+  <!-- Top Header Area -->
+  <header class="inner-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div class="header-left">
+      <div class="title-meta">
+        <h2 class="inner-title" style="margin: 0; font-size: 20px; font-weight: 600; color: #1e293b;">
+          {{ subject ? subject : 'Criteria' }} - History
+        </h2>
+        <div class="activity-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #64748b; margin-top: 4px;">
+          @if (gateContext) {
+            <span class="activity-badge" style="background-color: #e2e8f0; color: #334155; padding: 1px 6px; border-radius: 4px; font-weight: 600; font-size: 12px; text-transform: capitalize;">{{ gateContext }}</span>
+          }
+          <span class="activity-text" style="font-weight: 500; color: #1e293b;">Acceptance Criteria History</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Table Container with Subject, Description, Guidelines, Priority, Mandatory -->
+  <div class="app-table-container" style="padding: 0 !important; width: 100%;">
+    <div class="table-responsive" style="max-height: 540px; overflow-x: auto; overflow-y: auto;">
+      <table class="table app-table" style="width: 100%;">
+        <thead>
+          <tr>
+            <th class="text-left" style="width: 25%; min-width: 220px;">Subject</th>
+            <th class="text-left" style="width: 35%; min-width: 280px;">Description</th>
+            <th class="text-center" style="width: 110px; min-width: 100px;">Guidelines</th>
+            <th class="text-center" style="width: 110px; min-width: 100px;">Priority</th>
+            <th class="text-center" style="width: 110px; min-width: 100px;">Mandatory</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of paginatedRecords; track $index) {
+          <tr>
+            <!-- Subject -->
+            <td class="text-left" style="vertical-align: middle;">
+              <span style="font-weight: 500; color: #1e293b;" [matTooltip]="item.subject">{{ item.subject }}</span>
+            </td>
+
+            <!-- Description -->
+            <td class="text-left" style="vertical-align: middle;">
+              <span style="color: #334155;" [matTooltip]="item.description">{{ item.description }}</span>
+            </td>
+
+            <!-- Guidelines -->
+            <td class="text-center" style="vertical-align: middle;">
+              <div class="table-actions" style="justify-content: center;">
+                <button type="button" class="table-action-button" matTooltip="Download Guidelines"
+                  aria-label="Download Guidelines" (click)="onDownloadGuidelines(item)">
+                  <mat-icon style="color: cornflowerblue;">download</mat-icon>
+                </button>
+              </div>
+            </td>
+
+            <!-- Priority -->
+            <td class="text-center" style="vertical-align: middle;">
+              <mat-checkbox [checked]="isPriority(item.priority)" [disabled]="true" color="primary"></mat-checkbox>
+            </td>
+
+            <!-- Mandatory -->
+            <td class="text-center" style="vertical-align: middle;">
+              <mat-checkbox [checked]="item.mandatory" [disabled]="true" color="primary"></mat-checkbox>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="5" class="empty-table text-center" style="padding: 24px; color: #64748b;">
+              No criteria history records found
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <mat-paginator
+      [length]="records.length"
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 20, 50]"
+      [showFirstLastButtons]="true"
+      (page)="handlePage($event)">
+    </mat-paginator>
+  </div>
+</div>

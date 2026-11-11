@@ -1,0 +1,125 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+
+  <!-- Header Section with Title & Back Button -->
+  <header class="analytics-header">
+    <h1>{{ projectName }}</h1>
+
+    <div class="header-actions" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon><span>Back</span>
+      </button>
+    </div>
+  </header>
+  
+  <div class="dialog-container">
+    <div class="transfer-layout">
+        <div class="list-panel">
+            <div class="panel-header">
+                <span>Available Members</span>
+                <span class="count-badge">
+                    @if (availableSearch) {
+                        {{ filteredAvailableMembers.length }} / {{ availableMembers.length }}
+                    } @else {
+                        {{ availableMembers.length }}
+                    }
+                </span>
+            </div>
+            <div class="panel-search">
+                <mat-icon class="search-icon">search</mat-icon>
+                <input type="text" class="search-input" placeholder="Search available members..."
+                    [(ngModel)]="availableSearch" />
+                @if (availableSearch) {
+                    <button type="button" class="clear-search-btn" (click)="availableSearch = ''" aria-label="Clear search">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                }
+            </div>
+            <div class="list-content">
+                @for (member of filteredAvailableMembers; track member) {
+                    <div class="list-item"
+                        [class.selected]="selectedAvailable.includes(member)"
+                        (click)="toggleSelection(member, selectedAvailable)">
+                        <input type="checkbox" class="member-checkbox" [checked]="selectedAvailable.includes(member)">
+                        <div class="avatar">{{ getInitials(member) }}</div>
+                        <span class="member-name">{{ member }}</span>
+                    </div>
+                } @empty {
+                    <div class="empty-state">
+                        @if (availableSearch) {
+                            No members found matching "{{ availableSearch }}".
+                        } @else {
+                            No more available members.
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="action-controls">
+            <button mat-flat-button class="action-btn add-btn" (click)="addMembers()"
+                [disabled]="!selectedAvailable.length">
+                <span>Add</span>
+                <mat-icon>chevron_right</mat-icon>
+            </button>
+            <button mat-flat-button class="action-btn remove-btn" (click)="removeMembers()"
+                [disabled]="!selectedAssigned.length">
+                <mat-icon>chevron_left</mat-icon>
+                <span>Remove</span>
+            </button>
+        </div>
+
+        <div class="list-panel">
+            <div class="panel-header assigned-header">
+                <span>Assigned Team</span>
+                <span class="count-badge">
+                    @if (assignedSearch) {
+                        {{ filteredAssignedMembers.length }} / {{ assignedMembers.length }}
+                    } @else {
+                        {{ assignedMembers.length }}
+                    }
+                </span>
+            </div>
+            <div class="panel-search">
+                <mat-icon class="search-icon">search</mat-icon>
+                <input type="text" class="search-input" placeholder="Search assigned members..."
+                    [(ngModel)]="assignedSearch" />
+                @if (assignedSearch) {
+                    <button type="button" class="clear-search-btn" (click)="assignedSearch = ''" aria-label="Clear search">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                }
+            </div>
+            <div class="list-content">
+                @for (member of filteredAssignedMembers; track member) {
+                    <div class="list-item"
+                        [class.selected]="selectedAssigned.includes(member)"
+                        (click)="toggleSelection(member, selectedAssigned)">
+                        <input type="checkbox" class="member-checkbox" [checked]="selectedAssigned.includes(member)">
+                        <div class="avatar assigned-avatar">{{ getInitials(member) }}</div>
+                        <span class="member-name">{{ member }}</span>
+                    </div>
+                } @empty {
+                    <div class="empty-state">
+                        @if (assignedSearch) {
+                            No members found matching "{{ assignedSearch }}".
+                        } @else {
+                            No members assigned yet.
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="dialog-footer">
+        <button class="app-btn app-btn-default" (click)="goBack()"
+            >
+            <mat-icon style="margin-bottom: -4px;">cancel</mat-icon> Cancel
+        </button>
+        <button class="app-btn app-btn-primary" (click)="save()"
+           >
+            <mat-icon style="margin-bottom: -4px;">save</mat-icon> Save
+        </button>
+    </div>
+  </div>
+</div>

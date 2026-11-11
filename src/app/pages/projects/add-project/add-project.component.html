@@ -1,0 +1,512 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    {{ isEditMode ? 'Update Project' : 'Add Project' }}
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 16px 24px; overflow: hidden;">
+  <form [formGroup]="projectForm" (ngSubmit)="save()">
+    <div style="display: flex; gap: 24px; align-items: stretch;">
+
+      <!-- Left Column: Navigation Tabs with Pills Styling -->
+      <div class="pills left-nav-pills"
+        style="width: 175px; flex-shrink: 0; border-right: 1px solid #e2e8f0; padding-right: 16px;">
+        <ul class="nav nav-pills"
+          style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+          @for (tab of tabs; track tab.id) {
+          <li [class.active]="activeTab === tab.id">
+            <a mat-raised-button type="button" (click)="setActiveTab(tab.id)">
+              {{ tab.label }}
+            </a>
+          </li>
+          }
+        </ul>
+      </div>
+
+      <!-- Right Column: Tab Form Fields -->
+      <div class="tab-scroll-container"
+        style="flex: 1; min-width: 0; max-height: 60vh; overflow-y: auto; padding-right: 8px;">
+
+        <!-- ==========================================
+             TAB 1: OVERVIEW (Project Identification)
+             ========================================== -->
+        @if (activeTab === 'overview') {
+        <div class="fields-grid">
+          <!-- Select Division -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Select Division :</label>
+            <select class="form-control name back" formControlName="division">
+              <option value="">Select Division</option>
+              @for (div of divisionsList; track div) {
+              <option [value]="div">{{ div }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Load from Template (Add Mode only) -->
+          @if (!isEditMode) {
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Load from Template :</label>
+            <select class="form-control name back" formControlName="template">
+              <option value="">Select Template</option>
+              @for (tpl of templatesList; track tpl) {
+              <option [value]="tpl">{{ tpl }}</option>
+              }
+            </select>
+          </div>
+          }
+
+          <!-- Project Code -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Project Code :</label>
+            <input class="form-control name back" placeholder="Enter Project Code" formControlName="projectCode"
+              type="text">
+          </div>
+
+          <!-- Product Name -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Product Name :</label>
+            <input class="form-control name back" placeholder="Enter Product Name" formControlName="productName"
+              type="text">
+          </div>
+
+          <!-- Molecule -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Molecule :</label>
+            <input class="form-control name back" placeholder="Enter Molecule" formControlName="module" type="text">
+          </div>
+
+          <!-- Star Product -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Star Product :</label>
+            <select class="form-control name back" formControlName="starProduct">
+              <option value="">Select Star Product</option>
+              @for (sp of starProductList; track sp) {
+              <option [value]="sp">{{ sp }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Registration Type -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Registration Type :</label>
+            <select class="form-control name back" formControlName="registrationType">
+              <option value="">Select Registration Type</option>
+              @for (reg of registrationTypesList; track reg) {
+              <option [value]="reg">{{ reg }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Project Owner -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Project Owner :</label>
+            <select class="form-control name back" formControlName="projectOwner">
+              <option value="">Select Project Owner</option>
+              @for (owner of projectOwnersList; track owner) {
+              <option [value]="owner">{{ owner }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Project Lead -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Project Lead :</label>
+            <select class="form-control name back" formControlName="projectLead">
+              <option value="">Select Project Lead</option>
+              @for (lead of projectLeadsList; track lead) {
+              <option [value]="lead">{{ lead }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Location -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Location :</label>
+            <select class="form-control name back" formControlName="location">
+              <option value="">Select Location</option>
+              @for (loc of locationsList; track loc) {
+              <option [value]="loc">{{ loc }}</option>
+              }
+            </select>
+          </div>
+        </div>
+        }
+
+        <!-- ==========================================
+             TAB 2: TIMELINE (Priority, Timeline & Budget)
+             ========================================== -->
+        @if (activeTab === 'timeline') {
+        <div class="fields-grid">
+          <!-- Priority -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Priority :</label>
+            <select class="form-control name back" formControlName="priority">
+              <option value="">Select Priority</option>
+              @for (p of priorityOptionsList; track p) {
+              <option [value]="p">{{ p }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Project Start Date -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Project Start Date :</label>
+            <input class="form-control name back" placeholder="e.g. 01-Jul-2026" formControlName="projectStartDate"
+              type="text">
+          </div>
+
+          <!-- Project End Date -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Project End Date :</label>
+            <input class="form-control name back" placeholder="e.g. 30-Jun-2027" formControlName="projectEndDate"
+              type="text">
+          </div>
+
+          <!-- Project Budget (USD mn) -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Project Budget (USD mn) :</label>
+            <input class="form-control name back" placeholder="e.g. 0.45" formControlName="projectBudget" type="text">
+          </div>
+        </div>
+        }
+
+        <!-- ==========================================
+             TAB 3: MARKET (Market & Commercial)
+             ========================================== -->
+        @if (activeTab === 'market') {
+        <div class="fields-grid">
+          <!-- Market -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Market :</label>
+            <select class="form-control name back" formControlName="market">
+              <option value="">Select Market</option>
+              @for (m of marketsList; track m) {
+              <option [value]="m">{{ m }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Market Size of last 3 years -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Market Size of last 3 years :</label>
+            <input class="form-control name back" placeholder="Enter Market Size of last 3 years"
+              formControlName="marketSizeLast3Years" type="text">
+          </div>
+
+          <!-- Market size (USD mn / yr) -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Market Size (USD mn / yr) :</label>
+            <input class="form-control name back" placeholder="e.g. 85" formControlName="marketSizeUsdMnYr"
+              type="text">
+          </div>
+
+          <!-- Projected Market Share -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Projected Market Share :</label>
+            <input class="form-control name back" placeholder="e.g. 6.0%" formControlName="projectedMarketShare"
+              type="text">
+          </div>
+
+          <!-- Commercial Attractiveness -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Commercial Attractiveness :</label>
+            <select class="form-control name back" formControlName="commercialAttractiveness">
+              <option value="">Select Commercial Attractiveness</option>
+              @for (attr of commercialAttractivenessList; track attr) {
+              <option [value]="attr">{{ attr }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Projected NPV (USD mn) -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Projected NPV (USD mn) :</label>
+            <input class="form-control name back" placeholder="e.g. 4.2" formControlName="projectedNpv" type="text">
+          </div>
+        </div>
+        }
+
+        <!-- ==========================================
+             TAB 4: PRODUCT DETAILS (Product Details)
+             ========================================== -->
+        @if (activeTab === 'productDetails') {
+        <div class="fields-grid">
+          <!-- Dosage Form -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Dosage Form :</label>
+            <select class="form-control name back" formControlName="dosageForm">
+              <option value="">Select Dosage Form</option>
+              @for (form of dosageFormsList; track form) {
+              <option [value]="form">{{ form }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Strength -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Strength :</label>
+            <input class="form-control name back" placeholder="e.g. 250 mg & 500 mg" formControlName="strength"
+              type="text">
+          </div>
+
+          <!-- Fill Volume -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Fill Volume :</label>
+            <input class="form-control name back" placeholder="e.g. 5mL or NA" formControlName="fillVolume" type="text">
+          </div>
+
+          <!-- Pharmacopoeia -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Pharmacopoeia :</label>
+            <input class="form-control name back" placeholder="e.g. USP, Ph.Eur, In house"
+              formControlName="pharmacopoeia" type="text">
+          </div>
+
+          <!-- Packaging Details -->
+          <div class="form-field-group full-width">
+            <label class="add-member-label control-label">Packaging Details :</label>
+            <input class="form-control name back" placeholder="e.g. Blister pack/ ALU, stopper vials"
+              formControlName="packagingDetails" type="text">
+          </div>
+        </div>
+        }
+
+        <!-- ==========================================
+             TAB 5: INNOVATOR (Innovator / RLD & IP)
+             ========================================== -->
+        @if (activeTab === 'innovator') {
+        <div class="fields-grid">
+          <!-- Innovator Company -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Innovator (Company) :</label>
+            <input class="form-control name back" placeholder="e.g. Janssen-Cilag (Johnson & Johnson)"
+              formControlName="innovatorCompany" type="text">
+          </div>
+
+          <!-- Innovator Brand Name -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Innovator Brand Name :</label>
+            <input class="form-control name back" placeholder="e.g. Zytiga" formControlName="innovatorBrandName"
+              type="text">
+          </div>
+
+          <!-- Innovator Dosage Form -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Innovator Dosage Form :</label>
+            <input class="form-control name back" placeholder="e.g. Film-coated tablets"
+              formControlName="innovatorDosageForm" type="text">
+          </div>
+
+          <!-- Innovator Strengths -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Innovator Strengths :</label>
+            <input class="form-control name back" placeholder="e.g. 250 mg, 500 mg"
+              formControlName="innovatorStrengths" type="text">
+          </div>
+
+          <!-- Innovator Approval Date -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Innovator Approval Date :</label>
+            <input class="form-control name back" placeholder="e.g. 05-Sep-2011 (EU); 28-Apr-2011 (US FDA)"
+              formControlName="innovatorApprovalDate" type="text">
+          </div>
+
+          <!-- Innovator Pack Presentation -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Innovator Pack Presentation :</label>
+            <input class="form-control name back" placeholder="e.g. 250 mg: HDPE bottle of 120 tablets"
+              formControlName="innovatorPackPresentation" type="text">
+          </div>
+
+          <!-- Innovator Bio Strength -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Innovator Bio Strength :</label>
+            <input class="form-control name back" placeholder="e.g. 500 mg or Not applicable"
+              formControlName="innovatorBioStrength" type="text">
+          </div>
+
+          <!-- RLD Information -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">RLD Information (SmPC / PIL / COA) :</label>
+            <input class="form-control name back" placeholder="e.g. Available" formControlName="rldInformation"
+              type="text">
+          </div>
+
+          <!-- Innovator vs Jodas -->
+          <div class="form-field-group full-width">
+            <label class="add-member-label control-label">Innovator vs Jodas :</label>
+            <input class="form-control name back" placeholder="e.g. Same dosage form and strengths"
+              formControlName="innovatorVsJodas" type="text">
+          </div>
+
+          <!-- IP Details -->
+          <div class="form-field-group full-width">
+            <label class="add-member-label control-label">IP Details :</label>
+            <textarea class="form-control name back" placeholder="Enter IP Details" formControlName="ipDetails"
+              style="height: 52px;"></textarea>
+          </div>
+        </div>
+        }
+
+        <!-- ==========================================
+             TAB 6: API (API)
+             ========================================== -->
+        @if (activeTab === 'api') {
+        <div class="fields-grid">
+          <!-- API Manufacturer -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">API Manufacturer :</label>
+            <input class="form-control name back" placeholder="e.g. Mac chem" formControlName="apiManufacturer"
+              type="text">
+          </div>
+
+          <!-- Polymorph Form -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">Polymorph Form (if applicable) :</label>
+            <input class="form-control name back" placeholder="e.g. Crystalline; form to be confirmed from vendor"
+              formControlName="polymorphForm" type="text">
+          </div>
+
+          <!-- CEP/DMF No & Receipt Status -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">CEP/DMF No & Receipt Status :</label>
+            <input class="form-control name back" placeholder="e.g. DMF open part: Available; CEP/DMF No. to be added"
+              formControlName="cepDmfNoReceiptStatus" type="text">
+          </div>
+
+          <!-- DMF/ASMF/CEP Received -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">DMF/ASMF/CEP Received :</label>
+            <input class="form-control name back" placeholder="e.g. Available" formControlName="dmfAsmfCepReceived"
+              type="text">
+          </div>
+
+          <!-- API Vendor Qualification -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">API Vendor Qualification :</label>
+            <input class="form-control name back" placeholder="e.g. Qualified / Under re-qualification"
+              formControlName="apiVendorQualification" type="text">
+          </div>
+
+          <!-- API - ML -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">API - ML :</label>
+            <input class="form-control name back" placeholder="e.g. Available" formControlName="apiMl" type="text">
+          </div>
+
+          <!-- API - GMP -->
+          <div class="form-field-group">
+            <label class="add-member-label control-label">API - GMP :</label>
+            <input class="form-control name back" placeholder="e.g. Present not required" formControlName="apiGmp"
+              type="text">
+          </div>
+        </div>
+        }
+
+        <!-- ==========================================
+             TAB 7: OTHERS (Site & Regulatory Certificates & Bio Study & Remarks)
+             ========================================== -->
+        @if (activeTab === 'others') {
+        <div>
+          <!-- Section 1: Site & Regulatory Certificates -->
+          <h4 class="section-title">Site & Regulatory Certificates</h4>
+          <div class="fields-grid">
+            <div class="form-field-group">
+              <label class="add-member-label control-label">ML :</label>
+              <input class="form-control name back" placeholder="e.g. Available" formControlName="ml" type="text">
+            </div>
+
+            <div class="form-field-group">
+              <label class="add-member-label control-label">WHO GMP :</label>
+              <input class="form-control name back" placeholder="e.g. Available" formControlName="whoGmp" type="text">
+            </div>
+          </div>
+
+          <!-- Section 2: Bio Study (Optional) -->
+          <h4 class="section-title mt-3">Bio Study (Optional)</h4>
+          <div class="fields-grid">
+            <div class="form-field-group">
+              <label class="add-member-label control-label">Bio Study CRO Name :</label>
+              <input class="form-control name back" placeholder="Enter CRO name" formControlName="bioStudyCroName"
+                type="text">
+            </div>
+
+            <div class="form-field-group">
+              <label class="add-member-label control-label">Bio Study CRO GMP Status :</label>
+              <input class="form-control name back" placeholder="e.g. Compliant / Not applicable"
+                formControlName="bioStudyCroGmpStatus" type="text">
+            </div>
+
+            <div class="form-field-group">
+              <label class="add-member-label control-label">BE NOC :</label>
+              <input class="form-control name back" placeholder="Enter BE NOC" formControlName="beNoc" type="text">
+            </div>
+
+            <div class="form-field-group">
+              <label class="add-member-label control-label">Study Time Period :</label>
+              <input class="form-control name back" placeholder="Enter study time period"
+                formControlName="studyTimePeriod" type="text">
+            </div>
+
+            <div class="form-field-group full-width">
+              <label class="add-member-label control-label">Bio Study Report :</label>
+              <input class="form-control name back" placeholder="e.g. BE available / Not applicable"
+                formControlName="bioStudyReport" type="text">
+            </div>
+          </div>
+
+          <!-- Section 3: General -->
+          <h4 class="section-title mt-3">General</h4>
+          <div class="fields-grid">
+            <div class="form-field-group full-width">
+              <label class="add-member-label control-label">Remarks :</label>
+              <textarea class="form-control name back" placeholder="Enter Remarks" formControlName="remarks"
+                style="height: 52px;"></textarea>
+            </div>
+
+            <div class="form-field-group"
+              style="flex-direction: row; align-items: center; gap: 8px; margin-top: 6px;">
+              <input type="checkbox" id="activeCheckbox" formControlName="active"
+                style="width: 16px; height: 16px; cursor: pointer;">
+              <label for="activeCheckbox" class="add-member-label" style="cursor: pointer; margin: 0;">Active
+                Project</label>
+            </div>
+          </div>
+        </div>
+        }
+
+      </div>
+    </div>
+
+    <!-- ==========================================
+         BOTTOM ACTION BAR (Prev, Next, Close, Save)
+         ========================================== -->
+    <div
+      style="margin-top: 16px; padding-top: 14px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+      <div style="display: flex; gap: 10px;">
+        <button type="button" class="app-btn app-btn-default" (click)="prevTab()"
+          [disabled]="activeTab === 'overview'" [style.opacity]="activeTab === 'overview' ? '0.45' : '1'"
+          [style.cursor]="activeTab === 'overview' ? 'not-allowed' : 'pointer'">
+          <mat-icon>arrow_back</mat-icon> Prev
+        </button>
+
+        <button type="button" class="app-btn app-btn-default" (click)="nextTab()"
+          [disabled]="activeTab === 'others'" [style.opacity]="activeTab === 'others' ? '0.45' : '1'"
+          [style.cursor]="activeTab === 'others' ? 'not-allowed' : 'pointer'">
+          Next <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button type="button" class="app-btn app-btn-default" (click)="close()">
+          <mat-icon>cancel</mat-icon> Close
+        </button>
+        <button type="submit" class="app-btn app-btn-primary">
+          <mat-icon>save</mat-icon> Save
+        </button>
+      </div>
+    </div>
+
+  </form>
+</div>

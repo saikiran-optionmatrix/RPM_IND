@@ -1,0 +1,67 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>{{ isEditMode ? 'Update Department' : 'Add Department' }}</h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="col-sm-12 department-dialog-body">
+    <form [formGroup]="myGroup" (ngSubmit)="upsertDepartment()">
+      <div class="row department-field-row">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label department-field-label"
+            >Department Name :</label
+          >
+        </div>
+        <div class="col-sm-9">
+          <input
+            class="form-control name back"
+            maxlength="50"
+            placeholder="Enter Department Name"
+            formControlName="DepartmentName"
+            type="text"
+          />
+        </div>
+      </div>
+
+      <div class="row department-field-row">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label department-field-label"
+            >Department Code :</label
+          >
+        </div>
+        <div class="col-sm-9">
+          <input
+            class="form-control name back"
+            maxlength="50"
+            placeholder="Enter Department Code"
+            formControlName="DepartmentCode"
+            type="text"
+          />
+        </div>
+      </div>
+
+      <div class="row department-field-row">
+        <div class="col-sm-3">
+          <label class="add-member department-field-label">Remarks :</label>
+        </div>
+        <div class="col-sm-9">
+          <textarea
+            class="form-control white name back"
+            rows="4"
+            placeholder="Enter Remarks"
+            formControlName="Remarks"
+          ></textarea>
+        </div>
+      </div>
+ <div style="margin-bottom: 10px;">
+        <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button class="app-btn app-btn-default" (click)="close()" style="background-color: lightgray; color: red;">
+            <mat-icon>cancel</mat-icon> Close
+          </button>
+          <button class="app-btn app-btn-primary">
+            <mat-icon>save</mat-icon> Save
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

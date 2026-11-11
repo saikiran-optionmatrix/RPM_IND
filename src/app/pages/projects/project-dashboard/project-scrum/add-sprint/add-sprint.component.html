@@ -1,0 +1,27 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title style="color: white; margin: 0; font-size: 20px; text-align: center; width: 100%;">
+    Add Sprint
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 20px 24px;">
+  <form (ngSubmit)="save()">
+    <div class="form-row" style="margin-bottom: 16px;">
+      <label class="control-label" style="font-weight: 500; font-size: 13px; color: #1e293b; margin-bottom: 6px; display: block;">
+        Sprint Name :
+      </label>
+      <input type="text" class="form-control" [(ngModel)]="sprintName" name="sprintName"
+        placeholder="Enter sprint name" style="height: 38px;" autofocus required />
+    </div>
+
+    <div style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 10px;">
+      <button type="button" class="app-btn app-btn-default" (click)="cancel()"
+        style="background-color: lightgray; color: red;">
+        <mat-icon>cancel</mat-icon> Cancel
+      </button>
+      <button type="submit" class="app-btn app-btn-primary" [disabled]="!sprintName.trim()">
+        <mat-icon>save</mat-icon> Save
+      </button>
+    </div>
+  </form>
+</div>

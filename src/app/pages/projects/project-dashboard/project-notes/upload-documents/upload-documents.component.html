@@ -1,0 +1,58 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title style="color: white; margin: 0; text-align: center;">
+    Upload Document
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 20px 25px;">
+  <div class="upload-container">
+    <input type="file" #fileInput (change)="onFileSelected($event)" hidden multiple>
+
+    <div class="drag-drop-zone"
+      [class.dragging]="isDragging"
+      (dragover)="$event.preventDefault(); isDragging = true;"
+      (dragleave)="isDragging = false;"
+      (drop)="onFileDropped($event)"
+      (click)="onBrowseClick()"
+      style="border: 2px dashed #cbd5e1; border-radius: 8px; background-color: #fafbfc; min-height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 20px; text-align: center; cursor: pointer; transition: all 0.2s ease;">
+
+      <mat-icon style="font-size: 42px; width: 42px; height: 42px; line-height: 42px; color: #64748b; margin-bottom: 12px;">
+        cloud_upload
+      </mat-icon>
+
+      <div class="upload-text" style="font-size: 15px; color: #334155; font-weight: 500; margin-bottom: 14px;">
+        Drag and drop files here
+      </div>
+
+      <button type="button" class="app-btn app-btn-primary" (click)="$event.stopPropagation(); onBrowseClick()"
+        style="padding: 6px 20px; font-size: 13px;">
+        Browse Files
+      </button>
+    </div>
+
+    @if (selectedFiles && selectedFiles.length > 0) {
+      <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 8px; max-height: 140px; overflow-y: auto;">
+        @for (file of selectedFiles; track $index; let idx = $index) {
+          <div style="padding: 8px 12px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; font-size: 13px;">
+            <div style="display: flex; align-items: center; gap: 8px; overflow: hidden;">
+              <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #2563eb;">description</mat-icon>
+              <span style="max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #1e293b; font-weight: 500;">{{ file.name }}</span>
+            </div>
+            <a style="cursor: pointer; color: #ef4444; display: inline-flex; align-items: center;" (click)="removeFile(idx)" matTooltip="Remove File">
+              <mat-icon style="font-size: 18px; width: 18px; height: 18px;">close</mat-icon>
+            </a>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+<mat-dialog-actions style="padding: 15px 25px; display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid #cbd5e1; margin-top: 0; background: white;">
+  <button class="app-btn app-btn-default" type="button" (click)="onClose()" style="background-color: lightgray; color: red;">
+    <mat-icon>cancel</mat-icon> Close
+  </button>
+  <button class="app-btn app-btn-primary" type="button" (click)="onSave()">
+    <mat-icon>save</mat-icon> Save
+  </button>
+</mat-dialog-actions>

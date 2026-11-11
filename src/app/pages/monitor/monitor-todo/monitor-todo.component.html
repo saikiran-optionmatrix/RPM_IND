@@ -1,0 +1,477 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="app-table-container">
+
+        <!-- ==========================================
+             PAGE ACTIONS & TOGGLES
+             ========================================== -->
+        <div class="app-page-actions"
+          style="justify-content: flex-end; flex-wrap: wrap; gap: 12px; align-items: center;">
+
+          <!-- Overdue Checkbox -->
+          <mat-checkbox [(ngModel)]="showOverdueOnly" (change)="toggleOverdueOnly($event.checked)" color="primary"
+            style="margin-right: 8px;">
+            Overdue
+          </mat-checkbox>
+
+
+           <mat-checkbox   color="primary"
+            style="margin-right: 8px;">
+            Masked Done
+          </mat-checkbox>
+
+
+            <mat-checkbox   color="primary"
+            style="margin-right: 8px;">
+            Display Done
+          </mat-checkbox>
+
+          <!-- Weekend Toggle -->
+          @if (isCalendarView) {
+          <button type="button" class="app-btn app-btn-default" (click)="toggleWeekend()">
+            <mat-icon>{{ showWeekend ? 'view_week' : 'weekend' }}</mat-icon>
+            <span>{{ showWeekend ? 'Hide Weekend' : 'Show Weekend' }}</span>
+          </button>
+          }
+
+          <!-- View Toggles -->
+          <div class="view-toggle" style="background: #f1f5f9; border-radius: 6px; padding: 4px; display: inline-flex;">
+            <button type="button" class="app-btn" [class.app-btn-filter]="isKanbanView"
+              [class.app-btn-default]="!isKanbanView" (click)="toggleView('kanban')">
+              <mat-icon>view_kanban</mat-icon>
+              <span>Kanban View</span>
+            </button>
+            <button type="button" class="app-btn" [class.app-btn-filter]="isCalendarView"
+              [class.app-btn-default]="!isCalendarView" (click)="toggleView('calendar')">
+              <mat-icon>calendar_today</mat-icon>
+              <span>Calendar View</span>
+            </button>
+            <button type="button" class="app-btn" [class.app-btn-filter]="!isKanbanView && !isCalendarView"
+              [class.app-btn-default]="isKanbanView || isCalendarView" (click)="toggleView('table')">
+              <mat-icon>view_column</mat-icon>
+              <span>Table View</span>
+            </button>
+          </div>
+
+          <!-- Filter Toggle -->
+          <button type="button" class="app-btn app-btn-filter" (click)="toggleFilter()" [class.active]="showFilter">
+            <mat-icon>filter_list</mat-icon>
+            <span>Filter</span>
+          </button>
+        </div>
+
+        <!-- ==========================================
+             FILTER PANEL
+             ========================================== -->
+        @if (showFilter) {
+        <mat-card class="app-filter-panel" style="margin-bottom: 20px;">
+          <mat-card-content>
+            <form [formGroup]="filterForm" class="app-filter-grid">
+
+              <div class="app-filter-fields">
+                <div class="app-filter-field">
+                  <label>Select Project:</label>
+                  <select class="app-filter-control" formControlName="ProjectName">
+                    <option value="" disabled hidden selected>Select Project</option>
+                    <option value="Project 1">Project 1</option>
+                    <option value="Project 2">Project 2</option>
+                  </select>
+                </div>
+                <div class="app-filter-field">
+                  <label>Select Stage:</label>
+                  <select class="app-filter-control" formControlName="Stage">
+                    <option value="" disabled hidden selected>Select Stage</option>
+                    <option value="Stage 1">Stage 1</option>
+                    <option value="Stage 2">Stage 2</option>
+                  </select>
+                </div>
+                <div class="app-filter-field">
+                  <label>Select Sprint:</label>
+                  <select class="app-filter-control" formControlName="Sprint">
+                    <option value="" disabled hidden selected>Select Sprint</option>
+                    <option value="Sprint 1">Sprint 1</option>
+                    <option value="Sprint 2">Sprint 2</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="app-filter-actions">
+                <button type="button" class="app-btn app-btn-primary" (click)="onSearch()">
+                  <mat-icon>search</mat-icon>
+                  <span>Search</span>
+                </button>
+                <button type="button" class="app-btn app-btn-default" (click)="onClear()">
+                  <mat-icon>settings_backup_restore</mat-icon>
+                  <span>Clear</span>
+                </button>
+              </div>
+
+              <div class="app-filter-toggle">
+                <button type="button" class="app-icon-btn" aria-label="Collapse filter" (click)="toggleFilter()">
+                  <mat-icon>keyboard_double_arrow_up</mat-icon>
+                </button>
+              </div>
+
+            </form>
+          </mat-card-content>
+        </mat-card>
+        }
+
+        <!-- Scroll Buttons -->
+        @if (!isCalendarView) {
+        <div class="d-flex justify-content-end mb-2" style="gap: 10px;">
+          <div class="d-flex justify-content-end mb-2">
+            <button class="mine" mat-fab style="background-color: #cecdcd; right: 110px; z-index: 9999;"
+              (click)="scrollLeft()">
+              <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+            </button>
+            <button class="mine" mat-fab style="background-color: #cecdcd; z-index: 9999;" (click)="scrollRight()">
+              <mat-icon style="color: #414141;">fast_forward</mat-icon>
+            </button>
+          </div>
+        </div>
+        }
+
+        <!-- ==========================================
+             TABLE VIEW
+             ========================================== -->
+        @if (!isKanbanView && !isCalendarView) {
+        <div #tableContainer class="table-responsive" style="overflow-x: auto; scroll-behavior: smooth;">
+          <table class="table app-table" style="white-space: nowrap;">
+            <thead>
+              <tr>
+                <th class="text-center" style="width: 90px;">Actions</th>
+                <th class="text-center" style="width: 60px;">Done</th>
+                <th class="text-center" style="width: 70px;">Timeline</th>
+                <th class="text-left" style="min-width: 130px;">Project Code</th>
+                <th class="text-left" style="min-width: 180px;">Subject</th>
+                <th class="text-left" style="min-width: 180px;">Delay Reason</th>
+                <th class="text-left" style="min-width: 220px;">Description</th>
+                <th class="text-left" style="min-width: 140px;">Assigned To</th>
+                <th class="text-center" style="min-width: 110px;">Date Created</th>
+                <th class="text-center" style="min-width: 110px;">Due Date</th>
+                <th class="text-center" style="min-width: 120px;">Group</th>
+                <th class="text-center" style="min-width: 140px;">Department</th>
+                <th class="text-left" style="min-width: 180px;">Project Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of paginatedData; track item.id) {
+              <tr>
+                <!-- Actions -->
+                <td class="text-center">
+                  <div class="table-actions" style="justify-content: center;">
+                    <button type="button" class="table-action-button edit" matTooltip="Edit Task" (click)="onEditTodo(item)">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button type="button" class="table-action-button delete" matTooltip="Delete Task" (click)="onDeleteTodo(item)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </td>
+
+                <!-- Done Checkbox -->
+                <td class="text-center">
+                  <mat-checkbox color="primary"
+                    [checked]="item.Status === 'Completed' || item.CompletionDate !== null"></mat-checkbox>
+                </td>
+
+                <!-- Timeline -->
+                <td class="text-center">
+                  <div class="table-actions" style="justify-content: center;">
+                    <button type="button" class="table-action-button" matTooltip="View Timeline"
+                      (click)="openTimelineModal(item)">
+                      <mat-icon style="color: #2563eb;">calendar_today</mat-icon>
+                    </button>
+                  </div>
+                </td>
+
+                <!-- Data Columns -->
+                <td class="text-left font-weight-500">
+                  <a class="app-route-link" role="button" tabindex="0" (click)="openProject(item)"
+                    (keydown.enter)="openProject(item)" [matTooltip]="item.ProjectName" matTooltipPosition="above"
+                    [style.color]="isTaskOverdue(item) ? '#dc2626' : null">
+                    {{ item.ProjectCode }}
+                  </a>
+                </td>
+                <td class="text-left font-weight-500"
+                  [style.color]="isTaskOverdue(item) ? '#dc2626' : (item.Status === 'Completed' ? '#10b981' : '#1e293b')">
+                  {{ item.Subject }}
+                </td>
+                <td class="text-left font-weight-500" [style.color]="isTaskOverdue(item) ? '#dc2626' : '#94a3b8'">
+                  {{ isTaskOverdue(item) ? (item.delayReason || 'Resource Reallocation') : '-' }}
+                </td>
+                <td class="text-left font-weight-500" style="white-space: normal; min-width: 220px;"
+                  [style.color]="isTaskOverdue(item) ? '#dc2626' : null">
+                  {{ item.Description || '—' }}
+                </td>
+
+                <td class="text-left font-weight-500">
+                  <div style="display: flex; align-items: center; gap: 4px;">
+                    <mat-icon style="font-size: 16px; width: 16px; height: 16px;" [style.color]="isTaskOverdue(item) ? '#dc2626' : '#64748b'">person</mat-icon>
+                    <span [style.color]="isTaskOverdue(item) ? '#dc2626' : '#1e293b'">{{ item.Responsibility }}</span>
+                  </div>
+                </td>
+
+                <td class="text-center font-weight-500" [style.color]="isTaskOverdue(item) ? '#dc2626' : '#475569'">
+                  {{ item.CreatedDate | date:'dd-MMM-yyyy' }}
+                </td>
+                <td class="text-center font-weight-500" [style.color]="isTaskOverdue(item) ? '#dc2626' : '#475569'">
+                  {{ item.DueDate ? (item.DueDate | date:'dd-MMM-yyyy') : '—' }}
+                </td>
+                <td class="text-center font-weight-500" [style.color]="isTaskOverdue(item) ? '#dc2626' : '#475569'">
+                  {{ item.Group || '—' }}
+                </td>
+                <td class="text-center font-weight-500" [style.color]="isTaskOverdue(item) ? '#dc2626' : '#475569'">
+                  {{ item.Department || '—' }}
+                </td>
+                <td class="text-left font-weight-500">
+                  <a class="app-route-link" role="button" tabindex="0" (click)="openProject(item)"
+                    (keydown.enter)="openProject(item)"
+                    [style.color]="isTaskOverdue(item) ? '#dc2626' : null">
+                    {{ item.ProjectName }}
+                  </a>
+                </td>
+
+              </tr>
+              } @empty {
+              <tr>
+                <td colspan="13" class="empty-table text-center">No records found</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <mat-paginator [length]="totalSize" [pageSize]="pageSize" [pageIndex]="currentPage"
+          [pageSizeOptions]="[5, 10, 25, 50, 100]" (page)="handlePage($event)" showFirstLastButtons>
+        </mat-paginator>
+        }
+
+        <!-- ==========================================
+             KANBAN VIEW
+             ========================================== -->
+        @if (isKanbanView) {
+        <div #kanbanContainer class="kanban-board-container" style="overflow-x: auto; scroll-behavior: smooth; padding-top: 10px;">
+          <div class="kanban-board" cdkDropListGroup
+            style="display: flex; gap: 16px; min-width: max-content; padding-bottom: 10px;">
+
+            @for (list of kanbanLists; track list) {
+            <div class="kanban-list"
+              style="width: 320px; background-color: #f1f5f9; border-radius: 8px; border: 1px solid #e2e8f0; display: flex; flex-direction: column;">
+
+              <!-- Updated Kanban List Header (Now styled like standard table headers) -->
+              <div class="kanban-list-header"
+                style="background-color: #212121; border-bottom: 1px solid #e2e8f0; color: #fff; padding: 12px 16px; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span class="status-dot" [style.background-color]="getKanbanColor(list)"
+                    style="width: 10px; height: 10px; border-radius: 50%; display: inline-block;"></span>
+                  <h3 style="margin: 0; font-size: 15px; font-weight: 600;">{{ list }}</h3>
+                </div>
+                <span
+                  style="background-color: #e2e8f0; color: black; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 12px;">
+                  {{ kanbanCards[list]?.length || 0 }}
+                </span>
+              </div>
+
+              <!-- Drop Zone -->
+              <div cdkDropList [id]="list" [cdkDropListData]="kanbanCards[list]"
+                (cdkDropListDropped)="onDrop($event, list)" class="drop-container"
+                style="padding: 12px; min-height: 200px; display: flex; flex-direction: column; gap: 10px;">
+
+                @for (card of kanbanCards[list]; track card.id) {
+                <div cdkDrag class="kanban-card" [style.border-left]="'4px solid ' + getKanbanColor(list)"
+                  style="background: white; border-radius: 6px; padding: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); cursor: grab;">
+
+                  <div
+                    style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                    <span style="font-weight: 600; color: #1e293b; font-size: 14px; line-height: 1.3;">{{ card.Subject
+                      }}</span>
+                    <button type="button"
+                      style="background: none; border: none; cursor: pointer; color: #64748b; padding: 2px;"
+                      (click)="toggleCard(card)">
+                      <mat-icon style="font-size: 18px; width: 18px; height: 18px;">{{ card.expanded ? 'remove' : 'add'
+                        }}</mat-icon>
+                    </button>
+                  </div>
+
+                  <div
+                    style="display: flex; align-items: flex-start; gap: 6px; margin-bottom: 12px; color: #64748b; font-size: 12px;">
+                    <mat-icon style="font-size: 16px; width: 16px; height: 16px;">business</mat-icon>
+                    <a class="app-route-link" role="button" tabindex="0" (click)="openProject(card)"
+                      [matTooltip]="card.ProjectName" matTooltipPosition="above" style="white-space: normal; line-height: 1.4;">
+                      {{ card.ProjectName }} ({{ card.ProjectCode }})
+                    </a>
+                  </div>
+
+                  <div
+                    style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 10px;">
+                    <div style="display: flex; align-items: center; gap: 4px; color: #475569; font-size: 12px;">
+                      <mat-icon style="font-size: 14px; width: 14px; height: 14px; color: #3b82f6;">schedule</mat-icon>
+                      <span>{{ card.Status }}</span>
+                    </div>
+                    <div
+                      style="display: inline-flex; align-items: center; gap: 4px; background: #f8fafc; border: 1px solid #e2e8f0; color: #475569; padding: 2px 6px; border-radius: 4px; font-size: 11px;">
+                      <mat-icon style="font-size: 12px; width: 12px; height: 12px;">alarm</mat-icon>
+                      <span>ETA {{ card.DueDate | date: 'dd MMM' }}</span>
+                    </div>
+                  </div>
+
+                  @if (card.expanded) {
+                  <div class="card-expanded-details"
+                    style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e2e8f0; font-size: 12px; color: #475569;">
+                    <p style="margin: 0 0 4px 0;"><strong>Assigned To:</strong> {{ card.Responsibility }}</p>
+                    <p style="margin: 0 0 4px 0;"><strong>Group:</strong> {{ card.Group || 'N/A' }}</p>
+                    <p style="margin: 0 0 8px 0;"><strong>Department:</strong> {{ card.Department || 'N/A' }}</p>
+
+                    @if (card.Description) {
+                    <strong>Description:</strong>
+                    <p style="margin: 4px 0 8px 0; font-style: italic;">{{ card.Description }}</p>
+                    }
+                    @if (card.Comments) {
+                    <strong>Comments:</strong>
+                    <p style="margin: 4px 0 0 0; font-style: italic;">{{ card.Comments }}</p>
+                    }
+                  </div>
+                  }
+                </div>
+                }
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+        }
+
+
+
+        <!-- ==========================================
+             CALENDAR VIEW
+             ========================================== -->
+        @if (isCalendarView) {
+        <div class="calendar-container" style="margin-top: 10px; width: 100%; overflow-x: auto;">
+          <table class="table app-table" style="width: 100%; table-layout: fixed; min-width: 800px;">
+            <thead>
+              <tr>
+                <th class="text-center">Time</th>
+                <th class="text-center">Monday</th>
+                <th class="text-center">Tuesday</th>
+                <th class="text-center">Wednesday</th>
+                <th class="text-center">Thursday</th>
+                <th class="text-center">Friday</th>
+                @if (showWeekend) {
+                <th class="text-center" style="opacity: 0.9;">Saturday</th>
+                <th class="text-center" style="opacity: 0.9;">Sunday</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (hour of hoursList; track hour) {
+              <tr>
+                <td class="text-center font-weight-bold" style="background-color: #f8fafc; font-size: 12px;">{{ hour }}
+                </td>
+                @for (day of displayDays; track day) {
+                <td class="calendar-day-column" style="vertical-align: top; padding: 10px; border: 1px solid #e2e8f0;">
+                  <div class="day-card-container" style="display: flex; flex-direction: column; gap: 8px;">
+                    @for (card of calendarCards; track card.taskName) {
+                    @if (card.hour === hour && card.dayPlacement === day) {
+                    <div [style.background-color]="card.color"
+                      style="border-radius: 6px; padding: 8px 10px; font-size: 12px; border-left: 4px solid rgba(0,0,0,0.3); box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                      <div
+                        style="font-weight: 600; color: #1e293b; margin-bottom: 4px; white-space: normal; word-break: break-word;">
+                        {{ card.pInitials }} — {{ card.taskName }}
+                      </div>
+                      <div style="color: #475569; font-size: 11px; white-space: normal;">{{ card.projectName }}</div>
+                      <div
+                        style="color: #334155; margin-top: 6px; display: flex; align-items: center; gap: 4px; font-weight: 500;">
+                        <mat-icon style="font-size: 14px; width: 14px; height: 14px;">person</mat-icon>
+                        <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ card.user
+                          }}</span>
+                      </div>
+                    </div>
+                    }
+                    }
+                  </div>
+                </td>
+                }
+              </tr>
+              }
+            </tbody>
+          </table>
+
+        </div>
+        }
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     TIMELINE POP-UP MODAL
+     ========================================== -->
+@if (showTimelineModal && selectedTimelineTask) {
+<div class="bl-modal-overlay" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+  <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+
+    <div class="timeline-popup-header">
+      <div class="timeline-popup-title-wrap">
+        <div class="timeline-icon-box">
+          <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+        </div>
+        <h3 class="timeline-popup-title">
+          Timeline &mdash; {{ selectedTimelineTask.Subject || selectedTimelineTask.ProjectName }}
+        </h3>
+      </div>
+      <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="timeline-dates-container">
+      <div class="timeline-accent-bar"></div>
+      <div class="timeline-grid-content">
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Due Date</div>
+            <div class="timeline-date-value">{{ selectedTimelineTask.DueDate ? (selectedTimelineTask.DueDate |
+              date:'dd-MMM-yyyy') : '—' }}</div>
+          </div>
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Completion Date</div>
+            <div class="timeline-date-value">{{ selectedTimelineTask.CompletionDate ?
+              (selectedTimelineTask.CompletionDate | date:'dd-MMM-yyyy') : '—' }}</div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Status</div>
+            <div class="timeline-date-value">{{ selectedTimelineTask.IsActive ? 'Active' : 'Inactive' }}</div>
+          </div>
+        </div>
+        <div class="timeline-row-divider"></div>
+        <div class="timeline-grid-row">
+          <div class="timeline-date-col">
+            <div class="timeline-date-label">Responsibility</div>
+            <div class="timeline-date-value">{{ selectedTimelineTask.Responsibility || '—' }}</div>
+          </div>
+          <div class="timeline-date-col timeline-date-col--last">
+            <div class="timeline-date-label">Project Name</div>
+            <div class="timeline-date-value">{{ selectedTimelineTask.ProjectName || '—' }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline-desc-box">
+      <div class="timeline-desc-header">
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #2563eb;">description</mat-icon>
+        <span>Comments & Details</span>
+      </div>
+      <div class="timeline-desc-content">
+        {{ selectedTimelineTask.Comments || 'No comments available for this todo item.' }}
+      </div>
+    </div>
+
+  </div>
+</div>
+}

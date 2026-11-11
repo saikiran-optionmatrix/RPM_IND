@@ -1,0 +1,506 @@
+<div class="wbs-page">
+  <!-- Top Header Area -->
+  <header class="wbs-header">
+    <h2 class="wbs-title">Stage WBS: {{ stageName }} ({{ stageCode }})</h2>
+
+    <div class="wbs-header-actions">
+      <!-- Filter Button matching assets -->
+      <button type="button" class="app-btn app-btn-filter" (click)="toggleFilter()">
+        <mat-icon>filter_list</mat-icon>
+        <span>Filter</span>
+      </button>
+
+      <!-- Add Activity Button -->
+      <!-- <button type="button" class="app-btn app-btn-primary" (click)="openAddActivity()">
+        <mat-icon>add</mat-icon>
+        <span>Add Activity</span>
+      </button> -->
+
+      <!-- Stimulation Button -->
+      <button type="button" class="app-btn app-btn-primary" (click)="openAddSimulation()">
+        <mat-icon class="action-icon--blue">apps</mat-icon>
+        <span>Stimulation</span>
+      </button>
+
+      <!-- Schedule Button -->
+      <button type="button" class="app-btn app-btn-primary" (click)="goToSchedule()">
+        <span>Schedule</span>
+      </button>
+
+      <!-- Back Button -->
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Master-Detail Content Layout -->
+  <div class="wbs-body-layout">
+    <!-- Left Column: Deliverables List -->
+    <aside class="deliverables-sidebar">
+      <div class="deliverables-list">
+        @for (d of deliverables; track d.id) {
+        <div class="deliverable-card" [class.active]="selectedDeliverable?.id === d.id" (click)="selectDeliverable(d)">
+          <div class="deliverable-info">
+            <mat-icon class="chevron-icon">
+              {{ selectedDeliverable?.id === d.id ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}
+            </mat-icon>
+            <span class="deliverable-name">
+              {{ d.name }} ({{ d.activities.length }})
+            </span>
+          </div>
+
+          <button type="button" class="card-delete-btn" matTooltip="Delete Deliverable"
+            (click)="deleteDeliverable(d, $event)">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </div>
+        } @empty {
+        <div class="no-deliverables">No deliverables found.</div>
+        }
+      </div>
+    </aside>
+
+    <!-- Right Column: Activities Grid & Filter with app-table-container and app-table from assets -->
+    <main class="activities-main">
+      <div class="app-table-container" style="padding: 0; width: 100%;">
+
+        <!-- Filter Panel from assets -->
+        @if (showFilter) {
+        <mat-card class="app-filter-panel" style="margin-bottom: 16px;">
+          <mat-card-content>
+            <div class="app-filter-grid">
+
+              <!-- 1. Filter Fields -->
+              <div class="app-filter-fields">
+                <div class="app-filter-field">
+                  <label for="activityKeyword">Keyword:</label>
+                  <mat-form-field appearance="outline" class="app-filter-control">
+                    <input matInput id="activityKeyword" [(ngModel)]="keyword"
+                      placeholder="Search Activity, Job Code, Assignee">
+                  </mat-form-field>
+                </div>
+
+                <div class="app-filter-field">
+                  <label for="activityStatus">Status:</label>
+                  <mat-form-field appearance="outline" class="app-filter-control">
+                    <mat-select id="activityStatus" [(ngModel)]="status" placeholder="Select Status">
+                      <mat-option value="Active">Active</mat-option>
+                      <mat-option value="Inactive">Inactive</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!-- 2. Actions sit under the fields -->
+              <div class="app-filter-actions">
+                <button type="button" class="app-btn app-btn-primary" (click)="onSearch()">
+                  <mat-icon>search</mat-icon>
+                  <span>Search</span>
+                </button>
+                <button type="button" class="app-btn app-btn-default" (click)="onClear()">
+                  <mat-icon>settings_backup_restore</mat-icon>
+                  <span>Clear</span>
+                </button>
+              </div>
+
+              <!-- 3. Toggle button -->
+              <div class="app-filter-toggle">
+                <button type="button" class="app-icon-btn" aria-label="Collapse filter" (click)="toggleFilter()">
+                  <mat-icon>keyboard_double_arrow_up</mat-icon>
+                </button>
+              </div>
+
+            </div>
+          </mat-card-content>
+        </mat-card>
+        }
+
+        <!-- Scroll Buttons -->
+        <div class="d-flex justify-content-end mb-2" style="gap: 10px;">
+          <div class="d-flex justify-content-end mb-2">
+            <button class="mine" mat-fab style="background-color: #cecdcd; right: 110px; z-index: 9999;"
+              (click)="scrollLeft()">
+              <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+            </button>
+            <button class="mine" mat-fab style="background-color: #cecdcd; z-index: 9999;" (click)="scrollRight()">
+              <mat-icon style="color: #414141;">fast_forward</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- Table from assets -->
+        <div #scrollContainer class="table-responsive" style="overflow-x: auto; scroll-behavior: smooth;">
+          <table class="table app-table">
+            <thead>
+              <tr>
+                <th class="text-center" style="width: 100px !important;">Actions</th>
+                <th class="text-center">Status</th>
+                <th class="text-left" style="min-width: 220px;">Activity</th>
+                <th class="text-center" style="width: 110px; min-width: 110px;">Predecessor</th>
+                <th class="text-center">Tasks</th>
+                <th class="text-center">Requirements</th>
+                <th class="text-center">Documents</th>
+                <th class="text-left" style="min-width: 220px;">Delay Reason</th>
+                <th class="text-center">Job Code</th>
+                <th class="text-left">Department</th>
+                <th class="text-left">Responsibility</th>
+                <th class="text-center" style="white-space: nowrap;">Due date</th>
+                <th class="text-center">Priority</th>
+                <th class="text-center">Timeline</th>
+                <th class="text-center" style="width: 110px; min-width: 110px;">Updated</th>
+                <th class="text-center" style="width: 130px; min-width: 130px;">Update By</th>
+                <th class="text-center" style="width: 80px; min-width: 80px;">History</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of paginatedActivities; track item.id; let idx = $index) {
+              <tr>
+                <!-- Actions -->
+                <td class="text-center">
+                  <div class="table-actions">
+                    <button type="button" class="table-action-button edit" matTooltip="Edit" aria-label="Edit activity"
+                      (click)="openEditActivity(item, idx)">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button type="button" class="table-action-button delete" matTooltip="Delete"
+                      aria-label="Delete activity" (click)="deleteActivity(item)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </td>
+
+                <!-- Status -->
+                <td class="text-center">
+                  <button type="button" class="status-button" [class.status-active]="item.status"
+                    [class.status-inactive]="!item.status" (click)="toggleStatus(item)">
+                    {{ item.status ? 'Active' : 'Inactive' }}
+                  </button>
+                </td>
+
+                <!-- Activity -->
+                <td class="text-left font-weight-500" style="color: #1e293b;">
+                  {{ item.activityName }}
+                </td>
+
+                <!-- Predecessor -->
+                <td class="text-center font-weight-bold">
+                  <span class="wbs-link" (click)="openPredecessor(item)">
+                    {{ item.predecessor || '—' }}
+                  </span>
+                </td>   
+
+                <!-- Tasks -->
+                <td class="text-center font-weight-bold">
+                  <a
+                    [routerLink]="['tasks']"
+                    [queryParams]="{
+                      activityName: item.activityName,
+                      jobCode: item.jobCode,
+                      department: item.department,
+                      stageName: stageName,
+                      stageCode: stageCode,
+                      projectName: projectName,
+                      tasks: item.tasks
+                    }"
+                    queryParamsHandling="merge"
+                    class="wbs-link">
+                    {{ item.tasks || '—' }}
+                  </a>
+                </td>
+
+                <!-- Requirements -->
+                <td class="text-center font-weight-bold">
+                  <a
+                    [routerLink]="['requirements']"
+                    [queryParams]="{
+                      activityName: item.activityName,
+                      jobCode: item.jobCode,
+                      department: item.department,
+                      stageName: stageName,
+                      stageCode: stageCode,
+                      projectName: projectName,
+                      requirements: item.requirements
+                    }"
+                    queryParamsHandling="merge"
+                    class="wbs-link">
+                    {{ item.requirements || '—' }}
+                  </a>
+                </td>
+
+                <!-- Documents -->
+                <td class="text-center" style="vertical-align: middle;">
+                  <a href="javascript:void(0)" class="history-number-link" (click)="openDocuments()" matTooltip="View Documents">
+                    {{ item.documentsCount || getDocumentsCount(idx) }}
+                  </a>
+                </td>
+
+                <!-- Delay Reason -->
+                <td class="text-left" style="min-width: 220px;">
+                  <mat-select [(ngModel)]="item.delayReason" class="form-control back" placeholder="Select Delay Reason"
+                    style="height: 34px; line-height: 22px; font-size: 13px; min-width: 200px;">
+                    @for (reason of delayReasonOptions; track reason) {
+                      <mat-option [value]="reason">{{ reason }}</mat-option>
+                    }
+                  </mat-select>
+                </td>
+
+                <!-- Job Code -->
+                <td class="text-center">
+                  {{ item.jobCode }}
+                </td>
+
+                <!-- Department -->
+                <td class="text-left">
+                  {{ item.department }}
+                </td>
+
+                <!-- Responsibility -->
+                <td class="text-left">
+                  {{ item.responsibility }}
+                </td>
+
+                <!-- Due date -->
+                <td class="text-center" style="white-space: nowrap;">
+                  {{ (item.dueDate || item.planEnd) ? ((item.dueDate || item.planEnd) | date:'dd-MMM-yyyy') : '—' }}
+                </td>
+
+                <!-- Priority -->
+                <td class="text-center">
+                  <span class="priority-badge" [ngClass]="'priority-badge--' + item.priority.toLowerCase()">
+                    {{ item.priority }}
+                  </span>
+                </td>
+
+                <!-- Timeline -->
+                <td class="text-center">
+                  <button type="button" class="timeline-btn" matTooltip="View Timeline"
+                    (click)="openTimelineModal(item)">
+                    <mat-icon>calendar_today</mat-icon>
+                  </button>
+                </td>
+
+                <!-- Updated -->
+                <td class="text-center" style="white-space: nowrap;">
+                  {{ (item.updatedDate || item.updatedBy) ? ((item.updatedDate || item.updatedBy) | date:'dd-MMM-yyyy') : '—' }}
+                </td>
+
+                <!-- Update By -->
+                <td class="text-center" style="white-space: nowrap;">
+                  {{ item.updatedBy || '—' }}
+                </td>
+
+                <!-- History -->
+                <td class="text-center" style="vertical-align: middle;">
+                  <a href="javascript:void(0)" class="history-number-link" (click)="openHistory(item)" matTooltip="View Record History">
+                    {{ item.historyCount || getHistoryCount(idx) }}
+                  </a>
+                </td>
+              </tr>
+              } @empty {
+              <tr>
+                <td colspan="17" class="empty-table">No records found</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Paginator from assets -->
+        <mat-paginator [length]="filteredActivities.length" [pageIndex]="pageIndex" [pageSize]="pageSize"
+          [pageSizeOptions]="[5, 10, 20, 50, 100]" [showFirstLastButtons]="true" (page)="handlePage($event)">
+        </mat-paginator>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ============ TIMELINE POP-UP MODAL ============ -->
+  @if (showTimelineModal) {
+  <div class="bl-modal-overlay" (click)="closeTimelineModal()">
+    <div class="timeline-popup-card" (click)="$event.stopPropagation()">
+      <!-- Header Row -->
+      <div class="timeline-popup-header">
+        <div class="timeline-popup-title-wrap">
+          <div class="timeline-icon-box">
+            <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+          </div>
+          <h3 class="timeline-popup-title">
+            Timeline &mdash; {{ selectedTimelineItem?.activityName || selectedTimelineItem?.jobCode }}
+          </h3>
+        </div>
+        <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #475569;">close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Dates Grid -->
+      <div class="timeline-dates-container">
+        <div class="timeline-accent-bar"></div>
+
+        <div class="timeline-grid-content">
+          <!-- Row 1: Plan Start Date, Plan End Date, Actual Start Date -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planStart ? (selectedTimelineItem.planStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan End Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planEnd ? (selectedTimelineItem.planEnd | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Actual Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualStart ? (selectedTimelineItem.actualStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row-divider"></div>
+
+          <!-- Row 2: Actual End Date, ETA, Actual Duration -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Actual End Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualEnd ? (selectedTimelineItem.actualEnd | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">ETA</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.eta ? (selectedTimelineItem.eta | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Actual Duration</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualDuration || '—' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row-divider"></div>
+
+          <!-- Row 3: Actual Effort, Plan Duration, Plan Effort -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Actual Effort</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualEffort || '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan Duration</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planDuration || '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Plan Effort</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planEffort || '—' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description Box -->
+      <div class="timeline-desc-box">
+        <div class="timeline-desc-header">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #3b82f6;">description</mat-icon>
+          <span>Description</span>
+        </div>
+        <p class="timeline-desc-text">
+          {{ selectedTimelineItem?.description || 'Timeline schedule tracking planned vs actual effort and duration for
+          this activity.' }}
+        </p>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- ============ ADD/EDIT ACTIVITY MODAL ============ -->
+  @if (showActivityModal) {
+  <div class="bl-modal-overlay" (click)="closeActivityModal()">
+    <div class="bl-modal" (click)="$event.stopPropagation()" style="max-width: 650px; width: 650px; padding: 24px;">
+      <div class="NewHeader">
+        <h3>{{ isEditActivityMode ? 'Edit Activity' : 'Add Activity' }}</h3>
+      </div>
+
+      <div style="padding: 10px 0;">
+        <div class="form-row-grid">
+          <div class="form-row">
+            <label class="form-label">Activity Name *:</label>
+            <input type="text" class="form-control" [(ngModel)]="activityModalData.activityName"
+              placeholder="e.g. Analytical Costing">
+          </div>
+          <div class="form-row">
+            <label class="form-label">Job Code:</label>
+            <input type="text" class="form-control" [(ngModel)]="activityModalData.jobCode" placeholder="ACT1">
+          </div>
+        </div>
+
+        <div class="form-row-grid">
+          <div class="form-row">
+            <label class="form-label">Plan Start Date:</label>
+            <input type="date" class="form-control" [(ngModel)]="activityModalData.planStart">
+          </div>
+          <div class="form-row">
+            <label class="form-label">Plan End Date:</label>
+            <input type="date" class="form-control" [(ngModel)]="activityModalData.planEnd">
+          </div>
+        </div>
+
+        <div class="form-row-grid">
+          <div class="form-row">
+            <label class="form-label">Plan Duration:</label>
+            <input type="text" class="form-control" [(ngModel)]="activityModalData.planDuration"
+              placeholder="e.g. 5 days">
+          </div>
+          <div class="form-row">
+            <label class="form-label">Plan Effort:</label>
+            <input type="text" class="form-control" [(ngModel)]="activityModalData.planEffort"
+              placeholder="e.g. 40 hrs">
+          </div>
+        </div>
+
+        <div class="form-row-grid">
+          <div class="form-row">
+            <label class="form-label">Plan Budget:</label>
+            <input type="text" class="form-control" [(ngModel)]="activityModalData.planBudget"
+              placeholder="e.g. $15,000">
+          </div>
+          <div class="form-row">
+            <label class="form-label">Actual Cost:</label>
+            <input type="text" class="form-control" [(ngModel)]="activityModalData.actualCost"
+              placeholder="e.g. $12,500">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label">Description:</label>
+          <textarea class="form-control" rows="2" [(ngModel)]="activityModalData.description"
+            placeholder="Activity details..."></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+          <button type="button" class="app-btn app-btn-default" (click)="closeActivityModal()">
+            <mat-icon>cancel</mat-icon> Cancel
+          </button>
+          <button type="button" class="app-btn app-btn-primary" (click)="saveActivity()">
+            <mat-icon>save</mat-icon> Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>

@@ -1,0 +1,132 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    Assign Requirements
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 16px 24px;">
+  <div class="col-sm-12" style="margin-bottom: 10px; padding: 0;">
+
+    <!-- Top Right: Add Button -->
+    <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 14px; margin-top: 4px;">
+      <button type="button" class="app-btn app-btn-primary" (click)="addRequirement()">
+        <mat-icon>add</mat-icon>
+        <span>Add</span>
+      </button>
+    </div>
+
+    <!-- Table with only Action and Requirement Name columns -->
+    <div class="app-table-container" style="padding: 0 !important; width: 100%;">
+      <div class="table-responsive" style="max-height: 520px; overflow-x: auto; overflow-y: auto;">
+        <table class="table app-table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 100px; min-width: 100px;">Action</th>
+              <th class="text-left">Requirement Name</th>
+              <th class="text-center" style="width: 80px; min-width: 80px;">History</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of paginatedRequirements; track $index) {
+            <tr [class.row-editing]="row.isEditing">
+
+              <!-- Action -->
+              <td class="text-center" style="vertical-align: middle;">
+                <div class="table-actions" style="justify-content: center; gap: 4px;">
+                  @if (row.isEditing) {
+                    <button
+                      type="button"
+                      class="table-action-button"
+                      style="color: #1485cc;"
+                      matTooltip="Save"
+                      aria-label="Save"
+                      (click)="saveRow(row)">
+                      <mat-icon>save</mat-icon>
+                    </button>
+                    <button
+                      type="button"
+                      class="table-action-button"
+                      style="color: #dc2626;"
+                      matTooltip="Cancel"
+                      aria-label="Cancel"
+                      (click)="cancelEdit(row)">
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+                  } @else {
+                    <button
+                      type="button"
+                      class="table-action-button edit"
+                      matTooltip="Edit"
+                      aria-label="Edit requirement"
+                      (click)="startEdit(row)">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="table-action-button delete"
+                      matTooltip="Delete"
+                      aria-label="Delete requirement"
+                      (click)="deleteRequirement(row)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  }
+                </div>
+              </td>
+
+              <!-- Requirement Name -->
+              <td class="text-left" style="vertical-align: middle;">
+                @if (row.isEditing) {
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="row.requirementName"
+                    placeholder="Enter requirement name"
+                    style="font-size: 13px; height: 34px;"
+                  />
+                } @else {
+                  <span style="font-weight: 500; color: #1e293b;">{{ row.requirementName || '—' }}</span>
+                }
+              </td>
+
+              <!-- History -->
+              <td class="text-center" style="vertical-align: middle;">
+                <a href="javascript:void(0)" class="history-number-link" (click)="openHistory(row, $index)" matTooltip="View Requirement History">
+                  {{ row.historyCount || getHistoryCount($index) }}
+                </a>
+              </td>
+
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="3" class="empty-table text-center" style="padding: 24px; color: #64748b;">No requirements found</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Paginator matching assets.component.html -->
+      <mat-paginator
+        [length]="requirementsList.length"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 20, 50, 100]"
+        [showFirstLastButtons]="true"
+        (page)="handlePage($event)">
+      </mat-paginator>
+    </div>
+
+    <!-- Bottom Actions: Close and Save matching AddAssetComponent -->
+    <div style="margin-top: 20px; margin-bottom: 10px;">
+      <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="app-btn app-btn-default" (click)="close()">
+          <mat-icon>cancel</mat-icon> Close
+        </button>
+        <button type="button" class="app-btn app-btn-primary" (click)="save()">
+          <mat-icon>save</mat-icon> Save
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

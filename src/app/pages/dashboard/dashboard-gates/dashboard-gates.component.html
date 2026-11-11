@@ -1,0 +1,59 @@
+<div class="container-fluid">
+
+  <!-- Custom Compact Header -->
+  <div class="gates-header-section">
+
+    <p class="gates-subtitle-text">Distribution of molecules across Gates Gate 1 to Gate 5</p>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="app-table-container">
+
+        <!-- Search Actions (aligned right) -->
+        <div class="app-page-actions justify-content-end">
+          <div class="app-filter-fields">
+            <!-- <div class="app-filter-field mb-0">
+              <mat-form-field appearance="outline" class="app-filter-control">
+                <input matInput [(ngModel)]="gatesSearchTerm" placeholder="Search molecule...">
+                <button *ngIf="gatesSearchTerm" matSuffix mat-icon-button aria-label="Clear" (click)="gatesSearchTerm = ''">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+          </div>
+        </div> -->
+
+            <!-- Table Section -->
+            <div class="table-responsive">
+              <table class="table app-table styled-table"
+                style="border-collapse: collapse; margin: 0; width: 100%; table-layout: fixed;">
+                <thead>
+                  <tr>
+                    <th *ngFor="let head of gateHeaders" class="text-center gate-col-header">
+                      <div class="gate-label">{{ head.label }}</div>
+                      <div class="gate-subtitle">{{ head.subtitle }}</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (row of gateRows; track $index) {
+                  <tr>
+                    <td *ngFor="let head of gateHeaders" class="text-center gate-data-cell"
+                      [class.matched-cell]="row[head.key] && isMatching(row[head.key])">
+                      <div [innerHTML]="highlight(row[head.key])"></div>
+                    </td>
+                  </tr>
+                  } @empty {
+                  <tr>
+                    <td [attr.colspan]="gateHeaders.length" class="empty-table text-center">No records found</td>
+                  </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>

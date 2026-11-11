@@ -1,0 +1,40 @@
+@use '@angular/material' as mat;
+
+
+/* PRIMARY — BLACK / DARK GREY */
+
+$indigo-light-primary: mat.m2-define-palette(
+  mat.$m2-grey-palette,
+  900,
+  700,
+  900
+);
+
+
+/* ACCENT — KEEP LIGHT */
+
+$indigo-light-accent: mat.m2-define-palette(
+  mat.$m2-grey-palette,
+  300,
+  100,
+  500
+);
+
+
+/* WARN */
+
+$indigo-light-warn: mat.m2-define-palette(
+  mat.$m2-red-palette,
+  500
+);
+
+
+/* KEEP LIGHT THEME */
+
+$indigo-light-theme: mat.m2-define-light-theme((
+  color: (
+    primary: $indigo-light-primary,
+    accent: $indigo-light-accent,
+    warn: $indigo-light-warn,
+  )
+));

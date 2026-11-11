@@ -1,0 +1,52 @@
+<div class="buffer-top-bar">
+  <div class="filters-row">
+    <div class="filter-item">
+      <label class="filter-label">Project Filter:</label>
+      <mat-select [(ngModel)]="selectedBufferProject" (selectionChange)="onBufferFilterChange()" class="app-custom-select" style="min-width: 200px;">
+        <mat-option value="All Projects">All Projects</mat-option>
+        @for (p of projects; track p) {
+          <mat-option [value]="p">{{ p }}</mat-option>
+        }
+      </mat-select>
+    </div>
+
+    <div class="filter-item">
+      <label class="filter-label">Division:</label>
+      <mat-select [(ngModel)]="selectedDivision" class="app-custom-select">
+        @for (div of divisionsList; track div) {
+          <mat-option [value]="div">{{ div }}</mat-option>
+        }
+      </mat-select>
+    </div>
+
+    <div class="filter-item">
+      <label class="filter-label">Location:</label>
+      <mat-select [(ngModel)]="selectedLocation" class="app-custom-select">
+        @for (loc of locationsList; track loc) {
+          <mat-option [value]="loc">{{ loc }}</mat-option>
+        }
+      </mat-select>
+    </div>
+
+    <button type="button" class="app-btn app-btn-primary go-btn" (click)="onApplyFilters()">
+      <span>Go</span>
+      <mat-icon class="go-icon">arrow_forward</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div class="charts-grid">
+  <!-- Left Chart -->
+  <mat-card class="chart-card" style="padding: 16px;">
+    <!-- Moved Title to HTML -->
+    <h3 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600; color: #000000; text-align: center;">Buffer Consumed vs % Completion</h3>
+    <div id="bufferBarChartContainer" class="chart-container"></div>
+  </mat-card>
+
+  <!-- Right Chart -->
+  <mat-card class="chart-card" style="padding: 16px;">
+    <!-- Moved Title to HTML -->
+    <h3 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 600; color: #000000; text-align: center;">Buffer Stage-wise Distribution</h3>
+    <div id="bufferPieChartContainer" class="chart-container"></div>
+  </mat-card>
+</div>

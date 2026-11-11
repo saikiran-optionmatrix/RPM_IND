@@ -1,0 +1,56 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    Timeline &mdash; {{ data?.subject }}
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 24px 28px; width: 100%; box-sizing: border-box;">
+  <!-- Dates / Status Grid -->
+  <div class="timeline-dates-container" style="display: flex; gap: 0; padding: 10px 0 16px;">
+    <div class="timeline-accent-bar" style="width: 4px; border-radius: 4px; background: linear-gradient(180deg, #2563eb 0%, #7c3aed 100%); flex-shrink: 0; margin-right: 16px;"></div>
+    <div class="timeline-grid-content" style="flex: 1; display: flex; flex-direction: column;">
+      <!-- Row 1: Responsibility, Due Date, Status -->
+      <div class="timeline-grid-row" style="display: flex;">
+        <div class="timeline-date-col" style="flex: 1; padding: 8px 12px; border-right: 1px solid #f1f5f9;">
+          <div class="timeline-date-label" style="font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Responsibility</div>
+          <div class="timeline-date-value" style="font-size: 15px; font-weight: 700; color: #2563eb;">{{ data?.responsibility || data?.assignedTo || '—' }}</div>
+        </div>
+        <div class="timeline-date-col" style="flex: 1; padding: 8px 12px; border-right: 1px solid #f1f5f9;">
+          <div class="timeline-date-label" style="font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Due Date</div>
+          <div class="timeline-date-value" style="font-size: 15px; font-weight: 700; color: #2563eb;">
+            {{ (data?.targetDate || data?.dueDate) ? ((data.targetDate || data.dueDate) | date:'dd-MMM-yyyy') : '—' }}
+          </div>
+        </div>
+        <div class="timeline-date-col timeline-date-col--last" style="flex: 1; padding: 8px 12px;">
+          <div class="timeline-date-label" style="font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Status</div>
+          <div class="timeline-date-value" style="margin-top: 2px;">
+            <span [style.background-color]="getColor(data?.status)" style="color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">
+              {{ data?.status }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Issue Details Box -->
+  <div class="timeline-desc-box" style="margin: 0 0 18px 0; background: #f8fafc; border-radius: 10px; padding: 14px 18px; border: 1px solid #e2e8f0;">
+    <div class="timeline-desc-header" style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #475569; margin-bottom: 8px;">
+      <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #3b82f6;">description</mat-icon>
+      <span>Issue Details</span>
+    </div>
+    <p class="timeline-desc-text" style="font-size: 13.5px; color: #475569; margin: 0 0 6px 0; line-height: 1.5;">
+      <strong>Description:</strong> {{ data?.issueDescription || '—' }}
+    </p>
+    <p class="timeline-desc-text" style="font-size: 13.5px; color: #475569; margin: 0; line-height: 1.5;">
+      <strong>Remarks:</strong> {{ data?.remarks || '—' }}
+    </p>
+  </div>
+
+  <!-- Footer Actions -->
+  <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
+    <button class="app-btn app-btn-default" type="button" (click)="close()" style="background-color: lightgray; color: red;">
+      <mat-icon>cancel</mat-icon> Close
+    </button>
+  </div>
+</div>

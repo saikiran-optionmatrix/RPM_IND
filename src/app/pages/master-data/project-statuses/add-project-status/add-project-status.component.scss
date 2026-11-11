@@ -1,0 +1,22 @@
+:host {
+	.project-status-dialog-body {
+		margin-bottom: 10px;
+	}
+
+	.project-status-field-row {
+		margin-bottom: 12px;
+	}
+
+	.project-status-field-label {
+		display: flex;
+		align-items: center;
+		margin-top: 5px;
+		white-space: nowrap;
+	}
+
+	.project-status-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 10px;
+	}
+}

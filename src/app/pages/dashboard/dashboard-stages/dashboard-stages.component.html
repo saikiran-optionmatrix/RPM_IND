@@ -1,0 +1,73 @@
+<div class="gates-header-section">
+
+  <p class="gates-subtitle-text">Distribution of molecules across Gates Gate 1 to Gate 5</p>
+</div>
+<div
+  style="display: flex; flex-direction: column; height: 100%; width: 100%; padding-left: 40px; box-sizing: border-box; overflow-x : hidden !important;">
+
+  <div style="display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; box-sizing: border-box;">
+
+    <div class="app-table-container bg-white d-flex flex-column"
+      style="position: relative; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e0e0e0; padding: 20px; width: 100%; flex: 1 1 auto; min-height: 0; box-sizing: border-box;">
+
+      <!-- Table Wrapper: Added #scrollContainer and (scroll)="onTableScroll()" -->
+      <div #scrollContainer #tableContainer class="table-responsive" style="flex: 1 1 auto; overflow: auto; scroll-behavior: smooth; box-sizing: border-box;"
+        (scroll)="onTableScroll()">
+
+        <table class="table app-table mb-0 stages-scrollable-table">
+          <thead>
+            <tr>
+              @for (head of stageHeaders; track head.key) {
+              <th class="text-center align-middle stage-col-header" [title]="head.fullName">
+                <div class="stage-label fw-bold">{{ head.label }} ({{ head.stageCode }})</div>
+                <div class="stage-subtitle  small mt-1">{{ head.subtitle }}</div>
+                <div class="stage-count-badge mt-2">{{ head.projectCount }} Projects</div>
+              </th>
+              }
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (row of stageRows; track $index) {
+            <tr>
+              @for (head of stageHeaders; track head.key) {
+              <td class="text-center align-middle stage-data-cell text-wrap"
+                [class.matched-cell]="row[head.key] && isMatching(row[head.key])"
+                [class.red-data-cell]="row[head.key] && isRed(head.key, $index)"
+                [class.empty-stage-cell]="!row[head.key]">
+
+                @if (row[head.key]) {
+                <div class="molecule-text fw-medium" [innerHTML]="highlight(row[head.key])"></div>
+                } @else {
+                <span class="empty-dash text-muted opacity-50">—</span>
+                }
+              </td>
+              }
+            </tr>
+            } @empty {
+            <tr>
+              <td [attr.colspan]="stageHeaders.length" class="empty-table text-center p-5 text-muted">
+                No records found
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- Fixed Scroll Buttons (Matching ProjectStagesComponent) -->
+<div class="d-flex justify-content-end mb-2">
+  <button class="mine" mat-fab style="background-color: #cecdcd; position: fixed; bottom: 80px; right: 110px; z-index: 9999;"
+    (click)="scrollLeft()">
+    <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+  </button>
+  <button class="mine" mat-fab style="background-color: #cecdcd; position: fixed; bottom: 80px; right: 40px; z-index: 9999;"
+    (click)="scrollRight()">
+    <mat-icon style="color: #414141;">fast_forward</mat-icon>
+  </button>
+</div>

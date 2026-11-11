@@ -1,0 +1,215 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+  <header class="analytics-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h1>{{ projectName ? (projectName + ' - ') : '' }}{{ subject ? subject : 'Issue' }} - History</h1>
+    <button type="button" class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon><span>Back</span>
+    </button>
+  </header>
+
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-12">
+        <div class="app-table-container" style="padding: 0; width: 100%;">
+
+          <div class="table-responsive" style="overflow-x: auto; scroll-behavior: smooth;">
+            <table class="table app-table">
+              <thead>
+                <tr>
+                  <th class="text-center" style="width: 90px;">Timeline</th>
+                  <th class="text-left" style="min-width: 160px;">Subject</th>
+                  <th class="text-left" style="min-width: 220px;">Description</th>
+                  <th class="text-center" style="width: 120px;">Date Created</th>
+                  <th class="text-center" style="width: 120px;">Due Date</th>
+                  <th class="text-center" style="width: 120px;">Date Resolved</th>
+                  <th class="text-center" style="width: 90px;">Resolved</th>
+                  <th class="text-left" style="min-width: 140px;">Assigned To</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of paginatedRecords; track $index) {
+                  <tr>
+                    <!-- Timeline(pop) -->
+                    <td class="text-center" style="vertical-align: middle;">
+                      <button mat-icon-button (click)="openTimelineModal(item)" matTooltip="View Timeline"
+                        style="min-width: 32px; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; outline: none; padding: 0;">
+                        <mat-icon style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
+                          calendar_today
+                        </mat-icon>
+                      </button>
+                    </td>
+
+                    <!-- Subject -->
+                    <td class="text-left" style="max-width: 200px; min-width: 140px; vertical-align: middle;">
+                      <span [matTooltip]="item.subject" matTooltipPosition="above"
+                        style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer;">
+                        {{ item.subject }}
+                      </span>
+                    </td>
+
+                    <!-- Description -->
+                    <td class="text-left" style="max-width: 260px; min-width: 160px; vertical-align: middle;">
+                      <span [matTooltip]="item.description" matTooltipPosition="above"
+                        style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer;">
+                        {{ item.description }}
+                      </span>
+                    </td>
+
+                    <!-- Date Created -->
+                    <td class="text-center" style="vertical-align: middle;">
+                      {{ item.dateCreated ? (item.dateCreated | date:'dd-MMM-yyyy') : '—' }}
+                    </td>
+
+                    <!-- Due Date -->
+                    <td class="text-center" style="vertical-align: middle;">
+                      {{ item.dueDate ? (item.dueDate | date:'dd-MMM-yyyy') : '—' }}
+                    </td>
+
+                    <!-- Date Resolved -->
+                    <td class="text-center" style="vertical-align: middle;">
+                      {{ item.dateResolved ? (item.dateResolved | date:'dd-MMM-yyyy') : '—' }}
+                    </td>
+
+                    <!-- Resolved -->
+                    <td class="text-center" style="vertical-align: middle;">
+                      <mat-checkbox color="primary" [checked]="item.resolved" [disabled]="true"></mat-checkbox>
+                    </td>
+
+                    <!-- Assigned To -->
+                    <td class="text-left" style="vertical-align: middle;">
+                      {{ item.assignedTo }}
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="8" class="empty-table text-center">No records found</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <mat-paginator
+            [length]="historyRecords.length"
+            [pageIndex]="pageIndex"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[5, 10, 20]"
+            [showFirstLastButtons]="true"
+            (page)="handlePage($event)">
+          </mat-paginator>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TIMELINE POP-UP MODAL ============ -->
+  @if (showTimelineModal) {
+  <div class="bl-modal-overlay" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+    <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+      <!-- Header Row -->
+      <div class="timeline-popup-header">
+        <div class="timeline-popup-title-wrap">
+          <div class="timeline-icon-box">
+            <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+          </div>
+          <div>
+            <h3 class="timeline-popup-title">
+              Timeline &mdash; {{ selectedTimelineItem?.subject }}
+            </h3>
+            @if (selectedTimelineItem?.revision) {
+            <span style="font-size: 12px; color: #64748b; font-weight: 500;">
+              {{ selectedTimelineItem?.revision }} &bull; {{ selectedTimelineItem?.changeDate }}
+            </span>
+            }
+          </div>
+        </div>
+        <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button" aria-label="Close">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Dates Grid -->
+      <div class="timeline-dates-container">
+        <div class="timeline-accent-bar"></div>
+
+        <div class="timeline-grid-content">
+          <!-- Row 1: Date Created, Due Date, Date Resolved -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Date Created</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.dateCreated ? (selectedTimelineItem?.dateCreated | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Due Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.dueDate ? (selectedTimelineItem?.dueDate | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Date Resolved</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.dateResolved ? (selectedTimelineItem?.dateResolved | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row-divider"></div>
+
+          <!-- Row 2: Status, Resolved, Assigned To -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Status</div>
+              <div class="timeline-date-value">
+                <span class="badge" [ngClass]="{
+                  'stage-approved': selectedTimelineItem?.status === 'Completed' || selectedTimelineItem?.status === 'Closed',
+                  'stage-review': selectedTimelineItem?.status === 'Process' || selectedTimelineItem?.status === 'Progress' || selectedTimelineItem?.status === 'Allocated',
+                  'stage-declined': selectedTimelineItem?.status === 'Pending' || selectedTimelineItem?.status === 'Hold'
+                }" style="font-size: 11px; padding: 2px 8px;">
+                  {{ selectedTimelineItem?.status || 'Pending' }}
+                </span>
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Resolved</div>
+              <div class="timeline-date-value" style="display: flex; align-items: center; gap: 6px;">
+                <mat-checkbox color="primary" [checked]="selectedTimelineItem?.resolved" [disabled]="true"></mat-checkbox>
+                <span>{{ selectedTimelineItem?.resolved ? 'Yes' : 'No' }}</span>
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Assigned To</div>
+              <div class="timeline-date-value" style="color: #475569;">
+                {{ selectedTimelineItem?.assignedTo || '—' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description Box -->
+      <div class="timeline-desc-box">
+        <div class="timeline-desc-header">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #3b82f6;">description</mat-icon>
+          <span>Description &amp; Remarks</span>
+        </div>
+        <p class="timeline-desc-text" style="margin-bottom: 8px;">
+          <strong>Description:</strong> {{ selectedTimelineItem?.description }}
+        </p>
+        <div style="font-size: 13px; color: #64748b; line-height: 1.4; border-top: 1px dashed #cbd5e1; padding-top: 8px;">
+          <strong>Remarks:</strong> {{ selectedTimelineItem?.remarks || 'No remarks recorded.' }}
+        </div>
+      </div>
+
+      <!-- Footer Action -->
+      <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
+        <button class="app-btn app-btn-default" type="button" (click)="closeTimelineModal()" style="background-color: lightgray; color: red;">
+          <mat-icon>cancel</mat-icon> <span>Close</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+  }
+</div>

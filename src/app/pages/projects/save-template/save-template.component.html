@@ -1,0 +1,58 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>Save as Template</h1>
+</div>
+
+<div mat-dialog-content class="save-template-content">
+  <form [formGroup]="templateForm" (ngSubmit)="save()">
+    <div class="template-field-row">
+      <label for="templateName">Template Name :</label>
+      <input
+        id="templateName"
+        class="form-control"
+        /* formControlName="name" */
+        placeholder="Enter Template Name"
+        type="text"
+      />
+    </div>
+
+    <div class="template-field-row textarea-row">
+      <label for="templateDescription">Description :</label>
+      <textarea
+        id="templateDescription"
+        class="form-control"
+        formControlName="description"
+        placeholder="Enter Template Description"
+        rows="2"
+      ></textarea>
+    </div>
+
+    <div class="template-field-row">
+      <label for="templateDivision">Division :</label>
+      <select id="templateDivision" class="form-control" formControlName="division">
+        <option value="">Select Division</option>
+        @for (division of divisionsList; track division) {
+          <option [value]="division">{{ division }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="template-actions">
+      <button
+        class="app-btn app-btn-default"
+        type="button"
+        (click)="close()"
+        style="background-color: lightgray; color: red;"
+      >
+        <mat-icon>cancel</mat-icon> Close
+      </button>
+      <button
+        class="app-btn app-btn-primary"
+        type="submit"
+        [disabled]="templateForm.invalid || isSubmitting"
+      >
+        <mat-icon>save</mat-icon> Save
+      </button>
+    </div>
+  </form>
+</div>
+

@@ -1,0 +1,176 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    {{ isEditMode ? 'Edit Activity' : 'Add Activity' }}
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 20px 24px; max-height: 85vh; overflow-y: auto; overflow-x: hidden;">
+  <form [formGroup]="activityForm" (ngSubmit)="save()">
+    <div style="display: flex; gap: 30px; flex-wrap: wrap;">
+      
+      <!-- Left Column -->
+      <div style="flex: 1; min-width: 320px;">
+        
+        <!-- Select Stage -->
+        <div class="row" style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+          <div class="col-sm-4" style="padding-left: 0;">
+            <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Select Stage: </label>
+          </div>
+          <div class="col-sm-8" style="padding-right: 0;">
+            <input class="form-control name back" placeholder="Enter Stage" formControlName="stage" type="text">
+          </div>
+        </div>
+
+        <!-- Select Deliverable -->
+        <div class="row" style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+          <div class="col-sm-4" style="padding-left: 0;">
+            <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Select Deliverable:</label>
+          </div>
+          <div class="col-sm-8" style="padding-right: 0;">
+            <mat-select formControlName="deliverable" class="form-control back" placeholder="Select Deliverable" style="height: 35px; line-height: 23px;">
+              @for (d of deliverables; track d) {
+                <mat-option [value]="d">{{ d }}</mat-option>
+              }
+            </mat-select>
+          </div>
+        </div>
+
+        <!-- Task Subject -->
+        <div class="row" style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+          <div class="col-sm-4" style="padding-left: 0;">
+            <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Task Subject: </label>
+          </div>
+          <div class="col-sm-8" style="padding-right: 0;">
+            <input class="form-control name back" placeholder="Enter Task Subject" formControlName="taskSubject" type="text">
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="row" style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: flex-start;">
+          <div class="col-sm-4" style="padding-left: 0;">
+            <label class="add-member-label control-label" style="margin: 0; font-weight: 500; margin-top: 6px;">Description:</label>
+          </div>
+          <div class="col-sm-8" style="padding-right: 0;">
+            <textarea class="form-control" rows="3" placeholder="Enter Description..." formControlName="description" style="resize: vertical;"></textarea>
+          </div>
+        </div>
+
+        <!-- Status -->
+        <div class="row" style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+          <div class="col-sm-4" style="padding-left: 0;">
+            <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Status:</label>
+          </div>
+          <div class="col-sm-8" style="padding-right: 0;">
+            <mat-select formControlName="status" class="form-control" placeholder="Select Status" style="height: 35px; line-height: 23px;">
+              @for (st of statuses; track st) {
+                <mat-option [value]="st">{{ st }}</mat-option>
+              }
+            </mat-select>
+          </div>
+        </div>
+
+        <!-- Plan Effort -->
+        <div class="row" style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+          <div class="col-sm-4" style="padding-left: 0;">
+            <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Plan Effort:</label>
+          </div>
+          <div class="col-sm-8" style="padding-right: 0;">
+            <input class="form-control" formControlName="planEffort" type="date">
+          </div>
+        </div>
+
+        <!-- Plan Duration -->
+        <div class="row" style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+          <div class="col-sm-4" style="padding-left: 0;">
+            <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Plan Duration:</label>
+          </div>
+          <div class="col-sm-8" style="padding-right: 0;">
+            <input class="form-control" formControlName="planDuration" type="date">
+          </div>
+        </div>
+
+        <!-- Actual Effort -->
+        <div class="row" style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+          <div class="col-sm-4" style="padding-left: 0;">
+            <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Actual Effort:</label>
+          </div>
+          <div class="col-sm-8" style="padding-right: 0;">
+            <input class="form-control" formControlName="actualEffort" type="date">
+          </div>
+        </div>
+
+        <!-- Actual Duration -->
+        <div class="row" style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+          <div class="col-sm-4" style="padding-left: 0;">
+            <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Actual Duration:</label>
+          </div>
+          <div class="col-sm-8" style="padding-right: 0;">
+            <input class="form-control" formControlName="actualDuration" type="date">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column -->
+      <div style="flex: 1; min-width: 320px; display: flex; flex-direction: column;">
+        
+        <!-- Actual Hours -->
+        <div class="row" style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+          <div class="col-sm-4" style="padding-left: 0;">
+            <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Actual Hours:</label>
+          </div>
+          <div class="col-sm-8" style="padding-right: 0;">
+            <input class="form-control" placeholder="Enter Actual Hours" formControlName="actualHours" type="text">
+          </div>
+        </div>
+
+        <!-- Material Budget -->
+        <div class="row" style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+          <div class="col-sm-4" style="padding-left: 0;">
+            <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Material Budget:</label>
+          </div>
+          <div class="col-sm-8" style="padding-right: 0;">
+            <input class="form-control" placeholder="Enter Material Budget" formControlName="materialBudget" type="text">
+          </div>
+        </div>
+
+        <!-- Material Usage -->
+        <div class="row" style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+          <div class="col-sm-4" style="padding-left: 0;">
+            <label class="add-member-label control-label" style="margin: 0; font-weight: 500;">Material Usage:</label>
+          </div>
+          <div class="col-sm-8" style="padding-right: 0;">
+            <input class="form-control" placeholder="Enter Material Usage" formControlName="materialUsage" type="text">
+          </div>
+        </div>
+
+        <!-- Drag & Drop Upload Zone -->
+        <div style="flex: 1; margin-top: 15px; border: 2px dashed #cbd5e1; border-radius: 8px; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #fafbfc; min-height: 220px;">
+          <p style="color: #475569; font-size: 15px; font-weight: 500; margin-bottom: 18px;">Drag and drop files here</p>
+          <input type="file" #fileInput (change)="onFilesSelected($event)" multiple style="display: none;">
+          <button type="button" class="app-btn app-btn-primary" (click)="fileInput.click()" style="padding: 8px 24px; font-weight: 600;">
+            Browse Files
+          </button>
+          @if (uploadedFileNames.length > 0) {
+            <div style="margin-top: 12px; font-size: 12px; color: #16a34a; text-align: center;">
+              {{ uploadedFileNames.length }} file(s) selected: {{ uploadedFileNames.join(', ') }}
+            </div>
+          }
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Dialog Actions Footer -->
+    <div style="margin-top: 25px; margin-bottom: 5px;">
+      <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="app-btn app-btn-default" (click)="close()">
+          <mat-icon>cancel</mat-icon> Close
+        </button>
+        <button type="submit" class="app-btn app-btn-primary">
+          <mat-icon>save</mat-icon> Save
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

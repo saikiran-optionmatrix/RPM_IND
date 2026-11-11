@@ -1,0 +1,221 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+  <header class="analytics-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h1>{{ projectName }}</h1>
+    
+    <div>
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon><span>Back</span>
+      </button>
+    </div>
+  </header>
+  
+  <!-- ==================== 1. UPPER GRID: VALUATION UNDER DCF METHOD ==================== -->
+  <div class="table-container-card" style="margin-bottom: 30px;">
+    <div class="table-responsive">
+      <table class="table table-bordered stages-grid-table npv-grid-table">
+        <thead>
+          <tr class="banner-header-row">
+            <th colspan="6" class="text-center font-weight-bold valuation-title-header">
+              Valuation under DCF (NPV) Method <span class="amt-usd-badge"></span>
+            </th>
+          </tr>
+
+          <tr class="column-names-header-row">
+            <th style="width: 260px;" class="text-left font-weight-bold">Particulars</th>
+            <th class="text-right font-weight-bold" style="width: 130px;">Total</th>
+            <th class="text-right font-weight-bold" style="width: 120px;">Year 0</th>
+            <th class="text-right font-weight-bold" style="width: 120px;">Year 1</th>
+            <th class="text-right font-weight-bold" style="width: 120px;">Year 2</th>
+            <th class="text-right font-weight-bold" style="width: 120px;">Year 3</th>
+          </tr>
+
+          <tr class="sub-header-row">
+            <th></th>
+            <th></th>
+            <th class="text-right italic-header" style="color: #ffffff !important;">Actual</th>
+            <th class="text-right italic-header" style="color: #ffffff !important;">Actual</th>
+            <th class="text-right italic-header" style="color: #ffffff !important;">Projected</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr class="data-row">
+            <td class="font-weight-bold text-left underline-text">Discounting Factor</td>
+            <td class="text-right font-weight-bold"></td>
+            <td class="text-right">
+              <input type="text" class="form-control npv-table-input" [(ngModel)]="dcfData.basedOnDcf.year0"
+                (ngModelChange)="recalculateAll()" placeholder="-">
+            </td>
+            <td class="text-right">
+              <input type="text" class="form-control npv-table-input" [(ngModel)]="dcfData.basedOnDcf.year1"
+                (ngModelChange)="recalculateAll()" placeholder="0.33">
+            </td>
+            <td class="text-right">
+              <input type="text" class="form-control npv-table-input" [(ngModel)]="dcfData.basedOnDcf.year2"
+                (ngModelChange)="recalculateAll()" placeholder="1.33">
+            </td>
+            <td class="text-right">
+              <input type="text" class="form-control npv-table-input" [(ngModel)]="dcfData.basedOnDcf.year3"
+                (ngModelChange)="recalculateAll()" placeholder="2.33">
+            </td>
+          </tr>
+
+          <tr class="empty-divider-row">
+            <td colspan="6"></td>
+          </tr>
+
+          <tr class="data-row">
+            <td class="text-left">Cash outflow</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(totalCashOutflow) }}</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(dcfData.cashOutflow.year0) }}</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(dcfData.cashOutflow.year1) }}</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(dcfData.cashOutflow.year2) }}</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(dcfData.cashOutflow.year3) }}</td>
+          </tr>
+
+          <tr class="data-row">
+            <td class="text-left">Cash inflow</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(totalCashInflow) }}</td>
+            <td class="text-right font-weight-500">-</td>
+            <td class="text-right font-weight-500">-</td>
+            <td class="text-right font-weight-500">-</td>
+            <td class="text-right">
+              <input type="number" class="form-control npv-table-input font-weight-500"
+                [(ngModel)]="dcfData.cashInflow.year3" (ngModelChange)="recalculateAll()" placeholder="517027">
+            </td>
+          </tr>
+
+          <tr class="empty-divider-row">
+            <td colspan="6"></td>
+          </tr>
+
+          <tr class="data-row highlight-subtotal-row">
+            <td class="text-left font-weight-500">Free Cash Flows</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(totalFreeCashFlow) }}</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(dcfData.freeCashFlow.year0) }}</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(dcfData.freeCashFlow.year1) }}</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(dcfData.freeCashFlow.year2) }}</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(dcfData.freeCashFlow.year3) }}</td>
+          </tr>
+
+          <tr class="empty-divider-row">
+            <td colspan="6"></td>
+          </tr>
+
+          <tr class="data-row">
+            <td class="text-left font-weight-500">P.V Factors @ {{ discountRate }}%</td>
+            <td class="text-right font-weight-500">-</td>
+            <td class="text-right font-weight-500">{{ dcfData.pvFactors.year0 | number:'1.2-2' }}</td>
+            <td class="text-right font-weight-500">{{ dcfData.pvFactors.year1 | number:'1.2-2' }}</td>
+            <td class="text-right font-weight-500">{{ dcfData.pvFactors.year2 | number:'1.2-2' }}</td>
+            <td class="text-right font-weight-500">{{ dcfData.pvFactors.year3 | number:'1.2-2' }}</td>
+          </tr>
+
+          <tr class="data-row">
+            <td class="text-left font-weight-500">Discounted Cash Flows</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(dcfData.npvTotal) }}</td>
+            <td class="text-right font-weight-500">{{ formatBracketNumber(dcfData.discountedCashFlow.year0) }}</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(dcfData.discountedCashFlow.year1) }}</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(dcfData.discountedCashFlow.year2) }}</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(dcfData.discountedCashFlow.year3) }}</td>
+          </tr>
+
+          <tr class="npv-final-summary-row">
+            <td class="text-left font-weight-bold npv-title-cell">
+              Net Present Value ( NPV ) of Free Cash Flows
+            </td>
+            <td class="text-right font-weight-bold npv-value-cell">
+              {{ formatIndianNumber(dcfData.npvTotal) }}
+            </td>
+            <td colspan="4" class="npv-title-cell"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ==================== 2. LOWER GRID: EXPENDITURE WORKING ==================== -->
+  <div class="table-container-card" style="margin-top: 30px; margin-bottom: 30px;">
+    <div class="expenditure-table-header"
+      style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; background: #ffffff; border-bottom: 1px solid #cbd5e1;">
+      <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0; display: flex; align-items: center; gap: 8px;">
+        <span>Expenditure</span>
+      </h3>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-bordered stages-grid-table expenditure-table">
+        <thead>
+          <tr class="expenditure-header-row">
+            <th class="text-left font-weight-bold" style="min-width: 180px;">Subject</th>
+            <th class="text-center font-weight-bold" style="min-width: 100px;">Remarks</th>
+            <th class="text-right font-weight-bold" style="min-width: 120px;">Total</th>
+            <th class="text-right font-weight-bold" style="min-width: 110px;">Year 0</th>
+            <th class="text-right font-weight-bold" style="min-width: 110px;">Year 1</th>
+            <th class="text-right font-weight-bold" style="min-width: 110px;">Year 2</th>
+            <th class="text-right font-weight-bold" style="min-width: 110px;">Year 3</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (item of expenditureItems; track item.subject; let i = $index) {
+            <tr class="data-row">
+              <td class="text-left font-weight-500">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                  <span>{{ item.subject }}</span>
+                </div>
+              </td>
+              <td class="text-center remark-cell" style="vertical-align: middle;">
+                <mat-icon [matTooltip]="item.remarks || 'Enter remarks'" matTooltipPosition="above"
+                  style="color: #2563eb; cursor: pointer; font-size: 20px; width: 20px; height: 20px; vertical-align: middle;"
+                  >
+                  info
+                </mat-icon>
+              </td>
+              <td class="text-right font-weight-500">{{ item.total !== null && item.total !== undefined ? formatIndianNumber(item.total) : '' }}</td>
+              <td class="text-right font-weight-500">{{ item.year0 !== null && item.year0 !== undefined ? formatIndianNumber(item.year0) : '' }}</td>
+              <td class="text-right font-weight-500">{{ item.year1 !== null && item.year1 !== undefined ? formatIndianNumber(item.year1) : '' }}</td>
+              <td class="text-right font-weight-500">{{ item.year2 !== null && item.year2 !== undefined ? formatIndianNumber(item.year2) : '' }}</td>
+              <td class="text-right font-weight-500">{{ item.year3 !== null && item.year3 !== undefined ? formatIndianNumber(item.year3) : '' }}</td>
+            </tr>
+          }
+
+          <!-- Total Row -->
+          <tr class="expenditure-subtotal-row">
+            <td class="text-left font-weight-bold">Total</td>
+            <td class="text-left"></td>
+            <td class="text-right font-weight-bold" style="color: #0f172a;">{{ formatIndianNumber(totalExpenditureAll) }}</td>
+            <td class="text-right font-weight-bold" style="color: #0f172a;">{{ totalExpenditureYear0 > 0 ? formatIndianNumber(totalExpenditureYear0) : '' }}</td>
+            <td class="text-right font-weight-bold" style="color: #0f172a;">{{ totalExpenditureYear1 > 0 ? formatIndianNumber(totalExpenditureYear1) : '' }}</td>
+            <td class="text-right font-weight-bold" style="color: #0f172a;">{{ totalExpenditureYear2 > 0 ? formatIndianNumber(totalExpenditureYear2) : '' }}</td>
+            <td class="text-right font-weight-bold" style="color: #0f172a;">{{ totalExpenditureYear3 > 0 ? formatIndianNumber(totalExpenditureYear3) : '' }}</td>
+          </tr>
+
+          <!-- Conversion Rate Row on Present Date (Above Total in USD) -->
+          <tr class="exchange-rate-row">
+            <td class="text-left font-weight-bold">{{ currentDateFormatted }} INR USD</td>
+            <td class="text-left"></td>
+            <td class="text-right font-weight-bold">{{ exchangeRate | number:'1.2-2' }}</td>
+            <td class="text-right"></td>
+            <td class="text-right"></td>
+            <td class="text-right"></td>
+            <td class="text-right"></td>
+          </tr>
+
+          <!-- Total in USD Row (Bottom Row) -->
+          <tr class="usd-total-row">
+            <td class="text-left font-weight-bold text-danger">Total in USD</td>
+            <td class="text-left"></td>
+            <td class="text-right font-weight-bold text-danger">{{ totalUsdAll > 0 ? formatIndianNumber(totalUsdAll) : '' }}</td>
+            <td class="text-right font-weight-bold text-danger">{{ totalUsdYear0 > 0 ? formatIndianNumber(totalUsdYear0) : '' }}</td>
+            <td class="text-right font-weight-bold text-danger">{{ totalUsdYear1 > 0 ? formatIndianNumber(totalUsdYear1) : '' }}</td>
+            <td class="text-right font-weight-bold text-danger">{{ totalUsdYear2 > 0 ? formatIndianNumber(totalUsdYear2) : '' }}</td>
+            <td class="text-right font-weight-bold text-danger">{{ totalUsdYear3 > 0 ? formatIndianNumber(totalUsdYear3) : '' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

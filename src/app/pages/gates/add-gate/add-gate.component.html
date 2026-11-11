@@ -1,0 +1,88 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    {{ isEditMode ? 'Update Gate' : 'Add Gate' }}
+  </h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="col-sm-12" style="margin-bottom: 10px; padding-top: 15px;">
+    <form [formGroup]="gateForm" (ngSubmit)="save()">
+
+      <!-- Gate Name -->
+      <div class="row" style="margin-bottom: 14px; display: flex; align-items: center;">
+        <div class="col-sm-4">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Gate Name:</label>
+        </div>
+        <div class="col-sm-8">
+          <input class="form-control name back" maxlength="100" placeholder="Enter Gate Name"
+                 formControlName="gateName" type="text">
+        </div>
+      </div>
+
+      <!-- Select Division -->
+      <div class="row" style="margin-bottom: 14px; display: flex; align-items: center;">
+        <div class="col-sm-4">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Select Division:</label>
+        </div>
+        <div class="col-sm-8">
+          <mat-select multiple class="form-control back" placeholder="Select Division" formControlName="division"
+                      style="min-height: 38px; height: auto; line-height: 24px; padding: 4px 10px;">
+            @for (div of divisionOptions; track div) {
+              <mat-option [value]="div">{{ div }}</mat-option>
+            }
+          </mat-select>
+        </div>
+      </div>
+
+
+       <div class="row" style="margin-bottom: 14px; display: flex; align-items: center;">
+        <div class="col-sm-4">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Gate Code:</label>
+        </div>
+        <div class="col-sm-8">
+          <input class="form-control name back" maxlength="100" placeholder="Enter Gate Code"
+                 formControlName="gateCode" type="text">
+        </div>
+      </div>
+
+      <!-- Select Stage -->
+      <!-- <div class="row" style="margin-bottom: 14px; display: flex; align-items: center;">
+        <div class="col-sm-4">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Select Stage:</label>
+        </div>
+        <div class="col-sm-8">
+          <mat-select class="form-control back" placeholder="Select Stage" formControlName="stageCode"
+                      style="height: 38px; line-height: 24px; padding: 4px 10px;">
+            @for (st of stageOptions; track st.code) {
+              <mat-option [value]="st.code">{{ st.name }}</mat-option>
+            }
+          </mat-select>
+        </div>
+      </div> -->
+
+      <!-- Description -->
+      <div class="row" style="margin-bottom: 14px; display: flex; align-items: flex-start;">
+        <div class="col-sm-4">
+          <label class="control-label" style="margin-top: 5px;">Description:</label>
+        </div>
+        <div class="col-sm-8">
+          <textarea class="form-control" rows="3" placeholder="Enter Description"
+                    formControlName="description" style="resize: vertical; background-color: white !important;"></textarea>
+        </div>
+      </div>
+
+      <!-- Footer Actions -->
+      <div style="margin-top: 20px; margin-bottom: 10px;">
+        <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="app-btn app-btn-default" (click)="close()">
+            <mat-icon>cancel</mat-icon> Close
+          </button>
+          <button type="submit" class="app-btn app-btn-primary" [disabled]="gateForm.invalid">
+            <mat-icon>save</mat-icon> Save
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

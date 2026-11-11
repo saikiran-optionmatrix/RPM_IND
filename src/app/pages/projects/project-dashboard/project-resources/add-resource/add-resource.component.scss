@@ -1,0 +1,36 @@
+:host {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.control-label {
+  color: #374151;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.form-control {
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: #1e293b;
+  width: 100%;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: #2563eb;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+  }
+}
+
+mat-select.form-control {
+  padding: 0 10px !important;
+  height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}

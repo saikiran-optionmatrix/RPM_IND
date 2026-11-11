@@ -1,0 +1,56 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    {{ gateTitle }}
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 16px 24px;">
+  <div class="col-sm-12" style="margin-bottom: 10px; padding: 0;">
+
+    <div class="app-table-container">
+      <div class="table-responsive" style="max-height: 480px; overflow-y: auto;">
+        <table class="table app-table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th class="text-left">User Name</th>
+              <th class="text-center" style="width: 100px; min-width: 100px;">Review</th>
+              <th class="text-center" style="width: 100px; min-width: 100px;">Approval</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (u of users; track u.id) {
+              <tr>
+                <td class="text-left font-weight-500">
+                  {{ u.userName }}
+                </td>
+                <td class="text-center" style="vertical-align: middle;">
+                  <mat-checkbox [checked]="u.review" (change)="onToggleReview(u, $event.checked)" color="primary"></mat-checkbox>
+                </td>
+                <td class="text-center" style="vertical-align: middle;">
+                  <mat-checkbox [checked]="u.approval" (change)="onToggleApproval(u, $event.checked)" color="primary"></mat-checkbox>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="3" class="empty-table text-center">No records found</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="margin-top: 16px;">
+      <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="app-btn app-btn-default" (click)="close()">
+          <mat-icon>cancel</mat-icon> Close
+        </button>
+        <button type="button" class="app-btn app-btn-primary" (click)="save()">
+          <mat-icon>save</mat-icon> Save
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

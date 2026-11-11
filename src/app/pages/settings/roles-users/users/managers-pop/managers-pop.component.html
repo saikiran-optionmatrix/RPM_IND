@@ -1,0 +1,37 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    Managers
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding-top: 10px;">
+  <div class="table-responsive" style="margin-bottom: 20px;">
+    <table class="table table-bordered table-hover" style="margin-bottom: 0; width: 100%;">
+      <thead>
+        <tr>
+          <th style="background-color: #3f3f3f; color: #ffffff; text-align: center; padding: 10px; font-weight: 600;">
+            Manager Name
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (mgr of managers; track mgr) {
+          <tr>
+            <td style="text-align: center; padding: 10px; font-size: 14px;">
+              {{ mgr }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Close Action Button (Readonly) -->
+  <div style="margin-bottom: 10px;">
+    <div class="pull-right" style="display: flex; justify-content: flex-end;">
+      <button type="button" class="app-btn app-btn-default" (click)="close()" style="background-color: lightgray; color: red;">
+        <mat-icon>cancel</mat-icon> Close
+      </button>
+    </div>
+  </div>
+</div>

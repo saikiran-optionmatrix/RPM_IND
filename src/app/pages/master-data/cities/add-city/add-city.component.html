@@ -1,0 +1,50 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>{{ isEditMode ? 'Update City' : 'Add City' }}</h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="col-sm-12 city-dialog-body">
+    <form [formGroup]="myGroup" (ngSubmit)="upsertCity()">
+      <div class="row city-field-row">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label city-field-label">City Name :</label>
+        </div>
+        <div class="col-sm-9">
+          <input
+            class="form-control name back"
+            maxlength="50"
+            placeholder="Enter City Name"
+            formControlName="CityName"
+            type="text"
+          />
+        </div>
+      </div>
+
+      <div class="row city-field-row">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label city-field-label">City Code :</label>
+        </div>
+        <div class="col-sm-9">
+          <input
+            class="form-control name back"
+            maxlength="50"
+            placeholder="Enter City Code"
+            formControlName="CityCode"
+            type="text"
+          />
+        </div>
+      </div>
+
+      <div style="margin-bottom: 10px;">
+        <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button class="app-btn app-btn-default" (click)="close()" style="background-color: lightgray; color: red;">
+            <mat-icon>cancel</mat-icon> Close
+          </button>
+          <button class="app-btn app-btn-primary">
+            <mat-icon>save</mat-icon> Save
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>  
+</div>

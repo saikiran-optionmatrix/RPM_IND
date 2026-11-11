@@ -1,0 +1,107 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    {{ isEditMode ? 'Update Material' : 'Add Material' }}
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 20px 24px; width: 100%; box-sizing: border-box; overflow-x: hidden;">
+  <div style="margin-bottom: 10px; width: 100%;">
+    <form (ngSubmit)="save()">
+      <div class="row" style="display: flex; flex-wrap: wrap; margin: 0 -12px;">
+        <!-- Left Column -->
+        <div class="col-sm-6" style="padding: 0 12px; flex: 1; min-width: 380px;">
+          <!-- Item Name -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 105px; width: 105px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Item Name:</label>
+            <input type="text" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="materialData.itemName" name="itemName" placeholder="Enter Item Name">
+          </div>
+
+          <!-- Quantity -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 105px; width: 105px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Quantity:</label>
+            <input type="number" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="materialData.quantity" name="quantity" (input)="calculateCost()" placeholder="Enter Quantity">
+          </div>
+
+          <!-- Unit Rate -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 105px; width: 105px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Unit Rate:</label>
+            <input type="number" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="materialData.unitRate" name="unitRate" (input)="calculateCost()" placeholder="Enter Unit Rate">
+          </div>
+
+          <!-- Material Cost -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 105px; width: 105px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Material Cost:</label>
+            <input type="number" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="materialData.materialCost" name="materialCost" placeholder="Enter Material Cost">
+          </div>
+
+          <!-- Target Date -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 105px; width: 105px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Target Date:</label>
+            <input type="date" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="materialData.targetDate" name="targetDate">
+          </div>
+
+          <!-- Remarks -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: flex-start; gap: 10px;">
+            <label class="control-label" style="min-width: 105px; width: 105px; margin-top: 6px; font-weight: 500; font-size: 13px; color: #374151;">Remarks:</label>
+            <textarea class="form-control" rows="2" [(ngModel)]="materialData.remarks" name="remarks" placeholder="Enter Remarks" style="flex: 1; resize: vertical;"></textarea>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-sm-6" style="padding: 0 12px; flex: 1; min-width: 380px;">
+          <!-- Requested By -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 105px; width: 105px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Requested By:</label>
+            <input type="text" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="materialData.requestedBy" name="requestedBy" placeholder="Enter Name">
+          </div>
+
+          <!-- Request Date -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 105px; width: 105px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Request Date:</label>
+            <input type="date" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="materialData.requestDate" name="requestDate">
+          </div>
+
+          <!-- Requested Qty -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 105px; width: 105px; margin: 0; font-weight: 500; font-size: 13px; color: #374151; white-space: nowrap;">Requested Qty:</label>
+            <input type="number" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="materialData.requestedQuantity" name="requestedQuantity" placeholder="Enter Requested Quantity">
+          </div>
+
+          <!-- Issued Qty -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 105px; width: 105px; margin: 0; font-weight: 500; font-size: 13px; color: #374151; white-space: nowrap;">Issued Qty:</label>
+            <input type="number" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="materialData.issuedQuantity" name="issuedQuantity" placeholder="Enter Issued Quantity">
+          </div>
+
+          <!-- Issue Date -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 105px; width: 105px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Issue Date:</label>
+            <input type="date" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="materialData.issueDate" name="issueDate">
+          </div>
+
+          <!-- Status Flags -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 105px; width: 105px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Status Flags:</label>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center;">
+              <mat-checkbox [(ngModel)]="materialData.available" name="available" color="primary">Available</mat-checkbox>
+              <mat-checkbox [(ngModel)]="materialData.reserved" name="reserved" color="primary">Reserved</mat-checkbox>
+              <mat-checkbox [(ngModel)]="materialData.issued" name="issued" color="primary">Issued</mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 10px; margin-top: 20px;">
+        <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button class="app-btn app-btn-default" type="button" (click)="close()" style="background-color: lightgray; color: red;">
+            <mat-icon>cancel</mat-icon> Close
+          </button>
+          <button class="app-btn app-btn-primary" type="submit">
+            <mat-icon>save</mat-icon> {{ isEditMode ? 'Update' : 'Save' }}
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

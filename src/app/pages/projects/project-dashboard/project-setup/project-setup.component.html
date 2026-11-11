@@ -1,0 +1,190 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+
+  <!-- Header Section with Title & Back Button -->
+  <header class="analytics-header">
+    <h1>{{ projectName }}</h1>
+
+    <div class="header-actions" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon><span>Back</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Content placed directly below header -->
+  <div class="setup-container">
+    <div class="board-grid"
+      [style.grid-template-columns]="selectedStage?.type === 'gate' ? 'repeat(2, minmax(0, 1fr))' : 'repeat(3, minmax(0, 1fr))'">
+
+      <div class="board-column">
+        <h2>Stages / Gates</h2>
+        <div class="column-content">
+          @for (item of stagesAndGates; track item.id || item.name) {
+          <div class="list-item" [ngClass]="{
+                   'is-stage': item.type === 'stage',
+                   'is-gate': item.type === 'gate',
+                   'is-active': item === selectedStage
+                 }" (click)="selectStage(item)">
+
+            <div class="item-left">
+              <div class="custom-checkbox" [class.checked]="item.completed" (click)="toggleCompleted($event, item)">
+              </div>
+              <span class="item-name">{{ item.name }}</span>
+            </div>
+
+            <div class="item-right">
+              <mat-icon class="sm-icon">chevron_right</mat-icon>
+              <button class="action-menu-btn" (click)="$event.stopPropagation()" [matMenuTriggerFor]="actionMenu"
+                [matMenuTriggerData]="{ item: item, type: 'Stage/Gate' }">
+                <mat-icon class="sm-icon">more_vert</mat-icon>
+              </button>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+
+      @if (selectedStage?.type !== 'gate') {
+      <div class="board-column">
+        <h2>Deliverables @if (selectedStage) { <span class="header-context">({{ selectedStage?.name }})</span> }</h2>
+        <div class="column-content">
+
+          <button class="dashed-add-btn" (click)="openAddDeliverableDialog()">
+            <mat-icon class="add-icon" style="margin-bottom:-6px">add</mat-icon> Add Deliverables
+          </button>
+
+          @if (selectedStage?.modules && selectedStage?.modules?.length! > 0) {
+          @for (mod of selectedStage?.modules; track mod.id || mod.name) {
+          <div class="list-item is-module" [ngClass]="{'is-active': mod === selectedModule}"
+            (click)="selectModule(mod)">
+
+            <div class="item-left">
+              <div class="custom-checkbox" [class.checked]="mod.completed" (click)="toggleCompleted($event, mod)"></div>
+              <div class="item-text-wrap">
+                <span class="item-name">{{ mod.name }}</span>
+                @if (mod.description) {
+                <span class="item-desc">{{ mod.description }}</span>
+                }
+              </div>
+            </div>
+
+            <div class="item-right">
+              <button class="action-menu-btn" (click)="$event.stopPropagation()" [matMenuTriggerFor]="actionMenu"
+                [matMenuTriggerData]="{ item: mod, type: 'Deliverable' }">
+                <mat-icon class="sm-icon">more_vert</mat-icon>
+              </button>
+            </div>
+          </div>
+          }
+          } @else {
+          <div class="empty-state">
+            No modules defined for this stage.
+          </div>
+          }
+        </div>
+      </div>
+      }
+
+      <div class="board-column">
+        <h2>
+          @if (selectedStage?.type === 'gate') {
+          <span>
+            CheckList <span class="header-context">({{ selectedStage?.name }})</span>
+          </span>
+          } @else {
+          <span>
+            Activities @if (selectedModule) { <span class="header-context">({{ selectedModule?.name }})</span> }
+          </span>
+          }
+        </h2>
+        <div class="column-content">
+
+          <button class="dashed-add-btn"
+            (click)="selectedStage?.type === 'gate' ? openAddCriteriaDialog() : openAddActivityDialog()">
+            <mat-icon class="add-icon" style="margin-bottom:-6px">add</mat-icon>
+            @if (selectedStage?.type === 'gate') {
+            <span>Add Criterion</span>
+            } @else {
+            <span>Add Activity</span>
+            }
+          </button>
+
+          <!-- Gates display tasks directly from selectedStage -->
+          @if (selectedStage?.type === 'gate') {
+          @if (selectedStage?.tasks && selectedStage?.tasks?.length! > 0) {
+          @for (task of selectedStage?.tasks; track task.id || task.name) {
+          <div class="list-item is-task">
+            <div class="item-left">
+              <div class="custom-checkbox" [class.checked]="task.completed" (click)="toggleCompleted($event, task)">
+              </div>
+              <div class="item-text-wrap">
+                <span class="item-name">{{ task.name }}</span>
+                @if (task.description) {
+                <span class="item-desc">{{ task.description }}</span>
+                }
+              </div>
+            </div>
+            <div class="item-right">
+              <button class="action-menu-btn" (click)="$event.stopPropagation()" [matMenuTriggerFor]="actionMenu"
+                [matMenuTriggerData]="{ item: task, type: 'Criterion' }">
+                <mat-icon class="sm-icon">more_vert</mat-icon>
+              </button>
+            </div>
+          </div>
+          }
+          } @else {
+          <div class="empty-state">
+            No checklist items defined for this gate.
+          </div>
+          }
+          }
+
+          <!-- Stages display tasks from selectedModule -->
+          @if (selectedStage?.type !== 'gate') {
+          @if (selectedModule?.tasks && selectedModule?.tasks?.length! > 0) {
+          @for (task of selectedModule?.tasks; track task.id || task.name) {
+          <div class="list-item is-task">
+            <div class="item-left">
+              <div class="custom-checkbox" [class.checked]="task.completed" (click)="toggleCompleted($event, task)">
+              </div>
+              <div class="item-text-wrap">
+                <span class="item-name">{{ task.name }}</span>
+                @if (task.description) {
+                <span class="item-desc">{{ task.description }}</span>
+                }
+              </div>
+            </div>
+            <div class="item-right">
+              <button class="action-menu-btn" (click)="$event.stopPropagation()" [matMenuTriggerFor]="actionMenu"
+                [matMenuTriggerData]="{ item: task, type: 'Activity' }">
+                <mat-icon class="sm-icon">more_vert</mat-icon>
+              </button>
+            </div>
+          </div>
+          }
+          } @else {
+          <div class="empty-state">
+            No tasks defined for this module.
+          </div>
+          }
+          }
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<mat-menu #actionMenu="matMenu">
+  <ng-template matMenuContent let-item="item" let-type="type">
+    <button mat-menu-item (click)="editItem(item, type)">
+      <i class="fa fa-edit"></i>
+      <span>Edit</span>
+    </button>
+    <button mat-menu-item (click)="deleteItem(item, type)">
+      <mat-icon class="delete-icon">delete</mat-icon>
+      <span class="delete-text">Delete</span>
+    </button>
+  </ng-template>
+</mat-menu>

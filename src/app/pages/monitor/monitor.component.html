@@ -1,0 +1,40 @@
+<div fxLayout="column" fxLayoutGap="16px"; style=" overflow-x: hidden">
+
+  <div fxLayout="row wrap">
+    <div class="pills" style="width: 100%;">
+      <ul class="nav nav-pills" fxLayout="row" fxLayoutGap="16px" style="list-style: none; padding: 0; margin: 0; margin-left: 32px; margin-top: 20px;">
+
+        <li routerLinkActive="active">
+          <a mat-raised-button routerLink="./activities" queryParamsHandling="preserve">Activities</a>
+        </li>
+
+         <li routerLinkActive="active">
+          <a mat-raised-button routerLink="./tasks" queryParamsHandling="preserve">Tasks</a>
+        </li>
+
+        <li routerLinkActive="active">
+          <a mat-raised-button routerLink="./issues" queryParamsHandling="preserve">Issues</a>
+        </li>
+
+        <li routerLinkActive="active">
+          <a mat-raised-button routerLink="./to-do" queryParamsHandling="preserve">To-Do</a>
+        </li>
+       
+        <li routerLinkActive="active">
+          <a mat-raised-button routerLink="./requirements" queryParamsHandling="preserve">Requirements</a>
+        </li>
+
+
+
+      </ul>
+    </div>
+  </div>
+
+  <!-- Child Component View -->
+  <!-- <div fxLayout="row wrap" style="margin-top: 20px;">
+    <router-outlet></router-outlet>
+  </div> -->
+  <div  style="margin-top: 20px;">
+    <router-outlet></router-outlet>
+  </div>
+</div>

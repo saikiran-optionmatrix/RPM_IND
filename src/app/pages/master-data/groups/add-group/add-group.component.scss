@@ -1,0 +1,20 @@
+:host {
+	.group-dialog-body {
+		margin-bottom: 10px;
+	}
+
+	.group-field-row {
+		margin-bottom: 12px;
+	}
+
+	.group-field-label {
+		display: block;
+		margin-top: 5px;
+	}
+
+	.group-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 10px;
+	}
+}

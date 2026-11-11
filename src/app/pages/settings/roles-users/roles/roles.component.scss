@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+
+.app-table-container {
+  width: 100%;
+  padding: 10px 0 40px 0;
+}
+
+.app-table {
+  width: 100%;
+
+  
+}
+
+.link-primary {
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

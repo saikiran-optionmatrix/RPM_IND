@@ -1,0 +1,256 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="app-table-container">
+
+        <!-- Top Action Buttons -->
+        <div class="app-page-actions">
+          <button type="button" class="app-btn app-btn-filter" (click)="toggleFilter()">
+            <mat-icon>filter_list</mat-icon>
+            <span>Filter</span>
+          </button>
+
+          <button type="button" class="app-btn app-btn-primary" (click)="onAdd()">
+            <mat-icon>add</mat-icon>
+            <span>Add User</span>
+          </button>
+        </div>
+
+        <!-- Filter Panel -->
+        @if (showFilter) {
+        <mat-card class="app-filter-panel">
+          <mat-card-content>
+            <div class="app-filter-grid">
+
+              <div class="app-filter-fields">
+                <!-- Keyword Search -->
+                <div class="app-filter-field">
+                  <label for="userKeyword">Keyword:</label>
+                  <mat-form-field appearance="outline" class="app-filter-control">
+                    <input matInput id="userKeyword" [(ngModel)]="keyword" placeholder="Search Users">
+                  </mat-form-field>
+                </div>
+
+                <!-- Department Filter -->
+                <div class="app-filter-field">
+                  <label for="userDepartment">Department:</label>
+                  <mat-form-field appearance="outline" class="app-filter-control">
+                    <mat-select id="userDepartment" [(ngModel)]="department" placeholder="Select Department">
+                      <mat-option value="">All Departments</mat-option>
+                      @for (dept of departments; track dept) {
+
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <!-- Role Filter -->
+                <div class="app-filter-field">
+                  <label for="userRole">Role:</label>
+                  <mat-form-field appearance="outline" class="app-filter-control">
+                    <mat-select id="userRole" [(ngModel)]="role" placeholder="Select Role">
+                      <mat-option value="">All Roles</mat-option>
+                      @for (r of roles; track r) {
+
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <!-- Status Filter -->
+                <!-- <div class="app-filter-field">
+                    <label for="userStatus">Status:</label>
+                    <mat-form-field appearance="outline" class="app-filter-control">
+                      <mat-select id="userStatus" [(ngModel)]="status" placeholder="Select Status">
+                        <mat-option value="">All Statuses</mat-option>
+                        <mat-option value="Active">Active</mat-option>
+                        <mat-option value="Inactive">Inactive</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div> -->
+              </div>
+
+              <!-- Filter Actions -->
+              <div class="app-filter-actions">
+                <button type="button" class="app-btn app-btn-primary" (click)="onSearch()">
+                  <mat-icon>search</mat-icon>
+                  <span>Search</span>
+                </button>
+                <button type="button" class="app-btn app-btn-default" (click)="onClear()">
+                  <mat-icon>settings_backup_restore</mat-icon>
+                  <span>Clear</span>
+                </button>
+              </div>
+
+              <!-- Filter Toggle -->
+              <div class="app-filter-toggle">
+                <button type="button" class="app-icon-btn" aria-label="Collapse filter" (click)="toggleFilter()">
+                  <mat-icon>keyboard_double_arrow_up</mat-icon>
+                </button>
+              </div>
+
+            </div>
+          </mat-card-content>
+        </mat-card>
+        }
+
+        <!-- Users Table -->
+        <div class="table-responsive">
+          <table class="table app-table">
+            <thead>
+              <tr>
+                <th class="text-center" style="white-space: nowrap;">Actions</th>
+                <th class="text-center" style="white-space: nowrap;">Status</th>
+                <th class="text-center" style="white-space: nowrap;">Two-Factor</th>
+                <th class="text-center" style="white-space: nowrap;">Reset Password</th>
+                 <th class="text-center" style="white-space: nowrap;">CFT</th>
+                  <th class="text-center" style="white-space: nowrap;">Special permissions</th>
+                <th class="text-center" style="white-space: nowrap;">User Name</th>
+                <th class="text-center" style="white-space: nowrap;">Short Form</th>
+                <th class="text-center" style="white-space: nowrap;">Managers</th>
+                <th class="text-center" style="white-space: nowrap;">Email</th>
+                <th class="text-center" style="white-space: nowrap;">Phone</th>
+                <th class="text-center" style="white-space: nowrap;">Department</th>
+                <th class="text-center" style="white-space: nowrap;">Group</th>
+                <th class="text-center" style="white-space: nowrap;">Site</th>
+                <th class="text-center" style="white-space: nowrap;">Section</th>
+                <th class="text-center" style="white-space: nowrap;">Role</th>
+                <th class="text-center" style="white-space: nowrap;">Work Hours</th>
+                <th class="text-center" style="white-space: nowrap;">Job Code</th>
+                <th class="text-center" style="white-space: nowrap;">Location</th>
+                <th class="text-center" style="white-space: nowrap;">Managerial Role</th>
+                <th class="text-center" style="white-space: nowrap;">Audit Types</th>
+                <th class="text-center" style="white-space: nowrap;">RPM</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of paginatedUsers; track user.id) {
+              <tr>
+                <!-- Actions -->
+                <td class="text-center">
+                  <div class="table-actions">
+                    <button type="button" class="table-action-button edit" matTooltip="Edit" aria-label="Edit user"
+                      (click)="onEdit(user)">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button type="button" class="table-action-button delete" matTooltip="Delete"
+                      aria-label="Delete user" (click)="onDelete(user)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </td>
+
+                <!-- Status -->
+                <td class="text-center">
+                  <button type="button" class="status-button" [class.status-active]="user.status === 'Active'"
+                    [class.status-inactive]="user.status === 'Inactive'" (click)="onStatusChange(user)">
+                    {{ user.status }}
+                  </button>
+                </td>
+
+                <!-- Two-Factor -->
+                <td class="text-center">
+                  <mat-checkbox [(ngModel)]="user.twoFactor" color="primary"></mat-checkbox>
+                </td>
+
+                <!-- Reset Password -->
+                <td class="text-center">
+                  <button type="button" class="table-action-button" style="color: #2563eb;" matTooltip="Reset Password"
+                    (click)="onResetPassword(user)">
+                    <mat-icon>sync</mat-icon>
+                  </button>
+                </td>
+                <!-- CFT -->
+                <td class="text-center">
+                  <mat-checkbox [(ngModel)]="user.cft" color="primary"></mat-checkbox>
+                </td>
+
+                <!-- Special permissions -->
+                <td class="text-center">
+                  <a href="javascript:void(0)" class="link-primary" style="color: #2563eb; font-weight: 500;"
+                    (click)="onSpecialPermissionsClick(user)">{{ user.specialPermissions }}</a>
+                </td>
+
+                <!-- User Name -->
+                <td class="text-center" style="white-space: nowrap;">{{ user.userName }}</td>
+
+                <!-- Short Form -->
+                <td class="text-center">{{ user.shortForm }}</td>
+
+                <!-- Managers -->
+                <td class="text-center">
+                  <a href="javascript:void(0)" class="link-primary" style="color: #2563eb; font-weight: 500;"
+                    (click)="onManagersClick(user)">{{ user.managers }}</a>
+                </td>
+
+                <!-- Email -->
+                <td class="text-center" style="white-space: nowrap;">{{ user.email }}</td>
+
+                <!-- Phone -->
+                <td class="text-center" style="white-space: nowrap;">{{ user.phone }}</td>
+
+                <!-- Department -->
+                <td class="text-center" style="white-space: nowrap;">{{ user.department }}</td>
+
+                <!-- Group -->
+                <td class="text-center" style="white-space: nowrap;">{{ user.group }}</td>
+
+                <!-- Site -->
+                <td class="text-center" style="white-space: nowrap;">{{ user.site }}</td>
+
+                <!-- Section -->
+                <td class="text-center" style="white-space: nowrap;">{{ user.section }}</td>
+
+                <!-- Role -->
+                <td class="text-center" style="white-space: nowrap;">{{ user.role }}</td>
+
+                <!-- Work Hours -->
+                <td class="text-center">{{ user.workHours }}</td>
+
+                <!-- Job Code -->
+                <td class="text-center">
+                  <a href="javascript:void(0)" class="link-primary" style="color: #2563eb; font-weight: 500;"
+                    (click)="onJobCodeClick(user)">{{ user.jobCode }}</a>
+                </td>
+
+                <!-- Location -->
+                <td class="text-center">
+                  <a href="javascript:void(0)" class="link-primary" style="color: #2563eb; font-weight: 500;"
+                    (click)="onLocationClick(user)">{{ user.location }}</a>
+                </td>
+
+                <!-- Managerial Role -->
+                <td class="text-center">
+                  <mat-checkbox [(ngModel)]="user.managerialRole" color="primary"></mat-checkbox>
+                </td>
+
+                <!-- Audit Types -->
+                <td class="text-center">
+                  <a href="javascript:void(0)" class="link-primary" style="color: #2563eb; font-weight: 500;"
+                    (click)="onAuditTypesClick(user)">{{ user.auditTypes }}</a>
+                </td>
+
+                <!-- RPM -->
+                <td class="text-center">
+                  <mat-checkbox [(ngModel)]="user.rpm" color="primary"></mat-checkbox>
+                </td>
+              </tr>
+              } @empty {
+              <tr>
+                <td colspan="22" class="empty-table text-center" style="padding: 24px; color: #64748b;">No users found
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Paginator -->
+        <mat-paginator [length]="filteredUsers.length" [pageIndex]="pageIndex" [pageSize]="pageSize"
+          [pageSizeOptions]="[5, 10, 20, 50, 100]" [showFirstLastButtons]="true" (page)="handlePage($event)">
+        </mat-paginator>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,125 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    {{ isEditMode ? 'Update Task' : 'Add Task' }}
+  </h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="col-sm-12" style="margin-bottom: 10px;">
+    <form [formGroup]="myGroup" (ngSubmit)="upsertTask()">
+
+      <!-- Project (dropdown) -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Project :</label>
+        </div>
+        <div class="col-sm-9">
+          <select class="form-control name back" formControlName="projectCode" style="cursor: pointer;">
+            <option value="" disabled>Select Project</option>
+            @for (p of projectList; track p.code) {
+              <option [value]="p.code">{{ p.code }} - {{ p.name }}</option>
+            }
+          </select>
+          @if (isSubmitting && f['projectCode'].errors?.['required']) {
+            <span class="text-danger" style="font-size: 12px;">Project is required</span>
+          }
+        </div>
+      </div>
+
+      <!-- Deliverable (dropdown) -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Deliverable :</label>
+        </div>
+        <div class="col-sm-9">
+          <select class="form-control name back" formControlName="deliverable" style="cursor: pointer;">
+            <option value="" disabled>Select Deliverable</option>
+            @for (d of deliverableList; track d) {
+              <option [value]="d">{{ d }}</option>
+            }
+          </select>
+          @if (isSubmitting && f['deliverable'].errors?.['required']) {
+            <span class="text-danger" style="font-size: 12px;">Deliverable is required</span>
+          }
+        </div>
+      </div>
+
+      <!-- Activity (dropdown) -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Activity :</label>
+        </div>
+        <div class="col-sm-9">
+          <select class="form-control name back" formControlName="activity" style="cursor: pointer;">
+            <option value="" disabled>Select Activity</option>
+            @for (a of activityList; track a) {
+              <option [value]="a">{{ a }}</option>
+            }
+          </select>
+          @if (isSubmitting && f['activity'].errors?.['required']) {
+            <span class="text-danger" style="font-size: 12px;">Activity is required</span>
+          }
+        </div>
+      </div>
+
+      <!-- Task (dropdown) -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Task :</label>
+        </div>
+        <div class="col-sm-9">
+          <select class="form-control name back" formControlName="task" style="cursor: pointer;">
+            <option value="" disabled>Select Task</option>
+            @for (t of taskList; track t) {
+              <option [value]="t">{{ t }}</option>
+            }
+          </select>
+          @if (isSubmitting && f['task'].errors?.['required']) {
+            <span class="text-danger" style="font-size: 12px;">Task is required</span>
+          }
+        </div>
+      </div>
+
+      <!-- Hours (number) -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Hours :</label>
+        </div>
+        <div class="col-sm-9">
+          <input class="form-control name back" type="number" step="0.5" min="0" placeholder="Enter Hours"
+            formControlName="hours">
+          @if (isSubmitting && f['hours'].errors?.['required']) {
+            <span class="text-danger" style="font-size: 12px;">Hours is required</span>
+          }
+        </div>
+      </div>
+
+      <!-- Description (text) -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Description :</label>
+        </div>
+        <div class="col-sm-9">
+          <textarea class="form-control name back" rows="3" placeholder="Enter Description"
+            formControlName="description"></textarea>
+          @if (isSubmitting && f['description'].errors?.['required']) {
+            <span class="text-danger" style="font-size: 12px;">Description is required</span>
+          }
+        </div>
+      </div>
+
+      <!-- Footer Buttons -->
+      <div style="margin-bottom: 10px;">
+        <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="app-btn app-btn-default" (click)="close()">
+            <mat-icon>cancel</mat-icon> Close
+          </button>
+          <button type="submit" class="app-btn app-btn-primary">
+            <mat-icon>save</mat-icon> Save
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

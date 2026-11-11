@@ -1,0 +1,53 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="app-table-container">
+
+        <!-- Table Grid -->
+        <div class="table-responsive">
+          <table class="table app-table">
+            <thead>
+              <tr>
+                <th style="padding-left: 16px;">Event Name</th>
+                <th style="padding-left: 16px;">Event Type</th>
+                <th style="padding-left: 16px;">Module</th>
+                <th style="padding-left: 16px;">Date & Time</th>
+                <th style="padding-left: 16px;">User Name</th>
+                <th style="padding-left: 16px;">User Role</th>
+                <th style="padding-left: 16px;">IP Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (log of paginatedEventLogs; track (log.eventName + '-' + log.dateTime + '-' + log.userName)) {
+                <tr>
+                  <td style="padding-left: 16px;">{{ log.eventName }}</td>
+                  <td style="padding-left: 16px;">{{ log.eventType }}</td>
+                  <td style="padding-left: 16px;">{{ log.module }}</td>
+                  <td style="padding-left: 16px;">{{ log.dateTime }}</td>
+                  <td style="padding-left: 16px;">{{ log.userName }}</td>
+                  <td style="padding-left: 16px;">{{ log.userRole }}</td>
+                  <td style="padding-left: 16px;">{{ log.ipAddress }}</td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="7" class="empty-table">No records found</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <mat-paginator
+          [length]="eventLogs.length"
+          [pageIndex]="pageIndex"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="[5, 10, 20, 50, 100]"
+          [showFirstLastButtons]="true"
+          (page)="handlePage($event)">
+        </mat-paginator>
+
+      </div>
+    </div>
+  </div>
+</div>

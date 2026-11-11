@@ -1,0 +1,119 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="app-table-container">
+
+        <div class="app-page-actions">
+          <button type="button" class="app-btn app-btn-filter" (click)="toggleFilter()">
+            <mat-icon>filter_list</mat-icon>
+            <span>Filter</span>
+          </button>
+
+          <button type="button" class="app-btn app-btn-primary" (click)="onAdd()">
+            <mat-icon>add</mat-icon>
+            <span>Add Delay Reason</span>
+          </button>
+        </div>
+
+        @if (showFilter) {
+        <mat-card class="app-filter-panel">
+          <mat-card-content>
+            <div class="app-filter-grid">
+
+              <!-- 1. Fields -->
+              <div class="app-filter-fields">
+                <div class="app-filter-field">
+                  <label for="delayReasonKeyword">Keyword:</label>
+                  <mat-form-field appearance="outline" class="app-filter-control">
+                    <input matInput id="delayReasonKeyword" [(ngModel)]="keyword" placeholder="Search Delay Reason">
+                  </mat-form-field>
+                </div>
+
+                <div class="app-filter-field">
+                  <label for="delayReasonStatus">Status:</label>
+                  <mat-form-field appearance="outline" class="app-filter-control">
+                    <mat-select id="delayReasonStatus" [(ngModel)]="status" placeholder="Select Status">
+                      <mat-option value="Active">Active</mat-option>
+                      <mat-option value="Inactive">Inactive</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!-- 2. Actions -->
+              <div class="app-filter-actions">
+                <button type="button" class="app-btn app-btn-primary" (click)="onSearch()">
+                  <mat-icon>search</mat-icon>
+                  <span>Search</span>
+                </button>
+                <button type="button" class="app-btn app-btn-default" (click)="onClear()">
+                  <mat-icon>settings_backup_restore</mat-icon>
+                  <span>Clear</span>
+                </button>
+              </div>
+
+              <!-- 3. Toggle button -->
+              <div class="app-filter-toggle">
+                <button type="button" class="app-icon-btn" aria-label="Collapse filter" (click)="toggleFilter()">
+                  <mat-icon>keyboard_double_arrow_up</mat-icon>
+                </button>
+              </div>
+
+            </div>
+          </mat-card-content>
+        </mat-card>
+        }
+
+        <div class="table-responsive">
+          <table class="table app-table">
+            <thead>
+              <tr>
+                <th class="text-center" style="width: 100px;">Actions</th>
+                <th class="text-center" style="width: 120px;">Status</th>
+                <th class="text-left"  style="width: 150px;">Delay Reason</th>
+                <th class="text-left"  style="width: 150px;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of paginatedDelayReasons; track item.id || item.reason) {
+                <tr>
+                  <td class="text-center">
+                    <div class="table-actions">
+                      <button type="button" class="table-action-button edit" matTooltip="Edit" aria-label="Edit delay reason" (click)="onEdit(item)">
+                        <i class="fa fa-edit"></i>
+                      </button>
+                      <button type="button" class="table-action-button delete" matTooltip="Delete" aria-label="Delete delay reason" (click)="onDelete(item)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <button type="button" class="status-button" [class.status-active]="item.status === 'Active'" [class.status-inactive]="item.status === 'Inactive'" (click)="onStatusChange(item)">
+                      {{ item.status }}
+                    </button>
+                  </td>
+                  <td class="text-left">{{ item.reason }}</td>
+                  <td class="text-left">{{ item.context }}</td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="4" class="empty-table">No records found</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <mat-paginator
+          [length]="filteredDelayReasons.length"
+          [pageIndex]="pageIndex"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="[5, 10, 20, 50, 100]"
+          [showFirstLastButtons]="true"
+          (page)="handlePage($event)">
+        </mat-paginator>
+
+      </div>
+    </div>
+  </div>
+</div>

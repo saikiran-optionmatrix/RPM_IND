@@ -1,0 +1,122 @@
+<div class="inner-screen-page" style="padding: 10px 25px 80px 25px">
+  <!-- Top Header Area -->
+  <header class="inner-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div class="header-left">
+      <div class="title-meta">
+        <h2 class="inner-title" style="margin: 0; font-size: 20px; font-weight: 600; color: #1e293b;">
+          {{ requirementName ? requirementName : 'Requirements' }} - History
+        </h2>
+        @if (activityName) {
+        <div class="activity-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #64748b; margin-top: 4px;">
+          @if (jobCodeParam) {
+          <span class="activity-badge" style="background-color: #e2e8f0; color: #334155; padding: 1px 6px; border-radius: 4px; font-weight: 600; font-size: 12px;">{{ jobCodeParam }}</span>
+          }
+          <span class="activity-text" style="font-weight: 500; color: #1e293b;">{{ activityName }}</span>
+          @if (stageName) {
+          <span class="stage-sep" style="color: #cbd5e1;">•</span>
+          <span class="stage-text">{{ stageName }} ({{ stageCode }})</span>
+          } @else if (gateName) {
+          <span class="stage-sep" style="color: #cbd5e1;">•</span>
+          <span class="stage-text">{{ gateName }} ({{ gateCode }})</span>
+          }
+        </div>
+        }
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Table Container -->
+  <div class="app-table-container" style="padding: 0 !important; width: 100%;">
+    <div class="table-responsive" style="max-height: 540px; overflow-x: auto; overflow-y: auto;">
+      <table class="table app-table" style="min-width: 1050px; width: 100%;">
+        <thead>
+          <tr>
+            <th class="text-center" style="width: 75px; min-width: 75px;">Active</th>
+            <th class="text-center" style="width: 75px; min-width: 75px;">Done</th>
+            <th class="text-left" style="min-width: 220px;">Requirement Name</th>
+            <th class="text-left" style="min-width: 140px;">Department</th>
+            <th class="text-left" style="min-width: 130px;">Role</th>
+            <th class="text-center" style="width: 135px; min-width: 135px;">Due Date</th>
+            <th class="text-center" style="width: 145px; min-width: 145px;">Completed Date</th>
+            <th class="text-left" style="min-width: 180px;">Remarks</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of paginatedRequirements; track $index) {
+          <tr>
+            <!-- Active -->
+            <td class="text-center" style="vertical-align: middle;">
+              <mat-checkbox
+                [checked]="row.active"
+                [disabled]="true"
+                color="primary">
+              </mat-checkbox>
+            </td>
+
+            <!-- Done -->
+            <td class="text-center" style="vertical-align: middle;">
+              <mat-checkbox
+                [checked]="row.done"
+                [disabled]="true"
+                color="primary">
+              </mat-checkbox>
+            </td>
+
+            <!-- Requirement Name -->
+            <td class="text-left" style="vertical-align: middle;">
+              <span style="font-weight: 500; color: #1e293b;" [matTooltip]="row.requirementName">{{ row.requirementName || '—' }}</span>
+            </td>
+
+            <!-- Department -->
+            <td class="text-left" style="vertical-align: middle;">
+              <span>{{ row.department || '—' }}</span>
+            </td>
+
+            <!-- Role -->
+            <td class="text-left" style="vertical-align: middle;">
+              <span>{{ row.role || '—' }}</span>
+            </td>
+
+            <!-- Due Date -->
+            <td class="text-center" style="vertical-align: middle;">
+              {{ row.dueDate || '—' }}
+            </td>
+
+            <!-- Completed Date -->
+            <td class="text-center" style="vertical-align: middle;">
+              {{ row.completedDate || '—' }}
+            </td>
+
+            <!-- Remarks -->
+            <td class="text-left" style="vertical-align: middle;">
+              <span [matTooltip]="row.remarks">{{ row.remarks || '—' }}</span>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="8" class="empty-table text-center" style="padding: 24px; color: #64748b;">
+              No requirement history records found.
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <mat-paginator
+      [length]="requirementsHistory.length"
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 20, 50]"
+      [showFirstLastButtons]="true"
+      (page)="handlePage($event)">
+    </mat-paginator>
+  </div>
+</div>

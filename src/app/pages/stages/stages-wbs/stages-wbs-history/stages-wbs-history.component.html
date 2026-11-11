@@ -1,0 +1,129 @@
+<div class="inner-screen-page" style="padding: 10px 25px 80px 25px">
+  <!-- Top Header Area -->
+  <header class="inner-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div class="header-left">
+      <div class="title-meta">
+        <h2 class="inner-title" style="margin: 0; font-size: 20px; font-weight: 600; color: #1e293b;">
+          {{ activityName ? activityName : 'WBS Activity' }} - History
+        </h2>
+        <div class="activity-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #64748b; margin-top: 4px;">
+          @if (activityCode) {
+          <span class="activity-badge" style="background-color: #e2e8f0; color: #334155; padding: 1px 6px; border-radius: 4px; font-weight: 600; font-size: 12px;">{{ activityCode }}</span>
+          }
+          @if (stageName) {
+          <span class="activity-text" style="font-weight: 500; color: #1e293b;">{{ stageName }} ({{ stageCode }})</span>
+          }
+          @if (gateCode && gateCode !== '-') {
+          <span class="stage-sep" style="color: #cbd5e1;">•</span>
+          <span class="stage-text">{{ gateCode }}</span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Table Container -->
+  <div class="app-table-container" style="padding: 0 !important; width: 100%;">
+    <div class="table-responsive" style="max-height: 540px; overflow-x: auto; overflow-y: auto;">
+      <table class="table app-table" style="min-width: 1300px; width: 100%;">
+        <thead>
+          <tr>
+            <th class="text-center" style="width: 75px; min-width: 75px;">Serial</th>
+            <th class="text-left" style="min-width: 220px;">Activity</th>
+            <th class="text-left" style="width: 120px; min-width: 120px;">Activity Code</th>
+            <th class="text-center" style="width: 80px; min-width: 80px;">Tasks</th>
+            <th class="text-center" style="width: 110px; min-width: 110px;">Requirements</th>
+            <th class="text-center" style="width: 100px; min-width: 100px;">Predecessor</th>
+            <th class="text-center" style="width: 115px; min-width: 115px;">Plan Duration</th>
+            <th class="text-center" style="width: 105px; min-width: 105px;">Plan Effort</th>
+            <th class="text-center" style="width: 125px; min-width: 125px;">Material Budget</th>
+            <th class="text-center" style="width: 120px; min-width: 120px;">Applicability</th>
+            <th class="text-left" style="min-width: 220px;">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of paginatedRecords; track $index) {
+          <tr>
+            <!-- Serial -->
+            <td class="text-center font-weight-bold" style="vertical-align: middle;">
+              {{ row.slNo }}
+            </td>
+
+            <!-- Activity -->
+            <td class="text-left" style="vertical-align: middle;">
+              <span style="font-weight: 500; color: #1e293b;" [matTooltip]="row.activity">{{ row.activity || '—' }}</span>
+            </td>
+
+            <!-- Activity Code -->
+            <td class="text-left" style="vertical-align: middle;">
+              <span style="color: #334155; font-weight: 500;">{{ row.activityCode || '—' }}</span>
+            </td>
+
+            <!-- Tasks -->
+            <td class="text-center" style="vertical-align: middle;">
+              <span style="color: #2563eb; font-weight: 600;">{{ row.tasks || '—' }}</span>
+            </td>
+
+            <!-- Requirements -->
+            <td class="text-center" style="vertical-align: middle;">
+              <span style="color: #2563eb; font-weight: 600;">{{ row.requirements || '—' }}</span>
+            </td>
+
+            <!-- Predecessor -->
+            <td class="text-center" style="vertical-align: middle;">
+              <span>{{ row.predecessor || '—' }}</span>
+            </td>
+
+            <!-- Plan Duration -->
+            <td class="text-center" style="vertical-align: middle;">
+              {{ row.duration }}
+            </td>
+
+            <!-- Plan Effort -->
+            <td class="text-center" style="vertical-align: middle;">
+              {{ row.effort }}
+            </td>
+
+            <!-- Material Budget -->
+            <td class="text-center" style="vertical-align: middle;">
+              {{ row.cost }}
+            </td>
+
+            <!-- Applicability -->
+            <td class="text-center" style="vertical-align: middle;">
+              {{ row.applicability || 'All Products' }}
+            </td>
+
+            <!-- Description -->
+            <td class="text-left" style="vertical-align: middle;">
+              <span [matTooltip]="row.description">{{ row.description || '—' }}</span>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="11" class="empty-table text-center" style="padding: 24px; color: #64748b;">
+              No activity history records found.
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <mat-paginator
+      [length]="records.length"
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 20, 50]"
+      [showFirstLastButtons]="true"
+      (page)="handlePage($event)">
+    </mat-paginator>
+  </div>
+</div>

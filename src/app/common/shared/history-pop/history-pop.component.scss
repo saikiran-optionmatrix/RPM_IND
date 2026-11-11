@@ -1,0 +1,27 @@
+:host {
+  display: block;
+}
+
+.history-label-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  background-color: #f8fafc;
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+
+  .history-label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1e293b;
+    margin: 0 !important;
+  }
+
+  .history-value {
+    font-size: 14px;
+    color: #2563eb;
+    font-weight: 600;
+  }
+}

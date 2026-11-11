@@ -1,0 +1,39 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    {{ data.type ? (data.type + ' Description') : 'Description' }}
+  </h1>
+</div>
+
+<div mat-dialog-content class="description-dialog-content">
+  <!-- Item Info Tag/Header -->
+  @if (data.title || data.code) {
+  <div class="description-header-info">
+    @if (data.code) {
+    <span class="item-code-badge">
+      {{ data.code }}
+    </span>
+    }
+    @if (data.title) {
+    <span class="item-title-text">
+      {{ data.title }}
+    </span>
+    }
+  </div>
+  }
+
+  <!-- Description Body -->
+  <div class="description-card">
+    <div class="description-label">
+      Description Details
+    </div>
+    <div class="description-text">
+      {{ data.description || 'No description available.' }}
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions align="end" class="description-dialog-actions">
+  <button type="button" class="app-btn app-btn-default" (click)="close()">
+    <span>Close</span>
+  </button>
+</div>

@@ -1,0 +1,36 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    {{ isEditMode ? 'Update Role' : 'Add Role' }}
+  </h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="col-sm-12" style="margin-bottom: 10px;">
+    <form [formGroup]="roleForm" (ngSubmit)="saveRole()">
+
+      <!-- Role Name Input Field -->
+      <div class="row" style="margin-bottom: 25px; margin-top: 10px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Role :</label>
+        </div>
+        <div class="col-sm-9">
+          <input class="form-control name back" maxlength="50" placeholder="Enter Role Name"
+                 formControlName="roleName" type="text">
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="margin-bottom: 10px;">
+        <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="app-btn app-btn-default" (click)="close()" style="background-color: lightgray; color: red;">
+            <mat-icon>cancel</mat-icon> Close
+          </button>
+          <button type="submit" class="app-btn app-btn-primary" [disabled]="roleForm.invalid">
+            <mat-icon>save</mat-icon> Save
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

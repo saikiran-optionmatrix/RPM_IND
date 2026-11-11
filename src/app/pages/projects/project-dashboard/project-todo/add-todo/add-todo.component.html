@@ -1,0 +1,91 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    {{ isEditMode ? 'Update Todo' : 'Add Todo' }}
+  </h1>
+</div>
+
+<div mat-dialog-content style="padding: 20px 24px; width: 100%; box-sizing: border-box; overflow-x: hidden;">
+  <div style="margin-bottom: 10px; width: 100%;">
+    <form (ngSubmit)="save()">
+      <div class="row" style="display: flex; flex-wrap: wrap; margin: 0 -12px;">
+        <!-- Left Column -->
+        <div class="col-sm-6" style="padding: 0 12px; flex: 1; min-width: 380px;">
+          <!-- Task -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 100px; width: 100px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Task:</label>
+            <input type="text" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="todoData.task" name="task" placeholder="Enter Task Name">
+          </div>
+
+          <!-- Subject -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 100px; width: 100px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Subject:</label>
+            <input type="text" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="todoData.subject" name="subject" placeholder="Enter Subject">
+          </div>
+
+          <!-- Description -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: flex-start; gap: 10px;">
+            <label class="control-label" style="min-width: 100px; width: 100px; margin-top: 6px; font-weight: 500; font-size: 13px; color: #374151;">Description:</label>
+            <textarea class="form-control" rows="3" [(ngModel)]="todoData.description" name="description" placeholder="Enter Description" style="flex: 1; resize: vertical;"></textarea>
+          </div>
+
+          <!-- Date Created -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 100px; width: 100px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Date Created:</label>
+            <input type="date" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="todoData.dateCreated" name="dateCreated">
+          </div>
+
+          <!-- Due Date -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 100px; width: 100px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Due Date:</label>
+            <input type="date" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="todoData.dueDate" name="dueDate">
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-sm-6" style="padding: 0 12px; flex: 1; min-width: 380px;">
+          <!-- Assigned To -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 100px; width: 100px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Assigned To:</label>
+            <input type="text" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="todoData.assignedTo" name="assignedTo" placeholder="Enter Assignee Name">
+          </div>
+
+          <!-- Role -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 100px; width: 100px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Role:</label>
+            <input type="text" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="todoData.role" name="role" placeholder="Enter Role">
+          </div>
+
+          <!-- Group -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 100px; width: 100px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Group:</label>
+            <input type="text" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="todoData.group" name="group" placeholder="Enter Group">
+          </div>
+
+          <!-- Site -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 100px; width: 100px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Site:</label>
+            <input type="text" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="todoData.site" name="site" placeholder="Enter Site">
+          </div>
+
+          <!-- Department -->
+          <div class="form-field-row" style="margin-bottom: 14px; display: flex; align-items: center; gap: 10px;">
+            <label class="control-label" style="min-width: 100px; width: 100px; margin: 0; font-weight: 500; font-size: 13px; color: #374151;">Department:</label>
+            <input type="text" class="form-control" style="flex: 1; height: 36px;" [(ngModel)]="todoData.department" name="department" placeholder="Enter Department">
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 10px; margin-top: 20px;">
+        <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button class="app-btn app-btn-default" type="button" (click)="close()" style="background-color: lightgray; color: red;">
+            <mat-icon>cancel</mat-icon> Close
+          </button>
+          <button class="app-btn app-btn-primary" type="submit">
+            <mat-icon>save</mat-icon> {{ isEditMode ? 'Update' : 'Save' }}
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

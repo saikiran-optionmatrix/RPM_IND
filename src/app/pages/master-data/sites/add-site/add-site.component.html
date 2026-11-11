@@ -1,0 +1,88 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>{{ isEditMode ? 'Update Location' : 'Add Location' }}</h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="col-sm-12 site-dialog-body">
+    <form [formGroup]="myGroup" (ngSubmit)="upsertSite()">
+      <div class="row site-field-row">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label site-field-label">Location Name :</label>
+        </div>
+        <div class="col-sm-9">
+          <input
+            class="form-control name back"
+            maxlength="50"
+            placeholder="Enter Location Name"
+            formControlName="SiteName"
+            type="text"
+          />
+        </div>
+      </div>
+
+      <div class="row site-field-row">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label site-field-label">Location Code :</label>
+        </div>
+        <div class="col-sm-9">
+          <input
+            class="form-control name back"
+            maxlength="50"
+            placeholder="Enter Location Code"
+            formControlName="SiteCode"
+            type="text"
+          />
+        </div>
+      </div>
+
+      <div class="row site-field-row">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label site-field-label">State :</label>
+        </div>
+        <div class="col-sm-9">
+          <select
+            class="form-control name back"
+            formControlName="State"
+            (change)="onStateChange()"
+            style="cursor: pointer;"
+          >
+            <option value="" disabled selected>Select State</option>
+            @for (state of states; track state) {
+              <option [value]="state">{{ state }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="row site-field-row">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label site-field-label">City :</label>
+        </div>
+        <div class="col-sm-9">
+          <select
+            class="form-control name back"
+            formControlName="City"
+            (change)="onCityChange()"
+            style="cursor: pointer;"
+          >
+            <option value="" disabled selected>Select City</option>
+            @for (city of filteredCities; track city) {
+              <option [value]="city">{{ city }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+       <div style="margin-bottom: 10px;">
+        <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="app-btn app-btn-default" (click)="close()" style="background-color: lightgray; color: red;">
+            <mat-icon>cancel</mat-icon> Close
+          </button>
+          <button type="submit" class="app-btn app-btn-primary">
+            <mat-icon>save</mat-icon> Save
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

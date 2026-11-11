@@ -1,0 +1,45 @@
+<div class="NewHeader">
+  <h3
+    mat-dialog-title
+    style="color: white; text-align: center; margin: 0; padding-top: 10px; padding-bottom: 10px"
+  >
+    {{ data?.title || 'Delete Confirmation' }}
+  </h3>
+</div>
+
+<div
+  mat-dialog-content
+  style="
+    overflow: hidden;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+  "
+>
+  <div class="form-group">
+    <p style="font-size: 15px; font-weight: 400; ">
+      {{ data?.content || 'Are you sure you want to delete this record?' }}
+    </p>
+  </div>
+  <mat-dialog-actions align="center" style="padding-top: 10px !important">
+    <button
+      type="button"
+      mat-raised-button
+      class="app-btn app-btn-primary"
+      (click)="confirm()"
+      style="margin-right: 8px"
+    >
+      <span>&nbsp;Yes</span>
+    </button>
+    <button
+      type="button"
+      mat-raised-button
+      class="add-dark-hover btn-default"
+      (click)="close()"
+      style="cursor: pointer"
+    >
+      <span>&nbsp;No</span>
+    </button>
+  </mat-dialog-actions>
+</div>

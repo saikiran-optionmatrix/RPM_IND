@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+
+.view-eye-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background-color: #e0f2fe;
+  color: #0284c7;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover {
+    background-color: #0284c7;
+    color: #ffffff;
+    transform: scale(1.08);
+  }
+}

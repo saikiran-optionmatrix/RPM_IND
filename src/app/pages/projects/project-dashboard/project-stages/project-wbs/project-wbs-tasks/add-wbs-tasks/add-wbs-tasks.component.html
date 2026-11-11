@@ -1,0 +1,147 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    {{ isEditMode ? 'Update Task' : 'Add Task' }}
+  </h1>
+</div>
+
+<div mat-dialog-content style="max-height: 75vh; overflow-y: auto; overflow-x: hidden; position: relative; padding: 16px 24px 0 24px;">
+  <form [formGroup]="myGroup" (ngSubmit)="upsertTask()">
+    <div class="row">
+      <!-- Left Column -->
+      <div class="col-sm-6">
+        <!-- Task Name -->
+        <div class="row" style="margin-bottom: 12px;">
+          <div class="col-sm-4">
+            <label class="add-member-label control-label" style="margin-top: 5px;">Task Name :</label>
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control name back" maxlength="150" placeholder="Enter Task Name" formControlName="taskName"
+              type="text">
+            @if (isSubmitting && f['taskName'].errors?.['required']) {
+            <span class="text-danger" style="font-size: 12px; display: block; margin-top: 2px;">Task name is required</span>
+            }
+          </div>
+        </div>
+
+        <!-- Task Code -->
+        <div class="row" style="margin-bottom: 12px;">
+          <div class="col-sm-4">
+            <label class="add-member-label control-label" style="margin-top: 5px;">Task Code :</label>
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control" placeholder="Enter Task Code" formControlName="taskCode" type="text">
+          </div>
+        </div>
+
+        <!-- Reference -->
+        <div class="row" style="margin-bottom: 12px;">
+          <div class="col-sm-4">
+            <label class="add-member-label control-label" style="margin-top: 5px;">Reference :</label>
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control" placeholder="Enter Reference" formControlName="reference" type="text">
+          </div>
+        </div>
+
+        <!-- Job Code -->
+        <div class="row" style="margin-bottom: 12px;">
+          <div class="col-sm-4">
+            <label class="add-member-label control-label" style="margin-top: 5px;">Job Code :</label>
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control" placeholder="Enter Job Code" formControlName="jobCode" type="text">
+          </div>
+        </div>
+
+        <!-- Department -->
+        <div class="row" style="margin-bottom: 12px;">
+          <div class="col-sm-4">
+            <label class="add-member-label control-label" style="margin-top: 5px;">Department :</label>
+          </div>
+          <div class="col-sm-8">
+            <select class="form-control name back" formControlName="department" style="cursor: pointer;">
+              <option value="" disabled>Select Department</option>
+              @for (dept of departments; track dept) {
+              <option [value]="dept">{{ dept }}</option>
+              }
+            </select>
+            @if (isSubmitting && f['department'].errors?.['required']) {
+            <span class="text-danger" style="font-size: 12px; display: block; margin-top: 2px;">Department is required</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="col-sm-6">
+        <!-- Section -->
+        <div class="row" style="margin-bottom: 12px;">
+          <div class="col-sm-4">
+            <label class="add-member-label control-label" style="margin-top: 5px;">Section :</label>
+          </div>
+          <div class="col-sm-8">
+            <select class="form-control name back" formControlName="section" style="cursor: pointer;">
+              <option value="" disabled>Select Section</option>
+              @for (sec of sections; track sec) {
+              <option [value]="sec">{{ sec }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <!-- Responsibility -->
+        <div class="row" style="margin-bottom: 12px;">
+          <div class="col-sm-4">
+            <label class="add-member-label control-label" style="margin-top: 5px;">Responsibility :</label>
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control" placeholder="Enter Responsibility" formControlName="responsibility" type="text">
+          </div>
+        </div>
+
+        <!-- Due Date -->
+        <div class="row" style="margin-bottom: 12px;">
+          <div class="col-sm-4">
+            <label class="add-member-label control-label" style="margin-top: 5px;">Due Date :</label>
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control name back" formControlName="dueDate" type="date">
+          </div>
+        </div>
+
+        <!-- Completed Date -->
+        <div class="row" style="margin-bottom: 12px;">
+          <div class="col-sm-4">
+            <label class="add-member-label control-label" style="margin-top: 5px;">Completed Date :</label>
+          </div>
+          <div class="col-sm-8">
+            <input class="form-control white" formControlName="completedDate" type="date">
+          </div>
+        </div>
+
+        <!-- Remarks -->
+        <div class="row" style="margin-bottom: 12px;">
+          <div class="col-sm-4">
+            <label class="add-member-label control-label" style="margin-top: 5px;">Remarks :</label>
+          </div>
+          <div class="col-sm-8">
+            <textarea class="form-control white" rows="2" placeholder="Enter Remarks" formControlName="remarks"
+              style="resize: vertical;"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky Action Buttons -->
+    <div style="margin-bottom: 10px;">
+        <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="app-btn app-btn-default" (click)="close()">
+            <mat-icon>cancel</mat-icon> Close
+          </button>
+          <button type="button" class="app-btn app-btn-primary">
+            <mat-icon>save</mat-icon> Save
+          </button>
+        </div>
+      </div>
+  </form>
+</div>

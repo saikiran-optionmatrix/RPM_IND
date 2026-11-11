@@ -1,0 +1,39 @@
+<div class="master-data-container" [class.nav-collapsed]="isNavCollapsed()">
+  <main class="master-data-content">
+    <app-breadcrumb></app-breadcrumb>
+    <div class="child-viewport">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <aside class="master-data-sidenav" aria-label="Master Data Navigation">
+    <div class="sidenav-header">
+      <button
+        mat-icon-button
+        type="button"
+        (click)="toggleNav()"
+        aria-label="Toggle navigation menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+
+    <nav class="sidenav-links">
+      @for (item of navItems; track item.route) {
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          class="nav-item"
+          [matTooltip]="isNavCollapsed() ? item.label : ''"
+          matTooltipPosition="left">
+
+          @if (isNavCollapsed()) {
+            <mat-icon class="nav-icon">{{ item.icon }}</mat-icon>
+          } @else {
+            <span class="nav-label">{{ item.label }}</span>
+          }
+
+        </a>
+      }
+    </nav>
+  </aside>
+</div>

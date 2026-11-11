@@ -1,0 +1,114 @@
+<div class="NewHeader">
+  <h1 mat-dialog-title>
+    {{ isEditMode ? 'Update Requirement' : 'Add Requirement' }}
+  </h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="col-sm-12" style="margin-bottom: 10px;">
+    <form [formGroup]="myGroup" (ngSubmit)="upsertRequirement()">
+
+      <!-- Requirement Name -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Requirement Name :</label>
+        </div>
+        <div class="col-sm-9">
+          <input class="form-control name back" maxlength="150" placeholder="Enter Requirement Name"
+            formControlName="requirementName" type="text">
+          @if (isSubmitting && f['requirementName'].errors?.['required']) {
+            <span class="text-danger" style="font-size: 12px;">Requirement name is required</span>
+          }
+        </div>
+      </div>
+
+      <!-- Department -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Department :</label>
+        </div>
+        <div class="col-sm-9">
+          <input class="form-control name back" list="wbsReqDeptList" placeholder="Select or Enter Department"
+            formControlName="department" type="text">
+          <datalist id="wbsReqDeptList">
+            <option value="Analytical"></option>
+            <option value="Formulation"></option>
+            <option value="Regulatory"></option>
+            <option value="Quality Assurance"></option>
+            <option value="Quality Control"></option>
+            <option value="Clinical"></option>
+            <option value="Production"></option>
+            <option value="Sourcing"></option>
+            <option value="Management"></option>
+            <option value="Packaging"></option>
+            <option value="Microbiology"></option>
+          </datalist>
+        </div>
+      </div>
+
+      <!-- Role -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Role :</label>
+        </div>
+        <div class="col-sm-9">
+          <input class="form-control name back" list="wbsReqRoleList" placeholder="Select or Enter Role"
+            formControlName="role" type="text">
+          <datalist id="wbsReqRoleList">
+            <option value="Lead"></option>
+            <option value="Reviewer"></option>
+            <option value="Approver"></option>
+            <option value="Scientist"></option>
+            <option value="Manager"></option>
+            <option value="Analyst"></option>
+            <option value="Engineer"></option>
+          </datalist>
+        </div>
+      </div>
+
+      <!-- Due Date -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member-label control-label" style="margin-top: 5px;">Due Date :</label>
+        </div>
+        <div class="col-sm-9">
+          <input class="form-control name back" formControlName="dueDate" type="date">
+        </div>
+      </div>
+
+      <!-- Completed Date -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member control-label" style="margin-top: 5px;">Completed Date :</label>
+        </div>
+        <div class="col-sm-9">
+          <input class="form-control white" formControlName="completedDate" type="date">
+        </div>
+      </div>
+
+      <!-- Remarks -->
+      <div class="row" style="margin-bottom: 12px;">
+        <div class="col-sm-3">
+          <label class="add-member control-label" style="margin-top: 5px;">Remarks :</label>
+        </div>
+        <div class="col-sm-9">
+          <textarea class="form-control white" rows="2" placeholder="Enter Remarks"
+            formControlName="remarks" style="resize: vertical;"></textarea>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="margin-bottom: 10px; margin-top: 16px;">
+        <div class="pull-right" style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="app-btn app-btn-default" (click)="close()">
+            <mat-icon>cancel</mat-icon> Close
+          </button>
+          <button type="submit" class="app-btn app-btn-primary">
+            <mat-icon>save</mat-icon> Save
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

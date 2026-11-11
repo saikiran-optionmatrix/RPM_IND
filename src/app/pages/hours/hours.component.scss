@@ -1,0 +1,166 @@
+/* Calendar Sidebar Logic */
+.calendar-card {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  padding: 16px;
+}
+
+.month-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 16px;
+  color: #1e293b;
+  font-weight: 600;
+
+  .nav-arrow {
+    background: #f1f5f9;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: #475569;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+  }
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+  margin-bottom: 16px;
+
+  .weekday {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    padding-bottom: 8px;
+  }
+
+  .day-cell {
+    position: relative;
+    height: 48px;
+    /* Slightly taller to comfortably fit the badge below */
+    display: flex;
+    flex-direction: column;
+    /* Stacks number and badge vertically */
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #f1f5f9;
+    }
+
+    &.faded {
+      color: #cbd5e1;
+      pointer-events: none;
+    }
+
+    &.active {
+      background: #2563eb;
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+    }
+  }
+
+  .claims-num {
+    background: #ef4444;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 4px;
+    /* Crisp Pill shape */
+    padding: 2px 6px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.total-claims-box {
+  background: #eff6ff;
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .box-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #1e3a8a;
+  }
+
+  .total-number {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2563eb;
+  }
+}
+
+/* Custom Status Checkboxes */
+.status-checkbox {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #cbd5e1;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+
+  &:checked::before {
+    content: "✔";
+    font-size: 12px;
+    color: white;
+    font-weight: bold;
+  }
+
+  &.approved-cb:checked {
+    background: #10b981;
+    border-color: #10b981;
+  }
+
+  &.declined-cb:checked {
+   background: #10b981;
+    border-color: #10b981;
+  }
+
+  &.pending-cb:checked {
+    background: #f59e0b;
+    border-color: #f59e0b;
+  }
+}
+
+/* Modal specific tweaks */
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+  padding: 0 !important;
+  /* Forces the header block flush with the edges */
+  overflow: hidden;
+}

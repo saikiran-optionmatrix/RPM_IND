@@ -1,0 +1,668 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+
+  <!-- Header Section with Title & Back Button -->
+  <header class="analytics-header">
+    <h1>{{ projectName }}</h1>
+
+    <div class="header-actions" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon><span>Back</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="stages-page-container">
+
+    <!-- ==================== 1. STAGES LIST VIEW ==================== -->
+    <div class="stages-header-bar"
+      style="display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 10px; margin-bottom: 24px;">
+      <!-- Left side view toggler -->
+      <div style="background: #f1f5f9; border-radius: 6px; padding: 4px; display: inline-flex; margin-bottom: 0;">
+        <button type="button" class="app-btn" [class.app-btn-filter]="activeView === 'grid'"
+          [class.app-btn-default]="activeView !== 'grid'" (click)="setView('grid')">
+          <mat-icon>grid_on</mat-icon>
+          <span>Grid View</span>
+        </button>
+        <button type="button" class="app-btn" [class.app-btn-filter]="activeView === 'gantt'"
+          [class.app-btn-default]="activeView !== 'gantt'" (click)="setView('gantt')">
+          <mat-icon>view_week</mat-icon>
+          <span>Gantt View</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Scroll Buttons -->
+    @if (activeView === 'grid') {
+    <button class="mine" mat-fab style="background-color: #cecdcd; position: fixed; bottom: 80px; right: 110px; z-index: 9999;"
+      (click)="scrollLeft()" aria-label="Scroll left">
+      <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+    </button>
+    <button class="mine" mat-fab style="background-color: #cecdcd; position: fixed; bottom: 80px; right: 40px; z-index: 9999;"
+      (click)="scrollRight()" aria-label="Scroll right">
+      <mat-icon style="color: #414141;">fast_forward</mat-icon>
+    </button>
+    }
+
+    <!-- Table wrapping for activeView === 'grid' using app-table-container and app-table from assets -->
+    @if (activeView === 'grid') {
+    <div class="app-table-container" style="padding: 0; width: 100%;">
+      <div #scrollContainer class="table-responsive" style="overflow-x: auto; scroll-behavior: smooth;">
+        <table class="table app-table">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 100px !important">Actions</th>
+              <th class="text-center">Status</th>
+              <th class="text-center">Done</th>
+              <th class="text-center">WBS</th>
+              <th class="text-center">Timeline</th>
+              <th class="text-center">Completion</th>
+              <th class="text-center">Stage Code</th>
+              <th class="text-left" style="min-width: 140px;">Stage Name</th>
+              <th class="text-center">Plan Effort</th>
+              <th class="text-center">Plan Duration</th>
+              <th class="text-center">Buffer</th>
+              <th class="text-left" style="min-width: 280px; white-space: nowrap;">Gate Name</th>
+              <th class="text-center">Gate Status</th>
+              <th class="text-center" style="width: 110px !important;">Updated</th>
+              <th class="text-center" style="width: 130px; min-width: 130px;">Updated By</th>
+              <!-- <th class="text-center">Documents</th> -->
+              <th class="text-center" style="width: 80px; min-width: 80px;">History</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (s of pagedStages; track s.stageCode; let idx = $index) {
+            <tr>
+              <!-- Actions: Edit/Delete -->
+              <td class="text-center">
+                <div class="table-actions">
+                  <button type="button" class="table-action-button edit" matTooltip="Edit" aria-label="Edit stage"
+                    (click)="openEditStage(s, idx)">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <button type="button" class="table-action-button delete" matTooltip="Delete" aria-label="Delete stage"
+                    (click)="deleteStage(s)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+
+              <!-- Status toggle -->
+              <td class="text-center">
+                <button type="button" class="status-button" [class.status-active]="s.status"
+                  [class.status-inactive]="!s.status" (click)="Confirmation(s)">
+                  {{ s.status ? 'Active' : 'Inactive' }}
+                </button>
+              </td>
+
+              <!-- Done Checkbox -->
+              <td class="text-center" style="vertical-align: middle;">
+                <mat-checkbox color="primary" [checked]="s.percentCompletion === 100"
+                  (change)="onDoneChange(s, $event.checked)">
+                </mat-checkbox>
+              </td>
+
+              <!-- WBS / Setup Action -->
+              <td class="text-center">
+                <a (click)="openSetup(s)" style="cursor: pointer;" class="setup-link" matTooltip="View WBS Activities">
+                  {{ s.setupCount }}
+                </a>
+              </td>
+
+              <!-- Timeline Action -->
+              <td class="text-center">
+                <button mat-icon-button (click)="openTimelineModal(s)" matTooltip="View Timeline"
+                  style="min-width: 32px; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; border: 1px solid #cbd5e1; background: #f8fafc; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; outline: none; padding: 0;">
+                  <mat-icon
+                    style="font-size: 18px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; color: #2563eb;">
+                    calendar_today
+                  </mat-icon>
+                </button>
+              </td>
+
+              <!-- Completion Slider -->
+              <td class="text-center" style="vertical-align: middle;">
+                <input type="range" min="0" max="100" [(ngModel)]="s.percentCompletion" class="custom-range"
+                  [style.--slider-color]="getSliderColor(s.percentCompletion || 0)"
+                  [style.--slider-fill]="(s.percentCompletion || 0) + '%'" matTooltip="{{ s.percentCompletion || 0 }}%">
+              </td>
+
+              <!-- Stage Code -->
+              <td class="text-center">{{ s.stageCode }}</td>
+
+              <!-- Stage Name -->
+              <td class="text-left" style="max-width: 220px; min-width: 140px; vertical-align: middle;">
+                <span [matTooltip]="s.name" matTooltipPosition="above"
+                  style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer;">
+                  {{ s.name }}
+                </span>
+              </td>
+
+              <!-- Plan Effort -->
+              <td class="text-center">{{ s.planEffort }}</td>
+
+              <!-- Plan Duration -->
+              <td class="text-center">{{ s.planDuration }}</td>
+
+              <!-- Buffer -->
+              <td class="text-center">{{ s.buffer }}</td>
+
+              <!-- Gate Name -->
+              <td class="text-left" style="min-width: 280px; white-space: nowrap;">{{ s.gateName }}</td>
+
+              <!-- Gate Status -->
+              <td class="text-center">
+                @if (s.gateStatus && s.gateStatus !== 'Pending') {
+                <span class="gate-status-badge" [class]="'gate-status-badge--' + s.gateStatus.toLowerCase()">
+                  {{ s.gateStatus }}
+                </span>
+                } @else {
+                -
+                }
+              </td>
+
+              <!-- Updated Column -->
+              <td class="text-center" style="white-space: nowrap;">
+                {{ (s.updatedDate || s.updated) ? ((s.updatedDate || s.updated) | date:'dd MMM yyyy') : '—' }}
+              </td>
+
+              <!-- Updated By Column -->
+              <td class="text-center" style="white-space: nowrap;">
+                {{ s.updatedBy || '—' }}
+              </td>
+
+              <!-- Documents Column -->
+              <!-- <td class="text-center" style="vertical-align: middle;">
+                <a href="javascript:void(0)" class="history-number-link" (click)="openDocuments()" matTooltip="View Documents">
+                  {{ s.documentsCount || getDocumentsCount(idx) }}
+                </a>
+              </td> -->
+
+              <!-- History Column -->
+              <td class="text-center" style="vertical-align: middle;">
+                <a href="javascript:void(0)" class="history-number-link" (click)="openHistory(s)" matTooltip="View Record History">
+                  {{ s.historyCount || getHistoryCount(idx) }}
+                </a>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="17" class="empty-table">No records found</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <mat-paginator [length]="stages.length" [pageIndex]="currentPage" [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions" [showFirstLastButtons]="true" (page)="onPageChange($event)">
+      </mat-paginator>
+    </div>
+    }
+
+    <!-- ============ GANTT VIEW ============ -->
+    @if (activeView === 'gantt') {
+    <div class="gantt-view" style="padding: 0;">
+      <!-- Scale Toggler Bar -->
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+        <div class="view-toggle" style="margin-bottom: 0;">
+          <button mat-button class="view-btn" [class.active]="ganttScale === 'monthly'"
+            (click)="setGanttScale('monthly')">
+            Monthly
+          </button>
+          <button mat-button class="view-btn" [class.active]="ganttScale === 'weekly'"
+            (click)="setGanttScale('weekly')">
+            Weekly
+          </button>
+          <button mat-button class="view-btn" [class.active]="ganttScale === 'daily'" (click)="setGanttScale('daily')">
+            Daily
+          </button>
+        </div>
+      </div>
+      @if (stages.length > 0) {
+      <div class="gantt-container">
+        <!-- Left vertical Stage Column -->
+        <div class="gantt-tasks-column">
+          <div class="gantt-header-cell"
+            [class.gantt-header-cell--two-rows]="ganttScale === 'weekly' || ganttScale === 'daily'">STAGE</div>
+          @for (s of stages; track s.stageCode) {
+          <div class="gantt-task-cell">
+            <div class="gantt-task-name">{{ s.name }}</div>
+            <div class="gantt-task-code">{{ s.stageCode }}</div>
+          </div>
+          }
+        </div>
+
+        <!-- Right scrollable Timeline Area -->
+        <div class="gantt-timeline-area">
+          <div [style.min-width]="ganttScale === 'daily' ? 'max-content' : '100%'"
+            style="display: inline-block; width: 100%;">
+            <!-- Timeline Header: MONTHLY -->
+            @if (ganttScale === 'monthly') {
+            <div class="gantt-header-row">
+              @for (m of ganttMonths; track m.monthIndex) {
+              <div class="gantt-header-date-cell gantt-header-month-cell">
+                <div class="gantt-header-month-title">{{ m.name }}</div>
+              </div>
+              }
+            </div>
+            }
+
+            <!-- Timeline Header: WEEKLY -->
+            @if (ganttScale === 'weekly') {
+            <div class="gantt-header-row gantt-header-row--two-rows">
+              @for (w of ganttWeeks; track w.label + w.monthName) {
+              <div class="gantt-header-date-cell gantt-header-week-cell">
+                <div class="gantt-header-month">{{ w.monthName }}</div>
+                <div class="gantt-header-day">{{ w.label }}</div>
+              </div>
+              }
+            </div>
+            }
+
+            <!-- Timeline Header: DAILY -->
+            @if (ganttScale === 'daily') {
+            <div class="gantt-header-row gantt-header-row--two-rows">
+              @for (day of ganttDays; track day.getTime()) {
+              <div class="gantt-header-date-cell gantt-header-day-cell">
+                <div class="gantt-header-month">{{ day | date:'MMM' }}</div>
+                <div class="gantt-header-day">{{ day | date:'d' }}</div>
+              </div>
+              }
+            </div>
+            }
+
+            <!-- Timeline Rows -->
+            <div class="gantt-rows-container">
+              @for (s of stages; track s.stageCode) {
+              <div class="gantt-row">
+                <!-- Grid background line indicators -->
+                <div class="gantt-grid-background">
+                  @if (ganttScale === 'monthly') {
+                  @for (m of ganttMonths; track m.monthIndex) {
+                  <div class="gantt-grid-column"></div>
+                  }
+                  }
+                  @if (ganttScale === 'weekly') {
+                  @for (w of ganttWeeks; track w.label + w.monthName) {
+                  <div class="gantt-grid-column gantt-grid-column--week"></div>
+                  }
+                  }
+                  @if (ganttScale === 'daily') {
+                  @for (day of ganttDays; track day.getTime()) {
+                  <div class="gantt-grid-column gantt-grid-column--day"></div>
+                  }
+                  }
+                </div>
+
+                <!-- Bars -->
+                @for (b of getStageBars(s); track b.name; let i = $index) {
+                <div [ngClass]="getStageGanttClass(b.name)" [ngStyle]="getGanttBarStyle(b, i)" class="gantt-task-bar"
+                  (click)="openEditStage(s, -1)"
+                  [matTooltip]="b.name + ' (' + (b.planStart | date:'dd MMM yyyy') + ' to ' + (b.planEnd | date:'dd MMM yyyy') + ') - Effort: ' + b.planEffort + '. Click to Edit'">
+                  <span class="gantt-bar-label">{{ b.name }} &middot; {{ b.planEffort }}</span>
+                </div>
+                }
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+      } @else {
+      <div class="empty-row" style="text-align: center; color: #6b7090; font-size: 13px; padding: 32px;">
+        No stages scheduled to display in Gantt chart.
+      </div>
+      }
+    </div>
+    }
+
+  </div>
+
+  <!-- ============ ADD/EDIT STAGE MODAL ============ -->
+  @if (showStageModal) {
+  <div class="bl-modal-overlay" (click)="closeStageModal()">
+    <div class="bl-modal" (click)="$event.stopPropagation()"
+      style="max-width: 800px; width: 800px; padding: 24px; box-sizing: border-box; display: flex; flex-direction: column; background: #ffffff; border-radius: 4px; overflow: hidden; box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);">
+      <!-- Header -->
+      <div class="NewHeader">
+        @if (!isEditStageMode) {
+        <h3 style="padding-top:10px;">Add Stage</h3>
+        } @else {
+        <h3 style="padding-top:10px;">Edit Stage</h3>
+        }
+      </div>
+
+      <!-- Body -->
+      <div style="flex-grow: 1; overflow: hidden; width: 100%;">
+        <div style="display: flex; width: 100%; margin: 0; padding: 0;">
+          <!-- Sidebar Navigation -->
+          <div style="margin-bottom: 10px; padding: 0; width: 140px; flex-shrink: 0;">
+            <div class="m-auto pills pt-2 pr-0">
+              <ul class="nav flex-column pr-0" style="list-style-type: none; padding: 0; margin: 0;">
+                <li class="nav-item" style="margin-top: 10px;"
+                  [ngClass]="stageModalStep == 2 ? 'active nav-item' : 'nav-item'" (click)="stageModalStep = 2">
+                  <a mat-raised-button class="nav-link text-left py-2 width">Timeline</a>
+                </li>
+                <li class="nav-item" style="margin-top: 10px;"
+                  [ngClass]="stageModalStep == 1 ? 'active nav-item' : 'nav-item'" (click)="stageModalStep = 1">
+                  <a mat-raised-button class="nav-link text-left py-2 width">Overview</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Form Fields -->
+          <div style="padding-left: 24px; padding-top: 8px; flex: 1; min-width: 0; box-sizing: border-box;">
+            <!-- Section 1: Overview -->
+            @if (stageModalStep === 1) {
+            <div>
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="control-label" style="line-height: 35px; margin: 0; font-weight: 500;">Stage
+                    Code:</label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="text" class="form-control" [(ngModel)]="stageModalData.stageCode" readonly
+                    style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Stage
+                    Name:<span style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <mat-select [(ngModel)]="stageModalData.name" (selectionChange)="onStageNameChange($event.value)"
+                    [disabled]="isEditStageMode" class="form-control back" placeholder="Select Stage Name"
+                    style="height: 35px; line-height: 23px;">
+                    @for (opt of stageOptions; track opt) {
+                    <mat-option [value]="opt">{{ opt }}</mat-option>
+                    }
+                  </mat-select>
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Plan
+                    Effort:<span style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="text" class="form-control back" [(ngModel)]="stageModalData.planEffort"
+                    [readonly]="isEditStageMode" placeholder="120 hrs" style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Plan
+                    Duration:<span style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="text" class="form-control back" [(ngModel)]="stageModalData.planDuration"
+                    [readonly]="isEditStageMode" placeholder="15 days" style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label"
+                    style="line-height: 35px; margin: 0; font-weight: 500;">Buffer:</label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="text" class="form-control back" [(ngModel)]="stageModalData.buffer"
+                    [readonly]="isEditStageMode" placeholder="3 days" style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Gate
+                    Name:</label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="text" class="form-control back" [(ngModel)]="stageModalData.gateName"
+                    [readonly]="isEditStageMode" placeholder="Gate A" style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Gate
+                    Status:</label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <mat-select [(ngModel)]="stageModalData.gateStatus" [disabled]="isEditStageMode"
+                    class="form-control back" placeholder="Select Status" style="height: 35px; line-height: 23px;">
+                    <mat-option value="Approved">Approved</mat-option>
+                    <mat-option value="Pending">Pending</mat-option>
+                    <mat-option value="Rejected">Rejected</mat-option>
+                  </mat-select>
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="control-label"
+                    style="line-height: 35px; margin: 0; font-weight: 500;">Description:</label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <textarea class="form-control back" rows="2" [(ngModel)]="stageModalData.description"
+                    [readonly]="isEditStageMode" placeholder="Description..." style="resize: vertical;"></textarea>
+                </div>
+              </div>
+            </div>
+            }
+
+            <!-- Section 2: Timeline -->
+            @if (stageModalStep === 2) {
+            <div>
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Plan Start
+                    Date:<span style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="date" class="form-control back" [(ngModel)]="stageModalData.planStart"
+                    style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Plan End
+                    Date:<span style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="date" class="form-control back" [(ngModel)]="stageModalData.planEnd"
+                    style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Actual Start
+                    Date:<span style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="date" class="form-control back" [(ngModel)]="stageModalData.actualStart"
+                    style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">Actual End
+                    Date:<span style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="date" class="form-control back" [(ngModel)]="stageModalData.actualEnd"
+                    style="height: 35px;" />
+                </div>
+              </div>
+
+              <div class="row"
+                style="margin-bottom: 12px; margin-left: 0; margin-right: 0; display: flex; align-items: center;">
+                <div class="col-sm-4" style="padding-left: 0;">
+                  <label class="add-member-label" style="line-height: 35px; margin: 0; font-weight: 500;">ETA:<span
+                      style="color: red;">*</span></label>
+                </div>
+                <div class="col-sm-8" style="padding-right: 0;">
+                  <input type="date" class="form-control back" [(ngModel)]="stageModalData.eta" style="height: 35px;" />
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <mat-dialog-actions align="end"
+        style="margin-top: 15px; width: 100%; box-sizing: border-box; flex-shrink: 0; display: flex; justify-content: flex-end; gap: 8px;">
+        <button (click)="closeStageModal()" type="button" class="app-btn app-btn-default">
+          <mat-icon>cancel</mat-icon> Close
+        </button>
+        <button type="button" class="app-btn app-btn-primary" (click)="saveStage()">
+          <mat-icon>save</mat-icon> Save
+        </button>
+      </mat-dialog-actions>
+    </div>
+  </div>
+
+  }
+
+  <!-- ============ TIMELINE POP-UP MODAL (IMG1 DESIGN) ============ -->
+  @if (showTimelineModal) {
+  <div class="bl-modal-overlay" (click)="closeTimelineModal()" (wheel)="$event.stopPropagation()">
+    <div class="timeline-popup-card" (click)="$event.stopPropagation()" (wheel)="$event.stopPropagation()">
+      <!-- Header Row -->
+      <div class="timeline-popup-header">
+        <div class="timeline-popup-title-wrap">
+          <div class="timeline-icon-box">
+            <mat-icon style="color: #2563eb; font-size: 22px; width: 22px; height: 22px;">calendar_today</mat-icon>
+          </div>
+          <h3 class="timeline-popup-title">
+            Timeline &mdash; {{ selectedTimelineItem?.name || selectedTimelineItem?.task }}
+          </h3>
+        </div>
+        <button class="timeline-close-btn" (click)="closeTimelineModal()" type="button">
+          <mat-icon
+            style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; display: flex; align-items: center; justify-content: center; color: #475569;">close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Dates Grid -->
+      <div class="timeline-dates-container">
+        <div class="timeline-accent-bar"></div>
+
+        <div class="timeline-grid-content">
+          <!-- Row 1: Plan Start Date, Plan End Date, Actual Start Date -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planStart ? (selectedTimelineItem.planStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan End Date</div>
+              <div class="timeline-date-value">
+                {{ (selectedTimelineItem?.planEnd || selectedTimelineItem?.planFinish) ? ((selectedTimelineItem.planEnd
+                ||
+                selectedTimelineItem.planFinish) | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Actual Start Date</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualStart ? (selectedTimelineItem.actualStart | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-row-divider"></div>
+
+          <!-- Row 2: Actual End Date, ETA, Actual Duration -->
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Actual End Date</div>
+              <div class="timeline-date-value">
+                {{ (selectedTimelineItem?.actualEnd || selectedTimelineItem?.actualFinish) ?
+                ((selectedTimelineItem.actualEnd || selectedTimelineItem.actualFinish) | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">ETA</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.eta ? (selectedTimelineItem.eta | date:'dd-MMM-yyyy') : '—' }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Actual Duration</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualDuration || (selectedTimelineItem?.actualDays ?
+                (selectedTimelineItem.actualDays + ' days') : '—') }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 3: Actual Effort, Plan Duration, Plan Effort -->
+          <div class="timeline-row-divider"></div>
+          <div class="timeline-grid-row">
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Actual Effort</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.actualEffort || ((selectedTimelineItem?.actualHours !== undefined &&
+                selectedTimelineItem?.actualHours !== null) ? (selectedTimelineItem.actualHours + ' hrs') : '—') }}
+              </div>
+            </div>
+            <div class="timeline-date-col">
+              <div class="timeline-date-label">Plan Duration</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planDuration || ((selectedTimelineItem?.duration !== undefined &&
+                selectedTimelineItem?.duration !== null) ? (selectedTimelineItem.duration + ' days') : '—') }}
+              </div>
+            </div>
+            <div class="timeline-date-col timeline-date-col--last">
+              <div class="timeline-date-label">Plan Effort</div>
+              <div class="timeline-date-value">
+                {{ selectedTimelineItem?.planEffort || ((selectedTimelineItem?.effort !== undefined &&
+                selectedTimelineItem?.effort !== null) ? (selectedTimelineItem.effort + ' hrs') : '—') }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description Box (Positioned at bottom) -->
+      <div class="timeline-desc-box">
+        <div class="timeline-desc-header">
+          <mat-icon style="font-size: 18px; width: 18px; height: 18px; color: #3b82f6;">description</mat-icon>
+          <span>Description</span>
+        </div>
+        <p class="timeline-desc-text">
+          This timeline provides an overview of the key planned and actual dates for the {{ (selectedTimelineItem?.name
+          ||
+          selectedTimelineItem?.task || 'phase') }} of the project. The dates below help track the progress and any
+          deviations from the original plan.
+        </p>
+      </div>
+    </div>
+  </div>
+  }
+
+</div>

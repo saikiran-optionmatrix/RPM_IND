@@ -1,0 +1,234 @@
+<div class="analytics-page" style="padding: 10px 25px 80px 25px">
+  <header class="analytics-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <h1>{{ projectName }}</h1>
+    
+    <div style="display: flex; gap: 10px;">
+      <button mat-raised-button color="primary" class="app-btn app-btn-primary" (click)="openSetupDialog()"
+        style="height: 36px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; position: relative; z-index: 30; pointer-events: auto;">
+        <mat-icon style="margin-right: 4px;">settings</mat-icon> Setup
+      </button>
+
+      <button type="button" class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon><span>Back</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Scroll Buttons (Fast Rewind & Fast Forward from ProjectStagesComponent) -->
+  <div class="d-flex justify-content-end mb-2" style="gap: 10px;">
+    <div class="d-flex justify-content-end mb-2">
+      <button class="mine" mat-fab style="background-color: #cecdcd; right: 110px; z-index: 9999;"
+        (click)="scrollLeft()" matTooltip="Scroll Left">
+        <mat-icon style="color: #414141;">fast_rewind</mat-icon>
+      </button>
+      <button class="mine" mat-fab style="background-color: #cecdcd; right: 40px; z-index: 9999;" (click)="scrollRight()"
+        matTooltip="Scroll Right">
+        <mat-icon style="color: #414141;">fast_forward</mat-icon>
+      </button>
+    </div>
+  </div>
+  
+  <!-- ==================== 1. UPPER GRID: VALUATION UNDER DCF METHOD ==================== -->
+  <div class="table-container-card" style="margin-bottom: 30px;">
+    <div #scrollContainer1 class="table-responsive" style="overflow-x: auto; scroll-behavior: smooth;">
+      <table class="table table-bordered stages-grid-table npv-grid-table" style="min-width: 2400px; width: 100%;">
+        <thead>
+          <tr class="banner-header-row">
+            <th [attr.colspan]="years.length + 2" class="text-center font-weight-bold valuation-title-header">
+              Valuation under DCF (NPV) Method <span class="amt-usd-badge"></span>
+            </th>
+          </tr>
+
+          <tr class="column-names-header-row">
+            <th style="min-width: 240px;" class="text-left font-weight-bold">Particulars</th>
+            <th class="text-right font-weight-bold" style="min-width: 130px;">Total</th>
+            @for (y of years; track y) {
+              <th class="text-right font-weight-bold" style="min-width: 110px;">Year {{ y }}</th>
+            }
+          </tr>
+
+          <tr class="sub-header-row">
+            <th></th>
+            <th></th>
+            @for (y of years; track y) {
+              <th class="text-right italic-header" style="color: #ffffff !important;">{{ y < 2 ? 'Actual' : 'Projected' }}</th>
+            }
+          </tr>
+        </thead>
+
+        <tbody>
+          <!-- Discounting Factor -->
+          <tr class="data-row">
+            <td class="font-weight-bold text-left underline-text">Discounting Factor</td>
+            <td class="text-right font-weight-bold"></td>
+            @for (y of years; track y) {
+              <td class="text-right">
+                <input type="text" class="form-control npv-table-input" [(ngModel)]="dcfData.basedOnDcf[y]"
+                  (ngModelChange)="recalculateAll()" [placeholder]="getDcfPlaceholder(y)">
+              </td>
+            }
+          </tr>
+
+          <tr class="empty-divider-row">
+            <td [attr.colspan]="years.length + 2"></td>
+          </tr>
+
+          <!-- Cash outflow -->
+          <tr class="data-row">
+            <td class="text-left">Cash outflow</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(totalCashOutflow) }}</td>
+            @for (y of years; track y) {
+              <td class="text-right font-weight-500">{{ dcfData.cashOutflow[y] ? formatIndianNumber(dcfData.cashOutflow[y]) : '-' }}</td>
+            }
+          </tr>
+
+          <!-- Cash inflow -->
+          <tr class="data-row">
+            <td class="text-left">Cash inflow</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(totalCashInflow) }}</td>
+            @for (y of years; track y) {
+              @if (y < 3) {
+                <td class="text-right font-weight-500">-</td>
+              } @else {
+                <td class="text-right">
+                  <input type="number" class="form-control npv-table-input font-weight-500"
+                    [(ngModel)]="dcfData.cashInflow[y]" (ngModelChange)="recalculateAll()" [placeholder]="getInflowPlaceholder(y)">
+                </td>
+              }
+            }
+          </tr>
+
+          <tr class="empty-divider-row">
+            <td [attr.colspan]="years.length + 2"></td>
+          </tr>
+
+          <!-- Free Cash Flows -->
+          <tr class="data-row highlight-subtotal-row">
+            <td class="text-left font-weight-500">Free Cash Flows</td>
+            <td class="text-right font-weight-500">{{ formatIndianNumber(totalFreeCashFlow) }}</td>
+            @for (y of years; track y) {
+              <td class="text-right font-weight-500">{{ formatBracketNumber(dcfData.freeCashFlow[y]) }}</td>
+            }
+          </tr>
+
+          <tr class="empty-divider-row">
+            <td [attr.colspan]="years.length + 2"></td>
+          </tr>
+
+          <!-- P.V Factors -->
+          <tr class="data-row">
+            <td class="text-left font-weight-500">P.V Factors @ {{ discountRate }}%</td>
+            <td class="text-right font-weight-500">-</td>
+            @for (y of years; track y) {
+              <td class="text-right font-weight-500">{{ dcfData.pvFactors[y] | number:'1.2-2' }}</td>
+            }
+          </tr>
+
+          <!-- Discounted Cash Flows -->
+          <tr class="data-row">
+            <td class="text-left font-weight-500">Discounted Cash Flows</td>
+            <td class="text-right font-weight-500">{{ formatBracketNumber(dcfData.npvTotal) }}</td>
+            @for (y of years; track y) {
+              <td class="text-right font-weight-500">{{ formatBracketNumber(dcfData.discountedCashFlow[y]) }}</td>
+            }
+          </tr>
+
+          <!-- NPV Final Summary Row -->
+          <tr class="npv-final-summary-row">
+            <td class="text-left font-weight-bold npv-title-cell">
+              Net Present Value ( NPV ) of Free Cash Flows
+            </td>
+            <td class="text-right font-weight-bold npv-value-cell">
+              {{ formatBracketNumber(dcfData.npvTotal) }}
+            </td>
+            <td [attr.colspan]="years.length" class="npv-title-cell"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ==================== 2. LOWER GRID: EXPENDITURE WORKING ==================== -->
+  <div class="table-container-card" style="margin-top: 30px; margin-bottom: 30px;">
+    <div class="expenditure-table-header"
+      style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; background: #ffffff; border-bottom: 1px solid #cbd5e1;">
+      <h3 style="font-size: 17px; font-weight: 700; color: #0f172a; margin: 0; display: flex; align-items: center; gap: 8px;">
+        <span>Expenditure</span>
+      </h3>
+
+      <button mat-raised-button color="primary" class="app-btn app-btn-primary" (click)="openAddLineItemDialog()"
+        style="height: 36px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+        <mat-icon style="margin-right: 4px;">add</mat-icon> Add Line Item
+      </button>
+    </div>
+
+    <div #scrollContainer2 class="table-responsive" style="overflow-x: auto; scroll-behavior: smooth;">
+      <table class="table table-bordered stages-grid-table expenditure-table" style="min-width: 2400px; width: 100%;">
+        <thead>
+          <tr class="expenditure-header-row">
+            <th class="text-left font-weight-bold" style="min-width: 180px;">Subject</th>
+            <th class="text-center font-weight-bold" style="min-width: 100px;">Remarks</th>
+            <th class="text-right font-weight-bold" style="min-width: 120px;">Total</th>
+            @for (y of years; track y) {
+              <th class="text-right font-weight-bold" style="min-width: 110px;">Year {{ y }}</th>
+            }
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (item of expenditureItems; track item.subject; let i = $index) {
+            <tr class="data-row">
+              <td class="text-left font-weight-500">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                  <span>{{ item.subject }}</span>
+                </div>
+              </td>
+              <td class="text-center remark-cell" style="vertical-align: middle;">
+                <mat-icon [matTooltip]="item.remarks || 'Enter remarks'" matTooltipPosition="above"
+                  style="color: #2563eb; cursor: pointer; font-size: 20px; width: 20px; height: 20px; vertical-align: middle;"
+                  (click)="openRemarksDialog(item)">
+                  info
+                </mat-icon>
+              </td>
+              <td class="text-right font-weight-500">{{ item.total !== null && item.total !== undefined ? formatIndianNumber(item.total) : (getItemTotal(item) !== null ? formatIndianNumber(getItemTotal(item)) : '') }}</td>
+              @for (y of years; track y) {
+                <td class="text-right font-weight-500">{{ getItemYearValue(item, y) }}</td>
+              }
+            </tr>
+          }
+
+          <!-- Total Row -->
+          <tr class="expenditure-subtotal-row">
+            <td class="text-left font-weight-bold">Total</td>
+            <td class="text-left"></td>
+            <td class="text-right font-weight-bold" style="color: #0f172a;">{{ formatIndianNumber(totalExpenditureAll) }}</td>
+            @for (y of years; track y) {
+              <td class="text-right font-weight-bold" style="color: #0f172a;">{{ getTotalExpenditureYear(y) > 0 ? formatIndianNumber(getTotalExpenditureYear(y)) : '' }}</td>
+            }
+          </tr>
+
+          <!-- Conversion Rate Row on Present Date (Above Total in USD) -->
+          <tr class="exchange-rate-row">
+            <td class="text-left font-weight-bold">{{ currentDateFormatted }} INR USD</td>
+            <td class="text-left"></td>
+            <td class="text-right font-weight-bold">{{ exchangeRate | number:'1.2-2' }}</td>
+            @for (y of years; track y) {
+              <td class="text-right"></td>
+            }
+          </tr>
+
+          <!-- Total in USD Row (Bottom Row) -->
+          <tr class="usd-total-row">
+            <td class="text-left font-weight-bold text-danger">Total in USD</td>
+            <td class="text-left"></td>
+            <td class="text-right font-weight-bold text-danger">{{ totalUsdAll > 0 ? formatIndianNumber(totalUsdAll) : '' }}</td>
+            @for (y of years; track y) {
+              <td class="text-right font-weight-bold text-danger">{{ getTotalUsdYear(y) > 0 ? formatIndianNumber(getTotalUsdYear(y)) : '' }}</td>
+            }
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

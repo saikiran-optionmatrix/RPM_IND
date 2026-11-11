@@ -1,0 +1,91 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 90vh;
+  box-sizing: border-box;
+}
+
+/* Remove focus outline from dialog title */
+:host ::ng-deep .NewHeader h1:focus,
+:host ::ng-deep .NewHeader [mat-dialog-title]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.job-code-dialog-content {
+  flex: 1 1 auto;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  max-height: calc(90vh - 120px) !important;
+  padding: 16px 24px !important;
+  margin: 0 !important;
+  box-sizing: border-box;
+}
+
+.tables-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -10px;
+}
+
+.table-col {
+  flex: 0 0 50%;
+  max-width: 50%;
+  width: 50%;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+/* Scoped override of app-table-container padding for modal dialog */
+.app-table-container {
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+.app-table-container .table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  // border-radius: 4px;
+}
+
+.app-table-container .app-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+.app-table tbody tr.row-selected td {
+  // background-color: #f0f7ff;
+}
+
+.app-table tbody tr.row-selected:hover td {
+  background-color: #e3effd;
+}
+
+.text-center mat-checkbox {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.job-code-dialog-actions {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 24px 16px 24px !important;
+  margin: 0 !important;
+  border-top: 1px solid #e5e7eb;
+  background-color: #ffffff;
+}
+
+@media (max-width: 900px) {
+  .table-col {
+    flex: 0 0 100%;
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 16px;
+  }
+}
