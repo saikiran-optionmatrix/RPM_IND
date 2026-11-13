@@ -37,21 +37,21 @@ export class TemplateBudgetComponent implements OnInit, OnDestroy {
     this.route.snapshot.queryParamMap.get('projectName') ||
     this.route.snapshot.queryParamMap.get('name') ||
     this.route.snapshot.queryParamMap.get('templateName') ||
-    'Oral Solid Dosage (OSD) Formulation & Commercialization';
-  projectCode: string = this.route.snapshot.queryParamMap.get('code') || '2026/GEN/001';
+    'Industrial Equipment Line Expansion Program';
+  projectCode: string = this.route.snapshot.queryParamMap.get('code') || 'TPL/IND/001';
 
   allRows: BudgetItem[] = [
-    { stage: 'Product Selection', module: 'Feasibility', task: 'Reference Product Assessment', allocation: 'PR', standardHours: 25, actualHours: 18, budgetINR: 20000, usageINR: 18000, completion: 70 },
-    { stage: 'Pre-Formulation', module: 'API Characterization', task: 'API Characterization', allocation: 'AR', standardHours: 40, actualHours: 28, budgetINR: 35000, usageINR: 32500, completion: 65 },
-    { stage: 'Pre-Formulation', module: 'Compatibility', task: 'API–Excipient Compatibility', allocation: 'SK', standardHours: 35, actualHours: 22, budgetINR: 30000, usageINR: 28000, completion: 60 },
-    { stage: 'Formulation Development', module: 'Formulation Design', task: 'Prototype Formulation', allocation: 'MK', standardHours: 60, actualHours: 35, budgetINR: 55000, usageINR: 50000, completion: 55 },
-    { stage: 'Formulation Development', module: 'Excipient Screening', task: 'Excipient Optimization', allocation: 'RK', standardHours: 45, actualHours: 25, budgetINR: 40000, usageINR: 36000, completion: 50 },
-    { stage: 'Formulation Development', module: 'Prototype Batch', task: 'Laboratory Batch Preparation', allocation: 'PS', standardHours: 50, actualHours: 30, budgetINR: 65000, usageINR: 58000, completion: 45 },
-    { stage: 'Analytical Development', module: 'Analytical Testing', task: 'Assay & Related Substances', allocation: 'VN', standardHours: 50, actualHours: 22, budgetINR: 50000, usageINR: 42000, completion: 40 },
-    { stage: 'Analytical Development', module: 'Dissolution', task: 'Dissolution Method Development', allocation: 'SK', standardHours: 40, actualHours: 18, budgetINR: 45000, usageINR: 39000, completion: 35 },
-    { stage: 'Optimization', module: 'Formulation Optimization', task: 'Process & Formula Optimization', allocation: 'DR', standardHours: 55, actualHours: 20, budgetINR: 60000, usageINR: 45000, completion: 30 },
-    { stage: 'Stability', module: 'Stability Testing', task: 'Accelerated Stability Study', allocation: 'AP', standardHours: 70, actualHours: 15, budgetINR: 80000, usageINR: 55000, completion: 20 },
-    { stage: 'Scale-Up', module: 'Pilot Batch', task: 'Pilot-Scale Manufacturing', allocation: 'RK', standardHours: 80, actualHours: 10, budgetINR: 120000, usageINR: 35000, completion: 10 },
+    { stage: 'S1 - Business Need & Assessment', module: 'Plant Capacity Audit', task: 'Throughput & Bottleneck Study', allocation: 'AR', standardHours: 120, actualHours: 115, budgetINR: 25000, usageINR: 23500, completion: 100 },
+    { stage: 'S2 - Scope & Feasibility', module: 'URS & Functional Spec', task: 'URS & Equipment Envelope Definition', allocation: 'RK', standardHours: 180, actualHours: 170, budgetINR: 45000, usageINR: 42000, completion: 100 },
+    { stage: 'S2 - Scope & Feasibility', module: 'Safety & CE Compliance', task: 'Machine Safety & ISO Standards Audit', allocation: 'AD', standardHours: 140, actualHours: 130, budgetINR: 35000, usageINR: 31500, completion: 100 },
+    { stage: 'S3 - Concept Engineering', module: 'CAD & Controls Concept', task: '3D Line Layout & Drive Topology', allocation: 'PR', standardHours: 320, actualHours: 290, budgetINR: 110000, usageINR: 98000, completion: 85 },
+    { stage: 'S3 - Concept Engineering', module: 'Vendor Pre-Qualification', task: 'Tier-1 OEM & Component RFQ Review', allocation: 'SN', standardHours: 160, actualHours: 140, budgetINR: 60000, usageINR: 52000, completion: 80 },
+    { stage: 'S4 - Detailed Engineering', module: 'Mechanical & Electrical CAD', task: 'Full CAD Assembly, FEA & EPLAN Drawings', allocation: 'AP', standardHours: 480, actualHours: 360, budgetINR: 180000, usageINR: 132000, completion: 65 },
+    { stage: 'S4 - Detailed Engineering', module: 'PLC / SCADA Programming', task: 'Motion Bus, HMI & Interlock Logic', allocation: 'DN', standardHours: 400, actualHours: 250, budgetINR: 145000, usageINR: 92000, completion: 55 },
+    { stage: 'S5 - Design Freeze', module: 'DFMA & BOM Freeze', task: 'Master BOM & Tolerance Stack-Up Signoff', allocation: 'AJ', standardHours: 220, actualHours: 110, budgetINR: 75000, usageINR: 38000, completion: 45 },
+    { stage: 'S6 - Process & Equipment Design', module: 'Fixtures & End-Effectors', task: 'SMED Clamping & EOAT Fabrication Spec', allocation: 'LD', standardHours: 380, actualHours: 130, budgetINR: 195000, usageINR: 64000, completion: 30 },
+    { stage: 'S7 - Prototype & Validation', module: 'First-Article & FAT', task: 'Control Cabinet Build & OEM FAT Witness', allocation: 'VS', standardHours: 520, actualHours: 95, budgetINR: 260000, usageINR: 48000, completion: 20 },
+    { stage: 'S10 - Commissioning & SAT', module: 'IQ/OQ & Cpk Qualification', task: 'Site Commissioning, SAT & 3-Shift OEE', allocation: 'SS', standardHours: 640, actualHours: 40, budgetINR: 320000, usageINR: 18500, completion: 10 },
   ];
 
   displayedRows: BudgetItem[] = [];
@@ -107,7 +107,7 @@ export class TemplateBudgetComponent implements OnInit, OnDestroy {
   }
 
   fmt(n: number): string {
-    return new Intl.NumberFormat('en-IN').format(n);
+    return '$' + new Intl.NumberFormat('en-US').format(n);
   }
 
   getCompColor(val: number): string {

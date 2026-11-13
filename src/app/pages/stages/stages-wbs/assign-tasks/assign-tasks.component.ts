@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { INDUSTRIAL_DEFAULT_TASKS, INDUSTRIAL_JOB_CODES } from '../../industrial-stages.data';
 
 export interface TaskItem {
   id?: string | number;
@@ -53,192 +54,9 @@ export class AssignTasksComponent implements OnInit {
     return this.historySequence[index % this.historySequence.length];
   }
 
-  jobCodeOptions: string[] = [
-    'RND-01',
-    'RND-02',
-    'RND-03',
-    'QA-01',
-    'REG-01',
-    'CLIN-01',
-    'BC01',
-    'BC02',
-    'ACT1',
-    'ACT2',
-    'FORM1',
-    'PROC1'
-  ];
+  jobCodeOptions: string[] = INDUSTRIAL_JOB_CODES;
 
-  tasksList: TaskItem[] = [
-    {
-      active: true,
-      done: true,
-      taskName: 'API Solubility, Stability, and Solid-State Characterization Specification',
-      taskCode: 'TC-101',
-      jobCode: 'RND-01',
-      department: 'Pre-Formulation R&D',
-      role: 'Lead Scientist',
-      dueDate: '2026-05-15',
-      completedDate: '2026-05-14',
-      remarks: 'Completed within polymorphic purity specifications',
-      isEditing: false
-    },
-    {
-      active: true,
-      done: true,
-      taskName: 'Finished Dosage Form Dissolution Profile and Release Criteria',
-      taskCode: 'TC-102',
-      jobCode: 'RND-02',
-      department: 'Formulation R&D',
-      role: 'Lead Formulation Scientist',
-      dueDate: '2026-05-20',
-      completedDate: '2026-05-19',
-      remarks: 'Apparatus II paddle speed and dissolution profiles matching RLD curve',
-      isEditing: false
-    },
-    {
-      active: true,
-      done: false,
-      taskName: 'Reference Product Characterization and Comparative Assessment Protocol',
-      taskCode: 'TC-103',
-      jobCode: 'RND-03',
-      department: 'Analytical Development',
-      role: 'Lead Analytical Scientist',
-      dueDate: '2026-06-01',
-      completedDate: '',
-      remarks: 'Quantitative excipient deconstruction completed against innovator benchmark',
-      isEditing: false
-    },
-    {
-      active: true,
-      done: false,
-      taskName: 'Analytical Method Development for API, Impurities, and Degradation Products',
-      taskCode: 'TC-104',
-      jobCode: 'RND-04',
-      department: 'Formulation R&D',
-      role: 'Senior Scientist',
-      dueDate: '2026-06-05',
-      completedDate: '',
-      remarks: 'RP-HPLC method optimization ongoing for critical degradation pairs',
-      isEditing: false
-    },
-    {
-      active: true,
-      done: false,
-      taskName: 'API–Excipient Compatibility Study Protocol',
-      taskCode: 'TC-105',
-      jobCode: 'RND-05',
-      department: 'Packaging Development',
-      role: 'Packaging Specialist',
-      dueDate: '2026-06-10',
-      completedDate: '',
-      remarks: 'DSC and isothermal binary blend stability analysis ongoing',
-      isEditing: false
-    },
-    {
-      active: true,
-      done: false,
-      taskName: 'Formulation Prototype Batch Manufacturing and Documentation Protocol',
-      taskCode: 'TC-106',
-      jobCode: 'RND-06',
-      department: 'MS&T / Process Engineering',
-      role: 'Process Lead',
-      dueDate: '2026-06-15',
-      completedDate: '',
-      remarks: 'Blend uniformity and compression machine compaction profiles acceptable',
-      isEditing: false
-    },
-    {
-      active: true,
-      done: false,
-      taskName: 'Accelerated and Long-Term Stability Study Protocol',
-      taskCode: 'TC-107',
-      jobCode: 'RND-07',
-      department: 'QC Stability',
-      role: 'Stability Scientist',
-      dueDate: '2026-06-20',
-      completedDate: '',
-      remarks: 'Climatic chamber loading schedules and pull testing protocol established',
-      isEditing: false
-    },
-    {
-      active: true,
-      done: false,
-      taskName: 'Container Closure System Suitability and Compatibility Evaluation Report',
-      taskCode: 'TC-108',
-      jobCode: 'RND-08',
-      department: 'Analytical Development',
-      role: 'Analytical Chemist',
-      dueDate: '2026-06-25',
-      completedDate: '',
-      remarks: 'Alu-Alu vs PVC/PVDC moisture transmission rate comparison underway',
-      isEditing: false
-    },
-    {
-      active: true,
-      done: false,
-      taskName: 'Preformulation Assessment and Biopharmaceutical Risk Screening',
-      taskCode: 'TC-109',
-      jobCode: 'RND-09',
-      department: 'Regulatory Affairs',
-      role: 'RA Specialist',
-      dueDate: '2026-06-30',
-      completedDate: '',
-      remarks: 'BCS classification and permeability screening evaluation in progress',
-      isEditing: false
-    },
-    {
-      active: true,
-      done: false,
-      taskName: 'Bioequivalence Study Design and Protocol Development',
-      taskCode: 'TC-110',
-      jobCode: 'RND-10',
-      department: 'Quality Assurance',
-      role: 'QA Director',
-      dueDate: '2026-07-05',
-      completedDate: '',
-      remarks: 'Two-way crossover in-vivo study design and power calculation protocol drafted',
-      isEditing: false
-    },
-    {
-      active: true,
-      done: false,
-      taskName: 'Chromatographic Analytical Method Validation Protocol',
-      taskCode: 'TC-111',
-      jobCode: 'RND-11',
-      department: 'Analytical Development',
-      role: 'Method Validation Specialist',
-      dueDate: '2026-07-10',
-      completedDate: '',
-      remarks: 'Specificity, linearity, precision, and range protocol signed off',
-      isEditing: false
-    },
-    {
-      active: true,
-      done: false,
-      taskName: 'Microbial Limits and Specified Microorganisms Method Validation Framework',
-      taskCode: 'TC-112',
-      jobCode: 'RND-12',
-      department: 'Microbiology QC',
-      role: 'QC Microbiologist',
-      dueDate: '2026-07-15',
-      completedDate: '',
-      remarks: 'USP <61> / <62> microbial bioburden testing validation execution',
-      isEditing: false
-    },
-    {
-      active: true,
-      done: false,
-      taskName: 'Raw Material and API Supplier Qualification, Audit, and Quality Agreement Review',
-      taskCode: 'TC-113',
-      jobCode: 'RND-13',
-      department: 'Quality Assurance',
-      role: 'QA Director',
-      dueDate: '2026-07-20',
-      completedDate: '',
-      remarks: 'Supplier audit checklist and quality technical agreements review completed',
-      isEditing: false
-    }
-  ];
+  tasksList: TaskItem[] = INDUSTRIAL_DEFAULT_TASKS.map(t => ({ ...t }));
 
   get paginatedTasks(): TaskItem[] {
     const startIndex = this.pageIndex * this.pageSize;
@@ -254,8 +72,8 @@ export class AssignTasksComponent implements OnInit {
     if (this.data?.row?.tasksData && Array.isArray(this.data.row.tasksData)) {
       this.tasksList = this.data.row.tasksData.map((item: any, idx: number) => ({
         ...item,
-        taskCode: item.taskCode || `TC-10${idx + 1}`,
-        jobCode: item.jobCode || 'RND-01',
+        taskCode: item.taskCode || `IND-10${idx + 1}`,
+        jobCode: item.jobCode || 'ENG01',
         historyCount: item.historyCount || this.getHistoryCount(idx),
         isEditing: false
       }));
@@ -266,8 +84,8 @@ export class AssignTasksComponent implements OnInit {
             active: true,
             done: false,
             taskName: item,
-            taskCode: `TC-10${idx + 1}`,
-            jobCode: 'RND-01',
+            taskCode: `IND-10${idx + 1}`,
+            jobCode: 'ENG01',
             department: '',
             role: '',
             dueDate: '',
@@ -279,8 +97,8 @@ export class AssignTasksComponent implements OnInit {
         }
         return {
           ...item,
-          taskCode: item.taskCode || `TC-10${idx + 1}`,
-          jobCode: item.jobCode || 'RND-01',
+          taskCode: item.taskCode || `IND-10${idx + 1}`,
+          jobCode: item.jobCode || 'ENG01',
           historyCount: item.historyCount || this.getHistoryCount(idx),
           isEditing: false
         };
@@ -303,8 +121,8 @@ export class AssignTasksComponent implements OnInit {
       active: true,
       done: false,
       taskName: '',
-      taskCode: `TC-10${nextNum}`,
-      jobCode: this.jobCodeOptions[0] || 'RND-01',
+      taskCode: `IND-10${nextNum}`,
+      jobCode: this.jobCodeOptions[0] || 'ENG01',
       department: '',
       role: '',
       dueDate: '',

@@ -34,15 +34,15 @@ export class AddDocumentComponent implements OnInit {
   isDragging: boolean = false;
 
   documentTypes: string[] = [
-    'Specification',
-    'Formulation',
-    'Analytical',
-    'Manufacturing',
-    'Stability',
-    'Regulatory',
-    'Clinical',
-    'Quality',
-    'Validation',
+    'URS / Specification',
+    'CAD & Mechanical',
+    'Electrical & PLC',
+    'Manufacturing & Tooling',
+    'Metrology & Calibration',
+    'EHS & Compliance',
+    'FAT / SAT Protocol',
+    'Quality Assurance',
+    'IQ / OQ Validation',
     'Other'
   ];
 

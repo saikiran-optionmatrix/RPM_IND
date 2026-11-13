@@ -54,18 +54,18 @@ export class ProjectAnalyticsComponent implements OnInit, AfterViewInit, OnDestr
 
   private charts: any[] = [];
 
-  projectName: string = 'Generic Tablet Development';
-  projectCode: string = '2026/GEN/001';
-  dynamicBreadcrumb: string = 'Generic Tablet Development - 2026/GEN/001';
+  projectName: string = 'Industrial Equipment Line Expansion';
+  projectCode: string = '2026/IND/001';
+  dynamicBreadcrumb: string = 'Industrial Equipment Line Expansion - 2026/IND/001';
 
   // --- Task Data ---
   overdueTasks: Task[] = [
-    { name: 'API–Excipient Compatibility Study', assignee: 'Dr. Priya R.', status: 'CRITICAL', slipDays: '+6d' },
-    { name: 'Dissolution Method Optimization', assignee: 'Rahul K.', status: 'CRITICAL', slipDays: '+5d' },
-    { name: 'Prototype Batch Testing', assignee: 'Meena S.', status: 'HIGH', slipDays: '+4d' },
-    { name: 'Analytical Method Validation', assignee: 'Anil P.', status: 'HIGH', slipDays: '+3d' },
-    { name: 'Formulation Stability Assessment', assignee: 'Kavya R.', status: 'HIGH', slipDays: '+3d' },
-    { name: 'Excipient Compatibility Documentation', assignee: 'Suresh N.', status: 'MEDIUM', slipDays: '+2d' },
+    { name: 'CAD Assembly & Tolerance Stack-Up', assignee: 'Ananya Rao', status: 'CRITICAL', slipDays: '+6d' },
+    { name: 'PLC & SCADA Integration Spec', assignee: 'Rajesh Kumar', status: 'CRITICAL', slipDays: '+5d' },
+    { name: 'Prototype Tooling Fabrication', assignee: 'Anita Desai', status: 'HIGH', slipDays: '+4d' },
+    { name: 'Factory Acceptance Test (FAT) Protocol', assignee: 'Priya Reddy', status: 'HIGH', slipDays: '+3d' },
+    { name: 'Structural Load & Vibration Analysis', assignee: 'Suresh Naidu', status: 'HIGH', slipDays: '+3d' },
+    { name: 'Vendor Material Traceability Dossier', assignee: 'Amit Patel', status: 'MEDIUM', slipDays: '+2d' },
   ];
 
   // --- Gantt Timeline Data ---
@@ -74,8 +74,8 @@ export class ProjectAnalyticsComponent implements OnInit, AfterViewInit, OnDestr
   ganttTasks: GanttTaskItem[] = [
     {
       id: 1,
-      label: '1. Reference Product Characteri...',
-      fullName: '1. Reference Product Characterization — 12d',
+      label: '1. Business Need & Scope Valida...',
+      fullName: '1. Business Need & Scope Validation — 12d',
       duration: '12d',
       isOverdue: false,
       leftPercent: 1.5,
@@ -83,8 +83,8 @@ export class ProjectAnalyticsComponent implements OnInit, AfterViewInit, OnDestr
     },
     {
       id: 2,
-      label: '2. API–Excipient Compatibility ...',
-      fullName: '2. API–Excipient Compatibility Study — 18d',
+      label: '2. Concept Engineering & Soluti...',
+      fullName: '2. Concept Engineering & Solution Dev — 18d',
       duration: '18d',
       isOverdue: false,
       leftPercent: 9.5,
@@ -92,8 +92,8 @@ export class ProjectAnalyticsComponent implements OnInit, AfterViewInit, OnDestr
     },
     {
       id: 3,
-      label: '3. Formulation Prototype Devel...',
-      fullName: '3. Formulation Prototype Development — 24d',
+      label: '3. Detailed Engineering & Desig...',
+      fullName: '3. Detailed Engineering & Design — 24d',
       duration: '24d',
       isOverdue: false,
       leftPercent: 24.5,
@@ -101,8 +101,8 @@ export class ProjectAnalyticsComponent implements OnInit, AfterViewInit, OnDestr
     },
     {
       id: 4,
-      label: '4. Dissolution & Performance T...',
-      fullName: '4. Dissolution & Performance Testing — 14d',
+      label: '4. Prototype Fabrication & Vali...',
+      fullName: '4. Prototype Fabrication & Validation — 14d',
       duration: '14d',
       isOverdue: true,
       leftPercent: 44.5,
@@ -110,8 +110,8 @@ export class ProjectAnalyticsComponent implements OnInit, AfterViewInit, OnDestr
     },
     {
       id: 5,
-      label: '5. Formulation Optimization — ...',
-      fullName: '5. Formulation Optimization — 20d',
+      label: '5. Equipment Installation & Int...',
+      fullName: '5. Equipment Installation & Integration — 20d',
       duration: '20d',
       isOverdue: true,
       leftPercent: 55.0,
@@ -119,8 +119,8 @@ export class ProjectAnalyticsComponent implements OnInit, AfterViewInit, OnDestr
     },
     {
       id: 6,
-      label: '6. Stability Study Initiation — 30d',
-      fullName: '6. Stability Study Initiation — 30d',
+      label: '6. Commissioning & Performance ...',
+      fullName: '6. Commissioning & Performance Test — 30d',
       duration: '30d',
       isOverdue: true,
       leftPercent: 71.0,
@@ -266,7 +266,7 @@ export class ProjectAnalyticsComponent implements OnInit, AfterViewInit, OnDestr
         tickInterval: 2,
         gridLineColor: '#f1f5f9',
         title: {
-          text: 'Buffer Time Used',
+          text: 'Buffer Time Used (days)',
           style: {
             color: '#64748b',
             fontSize: '11px'
@@ -370,7 +370,7 @@ export class ProjectAnalyticsComponent implements OnInit, AfterViewInit, OnDestr
         tickInterval: 1,
         gridLineColor: '#f1f5f9',
         title: {
-          text: 'Values',
+          text: 'Buffer Variance (days)',
           style: {
             color: '#64748b',
             fontSize: '11px'
@@ -431,12 +431,12 @@ export class ProjectAnalyticsComponent implements OnInit, AfterViewInit, OnDestr
       },
       yAxis: {
         min: 0,
-        max: 40,
-        tickInterval: 20,
+        max: 500,
+        tickInterval: 250,
         gridLineColor: '#f1f5f9',
         title: { text: undefined },
         labels: {
-          format: '{value}L',
+          format: '{value}K',
           style: {
             color: '#64748b',
             fontSize: '11px'
@@ -444,7 +444,7 @@ export class ProjectAnalyticsComponent implements OnInit, AfterViewInit, OnDestr
         }
       },
       tooltip: {
-        pointFormat: '{series.name}: <b>₹{point.y}L</b>'
+        pointFormat: '{series.name}: <b>$${point.y}K</b>'
       },
       legend: {
         enabled: true,
@@ -468,13 +468,13 @@ export class ProjectAnalyticsComponent implements OnInit, AfterViewInit, OnDestr
           type: 'column',
           name: 'Actual Cost',
           color: '#a855f7',
-          data: [11, 18, 22, 18, 24]
+          data: [140, 230, 310, 260, 350]
         },
         {
           type: 'column',
           name: 'Budgeted Cost',
           color: '#3b82f6',
-          data: [10, 20, 26, 22, 28]
+          data: [150, 250, 340, 290, 380]
         }
       ]
     };
@@ -528,12 +528,12 @@ export class ProjectAnalyticsComponent implements OnInit, AfterViewInit, OnDestr
           name: 'Effort allocation',
           data: [
             {
-              name: 'Production Staff',
+              name: 'Engineering & Manufacturing',
               y: 76.9,
               color: '#3b82f6'
             },
             {
-              name: 'Quality Assurance',
+              name: 'Quality & Inspection',
               y: 15.7,
               color: '#10b981'
             },

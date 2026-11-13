@@ -6,6 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 
+import { INDUSTRIAL_STAGES_MASTER } from '../../stages/industrial-stages.data';
+
 @Component({
   selector: 'app-add-gate',
   standalone: true,
@@ -26,25 +28,16 @@ export class AddGateComponent implements OnInit {
   isSubmitting = false;
 
   divisionOptions: string[] = [
-    'Oral Solids - OS',
-    'Injectables - IJ',
-    'Complex Injectables - CI',
-    'Biotech - BT'
+    'Equipment Engineering - CT',
+    'Industrial Machinery - MA',
+    'Process Equipment - GT',
+    'Production Systems - VX'
   ];
 
-  stageOptions: { code: string; name: string }[] = [
-    { code: 'S1', name: 'Opportunity and Portfolio Assessment (S1)' },
-    { code: 'S2', name: 'Product Definition and Project Charter (S2)' },
-    { code: 'S3', name: 'Formulation and Product Concept Development (S3)' },
-    { code: 'S4', name: 'API, Excipient and Supplier Sourcing (S4)' },
-    { code: 'S5', name: 'Formulation and Process Development (S5)' },
-    { code: 'S6', name: 'Development Batches and Verification (S6)' },
-    { code: 'S7', name: 'Facility, Equipment and Process Readiness (S7)' },
-    { code: 'S8', name: 'Analytical Validation and Technology Transfer (S8)' },
-    { code: 'S9', name: 'Registration and Process Validation Batches (S9)' },
-    { code: 'S10', name: 'Regulatory Submission and Approval (S10)' },
-    { code: 'S11', name: 'Commercial Launch and Lifecycle Management (S11)' }
-  ];
+  stageOptions: { code: string; name: string }[] = INDUSTRIAL_STAGES_MASTER.map(s => ({
+    code: s.stageCode,
+    name: `${s.stageName} (${s.stageCode})`
+  }));
 
   constructor(
     private fb: FormBuilder,
@@ -53,7 +46,7 @@ export class AddGateComponent implements OnInit {
   ) {
     this.gateForm = this.fb.group({
       gateName: ['', [Validators.required]],
-      division: [['Oral Solids - OS'], [Validators.required]],
+      division: [['Industrial Machinery - MA'], [Validators.required]],
       gateCode: [''],
       stageCode: [''],
       description: ['']
@@ -72,7 +65,7 @@ export class AddGateComponent implements OnInit {
       } else if (typeof this.data.division === 'string' && this.data.division.trim()) {
         divisionVal = this.data.division.split(',').map((d: string) => d.trim()).filter(Boolean);
       } else {
-        divisionVal = ['Oral Solids - OS'];
+        divisionVal = ['Industrial Machinery - MA'];
       }
 
       this.gateForm.patchValue({

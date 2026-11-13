@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { INDUSTRIAL_STAGE_DIVISIONS, INDUSTRIAL_STAGE_GATES } from '../industrial-stages.data';
 
 @Component({
   selector: 'app-add-stage',
@@ -27,13 +28,8 @@ export class AddStageComponent implements OnInit {
   isEditMode = false;
   isSubmitting = false;
 
-  divisionOptions: string[] = [
-    'Oral Solids - OS',
-    'Injectables - IJ',
-    'Complex Injectables - CI',
-    'Biotech - BT'
-  ];
-  gateOptions: string[] = ['Gate 1', 'Gate 2', 'Gate 3', 'Gate 4', 'Gate 5', 'Gate 6'];
+  divisionOptions: string[] = INDUSTRIAL_STAGE_DIVISIONS;
+  gateOptions: string[] = INDUSTRIAL_STAGE_GATES;
 
   constructor(
     private fb: FormBuilder,
@@ -42,7 +38,7 @@ export class AddStageComponent implements OnInit {
   ) {
     this.myGroup = this.fb.group({
       stageName: ['', [Validators.required]],
-      division: [['Oral Solids - OS'], [Validators.required]],
+      division: [[INDUSTRIAL_STAGE_DIVISIONS[0]], [Validators.required]],
       stageCode: [''],
       stageSerial: [null, [Validators.required, Validators.min(1)]],
       gateCode: ['', [Validators.required]],
@@ -73,7 +69,7 @@ export class AddStageComponent implements OnInit {
       } else if (typeof this.data.division === 'string' && this.data.division.trim()) {
         divisionVal = this.data.division.split(',').map((d: string) => d.trim()).filter(Boolean);
       } else {
-        divisionVal = ['Oral Solids - OS'];
+        divisionVal = [INDUSTRIAL_STAGE_DIVISIONS[0]];
       }
 
       this.myGroup.patchValue({

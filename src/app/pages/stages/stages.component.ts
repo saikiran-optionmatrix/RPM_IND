@@ -12,28 +12,12 @@ import { AddStageComponent } from './add-stage/add-stage.component';
 import { StageDivisionsComponent } from './stage-divisions/stage-divisions.component';
 import { DeleteConfirmationComponent } from '../../common/shared/delete-confirmation/delete-confirmation.component';
 import { DescriptionDialogComponent } from '../../common/shared/description-dialog/description-dialog.component';
+import {
+  INDUSTRIAL_STAGES_MASTER,
+  StageItem,
+} from './industrial-stages.data';
 
-export interface Stage {
-  phase: string;
-  description: string;
-  tasks: number;
-  status: 'Active' | 'Pending' | 'Inactive';
-  stageCode: string;
-  stageName: string;
-  division?: string;
-  divisions?: string[];
-  stageSerial?: number;
-  sequence?: string;
-  gateCode: string;
-  stageDescription: string;
-  planEffort: number;
-  planDuration: number;
-  materialBudget?: string;
-  TotalUsed?: boolean;
-  historyCount?: number;
-  updatedDate?: string;
-  updatedBy?: string;
-}
+export type Stage = StageItem;
 
 @Component({
   selector: 'app-stages',
@@ -72,219 +56,17 @@ export class StagesComponent implements OnInit {
     return this.historySequence[index % this.historySequence.length];
   }
 
-  // Master Data Array
-  masterData: Stage[] = [
-    {
-        "sequence": "1.0",
-        "phase": "Opportunity and Portfolio Assessment",
-        "description": "Coordinate the pharmaceutical product development work for opportunity and portfolio assessment. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "tasks": 8,
-        "status": "Active",
-        "stageCode": "S1",
-        "stageName": "Opportunity and Portfolio Assessment",
-        "division": "Oral Solids - OS",
-        "divisions": [
-            "Oral Solids - OS"
-        ],
-        "gateCode": "Gate 1",
-        "stageDescription": "Coordinate the pharmaceutical product development work for opportunity and portfolio assessment. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "planEffort": 80,
-        "planDuration": 10,
-        "materialBudget": "$15,000"
-    },
-    {
-        "sequence": "2.0",
-        "phase": "Product Definition and Project Charter",
-        "description": "Coordinate the pharmaceutical product development work for product definition and project charter. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "tasks": 17,
-        "status": "Active",
-        "stageCode": "S2",
-        "stageName": "Product Definition and Project Charter",
-        "division": "Oral Solids - OS, Injectables - IJ",
-        "divisions": [
-            "Oral Solids - OS",
-            "Injectables - IJ"
-        ],
-        "gateCode": "Gate 2",
-        "stageDescription": "Coordinate the pharmaceutical product development work for product definition and project charter. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "planEffort": 60,
-        "planDuration": 10,
-        "materialBudget": "$25,000"
-    },
-    {
-        "sequence": "3.0",
-        "phase": "Formulation and Product Concept Development",
-        "description": "Coordinate the pharmaceutical product development work for formulation and product concept development. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "tasks": 17,
-        "status": "Active",
-        "stageCode": "S3",
-        "stageName": "Formulation and Product Concept Development",
-        "division": "Oral Solids - OS",
-        "divisions": [
-            "Oral Solids - OS"
-        ],
-        "gateCode": "Gate 3",
-        "stageDescription": "Coordinate the pharmaceutical product development work for formulation and product concept development. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "planEffort": 120,
-        "planDuration": 60,
-        "materialBudget": "$80,000"
-    },
-    {
-        "sequence": "4.0",
-        "phase": "API, Excipient and Supplier Sourcing",
-        "description": "Coordinate the pharmaceutical product development work for api, excipient and supplier sourcing. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "tasks": 7,
-        "status": "Active",
-        "stageCode": "S4",
-        "stageName": "API, Excipient and Supplier Sourcing",
-        "division": "Oral Solids - OS, Complex Injectables - CI",
-        "divisions": [
-            "Oral Solids - OS",
-            "Complex Injectables - CI"
-        ],
-        "gateCode": "Gate 4",
-        "stageDescription": "Coordinate the pharmaceutical product development work for api, excipient and supplier sourcing. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "planEffort": 160,
-        "planDuration": 190,
-        "materialBudget": "$120,000"
-    },
-    {
-        "sequence": "5.0",
-        "phase": "Formulation and Process Development",
-        "description": "Coordinate the pharmaceutical product development work for formulation and process development. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "tasks": 26,
-        "status": "Active",
-        "stageCode": "S5",
-        "stageName": "Formulation and Process Development",
-        "division": "Oral Solids - OS",
-        "divisions": [
-            "Oral Solids - OS"
-        ],
-        "gateCode": "-",
-        "stageDescription": "Coordinate the pharmaceutical product development work for formulation and process development. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "planEffort": 100,
-        "planDuration": 60,
-        "materialBudget": "$95,000"
-    },
-    {
-        "sequence": "6.0",
-        "phase": "Development Batches and Verification",
-        "description": "Coordinate the pharmaceutical product development work for development batches and verification. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "tasks": 13,
-        "status": "Active",
-        "stageCode": "S6",
-        "stageName": "Development Batches and Verification",
-        "division": "Oral Solids - OS, Biotech - BT",
-        "divisions": [
-            "Oral Solids - OS",
-            "Biotech - BT"
-        ],
-        "gateCode": "-",
-        "stageDescription": "Coordinate the pharmaceutical product development work for development batches and verification. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "planEffort": 180,
-        "planDuration": 60,
-        "materialBudget": "$110,000"
-    },
-    {
-        "sequence": "7.0",
-        "phase": "Facility, Equipment and Process Readiness",
-        "description": "Coordinate the pharmaceutical product development work for facility, equipment and process readiness. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "tasks": 12,
-        "status": "Active",
-        "stageCode": "S7",
-        "stageName": "Facility, Equipment and Process Readiness",
-        "division": "Oral Solids - OS",
-        "divisions": [
-            "Oral Solids - OS"
-        ],
-        "gateCode": "Gate 5",
-        "stageDescription": "Coordinate the pharmaceutical product development work for facility, equipment and process readiness. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "planEffort": 90,
-        "planDuration": 30,
-        "materialBudget": "$45,000"
-    },
-    {
-        "sequence": "8.0",
-        "phase": "Analytical Validation and Technology Transfer",
-        "description": "Coordinate the pharmaceutical product development work for analytical validation and technology transfer. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "tasks": 8,
-        "status": "Active",
-        "stageCode": "S8",
-        "stageName": "Analytical Validation and Technology Transfer",
-        "division": "Oral Solids - OS, Injectables - IJ, Biotech - BT",
-        "divisions": [
-            "Oral Solids - OS",
-            "Injectables - IJ",
-            "Biotech - BT"
-        ],
-        "gateCode": "-",
-        "stageDescription": "Coordinate the pharmaceutical product development work for analytical validation and technology transfer. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "planEffort": 140,
-        "planDuration": 60,
-        "materialBudget": "$60,000"
-    },
-    {
-        "sequence": "9.0",
-        "phase": "Registration and Process Validation Batches",
-        "description": "Coordinate the pharmaceutical product development work for registration and process validation batches. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "tasks": 11,
-        "status": "Active",
-        "stageCode": "S9",
-        "stageName": "Registration and Process Validation Batches",
-        "division": "Oral Solids - OS",
-        "divisions": [
-            "Oral Solids - OS"
-        ],
-        "gateCode": "Gate 6",
-        "stageDescription": "Coordinate the pharmaceutical product development work for registration and process validation batches. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "planEffort": 100,
-        "planDuration": 10,
-        "materialBudget": "$30,000"
-    },
-    {
-        "sequence": "10.0",
-        "phase": "Regulatory Submission and Approval",
-        "description": "Coordinate the pharmaceutical product development work for regulatory submission and approval. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "tasks": 9,
-        "status": "Active",
-        "stageCode": "S10",
-        "stageName": "Regulatory Submission and Approval",
-        "division": "Oral Solids - OS, Complex Injectables - CI",
-        "divisions": [
-            "Oral Solids - OS",
-            "Complex Injectables - CI"
-        ],
-        "gateCode": "-",
-        "stageDescription": "Coordinate the pharmaceutical product development work for regulatory submission and approval. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "planEffort": 200,
-        "planDuration": 190,
-        "materialBudget": "$180,000"
-    },
-    {
-        "sequence": "11.0",
-        "phase": "Commercial Launch and Lifecycle Management",
-        "description": "Coordinate the pharmaceutical product development work for commercial launch and lifecycle management. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "tasks": 10,
-        "status": "Active",
-        "stageCode": "S11",
-        "stageName": "Commercial Launch and Lifecycle Management",
-        "division": "Oral Solids - OS",
-        "divisions": [
-            "Oral Solids - OS"
-        ],
-        "gateCode": "Gate 7",
-        "stageDescription": "Coordinate the pharmaceutical product development work for commercial launch and lifecycle management. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.",
-        "planEffort": 150,
-        "planDuration": 92,
-        "materialBudget": "$140,000"
-    }
-];
+  // Master Data Array (Industrial Manufacturing S1–S12)
+  masterData: Stage[] = INDUSTRIAL_STAGES_MASTER.map(s => ({
+    ...s,
+    divisions: s.divisions ? [...s.divisions] : [],
+  }));
 
   pagedData: Stage[] = [];
 
   ngOnInit(): void {
     const sampleDates = ['2026-02-15', '2026-02-12', '2026-02-10', '2026-02-05', '2026-01-30', '2026-01-28', '2026-01-25', '2026-01-20', '2026-01-15', '2026-01-10', '2026-01-05', '2025-12-28'];
-    const sampleUsers = ['Dr. Sarah Jenkins', 'Rajesh Kumar', 'Anita Desai', 'Priya Reddy', 'Suresh Naidu', 'Amit Patel'];
+    const sampleUsers = ['Ananya Rao', 'Rajesh Kumar', 'Anita Desai', 'Priya Reddy', 'Suresh Naidu', 'Amit Patel'];
     this.masterData.forEach((item, index) => {
       if (!item.historyCount) {
         item.historyCount = this.getHistoryCount(index);
@@ -365,8 +147,8 @@ export class StagesComponent implements OnInit {
           status: 'Active',
           stageCode: result.stageCode || `S${nextId}`,
           stageName: result.stageName || '',
-          division: result.division || 'Oral Solids - OS',
-          divisions: result.divisions || (result.division ? [result.division] : ['Oral Solids - OS']),
+          division: result.division || 'Equipment Engineering - CT',
+          divisions: result.divisions || (result.division ? [result.division] : ['Equipment Engineering - CT']),
           stageSerial: nextId,
           sequence: `${nextId}.0`,
           gateCode: result.gateCode || '',

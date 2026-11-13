@@ -24,9 +24,9 @@ export interface ProjectPopItem {
 })
 export class HoursProjectPopComponent implements OnInit {
   projects: ProjectPopItem[] = [
-    { sNo: 1, projectCode: '2026/RD/001', projectName: 'Generic Pharma Development' },
-    { sNo: 2, projectCode: '202605/Engg/002', projectName: 'Process Engineering & Formulation' },
-    { sNo: 3, projectCode: '202605/Tech/003', projectName: 'Clinical Batch Scale-up' }
+    { sNo: 1, projectCode: '2026/IND/001', projectName: 'Industrial Equipment Line Expansion' },
+    { sNo: 2, projectCode: '2026/IND/002', projectName: 'CNC Machining Process Optimization' },
+    { sNo: 3, projectCode: '2026/IND/003', projectName: 'Automated Packaging Line Development' }
   ];
 
   constructor(

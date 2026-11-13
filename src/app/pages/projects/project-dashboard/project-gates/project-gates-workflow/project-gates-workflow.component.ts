@@ -62,11 +62,11 @@ export class ProjectGatesWorkflowComponent implements OnInit {
     const signedCount = parseInt(parts[0], 10) || 3;
 
     const defaultNames = [
-      'Dr. Satya Prasad',
-      'Pavan Kalyan',
-      'Gaurav Sharma',
-      'Ayush Patel',
-      'Santosh Kumar'
+      'Ananya Rao',
+      'Rajesh Kumar',
+      'Anita Desai',
+      'Priya Reddy',
+      'Suresh Naidu'
     ];
 
     const baseDates = [

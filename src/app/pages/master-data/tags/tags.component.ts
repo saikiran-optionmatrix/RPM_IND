@@ -37,33 +37,33 @@ export class TagsComponent {
   constructor(private dialog: MatDialog) {}
   readonly items: MasterItem[] = [
     {
-      name: 'API Assessment',
-      description: 'API evaluation and supplier qualification',
+      name: 'Vendor Assessment',
+      description: 'OEM evaluation and supplier qualification',
       status: 'Active',
     },
     {
-      name: 'Formulation',
-      description: 'Formulation development and optimization',
+      name: 'Detailed Engineering',
+      description: 'CAD design, FEA modeling and tolerance optimization',
       status: 'Active',
     },
     {
-      name: 'Analytical Testing',
-      description: 'Assay, dissolution and testing activities',
+      name: 'Metrology & Testing',
+      description: 'CMM dimensional inspection, endurance and performance testing',
       status: 'Active',
     },
     {
-      name: 'Stability',
-      description: 'Stability study and sample monitoring',
+      name: 'Safety & CE',
+      description: 'Machinery guarding, interlocks and ISO 13849 compliance',
       status: 'Active',
     },
     {
-      name: 'Validation',
-      description: 'Process and method validation',
+      name: 'Commissioning',
+      description: 'FAT, SAT, IQ/OQ and multi-shift OEE validation',
       status: 'Active',
     },
     {
-      name: 'Regulatory',
-      description: 'Regulatory documentation and submission',
+      name: 'Handover & CMMS',
+      description: 'As-built technical dossier and maintenance handover',
       status: 'Active',
     },
   ];

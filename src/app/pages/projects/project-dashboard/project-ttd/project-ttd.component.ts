@@ -42,50 +42,50 @@ export class ProjectTtdComponent implements OnInit {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
   // Header and Top Information Table fields
-  productName: string = 'Abiraterone Acetate Film Coated Tablets';
-  projectCode: string = '2026/RD/001';
-  strength: string = '250 mg / 500 mg';
-  market: string = 'US (USFDA) & Europe (EMA)';
-  ttdNumber: string = 'TTD/2026/OSD/042';
+  productName: string = 'Industrial Equipment Line Expansion';
+  projectCode: string = '2026/IND/001';
+  strength: string = '120 Units/Hr | 480V 3-Phase';
+  market: string = 'Detroit Assembly Hub (NA) & Stuttgart Plant (EU)';
+  ttdNumber: string = 'TTD/2026/IND/042';
   versionNumber: string = 'v2.1';
 
   // Save feedback state
   ttdNumberSaved: boolean = false;
   versionNumberSaved: boolean = false;
 
-  // Check Points Data matching Image 1 and Image 2
+  // Check Points Data for Industrial Technical Transfer Dossier (TTD)
   checkPointsList: TtdCheckPoint[] = [
     {
       id: 1,
       sNo: '1.',
-      checkPoint: 'Title Page',
+      checkPoint: 'Title Page & Equipment Serial Registry',
       status: 'Yes',
-      remarks: 'Title page verified with exact product name, dosage form, and facility codes.',
+      remarks: 'Title page verified with exact equipment line ID, asset code, and plant location.',
       documentsCount: 2,
       documents: [
         { id: 1, title: 'TTD_Title_Page_Approved.pdf', uploadedDate: '2026-02-10' },
-        { id: 2, title: 'Product_Dossier_Index.pdf', uploadedDate: '2026-02-12' }
+        { id: 2, title: 'Equipment_Asset_Registry_Index.pdf', uploadedDate: '2026-02-12' }
       ]
     },
     {
       id: 2,
       sNo: '2.',
-      checkPoint: 'Approval Page',
+      checkPoint: 'Cross-Functional Approval Page',
       status: 'Yes',
-      remarks: 'Signed off by Head of R&D, Tech Transfer Lead, and Plant QA Head.',
+      remarks: 'Signed off by Head of Engineering, Controls Lead, and Plant Operations Director.',
       documentsCount: 3,
       documents: [
         { id: 1, title: 'Executed_Signoff_Page.pdf', uploadedDate: '2026-02-14' },
-        { id: 2, title: 'QA_Approval_Certificate.pdf', uploadedDate: '2026-02-15' },
+        { id: 2, title: 'Plant_QA_Approval_Certificate.pdf', uploadedDate: '2026-02-15' },
         { id: 3, title: 'Steering_Committee_Minutes.pdf', uploadedDate: '2026-02-16' }
       ]
     },
     {
       id: 3,
       sNo: '3.',
-      checkPoint: 'Table of contents',
+      checkPoint: 'Table of Contents & Dossier Map',
       status: 'Yes',
-      remarks: 'Comprehensive TOC linking all 28 sub-sections with cross-references.',
+      remarks: 'Comprehensive TOC linking all engineering drawings, BOMs, and SAT/OQ sections.',
       documentsCount: 1,
       documents: [
         { id: 1, title: 'Table_of_Contents_v2.1.pdf', uploadedDate: '2026-02-18' }
@@ -94,383 +94,267 @@ export class ProjectTtdComponent implements OnInit {
     {
       id: 4,
       sNo: '4.',
-      checkPoint: 'Scope and Scheme',
+      checkPoint: 'Scope, Line Throughput & Layout Scheme',
       status: 'Yes',
-      remarks: 'Manufacturing equipment capacities and commercial flow diagram defined.',
+      remarks: 'Equipment footprint, material flow, and rated line takt time defined.',
       documentsCount: 2,
       documents: [
-        { id: 1, title: 'Commercial_Process_Scheme.pdf', uploadedDate: '2026-02-20' },
-        { id: 2, title: 'Scope_Demarcation_Protocol.pdf', uploadedDate: '2026-02-22' }
+        { id: 1, title: 'Line_Layout_Floorplan_Rev3.pdf', uploadedDate: '2026-02-20' },
+        { id: 2, title: 'Material_Flow_Schematic.pdf', uploadedDate: '2026-02-21' }
       ]
     },
     {
       id: 5,
       sNo: '5.',
-      checkPoint: 'Test license',
+      checkPoint: 'Engineering Teams & OEM Stakeholders Roster',
       status: 'Yes',
-      remarks: 'Form 29 valid manufacturing test license copy attached.',
-      documentsCount: 4,
+      remarks: 'Contact matrix covering OEM service engineers, PLC integrators, and plant maintenance.',
+      documentsCount: 1,
       documents: [
-        { id: 1, title: 'Form_29_Test_License.pdf', uploadedDate: '2026-02-25' },
-        { id: 2, title: 'State_FDA_Approval_Letter.pdf', uploadedDate: '2026-02-26' },
-        { id: 3, title: 'Factory_Endorsement_Copy.pdf', uploadedDate: '2026-02-28' },
-        { id: 4, title: 'License_Validity_Verification.pdf', uploadedDate: '2026-03-01' }
+        { id: 1, title: 'Cross_Functional_Responsibility_Matrix.pdf', uploadedDate: '2026-02-22' }
       ]
     },
     {
       id: 6,
       sNo: '6.',
-      checkPoint: 'Procurement package',
+      checkPoint: 'User Requirements Specification (URS) Baseline',
       status: 'Yes',
-      remarks: 'Vendor qualification audit certificates for API & critical excipients.',
-      documentsCount: 3,
+      remarks: 'Approved URS covering cycle time, OEE >= 85%, and dimensional tolerance limits.',
+      documentsCount: 2,
       documents: [
-        { id: 1, title: 'API_Vendor_Audit_Package.pdf', uploadedDate: '2026-03-02' },
-        { id: 2, title: 'Excipient_Supplier_COA_Dossier.pdf', uploadedDate: '2026-03-04' },
-        { id: 3, title: 'Secondary_Packaging_Supplier_Audit.pdf', uploadedDate: '2026-03-05' }
+        { id: 1, title: 'URS_Baseline_Approved.pdf', uploadedDate: '2026-02-24' },
+        { id: 2, title: 'URS_Traceability_Matrix.xlsx', uploadedDate: '2026-02-25' }
       ]
     },
     {
       id: 7,
       sNo: '7.',
-      checkPoint: 'Drug Substance Specifications and Standard Test Procedure',
+      checkPoint: 'Bill of Materials (BOM) & Critical Component Spec',
       status: 'Yes',
-      remarks: 'API release specs, impurity limits, and HPLC assay method validation.',
-      documentsCount: 5,
+      remarks: 'Full indented BOM, metallurgy grades, and EN 10204 3.1 mill certificates compiled.',
+      documentsCount: 3,
       documents: [
-        { id: 1, title: 'API_Release_Specifications.pdf', uploadedDate: '2026-03-06' },
-        { id: 2, title: 'STP_Drug_Substance_Assay.pdf', uploadedDate: '2026-03-08' },
-        { id: 3, title: 'Related_Substances_Validation_Report.pdf', uploadedDate: '2026-03-10' },
-        { id: 4, title: 'Residual_Solvents_STP.pdf', uploadedDate: '2026-03-12' },
-        { id: 5, title: 'Particle_Size_Distribution_STP.pdf', uploadedDate: '2026-03-14' }
+        { id: 1, title: 'Indented_BOM_Master_Rev4.xlsx', uploadedDate: '2026-02-26' },
+        { id: 2, title: 'Alloy_Steel_Mill_Test_Certs.pdf', uploadedDate: '2026-02-27' },
+        { id: 3, title: 'Approved_Vendor_AVL_List.pdf', uploadedDate: '2026-02-28' }
       ]
     },
     {
       id: 8,
       sNo: '8.',
-      checkPoint: 'Raw material Specifications and Standard Test Procedure',
+      checkPoint: '3D CAD As-Built Assemblies & GD&T Drawings',
       status: 'Yes',
-      remarks: 'Pharmacopoeial compliance tests for Lactose, Microcrystalline Cellulose, etc.',
-      documentsCount: 4,
+      remarks: 'Released STEP models, tolerance stack-up reports, and as-built shop drawings archived.',
+      documentsCount: 2,
       documents: [
-        { id: 1, title: 'Excipients_Specifications_Compendium.pdf', uploadedDate: '2026-03-15' },
-        { id: 2, title: 'STP_Excipients_Release_Testing.pdf', uploadedDate: '2026-03-16' },
-        { id: 3, title: 'Magnesium_Stearate_Monograph.pdf', uploadedDate: '2026-03-18' },
-        { id: 4, title: 'Coating_Polymer_Opadry_Specs.pdf', uploadedDate: '2026-03-20' }
+        { id: 1, title: 'AsBuilt_CAD_Assembly_Drawings.pdf', uploadedDate: '2026-03-02' },
+        { id: 2, title: 'GDT_Tolerance_StackUp_Analysis.pdf', uploadedDate: '2026-03-03' }
       ]
     },
     {
       id: 9,
       sNo: '9.',
-      checkPoint: 'Packaging material Specifications and Standard Test Procedure',
+      checkPoint: 'Electrical Schematics, PLC Logic & SCADA Backup',
       status: 'Yes',
-      remarks: 'Alu-Alu blister foil, PVC-PVDC, cartons, and package insert specs.',
+      remarks: 'Panel wiring schematics, I/O tag map, and golden-master PLC/HMI software package verified.',
       documentsCount: 3,
       documents: [
-        { id: 1, title: 'Alu_Alu_Foil_Specs_STP.pdf', uploadedDate: '2026-03-22' },
-        { id: 2, title: 'Carton_Packaging_Artwork_Specs.pdf', uploadedDate: '2026-03-24' },
-        { id: 3, title: 'Leaflet_Approved_Content_Proof.pdf', uploadedDate: '2026-03-25' }
+        { id: 1, title: 'Electrical_Panel_Schematics_EPLAN.pdf', uploadedDate: '2026-03-05' },
+        { id: 2, title: 'PLC_SCADA_Golden_Backup_Log.pdf', uploadedDate: '2026-03-06' },
+        { id: 3, title: 'OPC_UA_Telemetry_Tag_Dictionary.xlsx', uploadedDate: '2026-03-07' }
       ]
     },
     {
       id: 10,
       sNo: '10.',
-      checkPoint: 'Finished product Specifications and Standard Test Procedures: In-process; Release and Shelf-life',
+      checkPoint: 'Utility Requirements (Power, Air, Chilled Water, HVAC)',
       status: 'Yes',
-      remarks: 'Blend uniformity, hardness, friability, dissolution, assay, and degradation.',
-      documentsCount: 6,
+      remarks: 'Peak kVA, compressed air CFM, cooling flow rates, and exhaust duct specs verified.',
+      documentsCount: 2,
       documents: [
-        { id: 1, title: 'Finished_Product_Specifications.pdf', uploadedDate: '2026-03-26' },
-        { id: 2, title: 'In_Process_Test_Specifications_IPQA.pdf', uploadedDate: '2026-03-28' },
-        { id: 3, title: 'STP_Finished_Tablet_Assay.pdf', uploadedDate: '2026-03-30' },
-        { id: 4, title: 'STP_Dissolution_Method_Validation.pdf', uploadedDate: '2026-04-02' },
-        { id: 5, title: 'Content_Uniformity_STP.pdf', uploadedDate: '2026-04-04' },
-        { id: 6, title: 'Shelf_Life_Specification_Limits.pdf', uploadedDate: '2026-04-05' }
+        { id: 1, title: 'Plant_Utility_TieIn_Schedule.pdf', uploadedDate: '2026-03-09' },
+        { id: 2, title: 'Substation_Feeder_Load_Study.pdf', uploadedDate: '2026-03-10' }
       ]
     },
     {
       id: 11,
       sNo: '11.',
-      checkPoint: 'Master Formula Record',
+      checkPoint: 'Design FMEA & HAZOP Machine Safety Dossier',
       status: 'Yes',
-      remarks: 'MFR detailing step-by-step dispensing, granulation, blending, and compression.',
-      documentsCount: 4,
+      remarks: 'All RPN > 100 risk modes mitigated; ISO 13849 PLd safety interlock validation closed.',
+      documentsCount: 2,
       documents: [
-        { id: 1, title: 'MFR_Dispensing_Granulation.pdf', uploadedDate: '2026-04-06' },
-        { id: 2, title: 'MFR_Compression_Parameters.pdf', uploadedDate: '2026-04-08' },
-        { id: 3, title: 'MFR_Film_Coating_Operations.pdf', uploadedDate: '2026-04-10' },
-        { id: 4, title: 'MFR_QA_Authorized_Master.pdf', uploadedDate: '2026-04-12' }
+        { id: 1, title: 'Design_FMEA_HAZOP_Report.pdf', uploadedDate: '2026-03-12' },
+        { id: 2, title: 'ISO_13849_Safety_Circuit_Signoff.pdf', uploadedDate: '2026-03-13' }
       ]
     },
     {
       id: 12,
       sNo: '12.',
-      checkPoint: 'Master Packaging Record',
+      checkPoint: 'Factory Acceptance Test (FAT) Report & Witness Log',
       status: 'Yes',
-      remarks: 'MPR detailing blister packing speeds, temperature parameters, and carton boxing.',
-      documentsCount: 3,
+      remarks: 'OEM FAT dry-run and dimensional capability trials signed off with zero critical punch items.',
+      documentsCount: 2,
       documents: [
-        { id: 1, title: 'MPR_Blister_Forming_Sealing.pdf', uploadedDate: '2026-04-14' },
-        { id: 2, title: 'MPR_Secondary_Cartoning_Line.pdf', uploadedDate: '2026-04-16' },
-        { id: 3, title: 'Shipper_Box_Case_Packing_SOP.pdf', uploadedDate: '2026-04-18' }
+        { id: 1, title: 'OEM_FAT_Executed_Protocol.pdf', uploadedDate: '2026-03-15' },
+        { id: 2, title: 'FAT_Punchlist_Closure_Report.pdf', uploadedDate: '2026-03-16' }
       ]
     },
-
-    // S.No 13: Stability Plan Group (5 rows spanned under S.No 13 matching Image 1)
     {
       id: 13,
       sNo: '13.',
-      checkPoint: 'Stability Plan.',
+      checkPoint: 'a) Metrology & Instrument Calibration Schedule',
       isGroupHeader: true,
-      groupSpan: 5,
+      groupSpan: 3,
       status: 'Yes',
-      remarks: 'ICH Q1A protocol: 25°C/60% RH, 30°C/65% RH, 40°C/75% RH testing schedule.',
-      documentsCount: 4,
+      remarks: 'NIST/NABL traceable calibration certificates logged for all pressure, load, and laser sensors.',
+      documentsCount: 2,
       documents: [
-        { id: 1, title: 'ICH_Stability_Protocol_Master.pdf', uploadedDate: '2026-04-20' },
-        { id: 2, title: 'Stability_Chamber_Validation_Log.pdf', uploadedDate: '2026-04-22' },
-        { id: 3, title: 'Accelerated_Testing_Interval_Map.pdf', uploadedDate: '2026-04-24' },
-        { id: 4, title: 'Long_Term_Zone_IVb_Schedule.pdf', uploadedDate: '2026-04-25' }
+        { id: 1, title: 'Sensor_Calibration_Certificates.pdf', uploadedDate: '2026-03-18' },
+        { id: 2, title: 'CMM_Metrology_Gage_RR.pdf', uploadedDate: '2026-03-19' }
       ]
     },
     {
       id: 14,
-      sNo: '',
-      checkPoint: 'Photo stability Plan',
+      sNo: '13.',
+      checkPoint: 'b) Mechanical Endurance & Thermal Load Protocol',
       isGroupPart: true,
       status: 'Yes',
-      remarks: 'ICH Q1B Option 2 light exposure testing protocol and quartz chamber logs.',
+      remarks: '72-hour continuous spindle, bearing vibration, and hydraulic thermal endurance checks passed.',
       documentsCount: 2,
       documents: [
-        { id: 1, title: 'Photo_Stability_Study_Protocol.pdf', uploadedDate: '2026-04-26' },
-        { id: 2, title: 'Lux_Hours_UV_Exposure_Log.pdf', uploadedDate: '2026-04-28' }
+        { id: 1, title: 'Vibration_Thermal_Endurance_Log.pdf', uploadedDate: '2026-03-21' },
+        { id: 2, title: 'ISO_10816_Vibration_Baseline.pdf', uploadedDate: '2026-03-22' }
       ]
     },
     {
       id: 15,
-      sNo: '',
-      checkPoint: 'Routine stability study plan',
+      sNo: '13.',
+      checkPoint: 'c) Multi-Shift OEE Ramp-Up Stress Protocol',
       isGroupPart: true,
-      status: 'Yes',
-      remarks: 'Annual commercial batch ongoing stability commitment protocol.',
-      documentsCount: 2,
+      status: 'No',
+      remarks: 'Final 3-shift OQ production ramp-up endurance report scheduled post-SAT completion.',
+      documentsCount: 1,
       documents: [
-        { id: 1, title: 'Routine_Stability_Commitment.pdf', uploadedDate: '2026-04-29' },
-        { id: 2, title: 'Commercial_Testing_Frequency_Matrix.pdf', uploadedDate: '2026-04-30' }
+        { id: 1, title: 'OQ_Three_Shift_Endurance_Plan.pdf', uploadedDate: '2026-03-24' }
       ]
     },
     {
       id: 16,
-      sNo: '',
-      checkPoint: 'In-Use stability plan',
-      isGroupPart: true,
-      status: 'N/A',
-      remarks: 'Not applicable for unit-dose blister packed solid oral tablets.',
-      documentsCount: 1,
+      sNo: '14.',
+      checkPoint: 'Installation Qualification (IQ) & Rigging Report',
+      status: 'No',
+      remarks: 'Precision laser alignment and anchor torque verification pending final bay tie-in.',
+      documentsCount: 2,
       documents: [
-        { id: 1, title: 'In_Use_Stability_Exemption_Note.pdf', uploadedDate: '2026-05-02' }
+        { id: 1, title: 'Foundation_Laser_Alignment_Protocol.pdf', uploadedDate: '2026-03-26' },
+        { id: 2, title: 'Heavy_Rigging_Lift_Plan.pdf', uploadedDate: '2026-03-27' }
       ]
     },
     {
       id: 17,
-      sNo: '',
-      checkPoint: 'XRD-Stability study plan',
-      isGroupPart: true,
-      status: 'Yes',
-      remarks: 'X-Ray Powder Diffraction study confirming crystal form retention over shelf life.',
-      documentsCount: 3,
+      sNo: '15.',
+      checkPoint: 'Site Acceptance Test (SAT) Performance Package',
+      status: 'No',
+      remarks: 'SAT Cpk >= 1.33 capability trials prepared for execution under Plant Operations witness.',
+      documentsCount: 2,
       documents: [
-        { id: 1, title: 'XRD_Polymorphic_Study_Protocol.pdf', uploadedDate: '2026-05-04' },
-        { id: 2, title: 'Diffraction_Pattern_Overlay_Report.pdf', uploadedDate: '2026-05-06' },
-        { id: 3, title: 'Solid_State_Stability_Evaluation.pdf', uploadedDate: '2026-05-08' }
+        { id: 1, title: 'SAT_Test_Script_Rev2.pdf', uploadedDate: '2026-03-29' },
+        { id: 2, title: 'Cpk_Statistical_Sampling_Plan.pdf', uploadedDate: '2026-03-30' }
       ]
     },
-
     {
       id: 18,
-      sNo: '14.',
-      checkPoint: 'Deactivation Study Protocol (If applicable)',
-      status: 'N/A',
-      remarks: 'Non-cytotoxic generic tablet molecule; chemical deactivation not required.',
-      documentsCount: 1,
+      sNo: '16.',
+      checkPoint: 'EHS Machine Guarding, Noise & LOTO Validation',
+      status: 'Yes',
+      remarks: 'Acoustic enclosure (< 78 dBA), light curtains, and Lockout/Tagout energy isolation verified.',
+      documentsCount: 2,
       documents: [
-        { id: 1, title: 'Deactivation_Requirement_Assessment.pdf', uploadedDate: '2026-05-10' }
+        { id: 1, title: 'EHS_LOTO_Isolation_Procedure.pdf', uploadedDate: '2026-04-02' },
+        { id: 2, title: 'Plant_Noise_Ergonomics_Audit.pdf', uploadedDate: '2026-04-03' }
       ]
     },
     {
       id: 19,
-      sNo: '15.',
-      checkPoint: 'Trade Dress Proposal Form [TDPF] (If applicable)',
+      sNo: '17.',
+      checkPoint: 'Critical Spare Parts List & Min-Max Inventory',
       status: 'Yes',
-      remarks: 'Tablet shape, debossing, color, and packaging artwork regulatory signoff.',
-      documentsCount: 2,
+      remarks: 'Tier-1 wear spares, seals, servo drives, and spindle cartridges cataloged in plant stores.',
+      documentsCount: 1,
       documents: [
-        { id: 1, title: 'Trade_Dress_Proposal_Signed.pdf', uploadedDate: '2026-05-12' },
-        { id: 2, title: 'Color_Shade_Card_Approval.pdf', uploadedDate: '2026-05-14' }
+        { id: 1, title: 'Critical_Spares_Stocking_Schedule.xlsx', uploadedDate: '2026-04-05' }
       ]
     },
     {
       id: 20,
-      sNo: '16.',
-      checkPoint: 'Photo stability plan',
-      status: 'Yes',
-      remarks: 'Finished product blister packaging photostability confirmation report.',
+      sNo: '18.',
+      checkPoint: 'Preventive Maintenance (PM) & CMMS Schedules',
+      status: 'No',
+      remarks: 'Daily, weekly, and annual lubrication/PM task trees uploaded to plant CMMS sandbox.',
       documentsCount: 2,
       documents: [
-        { id: 1, title: 'Packaged_Product_Photostability.pdf', uploadedDate: '2026-05-15' },
-        { id: 2, title: 'Optical_Density_Analysis.pdf', uploadedDate: '2026-05-16' }
+        { id: 1, title: 'CMMS_PM_Schedule_Upload.xlsx', uploadedDate: '2026-04-08' },
+        { id: 2, title: 'OEM_Maintenance_Manual_Vol1.pdf', uploadedDate: '2026-04-09' }
       ]
     },
     {
       id: 21,
-      sNo: '17.',
-      checkPoint: 'Temperature Excursion',
-      status: 'Yes',
-      remarks: 'Temperature excursion study report covering short-term cold/hot shipping ranges.',
-      documentsCount: 3,
+      sNo: '19.',
+      checkPoint: 'Operator SOPs & Maintenance Training Records',
+      status: 'No',
+      remarks: 'Classroom and hands-on operator/technician certification sessions scheduled pre-OQ.',
+      documentsCount: 2,
       documents: [
-        { id: 1, title: 'Temperature_Excursion_Protocol.pdf', uploadedDate: '2026-05-18' },
-        { id: 2, title: 'Shipping_Simulation_Data_Log.pdf', uploadedDate: '2026-05-20' },
-        { id: 3, title: 'Quality_Impact_Excursion_Report.pdf', uploadedDate: '2026-05-22' }
+        { id: 1, title: 'Operator_Standard_Work_SOP.pdf', uploadedDate: '2026-04-12' },
+        { id: 2, title: 'Technician_Certification_Attendance.pdf', uploadedDate: '2026-04-13' }
       ]
     },
     {
       id: 22,
-      sNo: '18.',
-      checkPoint: 'Thermal Cycling Stability plan',
+      sNo: '20.',
+      checkPoint: 'Third-Party CE / UL / OSHA Compliance Certificates',
       status: 'Yes',
-      remarks: 'Thermal stress cycling (4°C to 40°C alternate cycles) completed without phase separation.',
+      remarks: 'Conformity declarations, pressure vessel certifications, and EMC test certificates archived.',
       documentsCount: 2,
       documents: [
-        { id: 1, title: 'Thermal_Cycling_Protocol_Results.pdf', uploadedDate: '2026-05-24' },
-        { id: 2, title: 'Stress_Testing_Data_Sheets.pdf', uploadedDate: '2026-05-26' }
+        { id: 1, title: 'CE_Declaration_of_Conformity.pdf', uploadedDate: '2026-04-15' },
+        { id: 2, title: 'NFPA79_Electrical_Audit_Cert.pdf', uploadedDate: '2026-04-16' }
       ]
     },
     {
       id: 23,
-      sNo: '19.',
-      checkPoint: 'Miscellaneous Study protocol',
-      status: 'Yes',
-      remarks: 'Friability after 1000 drops, moisture permeability and hardness extremes.',
-      documentsCount: 2,
+      sNo: '21.',
+      checkPoint: 'Engineering Change Notices (ECN) & Punch-List Log',
+      status: 'N/A',
+      remarks: 'No open Class-A deviations remaining prior to final Gate 5 handover board.',
+      documentsCount: 1,
       documents: [
-        { id: 1, title: 'Mechanical_Stress_Friability_Study.pdf', uploadedDate: '2026-05-28' },
-        { id: 2, title: 'Moisture_Sorption_Isotherm.pdf', uploadedDate: '2026-05-30' }
+        { id: 1, title: 'ECN_Punchlist_Tracker.xlsx', uploadedDate: '2026-04-18' }
       ]
     },
     {
       id: 24,
-      sNo: '20.',
-      checkPoint: 'Reconstitution and Admixture study protocol',
-      status: 'N/A',
-      remarks: 'Solid oral tablet formulation; reconstitution study not applicable.',
-      documentsCount: 1,
+      sNo: '22.',
+      checkPoint: 'Final Plant Handover Certificate & Warranty Terms',
+      status: 'No',
+      remarks: '24-month OEM parts & service warranty SLA prepared for Gate 5 handover signature.',
+      documentsCount: 2,
       documents: [
-        { id: 1, title: 'Dosage_Form_Evaluation_Justification.pdf', uploadedDate: '2026-06-02' }
+        { id: 1, title: 'OEM_Warranty_SLA_Agreement.pdf', uploadedDate: '2026-04-20' },
+        { id: 2, title: 'Plant_Operations_Handover_Form.pdf', uploadedDate: '2026-04-21' }
       ]
     },
     {
       id: 25,
-      sNo: '21.',
-      checkPoint: 'Dissolution Protocol (if applicable)',
-      status: 'Yes',
-      remarks: 'Biorelevant dissolution (FaSSIF, FeSSIF, pH 1.2, 4.5, 6.8) profiling study.',
-      documentsCount: 4,
-      documents: [
-        { id: 1, title: 'Multi_Media_Dissolution_Protocol.pdf', uploadedDate: '2026-06-05' },
-        { id: 2, title: 'Biorelevant_Media_Profile_Report.pdf', uploadedDate: '2026-06-08' },
-        { id: 3, title: 'F2_Calculation_RLD_Similarity.xlsx', uploadedDate: '2026-06-10' },
-        { id: 4, title: 'Apparatus_Qualification_Records.pdf', uploadedDate: '2026-06-12' }
-      ]
-    },
-    {
-      id: 26,
-      sNo: '22.',
-      checkPoint: 'Filter validation study protocol and Report',
-      status: 'N/A',
-      remarks: 'Dry granulation solid tablet formulation; liquid filtration not used.',
-      documentsCount: 1,
-      documents: [
-        { id: 1, title: 'Process_Validation_Applicability_Review.pdf', uploadedDate: '2026-06-15' }
-      ]
-    },
-    {
-      id: 27,
       sNo: '23.',
-      checkPoint: 'CPP & CQA',
+      checkPoint: 'TTD Document Control & Revision Change History',
       status: 'Yes',
-      remarks: 'Comprehensive QbD mapping of Critical Process Parameters and Quality Attributes.',
-      documentsCount: 5,
-      documents: [
-        { id: 1, title: 'QbD_Risk_Assessment_Matrix.pdf', uploadedDate: '2026-06-18' },
-        { id: 2, title: 'CPP_Granulation_Impeller_Speed.pdf', uploadedDate: '2026-06-20' },
-        { id: 3, title: 'CQA_Tablet_Disintegration_Range.pdf', uploadedDate: '2026-06-22' },
-        { id: 4, title: 'Compression_Force_Optimization_DoE.pdf', uploadedDate: '2026-06-25' },
-        { id: 5, title: 'Process_Control_Strategy_Summary.pdf', uploadedDate: '2026-06-28' }
-      ]
-    },
-    {
-      id: 28,
-      sNo: '24.',
-      checkPoint: 'Tool Drawings',
-      status: 'Yes',
-      remarks: 'Approved punch and die tooling engineering mechanical blueprints.',
-      documentsCount: 3,
-      documents: [
-        { id: 1, title: 'Punch_Die_Tooling_Blueprints.pdf', uploadedDate: '2026-07-02' },
-        { id: 2, title: 'Embossing_Specification_CAD.pdf', uploadedDate: '2026-07-05' },
-        { id: 3, title: 'Tooling_Vendor_FAT_Certificate.pdf', uploadedDate: '2026-07-08' }
-      ]
-    },
-    {
-      id: 29,
-      sNo: '25.',
-      checkPoint: 'Packaging material development report (if applicable)',
-      status: 'Yes',
-      remarks: 'Blister pocket depth, sealing integrity, and leak test qualification report.',
-      documentsCount: 3,
-      documents: [
-        { id: 1, title: 'Packaging_Development_Report.pdf', uploadedDate: '2026-07-10' },
-        { id: 2, title: 'Sealing_Integrity_Dye_Penetration.pdf', uploadedDate: '2026-07-12' },
-        { id: 3, title: 'Primary_Packaging_Compatibility.pdf', uploadedDate: '2026-07-15' }
-      ]
-    },
-    {
-      id: 30,
-      sNo: '26.',
-      checkPoint: 'Material Safety Data Sheet',
-      status: 'Yes',
-      remarks: '16-section OSHA/GHS Material Safety Data Sheets for API, excipients, and intermediate blend.',
+      remarks: 'Revision audit trail verified from v1.0 Concept Baseline to v2.1 Commissioning Dossier.',
       documentsCount: 2,
       documents: [
-        { id: 1, title: 'MSDS_Active_Pharmaceutical_Ingredient.pdf', uploadedDate: '2026-07-18' },
-        { id: 2, title: 'MSDS_Finished_Drug_Product.pdf', uploadedDate: '2026-07-20' }
-      ]
-    },
-    {
-      id: 31,
-      sNo: '27.',
-      checkPoint: 'Consumables',
-      status: 'Yes',
-      remarks: 'Comprehensive list of approved plant cleanroom consumables, liners, and gaskets.',
-      documentsCount: 2,
-      documents: [
-        { id: 1, title: 'Manufacturing_Consumables_List.pdf', uploadedDate: '2026-07-22' },
-        { id: 2, title: 'Food_Grade_Silicone_Gasket_COA.pdf', uploadedDate: '2026-07-25' }
-      ]
-    },
-    {
-      id: 32,
-      sNo: '28.',
-      checkPoint: 'Change History',
-      status: 'Yes',
-      remarks: 'Document change history log tracking revisions from draft v1.0 through final v2.1.',
-      documentsCount: 4,
-      documents: [
-        { id: 1, title: 'TTD_Change_History_Log.pdf', uploadedDate: '2026-07-28' },
-        { id: 2, title: 'Change_Control_CCR_2026_089.pdf', uploadedDate: '2026-07-30' },
-        { id: 3, title: 'Version_1_0_Superseded_Archive.pdf', uploadedDate: '2026-08-01' },
-        { id: 4, title: 'Version_2_0_Redline_Comparison.pdf', uploadedDate: '2026-08-05' }
+        { id: 1, title: 'TTD_Change_History_Log.pdf', uploadedDate: '2026-04-22' },
+        { id: 2, title: 'Version_2_1_Redline_Comparison.pdf', uploadedDate: '2026-04-24' }
       ]
     }
   ];
@@ -538,7 +422,7 @@ export class ProjectTtdComponent implements OnInit {
       data: {
         title: `Documents — ${item.checkPoint}`,
         documents: item.documents || [
-          { id: 1, title: `${item.checkPoint.replace(/[^a-zA-Z0-9]/g, '_')}_DQA_Signed.pdf`, uploadedDate: '2026-03-15' },
+          { id: 1, title: `${item.checkPoint.replace(/[^a-zA-Z0-9]/g, '_')}_ENG_Signed.pdf`, uploadedDate: '2026-03-15' },
           { id: 2, title: `${item.checkPoint.replace(/[^a-zA-Z0-9]/g, '_')}_Execution_Record.pdf`, uploadedDate: '2026-03-20' }
         ]
       }

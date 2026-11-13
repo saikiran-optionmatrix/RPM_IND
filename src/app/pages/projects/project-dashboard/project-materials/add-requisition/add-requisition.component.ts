@@ -39,9 +39,9 @@ export class AddRequisitionComponent implements OnInit {
     available: false,
     reserved: false,
     issued: false,
-    stage: 'Feasibility',
-    module: 'API Assessment',
-    task: 'API Evaluation'
+    stage: 'Detailed Engg',
+    module: 'Structural Frame',
+    task: 'Frame Weldment Stock'
   };
 
   constructor(

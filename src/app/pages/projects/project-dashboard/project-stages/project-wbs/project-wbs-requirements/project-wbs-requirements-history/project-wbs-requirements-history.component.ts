@@ -98,14 +98,14 @@ export class ProjectWbsRequirementsHistoryComponent implements OnInit {
   }
 
   initHistoryRecords(): void {
-    const curReqName = this.requirementName || 'API Solubility, Solid-State Form, and Stability Requirements';
-    const curDept = this.department || 'Formulation R&D';
-    const curRole = this.role || 'Lead Formulation Scientist';
+    const curReqName = this.requirementName || 'Mechanical Load, Dimensional Tolerance, and Vibration Limits Specification';
+    const curDept = this.department || 'Mechanical Design';
+    const curRole = this.role || 'Lead Mechanical Engineer';
     const curDueDate = this.dueDate || '2026-05-15';
     const curCompletedDate = this.completedDate || (this.done ? '2026-05-14' : '');
     const curActive = this.active;
     const curDone = this.done;
-    const curRemarks = this.remarks || 'ICH Q6A compliant solid-state screening passed';
+    const curRemarks = this.remarks || 'ISO 10816 vibration and GD&T tolerance stack-up verified';
 
     // Revision history for the clicked requirement
     const selectedRevisions: RequirementHistoryItem[] = [
@@ -118,7 +118,7 @@ export class ProjectWbsRequirementsHistoryComponent implements OnInit {
         role: curRole,
         dueDate: curDueDate,
         completedDate: curCompletedDate,
-        remarks: curRemarks || 'Final requirement verified and approved for pharmaceutical validation',
+        remarks: curRemarks || 'Final requirement verified and approved for industrial equipment validation',
         revision: 'Rev 3 (Current)',
         changedDate: '2026-01-19'
       },
@@ -131,7 +131,7 @@ export class ProjectWbsRequirementsHistoryComponent implements OnInit {
         role: curRole,
         dueDate: '2026-01-15',
         completedDate: '',
-        remarks: 'Intermediate revision: adjusted test parameters according to product specs',
+        remarks: 'Intermediate revision: adjusted test parameters according to URS specs',
         revision: 'Rev 2',
         changedDate: '2026-01-12'
       },
@@ -156,72 +156,72 @@ export class ProjectWbsRequirementsHistoryComponent implements OnInit {
         id: 4,
         active: true,
         done: true,
-        requirementName: 'Critical Quality Attribute Risk Assessment and Control Strategy Requirements',
-        department: 'Regulatory Affairs',
-        role: 'RA Director',
+        requirementName: 'Design FMEA Risk Assessment and Critical Component Control Strategy',
+        department: 'Quality Assurance',
+        role: 'Engineering Manager',
         dueDate: '2026-01-25',
         completedDate: '2026-01-24',
-        remarks: 'FDA & EMA guidance aligned TPP specification approved',
+        remarks: 'ISO 9001 & machinery directive aligned FMEA matrix approved',
         revision: 'Rev 2'
       },
       {
         id: 5,
         active: true,
         done: true,
-        requirementName: 'Dosage Form Dissolution Profile and Drug Release Acceptance Criteria',
-        department: 'Analytical Development',
-        role: 'Lead Analytical Scientist',
+        requirementName: 'PLC / SCADA Control Logic and Safety Interlock Compliance (ISO 13849)',
+        department: 'Automation & Controls',
+        role: 'Controls Lead',
         dueDate: '2026-02-10',
         completedDate: '2026-02-09',
-        remarks: 'f2 similarity factor >= 50 confirmed across all physiological buffers',
+        remarks: 'PLd / SIL2 emergency-stop and light-curtain interlock logic validated',
         revision: 'Rev 2'
       },
       {
         id: 6,
         active: true,
         done: true,
-        requirementName: 'Reference Product Selection and Characterization Requirements',
-        department: 'Formulation R&D',
-        role: 'Lead Formulation Scientist',
+        requirementName: 'OEM Benchmark Equipment Throughput and OEE Target Verification',
+        department: 'Engineering & R&D',
+        role: 'Principal Manufacturing Engineer',
         dueDate: '2026-02-18',
         completedDate: '2026-02-17',
-        remarks: 'ICH Q9 FMEA quality risk management matrix signed off',
+        remarks: 'Target OEE >= 85% and takt-time benchmark established',
         revision: 'Rev 1'
       },
       {
         id: 7,
         active: true,
         done: true,
-        requirementName: 'Pharmaceutical Excipient Grade, Compendial Compliance, and CoA Requirements',
-        department: 'Sourcing & Procurement',
-        role: 'Procurement Manager',
+        requirementName: 'Raw Steel, Casting, and Certified Component Material Traceability',
+        department: 'Procurement & Supply Chain',
+        role: 'Procurement Lead',
         dueDate: '2026-02-25',
         completedDate: '2026-02-24',
-        remarks: 'Vendor DMF access letters and pharmacopoeial certificates verified',
+        remarks: 'EN 10204 3.1 mill test certificates and OEM quality agreements verified',
         revision: 'Rev 1'
       },
       {
         id: 8,
         active: true,
         done: false,
-        requirementName: 'Primary and Secondary Packaging Material Compatibility and Barrier Requirements',
-        department: 'Packaging Development',
-        role: 'Packaging Specialist',
+        requirementName: 'Utility Header, Electrical Load, and Plant Foundation Readiness',
+        department: 'Manufacturing & Operations',
+        role: 'Facilities Lead',
         dueDate: '2026-03-05',
         completedDate: '',
-        remarks: 'USP <671> and USP <1207> helium leak detection testing underway',
+        remarks: '480V 3-phase feeder and chilled water pressure tests underway',
         revision: 'Rev 1'
       },
       {
         id: 9,
         active: true,
         done: true,
-        requirementName: 'Impurity Limits, Degradation Pathways, and ICH Q3A/Q3B Assessment Requirements',
-        department: 'Pre-Formulation R&D',
-        role: 'Pre-Formulation Lead',
+        requirementName: 'EHS Machine Guarding, Noise Attenuation, and LOTO Compliance',
+        department: 'EHS & Compliance',
+        role: 'EHS Officer',
         dueDate: '2026-03-15',
         completedDate: '2026-03-14',
-        remarks: 'Isothermal stress and binary blend HPLC analysis completed with mitigations',
+        remarks: 'OSHA / CE acoustic enclosure and Lockout/Tagout isolation verified',
         revision: 'Rev 1'
       }
     ];

@@ -16,25 +16,25 @@
     <div class="table-responsive">
       <table class="table app-table ttd-info-table">
         <tbody>
-          <!-- Product Name (Readonly from query params) -->
+          <!-- Program / Equipment Name (Readonly from query params) -->
           <tr>
-            <th class="info-label-cell">Product Name</th>
+            <th class="info-label-cell">Equipment / Program</th>
             <td class="info-value-cell">
               <input type="text" class="form-control form-control-readonly" [value]="productName" readonly>
             </td>
           </tr>
 
-          <!-- Strength (Readonly) -->
+          <!-- Rated Capacity (Readonly) -->
           <tr>
-            <th class="info-label-cell">Strength</th>
+            <th class="info-label-cell">Rated Capacity / Spec</th>
             <td class="info-value-cell">
               <input type="text" class="form-control form-control-readonly" [value]="strength" readonly>
             </td>
           </tr>
 
-          <!-- Market (Readonly) -->
+          <!-- Plant / Region (Readonly) -->
           <tr>
-            <th class="info-label-cell">Market</th>
+            <th class="info-label-cell">Plant / Region</th>
             <td class="info-value-cell">
               <input type="text" class="form-control form-control-readonly" [value]="market" readonly>
             </td>
@@ -90,7 +90,7 @@
         <tbody>
           @for (item of checkPointsList; track item.id) {
             <tr>
-              <!-- S.No (Handles rowspan for S.No 13 Stability Plan Group) -->
+              <!-- S.No (Handles rowspan for S.No 13 Safety & Reliability Group) -->
               @if (item.isGroupHeader) {
                 <td [attr.rowspan]="item.groupSpan" class="text-center font-weight-bold" style="vertical-align: middle; background-color: #f8fafc;">
                   {{ item.sNo }}

@@ -38,11 +38,11 @@ export class TemplateResourcesComponent implements OnInit, OnDestroy {
     this.route.snapshot.queryParamMap.get('projectName') ||
     this.route.snapshot.queryParamMap.get('name') ||
     this.route.snapshot.queryParamMap.get('templateName') ||
-    'Oral Solid Dosage (OSD) Formulation & Commercialization';
+    'Industrial Equipment Line Expansion Program';
   projectCode: string =
     this.route.snapshot.queryParamMap.get('projectCode') ||
     this.route.snapshot.queryParamMap.get('code') ||
-    '2026/GEN/001';
+    'TPL/IND/001';
   dynamicBreadcrumb: string = 'Resources';
 
   availableResources: ResourceItem[] = [];
@@ -77,11 +77,11 @@ export class TemplateResourcesComponent implements OnInit, OnDestroy {
 
   initializeData(): void {
     this.availableResources = [
-      { code: 'RES001', name: 'Lyophilizer A', selected: false },
+      { code: 'RES001', name: 'CNC Machining Centre A', selected: false },
       { code: 'RES002', name: 'Anita Desai', selected: false },
-      { code: 'RES003', name: 'Lyophilizer B', selected: false },
+      { code: 'RES003', name: 'Vibration & Flow Measurement System B', selected: false },
       { code: 'RES004', name: 'Amit Patel', selected: false },
-      { code: 'RES005', name: 'Lyophilizer C', selected: false },
+      { code: 'RES005', name: 'Environmental Test Chamber C', selected: false },
       { code: 'RES006', name: 'Deepa Nair', selected: false },
       { code: 'RES007', name: 'Arun Joseph', selected: false },
       { code: 'RES008', name: 'Lakshmi Devi', selected: false }

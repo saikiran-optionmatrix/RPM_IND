@@ -52,8 +52,8 @@
                 </div>
 
                 <div class="app-filter-field">
-                  <label>Project Code:</label>
-                  <input class="app-filter-control" formControlName="ProjectCode" placeholder="Search project code">
+                  <label>Program Code:</label>
+                  <input class="app-filter-control" formControlName="ProjectCode" placeholder="Search program code">
                 </div>
 
                 <div class="app-filter-field">
@@ -132,7 +132,7 @@
                 <th class="text-center" style="width: 80px;">Action</th>
                 <th class="text-center" style="width: 60px;">Active</th>
                 <th class="text-center" style="width: 60px;">Done</th>
-                <th class="text-left" style="min-width: 140px;">Project Code</th>
+                <th class="text-left" style="min-width: 140px;">Program Code</th>
                 <th class="text-left" style="min-width: 220px;">Requirement Name</th>
                 <th class="text-left" style="min-width: 180px;">Delay Reason</th>
                 <th class="text-left" style="min-width: 160px;">Department</th>
@@ -183,7 +183,7 @@
 
                 <!-- Delay Reason -->
                 <td class="text-left font-weight-500" [style.color]="isDateExceeded(item) ? '#dc2626' : '#94a3b8'">
-                  {{ isDateExceeded(item) ? (item.delayReason || 'Raw Material Shortage') : '-' }}
+                  {{ isDateExceeded(item) ? (item.delayReason || 'Equipment Specification Clearance Delay') : '-' }}
                 </td>
 
                 <!-- 6. Department -->

@@ -1,9 +1,9 @@
 <div class="buffer-top-bar">
   <div class="filters-row">
     <div class="filter-item">
-      <label class="filter-label">Project Filter:</label>
-      <mat-select [(ngModel)]="selectedBufferProject" (selectionChange)="onBufferFilterChange()" class="app-custom-select" style="min-width: 200px;">
-        <mat-option value="All Projects">All Projects</mat-option>
+      <label class="filter-label">Program Filter:</label>
+      <mat-select [(ngModel)]="selectedBufferProject" (selectionChange)="onBufferFilterChange()" class="app-custom-select" style="min-width: 220px;">
+        <mat-option value="All Programs">All Programs</mat-option>
         @for (p of projects; track p) {
           <mat-option [value]="p">{{ p }}</mat-option>
         }

@@ -81,7 +81,7 @@ export class ProjectGatesHistoryComponent implements OnInit {
 
   initHistoryRecords(): void {
     const code = this.gateCode || 'Gate 1';
-    const name = this.gateName || 'Gate 1 - Feasibility & Concept Approval';
+    const name = this.gateName || 'Gate 1 - Business Case Approval';
 
     this.historyRecords = [
       {
@@ -90,7 +90,7 @@ export class ProjectGatesHistoryComponent implements OnInit {
         decision: 'Go',
         redirectToStage: '',
         updatedDate: '2026-02-15',
-        remarks: 'All concept criteria verified and signed off for advancement',
+        remarks: 'All scope, CapEx, and engineering feasibility criteria signed off',
         planStart: '2026-01-15',
         planEnd: '2026-02-15',
         actualStart: '2026-01-15',
@@ -107,7 +107,7 @@ export class ProjectGatesHistoryComponent implements OnInit {
         decision: 'Rework',
         redirectToStage: '',
         updatedDate: '2026-02-10',
-        remarks: 'Regulatory documentation required supplementary stability data',
+        remarks: 'Safety compliance dossier required supplementary CE / machine guarding specs',
         planStart: '2026-01-15',
         planEnd: '2026-02-15',
         actualStart: '2026-01-15',
@@ -122,9 +122,9 @@ export class ProjectGatesHistoryComponent implements OnInit {
         gateCode: code,
         gateName: name,
         decision: 'Redirect',
-        redirectToStage: 'Stage 1: Concept & Initiation',
+        redirectToStage: 'S1 - Business Need & Opportunity Assessment',
         updatedDate: '2026-02-05',
-        remarks: 'Redirected to Stage 1 for additional analytical testing protocol',
+        remarks: 'Redirected to Stage 1 for revised utility load and cycle-time simulation',
         planStart: '2026-01-15',
         planEnd: '2026-02-15',
         actualStart: '2026-01-15',
@@ -141,7 +141,7 @@ export class ProjectGatesHistoryComponent implements OnInit {
         decision: 'Kill',
         redirectToStage: '',
         updatedDate: '2026-01-28',
-        remarks: 'Preliminary patent freedom-to-operate review raised flags',
+        remarks: 'Legacy equipment retrofit option rejected due to excessive structural rework',
         planStart: '2026-01-15',
         planEnd: '2026-02-15',
         actualStart: '2026-01-15',

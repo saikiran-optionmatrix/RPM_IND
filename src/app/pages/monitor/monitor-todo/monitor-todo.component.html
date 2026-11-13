@@ -71,27 +71,38 @@
 
               <div class="app-filter-fields">
                 <div class="app-filter-field">
-                  <label>Select Project:</label>
+                  <label>Select Program:</label>
                   <select class="app-filter-control" formControlName="ProjectName">
-                    <option value="" disabled hidden selected>Select Project</option>
-                    <option value="Project 1">Project 1</option>
-                    <option value="Project 2">Project 2</option>
+                    <option value="">All Programs</option>
+                    <option value="Industrial Equipment Line Expansion">Industrial Equipment Line Expansion</option>
+                    <option value="CNC Machining Process Optimization">CNC Machining Process Optimization</option>
+                    <option value="Automated Packaging Line Development">Automated Packaging Line Development</option>
+                    <option value="High-Pressure Centrifugal Pump Assembly">High-Pressure Centrifugal Pump Assembly</option>
+                    <option value="Oil-Free Rotary Screw Compressor System">Oil-Free Rotary Screw Compressor System</option>
+                    <option value="CNC Machining Line Capacity Expansion">CNC Machining Line Capacity Expansion</option>
                   </select>
                 </div>
                 <div class="app-filter-field">
                   <label>Select Stage:</label>
                   <select class="app-filter-control" formControlName="Stage">
-                    <option value="" disabled hidden selected>Select Stage</option>
-                    <option value="Stage 1">Stage 1</option>
-                    <option value="Stage 2">Stage 2</option>
+                    <option value="">All Stages</option>
+                    <option value="S1">S1 - Business Need & Opportunity Assessment</option>
+                    <option value="S2">S2 - Project Scope & Feasibility Validation</option>
+                    <option value="S3">S3 - Concept Engineering & Solution Development</option>
+                    <option value="S4">S4 - Detailed Engineering & Design Optimization</option>
+                    <option value="S5">S5 - Concept Selection & Design Freeze</option>
+                    <option value="S8">S8 - Installation Planning & Site Installation Readiness</option>
                   </select>
                 </div>
                 <div class="app-filter-field">
-                  <label>Select Sprint:</label>
+                  <label>Select Department:</label>
                   <select class="app-filter-control" formControlName="Sprint">
-                    <option value="" disabled hidden selected>Select Sprint</option>
-                    <option value="Sprint 1">Sprint 1</option>
-                    <option value="Sprint 2">Sprint 2</option>
+                    <option value="">All Departments</option>
+                    <option value="Engineering & R&D">Engineering & R&D</option>
+                    <option value="Automation & Controls">Automation & Controls</option>
+                    <option value="Quality & Inspection">Quality & Inspection</option>
+                    <option value="EHS & Compliance">EHS & Compliance</option>
+                    <option value="Commissioning & Qualification">Commissioning & Qualification</option>
                   </select>
                 </div>
               </div>
@@ -144,7 +155,7 @@
                 <th class="text-center" style="width: 90px;">Actions</th>
                 <th class="text-center" style="width: 60px;">Done</th>
                 <th class="text-center" style="width: 70px;">Timeline</th>
-                <th class="text-left" style="min-width: 130px;">Project Code</th>
+                <th class="text-left" style="min-width: 130px;">Program Code</th>
                 <th class="text-left" style="min-width: 180px;">Subject</th>
                 <th class="text-left" style="min-width: 180px;">Delay Reason</th>
                 <th class="text-left" style="min-width: 220px;">Description</th>
@@ -153,7 +164,7 @@
                 <th class="text-center" style="min-width: 110px;">Due Date</th>
                 <th class="text-center" style="min-width: 120px;">Group</th>
                 <th class="text-center" style="min-width: 140px;">Department</th>
-                <th class="text-left" style="min-width: 180px;">Project Name</th>
+                <th class="text-left" style="min-width: 180px;">Program Name</th>
               </tr>
             </thead>
             <tbody>
@@ -200,7 +211,7 @@
                   {{ item.Subject }}
                 </td>
                 <td class="text-left font-weight-500" [style.color]="isTaskOverdue(item) ? '#dc2626' : '#94a3b8'">
-                  {{ isTaskOverdue(item) ? (item.delayReason || 'Resource Reallocation') : '-' }}
+                  {{ isTaskOverdue(item) ? (item.delayReason || 'Equipment Calibration & Tooling Reallocation') : '-' }}
                 </td>
                 <td class="text-left font-weight-500" style="white-space: normal; min-width: 220px;"
                   [style.color]="isTaskOverdue(item) ? '#dc2626' : null">
@@ -455,7 +466,7 @@
             <div class="timeline-date-value">{{ selectedTimelineTask.Responsibility || '—' }}</div>
           </div>
           <div class="timeline-date-col timeline-date-col--last">
-            <div class="timeline-date-label">Project Name</div>
+            <div class="timeline-date-label">Program Name</div>
             <div class="timeline-date-value">{{ selectedTimelineTask.ProjectName || '—' }}</div>
           </div>
         </div>

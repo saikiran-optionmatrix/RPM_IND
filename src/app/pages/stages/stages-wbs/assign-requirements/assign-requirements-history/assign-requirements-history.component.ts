@@ -66,24 +66,24 @@ export class AssignRequirementsHistoryComponent implements OnInit {
   }
 
   initHistoryRecords(): void {
-    const curReqName = this.requirementName || 'API Solubility, Solid-State Form, and Stability Requirements';
+    const curReqName = this.requirementName || 'Mechanical Load, Dimensional Tolerance, and Vibration Limits Specification';
     const count = this.historyCount || 3;
 
     const baseDates = [
-      '2024-05-18 14:30',
-      '2024-05-02 11:15',
-      '2024-04-19 09:45',
-      '2024-04-05 16:20',
-      '2024-03-22 10:10',
-      '2024-03-10 13:00'
+      '2026-05-18 14:30',
+      '2026-05-02 11:15',
+      '2026-04-19 09:45',
+      '2026-04-05 16:20',
+      '2026-03-22 10:10',
+      '2026-03-10 13:00'
     ];
 
     const users = [
-      'Dr. Robert Vance',
-      'Sarah Jenkins',
-      'Michael Chang',
-      'Emily Watson',
-      'David Miller'
+      'Rajesh Kumar',
+      'Ananya Rao',
+      'Anita Desai',
+      'Priya Reddy',
+      'Amit Patel'
     ];
 
     const reqNameVariations = [
@@ -111,45 +111,45 @@ export class AssignRequirementsHistoryComponent implements OnInit {
     const otherReqsCatalog: AssignRequirementHistoryItem[] = [
       {
         id: 101,
-        requirementName: 'Critical Quality Attribute Risk Assessment and Control Strategy Requirements',
+        requirementName: 'Design FMEA Risk Assessment and Critical Component Control Strategy',
         revision: 'Rev 2',
         changedDate: '2026-05-19 16:40',
-        changedBy: 'Dr. Sarah Jenkins'
+        changedBy: 'Ananya Rao'
       },
       {
         id: 102,
-        requirementName: 'Critical Quality Attribute Risk Assessment Baseline Specification - Initial Study',
+        requirementName: 'PLC / SCADA Control Logic and Safety Interlock Compliance (ISO 13849)',
         revision: 'Rev 1',
         changedDate: '2026-05-01 10:30',
-        changedBy: 'Dr. Sarah Jenkins'
+        changedBy: 'Ananya Rao'
       },
       {
         id: 103,
-        requirementName: 'Dosage Form Dissolution Profile and Drug Release Acceptance Criteria',
+        requirementName: 'OEM Benchmark Equipment Throughput and OEE Target Verification',
         revision: 'Rev 3',
         changedDate: '2026-05-15 09:20',
-        changedBy: 'Michael Chang'
+        changedBy: 'Rajesh Kumar'
       },
       {
         id: 104,
-        requirementName: 'Reference Product Selection and Characterization Requirements',
+        requirementName: 'Critical Component Grade, Material Test Certificate (MTC), and CoC Requirements',
         revision: 'Rev 2',
         changedDate: '2026-05-10 11:45',
-        changedBy: 'Vikram Sharma'
+        changedBy: 'Anita Desai'
       },
       {
         id: 105,
-        requirementName: 'Pharmaceutical Excipient Grade, Compendial Compliance, and CoA Requirements',
+        requirementName: 'Machine Enclosure, Acoustic Shielding, and Guarding Integrity Requirements',
         revision: 'Rev 1',
         changedDate: '2026-05-05 14:15',
-        changedBy: 'Emily Watson'
+        changedBy: 'Priya Reddy'
       },
       {
         id: 106,
-        requirementName: 'Primary and Secondary Packaging Material Compatibility and Barrier Requirements',
+        requirementName: 'Site Acceptance Test (SAT) and 72-Hour Continuous Endurance Criteria',
         revision: 'Rev 2',
         changedDate: '2026-05-12 13:00',
-        changedBy: 'David Miller'
+        changedBy: 'Amit Patel'
       }
     ];
 
@@ -175,7 +175,7 @@ export class AssignRequirementsHistoryComponent implements OnInit {
       this.router.navigate(['/stages/wbs'], {
         queryParams: {
           stageCode: this.stageCode || 'S1',
-          stageName: this.stageName || 'Business Case',
+          stageName: this.stageName || 'Business Need & Opportunity Assessment',
           gateCode: this.gateCode || 'Gate 1'
         }
       });

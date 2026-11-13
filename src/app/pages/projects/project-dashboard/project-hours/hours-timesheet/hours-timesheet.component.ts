@@ -67,56 +67,45 @@ export class HoursTimesheetComponent implements OnInit {
   rows: TimesheetRow[] = [];
 
   availableProjects: string[] = [
-    '2026/RD/001 - Abiraterone Acetate Film Coated',
-    '2026/RD/002 - Apremilast Tablets',
-    '2026/RD/003 - Brivaracetam Film Coated Tablets',
-    '2026/RD/004 - Cabozantinib Tablets',
-    '2026/RD/005 - Dapagliflozin Propanediol Tablets',
-    '2026/RD/006 - Empagliflozin Tablets',
-    '2026/RD/007 - Fimasartan Potassium Tablets',
-    '2026/RD/008 - Macitentan Film Coated Tablets',
-    '2026/RD/009 - Niraparib Tosylate Capsules',
-    '2026/RD/010 - Olaparib Film Coated Tablets',
-    '2026/GEN/001 - Generic Tablet Development'
+    '2026/IND/001 - Industrial Equipment Line Expansion',
+    '2026/IND/002 - Automated Material Handling System',
+    '2026/IND/003 - Robotics Assembly Cell Installation',
+    '2026/IND/004 - Heavy Press Machine Overhaul',
+    '2026/IND/005 - Smart Factory SCADA & PLC Upgrade',
+    '2026/IND/006 - CNC Machining Line Capacity Expansion'
   ];
 
   availableModules: string[] = [
-    'Product Selection',
-    'Pre-Formulation',
-    'Formulation Development',
-    'Prototype & Optimization',
-    'Analytical Development',
-    'Scale-Up',
-    'Testing & Validation',
-    'BA/BE & Stability',
-    'Regulatory Submission',
-    'Regulatory Approval',
-    'Manufacturing Readiness',
-    'Commercialization',
+    'Business Need Assessment',
+    'Project Scope & Feasibility',
+    'Concept Engineering',
+    'Detailed Engineering',
+    'Design Freeze & Risk',
+    'Process & Equipment Design',
+    'Prototype & Validation',
+    'Installation Planning',
+    'Equipment Installation',
+    'Commissioning & SAT',
+    'OQ & Production Ramp-Up',
+    'Operational Handover',
     'General'
   ];
 
   availableTasks = [
-    'Reference Product Characterization',
-    'API Characterization',
-    'API–Excipient Compatibility',
-    'Excipient Screening',
-    'Prototype Formulation Design',
-    'Laboratory Prototype Batch',
-    'Dissolution Testing',
-    'Analytical Method Development',
-    'Formulation Optimization',
-    'Scale-Up & Pilot Batch',
-    'Stability Study',
-    'Bioequivalence Readiness',
-    'Regulatory Dossier Preparation',
-    'Regulatory Review',
-    'Commercial Manufacturing Readiness',
-    'Launch Readiness',
-    'Define product & technical specifications',
-    'Identify raw material requirements',
-    'Estimate target production volume',
-    'Initial BOM & labor cost estimation'
+    'Plant Throughput & Bottleneck Study',
+    'User Requirements Specification (URS)',
+    '3D CAD Assembly & Structural FEA',
+    'PLC / SCADA Control Schematics',
+    'Design FMEA & HAZOP Risk Assessment',
+    'OEM Vendor Technical Qualification',
+    'Prototype Tooling & Endurance Trial',
+    'Factory Acceptance Test (FAT)',
+    'Instrument Calibration & Metrology Plan',
+    'Mechanical Rigging & Laser Alignment',
+    'Utility Piping & Electrical Tie-In',
+    'Site Acceptance Test (SAT) Execution',
+    'Operational Qualification (OQ) Ramp-Up',
+    'CMMS Preventive Maintenance Setup'
   ];
 
   constructor(
@@ -144,7 +133,7 @@ export class HoursTimesheetComponent implements OnInit {
             this.availableModules.push(t.module);
           }
           return {
-            project: t.project || '2026/RD/001 - Abiraterone Acetate Film Coated',
+            project: t.project || '2026/IND/001 - Industrial Equipment Line Expansion',
             module: t.module || 'General',
             task: t.task || '',
             hours: t.hours || 0,
@@ -160,7 +149,7 @@ export class HoursTimesheetComponent implements OnInit {
         }
         this.rows = [
           {
-            project: this.data.project || '2026/RD/001 - Abiraterone Acetate Film Coated',
+            project: this.data.project || '2026/IND/001 - Industrial Equipment Line Expansion',
             module: this.data.module || 'General',
             task: this.data.task || '',
             hours: this.data.hours || 0,
@@ -175,20 +164,20 @@ export class HoursTimesheetComponent implements OnInit {
       const dd = String(today.getDate()).padStart(2, '0');
       this.dateStr = `${today.getFullYear()}-${mm}-${dd}`;
       this.rows = [
-        { project: '2026/RD/001 - Abiraterone Acetate Film Coated', module: 'General', task: '', hours: 0, description: '' }
+        { project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'General', task: '', hours: 0, description: '' }
       ];
     }
   }
 
   addRow(): void {
-    this.rows.push({ project: '2026/RD/001 - Abiraterone Acetate Film Coated', module: 'General', task: '', hours: 0, description: '' });
+    this.rows.push({ project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'General', task: '', hours: 0, description: '' });
   }
 
   deleteRow(index: number): void {
     if (this.rows.length > 1) {
       this.rows.splice(index, 1);
     } else {
-      this.rows[0] = { project: '2026/RD/001 - Abiraterone Acetate Film Coated', module: 'General', task: '', hours: 0, description: '' };
+      this.rows[0] = { project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'General', task: '', hours: 0, description: '' };
     }
   }
 

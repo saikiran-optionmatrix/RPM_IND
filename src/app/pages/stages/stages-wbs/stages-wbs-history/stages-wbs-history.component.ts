@@ -91,18 +91,18 @@ export class StagesWbsHistoryComponent implements OnInit {
   }
 
   initHistoryRecords(): void {
-    const curSlNo = this.slNo || '1.1.1';
-    const curActivity = this.activityName || 'Segment and competitor benchmarking';
-    const curCode = this.activityCode || 'TC-111';
+    const curSlNo = this.slNo || '1.11';
+    const curActivity = this.activityName || 'Plant throughput & bottleneck assessment';
+    const curCode = this.activityCode || 'IND-111';
     const curTasks = this.tasks || '8';
     const curReqs = this.requirements || '7';
     const curPred = this.predecessor || '—';
-    const curDuration = this.duration || '0';
-    const curEffort = this.effort || '0';
-    const rawCost = this.cost || '1200000';
+    const curDuration = this.duration || '15';
+    const curEffort = this.effort || '160';
+    const rawCost = this.cost || '8000';
     const curCost = rawCost.startsWith('$') ? rawCost : `$${Number(rawCost).toLocaleString()}`;
-    const curApplicability = this.applicability || 'All Products';
-    const curDescription = this.description || 'Program start';
+    const curApplicability = this.applicability || 'All Programs';
+    const curDescription = this.description || 'Assess current shop-floor throughput, bottleneck equipment cycle times, and expansion feasibility.';
 
     // Historical revisions for the selected activity
     const selectedRevisions: WbsActivityHistoryRecord[] = [
@@ -130,11 +130,11 @@ export class StagesWbsHistoryComponent implements OnInit {
         tasks: '6',
         requirements: '5',
         predecessor: '—',
-        duration: '3',
-        effort: '24',
-        cost: '$2,400',
+        duration: '12',
+        effort: '120',
+        cost: '$6,500',
         applicability: curApplicability,
-        description: 'Adjusted scope to incorporate FDA guideline clarifications.',
+        description: 'Adjusted scope to incorporate ISO 9001 and plant safety audit clarifications.',
         revision: 'Rev 2',
         changedDate: '2026-01-20'
       },
@@ -146,151 +146,90 @@ export class StagesWbsHistoryComponent implements OnInit {
         tasks: '4',
         requirements: '4',
         predecessor: '—',
-        duration: '4',
-        effort: '32',
-        cost: '$3,200',
+        duration: '10',
+        effort: '96',
+        cost: '$5,200',
         applicability: curApplicability,
-        description: 'Initial activity draft and workflow baseline.',
+        description: 'Initial engineering activity draft and workflow baseline.',
         revision: 'Rev 1',
         changedDate: '2026-01-05'
       }
     ];
 
-    // Other activity records from the catalog
     const otherActivities: WbsActivityHistoryRecord[] = [
       {
         id: 4,
-        slNo: '0.1.2',
-        activity: 'Country & Regulatory Scope Identification',
-        activityCode: 'ACT-002',
-        tasks: '1',
-        requirements: '9',
-        predecessor: '7',
-        duration: '2',
-        effort: '12',
-        cost: '$1,200',
-        applicability: 'All Products',
-        description: 'Identify target geographies, regulatory pathways and filing timelines',
+        slNo: '1.12',
+        activity: 'Existing asset & industrial equipment benchmarking',
+        activityCode: 'ACT-112',
+        tasks: '4',
+        requirements: '6',
+        predecessor: '1.11 (SS)',
+        duration: '15',
+        effort: '140',
+        cost: '$6,500',
+        applicability: 'All Programs',
+        description: 'Benchmark installed CNC, pump, compressor and packaging lines for throughput gaps.',
         revision: 'Rev 2'
       },
       {
         id: 5,
-        slNo: '0.1.3',
-        activity: 'Preliminary COGs and CAPEX Estimation',
-        activityCode: 'ACT-003',
-        tasks: '7',
-        requirements: '8',
-        predecessor: '5',
-        duration: '2',
-        effort: '14',
-        cost: '$1,400',
-        applicability: 'All Products',
-        description: 'Estimate initial Cost of Goods and manufacturing plant CAPEX requirements',
+        slNo: '1.22',
+        activity: 'Preliminary CapEx, OpEx & ROI modeling',
+        activityCode: 'ACT-122',
+        tasks: '5',
+        requirements: '5',
+        predecessor: '1.21 (SS)',
+        duration: '10',
+        effort: '70',
+        cost: '$2,500',
+        applicability: 'All Programs',
+        description: 'Estimate capital equipment expenditure, installation costs and payback horizon.',
         revision: 'Rev 1'
       },
       {
         id: 6,
-        slNo: '0.2.1',
-        activity: 'Market Sizing & Forecast Analysis',
-        activityCode: 'ACT-004',
-        tasks: '9',
-        requirements: '1',
-        predecessor: '4',
-        duration: '3',
-        effort: '18',
-        cost: '$1,800',
-        applicability: 'All Products',
-        description: 'Evaluate IQVIA sales data, market volume and 10-year sales curve',
+        slNo: '2.11',
+        activity: 'User Requirements Specification (URS) definition',
+        activityCode: 'ACT-211',
+        tasks: '7',
+        requirements: '8',
+        predecessor: '—',
+        duration: '20',
+        effort: '200',
+        cost: '$12,000',
+        applicability: 'All Programs',
+        description: 'Define cycle-time, OEE, utility, and safety requirements for target equipment.',
         revision: 'Rev 1'
       },
       {
         id: 7,
-        slNo: '0.2.2',
-        activity: 'NPV & Commercial Attractiveness Model',
-        activityCode: 'ACT-005',
-        tasks: '5',
-        requirements: '11',
-        predecessor: '6',
-        duration: '2',
-        effort: '10',
-        cost: '$1,000',
-        applicability: 'All Products',
-        description: 'Compute Net Present Value (NPV), IRR and payback horizon',
-        revision: 'Rev 1'
-      },
-      {
-        id: 8,
-        slNo: '1.1.1',
-        activity: 'Analytical costing, External CRO costing',
-        activityCode: 'TC-1101',
-        tasks: '8',
+        slNo: '4.11',
+        activity: '3D CAD assembly & structural stress analysis',
+        activityCode: 'ACT-411',
+        tasks: '9',
         requirements: '7',
-        predecessor: '—',
-        duration: '15',
-        effort: '120',
-        cost: '$12,000',
-        applicability: 'All Products',
-        description: 'Analytical costing, External CRO costing for Project Initiation',
+        predecessor: '3.2.3 (FS)',
+        duration: '40',
+        effort: '650',
+        cost: '$75,000',
+        applicability: 'All Programs',
+        description: 'Complete structural FEA, tolerance stack-up and detailed mechanical CAD models.',
         revision: 'Rev 2'
       },
       {
-        id: 9,
-        slNo: '1.1.2',
-        activity: 'RM, PM, API & RLD costing',
-        activityCode: 'TC-1102',
-        tasks: '1',
-        requirements: '9',
-        predecessor: '1.1.1 (SS)',
-        duration: '5',
-        effort: '40',
-        cost: '$4,000',
-        applicability: 'All Products',
-        description: 'Raw material, packaging material, API & reference listed drug costing',
-        revision: 'Rev 1'
-      },
-      {
-        id: 10,
-        slNo: '1.1.3',
-        activity: 'BE Costing',
-        activityCode: 'TC-1103',
-        tasks: '7',
-        requirements: '8',
-        predecessor: '1.1.1 (SS)',
-        duration: '20',
-        effort: '160',
-        cost: '$16,000',
-        applicability: 'All Products',
-        description: 'Bioequivalence clinical & bioanalytical study cost estimation',
-        revision: 'Rev 1'
-      },
-      {
-        id: 11,
-        slNo: '1.2',
-        activity: 'Provicinal Product Initiation Form (PPIF)',
-        activityCode: 'TC-1201',
-        tasks: '5',
-        requirements: '6',
-        predecessor: '1.1.3',
-        duration: '7',
-        effort: '56',
-        cost: '$5,600',
-        applicability: 'All Products',
-        description: 'Provincial Product Initiation Form sign-off and charter generation',
-        revision: 'Rev 1'
-      },
-      {
-        id: 12,
-        slNo: '1.3.1',
-        activity: 'Scan of IP landscpae',
-        activityCode: 'TC-1301',
+        id: 8,
+        slNo: '7.2.2',
+        activity: 'Factory Acceptance Test (FAT) & Gate 3 approval',
+        activityCode: 'ACT-722',
         tasks: '6',
         requirements: '8',
-        predecessor: '1.1.1 (SS)',
-        duration: '15',
-        effort: '120',
-        cost: '$12,000',
-        applicability: 'All Products',
-        description: 'Patent and intellectual property landscape evaluation',
+        predecessor: '7.2.1 (FS)',
+        duration: '60',
+        effort: '1200',
+        cost: '$190,000',
+        applicability: 'All Programs',
+        description: 'Execute OEM shop-floor FAT trials prior to shipment and site installation.',
         revision: 'Rev 1'
       }
     ];
@@ -316,7 +255,7 @@ export class StagesWbsHistoryComponent implements OnInit {
     this.router.navigate(['/stages/wbs'], {
       queryParams: {
         stageCode: this.stageCode || 'S1',
-        stageName: this.stageName || 'Business Case',
+        stageName: this.stageName || 'Business Need & Opportunity Assessment',
         gateCode: this.gateCode || 'Gate 1'
       }
     });

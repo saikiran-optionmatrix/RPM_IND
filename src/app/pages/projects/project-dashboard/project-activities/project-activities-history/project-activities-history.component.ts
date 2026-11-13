@@ -93,15 +93,15 @@ export class ProjectActivitiesHistoryComponent implements OnInit {
   }
 
   initHistoryRecords(): void {
-    const actName = this.activityName || 'Analytical costing, External CRO costing';
-    const dReason = this.delayReason || 'Raw Material Shortage';
-    const stg = this.stage || 'Stage 1';
-    const deliv = this.deliverable || 'Project Costing Sheet';
-    const resp = this.responsibility || 'Dr. Sarah Connor';
+    const actName = this.activityName || '3D CAD Assembly & Structural Stress Analysis';
+    const dReason = this.delayReason || 'Raw Material / Component Shortage';
+    const stg = this.stage || 'S4 - Detailed Engineering';
+    const deliv = this.deliverable || 'Mechanical & CAD Engineering Package';
+    const resp = this.responsibility || 'Ananya Rao';
     const sDate = this.startDate || '2026-01-16';
     const dur = this.duration || '18 days';
     const eff = this.effort || '48 hrs';
-    const stat = this.status || 'In Process';
+    const stat = this.status || 'In Progress';
     const prio = this.priority || 'High';
     const cmplx = this.complexity || 'High';
 
@@ -125,26 +125,26 @@ export class ProjectActivitiesHistoryComponent implements OnInit {
       {
         id: 2,
         activityName: actName,
-        delayReason: 'Regulatory Approval Pending',
+        delayReason: 'Safety / Statutory Inspection Pending',
         stage: stg,
         deliverable: deliv,
         responsibility: resp,
         startDate: sDate,
         duration: '14 days',
         effort: '40 hrs',
-        status: 'In Process',
+        status: 'In Progress',
         priority: 'High',
         complexity: 'High',
         updatedDate: '2026-01-25',
-        updatedBy: 'Alex Rivera'
+        updatedBy: 'Rajesh Kumar'
       },
       {
         id: 3,
         activityName: actName,
-        delayReason: 'Vendor Dispatch Delay',
+        delayReason: 'OEM Vendor Dispatch Delay',
         stage: stg,
         deliverable: deliv,
-        responsibility: 'James Miller',
+        responsibility: 'Anita Desai',
         startDate: sDate,
         duration: '10 days',
         effort: '32 hrs',
@@ -152,7 +152,7 @@ export class ProjectActivitiesHistoryComponent implements OnInit {
         priority: 'Medium',
         complexity: 'Medium',
         updatedDate: '2026-01-20',
-        updatedBy: 'James Miller'
+        updatedBy: 'Anita Desai'
       },
       {
         id: 4,

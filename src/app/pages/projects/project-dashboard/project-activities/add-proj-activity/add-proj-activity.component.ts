@@ -24,14 +24,14 @@ export class AddProjActivityComponent implements OnInit {
   uploadedFileNames: string[] = [];
 
   deliverables: string[] = [
-    'Module1',
-    'Module2',
-    'API Assessment',
-    'Formulation Protocol',
-    'Stability Protocol',
-    'Analytical Validation',
-    'Clinical Studies',
-    'Regulatory Filing'
+    'Plant Capacity & Bottleneck Audit',
+    'User Requirements Specification (URS)',
+    '3D CAD & Structural Engineering Package',
+    'PLC / SCADA Control Schematics',
+    'Design FMEA & HAZOP Risk Matrix',
+    'Factory Acceptance Test (FAT) Protocol',
+    'Site Acceptance Test (SAT) Package',
+    'Operations & CMMS Handover Dossier'
   ];
 
   statuses: string[] = [
@@ -48,8 +48,8 @@ export class AddProjActivityComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.activityForm = this.fb.group({
-      stage: ['Feasibility', Validators.required],
-      deliverable: ['Module1', Validators.required],
+      stage: ['S1 - Business Need & Assessment', Validators.required],
+      deliverable: ['User Requirements Specification (URS)', Validators.required],
       taskSubject: ['', Validators.required],
       description: [''],
       status: ['In Progress'],
@@ -68,8 +68,8 @@ export class AddProjActivityComponent implements OnInit {
 
     if (this.data) {
       this.activityForm.patchValue({
-        stage: this.data.stage ?? this.data.Stage ?? 'Feasibility',
-        deliverable: this.data.deliverable ?? this.data.Deliverable ?? 'Module1',
+        stage: this.data.stage ?? this.data.Stage ?? 'S1 - Business Need & Assessment',
+        deliverable: this.data.deliverable ?? this.data.Deliverable ?? 'User Requirements Specification (URS)',
         taskSubject: this.data.taskSubject ?? this.data.TaskName ?? '',
         description: this.data.description ?? this.data.Description ?? '',
         status: this.data.status ?? this.data.Status ?? 'In Progress',

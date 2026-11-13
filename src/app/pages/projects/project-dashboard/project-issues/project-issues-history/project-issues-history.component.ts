@@ -99,13 +99,13 @@ export class ProjectIssuesHistoryComponent implements OnInit {
   }
 
   initHistoryRecords(): void {
-    const targetSubject = this.subject || 'Target patient population prevalence discrepancy in EU5 markets';
-    const targetDesc = this.description || 'Epidemiological registries indicate lower prevalence of targeted comorbidity in secondary EU markets.';
+    const targetSubject = this.subject || 'Assembly line conveyor takt-time mismatch in Plant A Bay 2';
+    const targetDesc = this.description || 'Existing upstream feeder conveyor delivers 95 units/hr against target 120 units/hr new line throughput.';
     const targetCreated = this.dateCreated || '2026-06-01';
     const targetDue = this.dueDate || '2026-06-15';
     const targetResolvedDate = this.dateResolved || (this.resolved ? '2026-06-14' : null);
     const targetResolved = this.resolved;
-    const targetAssigned = this.assignedTo || 'Dr. Sarah Jenkins';
+    const targetAssigned = this.assignedTo || 'Ananya Rao';
 
     // Detailed historical revisions for the selected issue
     const selectedRevisions: IssueHistoryItem[] = [
@@ -119,7 +119,7 @@ export class ProjectIssuesHistoryComponent implements OnInit {
         resolved: targetResolved,
         assignedTo: targetAssigned,
         status: targetResolved ? 'Closed' : 'Process',
-        remarks: 'Cross-referencing with IQVIA MIDAS disease prevalence database and updated medical consensus guidelines.',
+        remarks: 'Evaluating variable frequency drive (VFD) upgrade and dual-lane buffer accumulator.',
         revision: 'Rev 3 (Current)',
         updatedBy: targetAssigned,
         changeDate: '10-Jun-2026'
@@ -134,9 +134,9 @@ export class ProjectIssuesHistoryComponent implements OnInit {
         resolved: false,
         assignedTo: targetAssigned,
         status: 'Progress',
-        remarks: 'Preliminary volumetric and gravimetric energy density comparison report completed.',
+        remarks: 'Completed cycle-time simulation across Stations 1–6 to balance transfer speed.',
         revision: 'Rev 2',
-        updatedBy: 'Vikram Sharma (Formulation Lead)',
+        updatedBy: 'Anita Desai (Lead Mechanical Engineer)',
         changeDate: '06-Jun-2026'
       },
       {
@@ -149,9 +149,9 @@ export class ProjectIssuesHistoryComponent implements OnInit {
         resolved: false,
         assignedTo: targetAssigned,
         status: 'Allocated',
-        remarks: 'Prevalence gap identified during epidemiology review; assigned to Medical Affairs lead.',
+        remarks: 'Throughput bottleneck identified during Bay 2 capacity audit; assigned to Engineering Lead.',
         revision: 'Rev 1',
-        updatedBy: 'Dr. Sarah Jenkins',
+        updatedBy: 'Ananya Rao',
         changeDate: '01-Jun-2026'
       }
     ];
@@ -160,90 +160,90 @@ export class ProjectIssuesHistoryComponent implements OnInit {
     const projectIssues: IssueHistoryItem[] = [
       {
         id: 4,
-        subject: 'Late-stage clinical trial readout of competing SGLT2 fixed-dose combination',
-        description: 'Phase III clinical data from competitor molecule demonstrates improved cardiovascular outcome end-points',
+        subject: 'Gantry structural resonance above 2400 RPM spindle speed',
+        description: 'Finite element modal simulation indicates natural harmonic excitation near 40 Hz under heavy roughing.',
         dateCreated: '2026-06-05',
         dueDate: '2026-06-25',
         dateResolved: null,
         resolved: false,
-        assignedTo: 'Vikram Sharma',
+        assignedTo: 'Anita Desai',
         status: 'Pending',
-        remarks: 'Medical affairs evaluating differentiation in target product profile and label claims.',
+        remarks: 'Mechanical Design adding gusset stiffening plates and polymer-concrete base damping.',
         revision: 'Rev 1',
-        updatedBy: 'Vikram Sharma',
+        updatedBy: 'Anita Desai',
         changeDate: '05-Jun-2026'
       },
       {
         id: 5,
-        subject: 'Orange Book formulation patent expiry and paragraph IV litigation risk',
-        description: 'Secondary crystal form formulation patent exclusivity extends 18 months beyond primary substance patent expiration',
+        subject: 'Safety light-curtain stopping distance margin on press cell',
+        description: 'Measured brake stopping time requires light curtain mounting offset increase by 140 mm to maintain PLd compliance.',
         dateCreated: '2026-06-10',
         dueDate: '2026-07-05',
         dateResolved: null,
         resolved: false,
-        assignedTo: 'Elena Rostova',
+        assignedTo: 'Priya Reddy',
         status: 'Process',
-        remarks: 'Legal counsel preparing Paragraph IV certification and non-infringement opinion.',
+        remarks: 'EHS and Controls team updating perimeter stanchion layout and dual safety relay spec.',
         revision: 'Rev 1',
-        updatedBy: 'Elena Rostova',
+        updatedBy: 'Priya Reddy',
         changeDate: '10-Jun-2026'
       },
       {
         id: 6,
-        subject: 'Gross-to-net rebate margin compression in primary commercial channel',
-        description: 'Formulary tier placement demands additional mandatory rebate allowance impacting projected operating margin',
+        subject: '5-axis planetary gearbox OEM lead-time variance (4 weeks)',
+        description: 'Primary European gearhead supplier notified 28-day extended forging queue affecting Gate 3 build schedule.',
         dateCreated: '2026-06-15',
         dueDate: '2026-07-12',
         dateResolved: null,
         resolved: false,
         assignedTo: 'Rajesh Kumar',
         status: 'Hold',
-        remarks: 'Commercial finance modeling volume tiers and tiered co-pay card assistance program.',
+        remarks: 'Procurement qualifying backup Japanese servo-drive vendor and splitting PO milestones.',
         revision: 'Rev 1',
         updatedBy: 'Rajesh Kumar',
         changeDate: '15-Jun-2026'
       },
       {
         id: 7,
-        subject: 'Pilot-scale fluid bed granulator tooling and qualification capex variance',
-        description: 'Custom top-spray fluid bed processing chamber quote exceeds preliminary formulation capital allocation by 6%',
+        subject: 'Substation 480V feeder & chilled water manifold pressure drop',
+        description: 'Peak hydraulic & spindle cooling load exceeds existing Bay 2 cooling loop capacity by 12 GPM.',
         dateCreated: '2026-06-20',
         dueDate: '2026-07-20',
         dateResolved: null,
         resolved: false,
-        assignedTo: 'Anita Desai',
+        assignedTo: 'Suresh Naidu',
         status: 'Allocated',
-        remarks: 'Procurement renegotiating with vendor for combined granulation and fluid-bed drying skid.',
+        remarks: 'Facilities engineering adding dedicated plate heat exchanger skid beside Bay 2.',
         revision: 'Rev 1',
-        updatedBy: 'Anita Desai',
+        updatedBy: 'Suresh Naidu',
         changeDate: '20-Jun-2026'
       },
       {
         id: 8,
-        subject: 'API synthetic impurity profile exceeding ICH Q3A qualification threshold',
-        description: 'New API synthetic route yields unknown degradation impurity at 0.18% exceeding 0.15% identification threshold',
+        subject: 'CMM probe thermal drift beyond +/- 0.015 mm acceptance band',
+        description: 'Shop-floor ambient temperature swing during afternoon shifts causes dimensional measurement bias.',
         dateCreated: '2026-06-25',
         dueDate: '2026-07-28',
         dateResolved: null,
         resolved: false,
-        assignedTo: 'Michael Chang',
+        assignedTo: 'Amit Patel',
         status: 'Pending',
-        remarks: 'ARD conducting LC-MS/MS structural elucidation and evaluating recrystallization purification steps.',
+        remarks: 'Installing enclosed HVAC metrology booth and real-time thermal compensation sensor.',
         revision: 'Rev 1',
-        updatedBy: 'Michael Chang',
+        updatedBy: 'Amit Patel',
         changeDate: '25-Jun-2026'
       },
       {
         id: 9,
-        subject: 'In-vitro dissolution similarity failure in discriminating pH 4.5 media',
-        description: 'Apparatus 2 paddle dissolution profiles diverge at 15-minute point with f2 similarity score of 42',
+        subject: 'OPC-UA SCADA historian tag polling jitter during shift changeover',
+        description: 'Edge gateway buffer overflow occurs when polling > 1,200 high-frequency PLC spindle tags at 10 ms.',
         dateCreated: '2026-07-01',
         dueDate: '2026-08-08',
         dateResolved: null,
         resolved: false,
         assignedTo: 'Priya Reddy',
         status: 'Process',
-        remarks: 'Adjusting microcrystalline cellulose grade and roller compaction milling screen size.',
+        remarks: 'Partitioning fast vibration tags onto dedicated secondary industrial switch VLAN.',
         revision: 'Rev 1',
         updatedBy: 'Priya Reddy',
         changeDate: '01-Jul-2026'
@@ -283,8 +283,8 @@ export class ProjectIssuesHistoryComponent implements OnInit {
   goBack(): void {
     this.router.navigate(['/projects/dashboard/issues'], {
       queryParams: {
-        code: this.projectCode || '2026/RD/001',
-        name: this.projectName || 'Dapagliflozin Film-Coated Tablets'
+        code: this.projectCode || '2026/IND/001',
+        name: this.projectName || 'Industrial Equipment Line Expansion'
       },
       queryParamsHandling: 'merge'
     });

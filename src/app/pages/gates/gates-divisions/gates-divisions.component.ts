@@ -22,10 +22,10 @@ export class GatesDivisionsComponent implements OnInit {
   gateName: string = '';
 
   divisionsList: DivisionOption[] = [
-    { name: 'Oral Solids - OS', code: 'OS', selected: false },
-    { name: 'Injectables - IJ', code: 'IJ', selected: false },
-    { name: 'Complex Injectables - CI', code: 'CI', selected: false },
-    { name: 'Biotech - BT', code: 'BT', selected: false },
+    { name: 'Equipment Engineering - CT', code: 'CT', selected: false },
+    { name: 'Industrial Machinery - MA', code: 'MA', selected: false },
+    { name: 'Process Equipment - GT', code: 'GT', selected: false },
+    { name: 'Production Systems - VX', code: 'VX', selected: false },
   ];
 
   constructor(

@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../../../common/shared/confirmation-dialog/confirmation-dialog.component';
 import { HistoryPopComponent } from '../../../../common/shared/history-pop/history-pop.component';
 import { DocumentsPopComponent } from '../../../../common/shared/documents-pop/documents-pop.component';
+import { INDUSTRIAL_STAGES_MASTER, INDUSTRIAL_STAGES_WBS_MAP } from '../../../stages/industrial-stages.data';
 
 // Adjust path based on your project structure
 // import { ConfirmationDialogComponent } from 'src/app/shared/confirmation-dialog/confirmation-dialog.component';
@@ -75,8 +76,8 @@ export interface StageItem {
 export class ProjectStagesComponent implements OnInit, OnDestroy {
 
   // Project Header Properties
-  projectName: string = 'Dapagliflozin Film-Coated Tablets';
-  projectCode: string = '2026/RD/001';
+  projectName: string = 'Industrial Equipment Line Expansion';
+  projectCode: string = '2026/IND/001';
   dynamicBreadcrumb: string = 'Stages';
 
   // --- Migrated Properties ---
@@ -85,124 +86,73 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
   activeView: 'grid' | 'gantt' = 'grid';
   ganttScale: 'monthly' | 'weekly' | 'daily' = 'monthly';
 
-  stageOptions: string[] = [
-    'Opportunity and Portfolio Assessment',
-    'Product Definition and Project Charter',
-    'Formulation and Product Concept Development',
-    'API, Excipient and Supplier Sourcing',
-    'Formulation and Process Development',
-    'Development Batches and Verification',
-    'Facility, Equipment and Process Readiness',
-    'Analytical Validation and Technology Transfer',
-    'Registration and Process Validation Batches',
-    'Regulatory Submission and Approval',
-    'Commercial Launch and Lifecycle Management'
-  ];
+  stageOptions: string[] = INDUSTRIAL_STAGES_MASTER.map(s => s.stageName);
 
-  stages: StageItem[] = [
-    {
-      stageCode: 'S1', name: 'Opportunity and Portfolio Assessment', planEffort: '80 hrs', planDuration: '10 days', actualEffort: '80 hrs', actualDuration: '10 days', percentCompletion: 100, done: true, description: 'Coordinate the pharmaceutical product development work for opportunity and portfolio assessment. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.', planStart: '2026-01-05', planEnd: '2026-01-15', actualStart: '2026-01-05', actualEnd: '2026-01-15', eta: '2026-01-15', buffer: '2 days', gateName: 'Opportunity and portfolio approval', gateStatus: 'Approved', gateCode: 'Gate 1', status: true, setupCount: 8,
-      updatedDate: '2026-02-15', updated: '2026-02-15', updatedBy: 'Dr. Sarah Jenkins',
-      bars: [
-        { name: 'Market and therapeutic opportunity assessment', planStart: '2026-01-05', planEnd: '2026-01-15', planEffort: '40 hrs' },
-        { name: 'Program economics and feasibility assessment', planStart: '2026-01-05', planEnd: '2026-01-15', planEffort: '40 hrs' },
-        { name: 'Concept and portfolio approval package', planStart: '2026-01-05', planEnd: '2026-01-15', planEffort: '40 hrs' }
-      ]
-    },
-    {
-      stageCode: 'S2', name: 'Product Definition and Project Charter', planEffort: '60 hrs', planDuration: '10 days', actualEffort: '60 hrs', actualDuration: '10 days', percentCompletion: 100, done: true, description: 'Coordinate the pharmaceutical product development work for product definition and project charter. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.', planStart: '2026-01-16', planEnd: '2026-01-25', actualStart: '2026-01-16', actualEnd: '2026-01-25', eta: '2026-01-25', buffer: '2 days', gateName: 'Product definition and project charter approval', gateStatus: 'Approved', gateCode: 'Gate 2', status: true, setupCount: 17,
-      updatedDate: '2026-02-15', updated: '2026-02-15', updatedBy: 'Dr. Sarah Jenkins',
-      bars: [
-        { name: 'Product requirements and target profile', planStart: '2026-01-16', planEnd: '2026-01-25', planEffort: '40 hrs' },
-        { name: 'Regulatory, quality and IP strategy', planStart: '2026-01-16', planEnd: '2026-01-25', planEffort: '40 hrs' },
-        { name: 'Development plan, budget and project charter', planStart: '2026-01-16', planEnd: '2026-01-25', planEffort: '40 hrs' },
-        { name: 'Risk and resource management plan', planStart: '2026-01-16', planEnd: '2026-01-25', planEffort: '40 hrs' },
-        { name: 'Product development feasibility assessment', planStart: '2026-01-16', planEnd: '2026-01-25', planEffort: '40 hrs' }
-      ]
-    },
-    {
-      stageCode: 'S3', name: 'Formulation and Product Concept Development', planEffort: '120 hrs', planDuration: '60 days', actualEffort: '120 hrs', actualDuration: '60 days', percentCompletion: 100, done: true, description: 'Coordinate the pharmaceutical product development work for formulation and product concept development. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.', planStart: '2026-01-26', planEnd: '2026-03-27', actualStart: '2026-01-26', actualEnd: '2026-03-27', eta: '2026-03-27', buffer: '5 days', gateName: 'Formulation concept and sourcing strategy approval', gateStatus: 'Approved', gateCode: 'Gate 3', status: true, setupCount: 17,
-      updatedDate: '2026-02-15', updated: '2026-02-15', updatedBy: 'Dr. Sarah Jenkins',
-      bars: [
-        { name: 'Pre-formulation and material characterization package', planStart: '2026-01-26', planEnd: '2026-03-27', planEffort: '40 hrs' },
-        { name: 'Prototype formulation and performance assessment', planStart: '2026-01-26', planEnd: '2026-03-27', planEffort: '40 hrs' },
-        { name: 'Product concept and development risk review', planStart: '2026-01-26', planEnd: '2026-03-27', planEffort: '40 hrs' },
-        { name: 'Preliminary control and stability strategy', planStart: '2026-01-26', planEnd: '2026-03-27', planEffort: '40 hrs' }
-      ]
-    },
-    {
-      stageCode: 'S4', name: 'API, Excipient and Supplier Sourcing', planEffort: '160 hrs', planDuration: '48 days', actualEffort: '0 hrs', actualDuration: '0 days', percentCompletion: 80, done: false, description: 'Coordinate the pharmaceutical product development work for api, excipient and supplier sourcing. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.', planStart: '2026-03-28', planEnd: '2026-05-15', actualStart: '2026-03-28', actualEnd: '', eta: '2026-05-15', buffer: '4 days', gateName: 'Formulation and process development approval', gateStatus: 'Pending', gateCode: 'Gate 4', status: true, setupCount: 7,
-      updatedDate: '2026-02-15', updated: '2026-02-15', updatedBy: 'Dr. Sarah Jenkins',
-      bars: [
-        { name: 'Qualified API and excipient supply strategy', planStart: '2026-03-28', planEnd: '2026-05-15', planEffort: '40 hrs' },
-        { name: 'Supplier nomination and quality agreements', planStart: '2026-03-28', planEnd: '2026-05-15', planEffort: '40 hrs' }
-      ]
-    },
-    {
-      stageCode: 'S5', name: 'Formulation and Process Development', planEffort: '240 hrs', planDuration: '76 days', actualEffort: '0 hrs', actualDuration: '0 days', percentCompletion: 60, done: false, description: 'Coordinate the pharmaceutical product development work for formulation and process development. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.', planStart: '2026-05-16', planEnd: '2026-07-31', actualStart: '2026-05-16', actualEnd: '', eta: '2026-07-31', buffer: '5 days', gateName: '-', gateStatus: 'Pending', gateCode: '-', status: true, setupCount: 26,
-      updatedDate: '2026-02-15', updated: '2026-02-15', updatedBy: 'Dr. Sarah Jenkins',
-      bars: [
-        { name: 'Optimized formulation and process definition', planStart: '2026-05-16', planEnd: '2026-07-31', planEffort: '40 hrs' },
-        { name: 'Analytical methods and control strategy', planStart: '2026-05-16', planEnd: '2026-07-31', planEffort: '40 hrs' },
-        { name: 'Stability and packaging compatibility package', planStart: '2026-05-16', planEnd: '2026-07-31', planEffort: '40 hrs' },
-        { name: 'Manufacturing process and scale-up package', planStart: '2026-05-16', planEnd: '2026-07-31', planEffort: '40 hrs' },
-        { name: 'Development specifications and batch documentation', planStart: '2026-05-16', planEnd: '2026-07-31', planEffort: '40 hrs' },
-        { name: 'Formulation and process development report', planStart: '2026-05-16', planEnd: '2026-07-31', planEffort: '40 hrs' }
-      ]
-    },
-    {
-      stageCode: 'S6', name: 'Development Batches and Verification', planEffort: '180 hrs', planDuration: '60 days', actualEffort: '0 hrs', actualDuration: '0 days', percentCompletion: 40, done: false, description: 'Coordinate the pharmaceutical product development work for development batches and verification. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.', planStart: '2026-08-01', planEnd: '2026-09-30', actualStart: '2026-08-01', actualEnd: '', eta: '2026-09-30', buffer: '4 days', gateName: '-', gateStatus: 'Pending', gateCode: '-', status: true, setupCount: 13,
-      updatedDate: '2026-02-15', updated: '2026-02-15', updatedBy: 'Dr. Sarah Jenkins',
-      bars: [
-        { name: 'Development batch and test results', planStart: '2026-08-01', planEnd: '2026-09-30', planEffort: '40 hrs' },
-        { name: 'Analytical and product performance verification', planStart: '2026-08-01', planEnd: '2026-09-30', planEffort: '40 hrs' },
-        { name: 'Stability and packaging assessment', planStart: '2026-08-01', planEnd: '2026-09-30', planEffort: '40 hrs' },
-        { name: 'Development verification report', planStart: '2026-08-01', planEnd: '2026-09-30', planEffort: '40 hrs' }
-      ]
-    },
-    {
-      stageCode: 'S7', name: 'Facility, Equipment and Process Readiness', planEffort: '120 hrs', planDuration: '30 days', actualEffort: '0 hrs', actualDuration: '0 days', percentCompletion: 30, done: false, description: 'Coordinate the pharmaceutical product development work for facility, equipment and process readiness. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.', planStart: '2026-10-01', planEnd: '2026-10-31', actualStart: '', actualEnd: '', eta: '2026-10-31', buffer: '3 days', gateName: 'Facility and manufacturing readiness approval', gateStatus: 'Pending', gateCode: 'Gate 5', status: true, setupCount: 12,
-      updatedDate: '2026-02-15', updated: '2026-02-15', updatedBy: 'Dr. Sarah Jenkins',
-      bars: [
-        { name: 'Facility and equipment qualification plan', planStart: '2026-10-01', planEnd: '2026-10-31', planEffort: '40 hrs' },
-        { name: 'GMP manufacturing and laboratory readiness', planStart: '2026-10-01', planEnd: '2026-10-31', planEffort: '40 hrs' },
-        { name: 'Process validation and cleaning strategy', planStart: '2026-10-01', planEnd: '2026-10-31', planEffort: '40 hrs' }
-      ]
-    },
-    {
-      stageCode: 'S8', name: 'Analytical Validation and Technology Transfer', planEffort: '140 hrs', planDuration: '45 days', actualEffort: '0 hrs', actualDuration: '0 days', percentCompletion: 20, done: false, description: 'Coordinate the pharmaceutical product development work for analytical validation and technology transfer. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.', planStart: '2026-11-01', planEnd: '2026-12-15', actualStart: '', actualEnd: '', eta: '2026-12-15', buffer: '4 days', gateName: '-', gateStatus: 'Pending', gateCode: '-', status: true, setupCount: 8,
-      updatedDate: '2026-02-15', updated: '2026-02-15', updatedBy: 'Dr. Sarah Jenkins',
-      bars: [
-        { name: 'Validated analytical methods package', planStart: '2026-11-01', planEnd: '2026-12-15', planEffort: '40 hrs' },
-        { name: 'Technology transfer and method transfer report', planStart: '2026-11-01', planEnd: '2026-12-15', planEffort: '40 hrs' }
-      ]
-    },
-    {
-      stageCode: 'S9', name: 'Registration and Process Validation Batches', planEffort: '190 hrs', planDuration: '61 days', actualEffort: '0 hrs', actualDuration: '0 days', percentCompletion: 10, done: false, description: 'Coordinate the pharmaceutical product development work for registration and process validation batches. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.', planStart: '2026-12-16', planEnd: '2027-02-15', actualStart: '', actualEnd: '', eta: '2027-02-15', buffer: '5 days', gateName: 'Validation and regulatory submission readiness', gateStatus: 'Pending', gateCode: 'Gate 6', status: true, setupCount: 11,
-      updatedDate: '2026-02-15', updated: '2026-02-15', updatedBy: 'Dr. Sarah Jenkins',
-      bars: [
-        { name: 'Process performance qualification package', planStart: '2026-12-16', planEnd: '2027-02-15', planEffort: '40 hrs' },
-        { name: 'Registration batch and stability data package', planStart: '2026-12-16', planEnd: '2027-02-15', planEffort: '40 hrs' },
-        { name: 'Validation summary and commercial process readiness', planStart: '2026-12-16', planEnd: '2027-02-15', planEffort: '40 hrs' }
-      ]
-    },
-    {
-      stageCode: 'S10', name: 'Regulatory Submission and Approval', planEffort: '200 hrs', planDuration: '104 days', actualEffort: '0 hrs', actualDuration: '0 days', percentCompletion: 0, done: false, description: 'Coordinate the pharmaceutical product development work for regulatory submission and approval. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.', planStart: '2027-02-16', planEnd: '2027-05-31', actualStart: '', actualEnd: '', eta: '2027-05-31', buffer: '6 days', gateName: '-', gateStatus: 'Pending', gateCode: '-', status: true, setupCount: 9,
-      updatedDate: '2026-02-15', updated: '2026-02-15', updatedBy: 'Dr. Sarah Jenkins',
-      bars: [
-        { name: 'Regulatory submission dossier', planStart: '2027-02-16', planEnd: '2027-05-31', planEffort: '40 hrs' },
-        { name: 'Regulatory approval and commitments tracker', planStart: '2027-02-16', planEnd: '2027-05-31', planEffort: '40 hrs' }
-      ]
-    },
-    {
-      stageCode: 'S11', name: 'Commercial Launch and Lifecycle Management', planEffort: '150 hrs', planDuration: '91 days', actualEffort: '0 hrs', actualDuration: '0 days', percentCompletion: 0, done: false, description: 'Coordinate the pharmaceutical product development work for commercial launch and lifecycle management. Manage cross-functional deliverables, activities, dependencies, resources, quality risks and reviews. Complete the required evidence and obtain stage-exit approval before progressing to the next governance checkpoint.', planStart: '2027-06-01', planEnd: '2027-08-31', actualStart: '', actualEnd: '', eta: '2027-08-31', buffer: '4 days', gateName: 'Commercial launch authorization', gateStatus: 'Pending', gateCode: 'Gate 7', status: true, setupCount: 10,
-      updatedDate: '2026-02-15', updated: '2026-02-15', updatedBy: 'Dr. Sarah Jenkins',
-      bars: [
-        { name: 'Commercial launch readiness package', planStart: '2027-06-01', planEnd: '2027-08-31', planEffort: '40 hrs' },
-        { name: 'Product lifecycle and post-approval management plan', planStart: '2027-06-01', planEnd: '2027-08-31', planEffort: '40 hrs' }
-      ]
-    }
-  ];
+  private readonly gateTitleMap: Record<string, string> = {
+    'Gate 1': 'Business Case Approval',
+    'Gate 2': 'Concept Selection & Design Freeze',
+    'Gate 3': 'Procurement & Build Readiness',
+    'Gate 4': 'Commissioning & Performance Acceptance',
+    'Gate 5': 'Operational Handover Approval'
+  };
+
+  private readonly stageSchedulePresets: Record<string, {
+    planStart: string; planEnd: string; actualStart: string; actualEnd: string; eta: string;
+    buffer: string; percentCompletion: number; gateStatus: 'Approved' | 'Pending' | 'Rejected';
+  }> = {
+    S1:  { planStart: '2026-01-05', planEnd: '2026-02-05', actualStart: '2026-01-05', actualEnd: '2026-02-05', eta: '2026-02-05', buffer: '2 days', percentCompletion: 100, gateStatus: 'Approved' },
+    S2:  { planStart: '2026-02-06', planEnd: '2026-03-15', actualStart: '2026-02-06', actualEnd: '2026-03-15', eta: '2026-03-15', buffer: '3 days', percentCompletion: 100, gateStatus: 'Approved' },
+    S3:  { planStart: '2026-03-16', planEnd: '2026-05-05', actualStart: '2026-03-16', actualEnd: '2026-05-05', eta: '2026-05-05', buffer: '4 days', percentCompletion: 100, gateStatus: 'Approved' },
+    S4:  { planStart: '2026-05-06', planEnd: '2026-07-10', actualStart: '2026-05-06', actualEnd: '', eta: '2026-07-10', buffer: '5 days', percentCompletion: 75, gateStatus: 'Pending' },
+    S5:  { planStart: '2026-07-11', planEnd: '2026-09-05', actualStart: '2026-07-11', actualEnd: '', eta: '2026-09-05', buffer: '5 days', percentCompletion: 45, gateStatus: 'Pending' },
+    S6:  { planStart: '2026-09-06', planEnd: '2026-11-15', actualStart: '', actualEnd: '', eta: '2026-11-15', buffer: '6 days', percentCompletion: 20, gateStatus: 'Pending' },
+    S7:  { planStart: '2026-11-16', planEnd: '2027-01-20', actualStart: '', actualEnd: '', eta: '2027-01-20', buffer: '5 days', percentCompletion: 0, gateStatus: 'Pending' },
+    S8:  { planStart: '2027-01-21', planEnd: '2027-03-05', actualStart: '', actualEnd: '', eta: '2027-03-05', buffer: '4 days', percentCompletion: 0, gateStatus: 'Pending' },
+    S9:  { planStart: '2027-03-06', planEnd: '2027-05-10', actualStart: '', actualEnd: '', eta: '2027-05-10', buffer: '5 days', percentCompletion: 0, gateStatus: 'Pending' },
+    S10: { planStart: '2027-05-11', planEnd: '2027-06-25', actualStart: '', actualEnd: '', eta: '2027-06-25', buffer: '6 days', percentCompletion: 0, gateStatus: 'Pending' },
+    S11: { planStart: '2027-06-26', planEnd: '2027-07-31', actualStart: '', actualEnd: '', eta: '2027-07-31', buffer: '4 days', percentCompletion: 0, gateStatus: 'Pending' },
+    S12: { planStart: '2027-08-01', planEnd: '2027-08-31', actualStart: '', actualEnd: '', eta: '2027-08-31', buffer: '3 days', percentCompletion: 0, gateStatus: 'Pending' }
+  };
+
+  stages: StageItem[] = INDUSTRIAL_STAGES_MASTER.map(s => {
+    const preset = this.stageSchedulePresets[s.stageCode] || {
+      planStart: '2026-01-05', planEnd: '2026-03-05', actualStart: '', actualEnd: '', eta: '2026-03-05',
+      buffer: '3 days', percentCompletion: 0, gateStatus: 'Pending' as const
+    };
+    const wbs = INDUSTRIAL_STAGES_WBS_MAP[s.stageCode];
+    const bars: GanttBar[] = (wbs?.sidebarMenus || []).map(menu => ({
+      name: menu.name,
+      planStart: preset.planStart,
+      planEnd: preset.planEnd,
+      planEffort: `${Math.max(40, Math.round(s.planEffort / Math.max(1, (wbs?.sidebarMenus?.length || 1))))} hrs`
+    }));
+    return {
+      stageCode: s.stageCode,
+      name: s.stageName,
+      planEffort: `${s.planEffort} hrs`,
+      planDuration: `${s.planDuration} days`,
+      actualEffort: preset.percentCompletion === 100 ? `${s.planEffort} hrs` : `${Math.round(s.planEffort * preset.percentCompletion / 100)} hrs`,
+      actualDuration: preset.percentCompletion === 100 ? `${s.planDuration} days` : `${Math.round(s.planDuration * preset.percentCompletion / 100)} days`,
+      percentCompletion: preset.percentCompletion,
+      done: preset.percentCompletion === 100,
+      description: s.description,
+      planStart: preset.planStart,
+      planEnd: preset.planEnd,
+      actualStart: preset.actualStart,
+      actualEnd: preset.actualEnd,
+      eta: preset.eta,
+      buffer: preset.buffer,
+      gateName: this.gateTitleMap[s.gateCode] || '-',
+      gateStatus: preset.gateStatus,
+      gateCode: s.gateCode,
+      status: true,
+      setupCount: s.tasks,
+      updatedDate: s.updatedDate || '2026-02-15',
+      updated: s.updatedDate || '2026-02-15',
+      updatedBy: s.updatedBy || 'Ananya Rao',
+      bars
+    };
+  });
 
   // Stage table pagination
   pagedStagesList: StageItem[] = [];
@@ -262,7 +212,7 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
       if (!s.updated) {
         s.updated = s.updatedDate;
       }
-      const defaultUpdaters = ['Dr. Sarah Jenkins', 'John Doe', 'Priya Sharma', 'Michael Chang', 'Alex Rivera'];
+      const defaultUpdaters = ['Ananya Rao', 'Rajesh Kumar', 'Anita Desai', 'Priya Reddy', 'Suresh Naidu'];
       if (!s.updatedBy) {
         s.updatedBy = defaultUpdaters[idx % defaultUpdaters.length];
       }
@@ -277,7 +227,7 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
 
   goBack(): void {
     this.router.navigate(['/projects/dashboard/analytics'], {
-      queryParams: { code: this.projectCode || "2026/GEN/001", name: this.projectName || "Generic Tablet Development" }
+      queryParams: { code: this.projectCode || '2026/IND/001', name: this.projectName || 'Industrial Equipment Line Expansion' }
     });
   }
 
@@ -505,7 +455,7 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
         const now = new Date().toISOString().split('T')[0];
         item.updatedDate = now;
         item.updated = now;
-        item.updatedBy = 'Dr. Sarah Jenkins';
+        item.updatedBy = 'Ananya Rao';
       }
     });
   }
@@ -539,7 +489,7 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
       stageCode: 'Stage-' + (this.stages.length + 1), name: '', planEffort: '', planDuration: '', percentCompletion: 0, done: false, description: '', planStart: '', planEnd: '', actualStart: '', actualEnd: '', eta: '', buffer: '', gateName: '', gateStatus: 'Pending', gateCode: '', status: true, setupCount: 0,
       updatedDate: new Date().toISOString().split('T')[0],
       updated: new Date().toISOString().split('T')[0],
-      updatedBy: 'Dr. Sarah Jenkins'
+      updatedBy: 'Ananya Rao'
     };
     this.isEditStageMode = false;
     this.showStageModal = true;
@@ -567,7 +517,7 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
     this.stageModalData.updatedDate = now;
     this.stageModalData.updated = now;
     if (!this.stageModalData.updatedBy) {
-      this.stageModalData.updatedBy = 'Dr. Sarah Jenkins';
+      this.stageModalData.updatedBy = 'Ananya Rao';
     }
     if (this.isEditStageMode && this.stageModalIndex > -1) {
       this.stages[this.stageModalIndex] = { ...this.stages[this.stageModalIndex], ...this.stageModalData } as StageItem;
@@ -592,7 +542,7 @@ export class ProjectStagesComponent implements OnInit, OnDestroy {
     const now = new Date().toISOString().split('T')[0];
     s.updatedDate = now;
     s.updated = now;
-    s.updatedBy = 'Dr. Sarah Jenkins';
+    s.updatedBy = 'Ananya Rao';
   }
 
   openTimelineModal(item: any) {

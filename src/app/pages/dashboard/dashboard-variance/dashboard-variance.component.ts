@@ -10,6 +10,11 @@ import HC_exporting from 'highcharts/modules/exporting';
 import HC_exportData from 'highcharts/modules/export-data';
 
 import { MatIconModule } from '@angular/material/icon';
+import {
+  INDUSTRIAL_DIVISIONS,
+  INDUSTRIAL_LOCATIONS,
+  INDUSTRIAL_PROJECT_NAMES,
+} from '../industrial-dashboard.data';
 
 // Bulletproof Angular 17+ / TypeScript Strict Mode Wrapper
 const ExportingModule: any = HC_exporting;
@@ -35,117 +40,94 @@ if (typeof ExportDataModule === 'function') {
   styleUrls: ['./dashboard-variance.component.scss']
 })
 export class DashboardVarianceComponent implements OnInit, AfterViewInit {
-  projects = [
-    'Generic Tablet Development',
-    'Generic API Process Development',
-    'Complex Injectable Development',
-    'Generic API Development',
-    'Generic Injectable Formulation'
-  ];
+  projects = INDUSTRIAL_PROJECT_NAMES.slice(0, 6);
   varianceStages = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10', 'S11', 'S12'];
 
-  selectedBudgetProject = 'All Projects';
+  selectedBudgetProject = 'All Programs';
   selectedVarianceStage = 'S1';
 
   selectedDivision: string = 'All';
   selectedLocation: string = 'All';
 
-  readonly divisionsList: string[] = [
-    'All',
-    'Oral Solids - OS',
-    'Injectables - IJ',
-    'Complex Injectables - CI',
-    'Biotech - BT',
-  ];
+  readonly divisionsList: string[] = INDUSTRIAL_DIVISIONS;
 
-  readonly locationsList: string[] = [
-    'All',
-    'Hyderabad',
-    'Mumbai',
-    'Bengaluru',
-    'Ahmedabad',
-    'Pune',
-    'Chennai',
-    'Delhi',
-    'Baddi',
-  ];
+  readonly locationsList: string[] = INDUSTRIAL_LOCATIONS;
 
   onApplyFilters(): void {
     this.onBudgetProjectChange();
   }
 
-  budgetGanttData: any[] = [
-    // S1 - Business Case
-    { stage: 'S1 - Business Case', stageCode: 'S1', module: 'API & Raw Material Assessment', allocated: 45000, spent: 42000, completion: 93, project: 'Generic Tablet Development' },
-    { stage: 'S1 - Business Case', stageCode: 'S1', module: 'Preformulation & Compatibility', allocated: 55000, spent: 51000, completion: 93, project: 'Generic Tablet Development' },
-    { stage: 'S1 - Business Case', stageCode: 'S1', module: 'Feasibility & Business Case', allocated: 40000, spent: 38000, completion: 95, project: 'Generic Tablet Development' },
+  private readonly budgetStageTemplates = [
+    // S1 - Business Need & Opportunity Assessment
+    { stage: 'S1 - Business Need & Opportunity Assessment', stageCode: 'S1', module: 'Business Need & Operational Requirements Assessment', allocated: 45000, spent: 42000 },
+    { stage: 'S1 - Business Need & Opportunity Assessment', stageCode: 'S1', module: 'Engineering Concept & Technical Feasibility', allocated: 55000, spent: 51000 },
+    { stage: 'S1 - Business Need & Opportunity Assessment', stageCode: 'S1', module: 'Project Feasibility & Business Case', allocated: 40000, spent: 38000 },
 
-    // S2 - Product Initiation
-    { stage: 'S2 - Product Initiation', stageCode: 'S2', module: 'Project Kick-off & Charter', allocated: 35000, spent: 32000, completion: 91, project: 'Generic Tablet Development' },
-    { stage: 'S2 - Product Initiation', stageCode: 'S2', module: 'Stakeholder Alignment', allocated: 25000, spent: 23000, completion: 92, project: 'Generic Tablet Development' },
-    { stage: 'S2 - Product Initiation', stageCode: 'S2', module: 'Resource Allocation & Budgeting', allocated: 30000, spent: 28000, completion: 93, project: 'Generic Tablet Development' },
+    // S2 - Project Scope & Feasibility Validation
+    { stage: 'S2 - Project Scope & Feasibility Validation', stageCode: 'S2', module: 'Program Kick-off & Charter Finalization', allocated: 35000, spent: 32000 },
+    { stage: 'S2 - Project Scope & Feasibility Validation', stageCode: 'S2', module: 'Plant Stakeholder & Cross-Functional Alignment', allocated: 25000, spent: 23000 },
+    { stage: 'S2 - Project Scope & Feasibility Validation', stageCode: 'S2', module: 'Resource Allocation & CapEx Budgeting', allocated: 30000, spent: 28000 },
 
-    // S3 - Development Procurement
-    { stage: 'S3 - Development Procurement', stageCode: 'S3', module: 'API Sourcing & Vendor Audit', allocated: 65000, spent: 61000, completion: 94, project: 'Generic Tablet Development' },
-    { stage: 'S3 - Development Procurement', stageCode: 'S3', module: 'Excipient & Packaging PO', allocated: 45000, spent: 41000, completion: 91, project: 'Generic Tablet Development' },
-    { stage: 'S3 - Development Procurement', stageCode: 'S3', module: 'Reference Standard Receipt', allocated: 20000, spent: 18500, completion: 93, project: 'Generic Tablet Development' },
+    // S3 - Concept Engineering & Solution Development
+    { stage: 'S3 - Concept Engineering & Solution Development', stageCode: 'S3', module: 'Equipment Sourcing & OEM Vendor Audit', allocated: 65000, spent: 61000 },
+    { stage: 'S3 - Concept Engineering & Solution Development', stageCode: 'S3', module: 'Concept Engineering & Solution Architecture', allocated: 45000, spent: 41000 },
+    { stage: 'S3 - Concept Engineering & Solution Development', stageCode: 'S3', module: 'Technical Specification Pack Release', allocated: 20000, spent: 18500 },
 
-    // S4 - POC Formulation
-    { stage: 'S4 - POC Formulation', stageCode: 'S4', module: 'Formula Design & Excipient Selection', allocated: 75000, spent: 71000, completion: 95, project: 'Generic Tablet Development' },
-    { stage: 'S4 - POC Formulation', stageCode: 'S4', module: 'Prototype Trial Batches', allocated: 60000, spent: 58000, completion: 97, project: 'Generic Tablet Development' },
-    { stage: 'S4 - POC Formulation', stageCode: 'S4', module: 'Formula Lock & Dissolution Studies', allocated: 65000, spent: 62000, completion: 95, project: 'Generic Tablet Development' },
+    // S4 - Detailed Engineering & Design Optimization
+    { stage: 'S4 - Detailed Engineering & Design Optimization', stageCode: 'S4', module: 'Mechanical & Structural CAD Modeling', allocated: 75000, spent: 71000 },
+    { stage: 'S4 - Detailed Engineering & Design Optimization', stageCode: 'S4', module: 'Electrical, PLC & Controls Schematic Design', allocated: 60000, spent: 58000 },
+    { stage: 'S4 - Detailed Engineering & Design Optimization', stageCode: 'S4', module: 'Design Optimization & DFMEA Sign-off', allocated: 65000, spent: 62000 },
 
-    // S5 - EB Procurement
-    { stage: 'S5 - EB Procurement', stageCode: 'S5', module: 'Exhibit Batch API Procurement', allocated: 85000, spent: 79000, completion: 93, project: 'Generic Tablet Development' },
-    { stage: 'S5 - EB Procurement', stageCode: 'S5', module: 'Commercial Packaging Components', allocated: 40000, spent: 36000, completion: 90, project: 'Generic Tablet Development' },
+    // S5 - Concept Selection & Design Freeze
+    { stage: 'S5 - Concept Selection & Design Freeze', stageCode: 'S5', module: 'Design Freeze & Configuration Selection Review', allocated: 85000, spent: 79000 },
+    { stage: 'S5 - Concept Selection & Design Freeze', stageCode: 'S5', module: 'Long-Lead Component & Enclosure POs', allocated: 40000, spent: 36000 },
 
-    // S6 - Pilot Bio Formulation
-    { stage: 'S6 - Pilot Bio Formulation', stageCode: 'S6', module: 'Pilot Bio Batch Execution', allocated: 95000, spent: 88000, completion: 93, project: 'Generic Tablet Development' },
-    { stage: 'S6 - Pilot Bio Formulation', stageCode: 'S6', module: 'In-vitro Permeability Study', allocated: 50000, spent: 46000, completion: 92, project: 'Generic Tablet Development' },
+    // S6 - Process Engineering & Equipment Design
+    { stage: 'S6 - Process Engineering & Equipment Design', stageCode: 'S6', module: 'Manufacturing & Process Equipment Engineering', allocated: 95000, spent: 88000 },
+    { stage: 'S6 - Process Engineering & Equipment Design', stageCode: 'S6', module: 'Tooling, Fixtures & Material Flow Design', allocated: 50000, spent: 46000 },
 
-    // S7 - API Validation
-    { stage: 'S7 - API Validation', stageCode: 'S7', module: 'API Analytical Method Validation', allocated: 70000, spent: 65000, completion: 93, project: 'Generic Tablet Development' },
-    { stage: 'S7 - API Validation', stageCode: 'S7', module: 'Forced Degradation Studies', allocated: 45000, spent: 41000, completion: 91, project: 'Generic Tablet Development' },
+    // S7 - Prototype Fabrication & Engineering Validation
+    { stage: 'S7 - Prototype Fabrication & Engineering Validation', stageCode: 'S7', module: 'Prototype Fabrication & Subassembly Build', allocated: 70000, spent: 65000 },
+    { stage: 'S7 - Prototype Fabrication & Engineering Validation', stageCode: 'S7', module: 'Instrumentation & Calibration Validation', allocated: 45000, spent: 41000 },
 
-    // S8 - FP Validation
-    { stage: 'S8 - FP Validation', stageCode: 'S8', module: 'FP Method Validation & STP', allocated: 80000, spent: 74000, completion: 93, project: 'Generic Tablet Development' },
-    { stage: 'S8 - FP Validation', stageCode: 'S8', module: 'Dissolution Discriminatory Method', allocated: 55000, spent: 50000, completion: 91, project: 'Generic Tablet Development' },
+    // S8 - Installation Planning & Site Installation Readiness
+    { stage: 'S8 - Installation Planning & Site Installation Readiness', stageCode: 'S8', module: 'Foundation, Utilities & Site Readiness Prep', allocated: 80000, spent: 74000 },
+    { stage: 'S8 - Installation Planning & Site Installation Readiness', stageCode: 'S8', module: 'Safety Guarding & Factory Acceptance Test (FAT)', allocated: 55000, spent: 50000 },
 
-    // S9 - TTD Submission
-    { stage: 'S9 - TTD Submission', stageCode: 'S9', module: 'Technical Transfer Dossier', allocated: 60000, spent: 55000, completion: 92, project: 'Generic Tablet Development' },
-    { stage: 'S9 - TTD Submission', stageCode: 'S9', module: 'Manufacturing Plant Review', allocated: 35000, spent: 32000, completion: 91, project: 'Generic Tablet Development' },
+    // S9 - Equipment Installation & Integration
+    { stage: 'S9 - Equipment Installation & Integration', stageCode: 'S9', module: 'Shop-Floor Rigging, Installation & Alignment', allocated: 60000, spent: 55000 },
+    { stage: 'S9 - Equipment Installation & Integration', stageCode: 'S9', module: 'SCADA / MES Line Integration & Hook-up', allocated: 35000, spent: 32000 },
 
-    // S10 - Exhibit Batches
-    { stage: 'S10 - Exhibit Batches', stageCode: 'S10', module: 'Exhibit Batch 1 Execution', allocated: 110000, spent: 102000, completion: 93, project: 'Generic Tablet Development' },
-    { stage: 'S10 - Exhibit Batches', stageCode: 'S10', module: 'Exhibit Batch 2 Execution', allocated: 105000, spent: 98000, completion: 93, project: 'Generic Tablet Development' },
-    { stage: 'S10 - Exhibit Batches', stageCode: 'S10', module: '3-Month Accelerated Stability', allocated: 75000, spent: 69000, completion: 92, project: 'Generic Tablet Development' },
+    // S10 - Commissioning & Performance Testing
+    { stage: 'S10 - Commissioning & Performance Testing', stageCode: 'S10', module: 'Site Acceptance Testing (SAT) Execution', allocated: 110000, spent: 102000 },
+    { stage: 'S10 - Commissioning & Performance Testing', stageCode: 'S10', module: 'Cycle-Time, OEE & Load Endurance Trials', allocated: 105000, spent: 98000 },
+    { stage: 'S10 - Commissioning & Performance Testing', stageCode: 'S10', module: 'Thermal, Vibration & Noise Compliance Test', allocated: 75000, spent: 69000 },
 
-    // S11 - Pivotal BE
-    { stage: 'S11 - Pivotal BE', stageCode: 'S11', module: 'Clinical Protocol & Bioanalytical Run', allocated: 150000, spent: 142000, completion: 95, project: 'Generic Tablet Development' },
-    { stage: 'S11 - Pivotal BE', stageCode: 'S11', module: 'Pharmacokinetic Data Analysis', allocated: 65000, spent: 60000, completion: 92, project: 'Generic Tablet Development' },
+    // S11 - Operational Qualification & Production Ramp-Up
+    { stage: 'S11 - Operational Qualification & Production Ramp-Up', stageCode: 'S11', module: 'Operational Qualification (OQ) & Pilot Run', allocated: 150000, spent: 142000 },
+    { stage: 'S11 - Operational Qualification & Production Ramp-Up', stageCode: 'S11', module: 'Operator Training & Production Ramp-Up', allocated: 65000, spent: 60000 },
 
-    // S12 - Dossier Filing
-    { stage: 'S12 - Dossier Filing', stageCode: 'S12', module: 'Module 3 Quality Dossier', allocated: 90000, spent: 84000, completion: 93, project: 'Generic Tablet Development' },
-    { stage: 'S12 - Dossier Filing', stageCode: 'S12', module: 'Regulatory Authority Submission', allocated: 55000, spent: 50000, completion: 91, project: 'Generic Tablet Development' },
-
-    // Generic API Process Development data
-    { stage: 'S1 - Business Case', stageCode: 'S1', module: 'API & Raw Material Assessment', allocated: 42000, spent: 39000, completion: 93, project: 'Generic API Process Development' },
-    { stage: 'S1 - Business Case', stageCode: 'S1', module: 'Preformulation & Compatibility', allocated: 50000, spent: 46000, completion: 92, project: 'Generic API Process Development' },
-    { stage: 'S1 - Business Case', stageCode: 'S1', module: 'Feasibility & Business Case', allocated: 38000, spent: 34000, completion: 89, project: 'Generic API Process Development' },
-    { stage: 'S2 - Product Initiation', stageCode: 'S2', module: 'Project Kick-off & Charter', allocated: 32000, spent: 29000, completion: 91, project: 'Generic API Process Development' },
-    { stage: 'S2 - Product Initiation', stageCode: 'S2', module: 'Resource Allocation & Budgeting', allocated: 28000, spent: 26000, completion: 93, project: 'Generic API Process Development' },
-    { stage: 'S3 - Development Procurement', stageCode: 'S3', module: 'API Sourcing & Vendor Audit', allocated: 58000, spent: 53000, completion: 91, project: 'Generic API Process Development' },
-    { stage: 'S4 - POC Formulation', stageCode: 'S4', module: 'Formula Design & Excipient Selection', allocated: 68000, spent: 63000, completion: 93, project: 'Generic API Process Development' },
-    { stage: 'S4 - POC Formulation', stageCode: 'S4', module: 'Prototype Trial Batches', allocated: 55000, spent: 50000, completion: 91, project: 'Generic API Process Development' },
-    { stage: 'S5 - EB Procurement', stageCode: 'S5', module: 'Exhibit Batch API Procurement', allocated: 75000, spent: 70000, completion: 93, project: 'Generic API Process Development' },
-    { stage: 'S6 - Pilot Bio Formulation', stageCode: 'S6', module: 'Pilot Bio Batch Execution', allocated: 88000, spent: 81000, completion: 92, project: 'Generic API Process Development' },
-    { stage: 'S7 - API Validation', stageCode: 'S7', module: 'API Analytical Method Validation', allocated: 65000, spent: 60000, completion: 92, project: 'Generic API Process Development' },
-    { stage: 'S8 - FP Validation', stageCode: 'S8', module: 'FP Method Validation & STP', allocated: 72000, spent: 66000, completion: 92, project: 'Generic API Process Development' },
-    { stage: 'S9 - TTD Submission', stageCode: 'S9', module: 'Technical Transfer Dossier', allocated: 55000, spent: 50000, completion: 91, project: 'Generic API Process Development' },
-    { stage: 'S10 - Exhibit Batches', stageCode: 'S10', module: 'Exhibit Batch 1 Execution', allocated: 98000, spent: 89000, completion: 91, project: 'Generic API Process Development' },
-    { stage: 'S11 - Pivotal BE', stageCode: 'S11', module: 'Clinical Protocol & Bioanalytical Run', allocated: 135000, spent: 125000, completion: 93, project: 'Generic API Process Development' },
-    { stage: 'S12 - Dossier Filing', stageCode: 'S12', module: 'Module 3 Quality Dossier', allocated: 82000, spent: 75000, completion: 91, project: 'Generic API Process Development' }
+    // S12 - Operational Handover & Project Closeout
+    { stage: 'S12 - Operational Handover & Project Closeout', stageCode: 'S12', module: 'As-Built Documentation & Maintenance Handover', allocated: 90000, spent: 84000 },
+    { stage: 'S12 - Operational Handover & Project Closeout', stageCode: 'S12', module: 'Statutory Safety Clearance & Project Closeout', allocated: 55000, spent: 50000 }
   ];
+
+  budgetGanttData: any[] = this.projects.flatMap((project, idx) =>
+    this.budgetStageTemplates.map(item => {
+      const factor = 1 - idx * 0.06;
+      const allocated = Math.round((item.allocated * factor) / 500) * 500;
+      const spent = Math.round((item.spent * factor) / 500) * 500;
+      return {
+        stage: item.stage,
+        stageCode: item.stageCode,
+        module: item.module,
+        allocated,
+        spent,
+        completion: Math.round((spent / (allocated || 1)) * 100),
+        project
+      };
+    })
+  );
 
   filteredBudgetGanttData: any[] = [];
 
@@ -160,7 +142,7 @@ export class DashboardVarianceComponent implements OnInit, AfterViewInit {
   }
 
   applyBudgetFilter() {
-    if (this.selectedBudgetProject === 'All Projects') {
+    if (this.selectedBudgetProject === 'All Programs') {
       const map = new Map<string, any>();
       this.budgetGanttData.forEach(d => {
         const key = `${d.stageCode}|${d.module}`;

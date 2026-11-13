@@ -105,26 +105,26 @@ export class ResourcesComponent implements OnInit, AfterViewInit {
   private initializeData(): void {
     this.schedules.set([
       {
-        resource: 'Lyophilizer A', initials: 'LA', stage: 'Feasibility', module: 'API Assessment',
-        task: 'API Evaluation', fromDate: '2026-06-01', fromTime: '09:00 AM', toDate: '2026-06-05',
+        resource: 'Vibration & Flow Measurement System A', initials: 'VF', stage: 'S2 - Feasibility Validation', module: 'Equipment Benchmarking & Envelope',
+        task: 'Baseline Vibration & Thermal Characterization', fromDate: '2026-06-01', fromTime: '09:00 AM', toDate: '2026-06-05',
         toTime: '05:00 PM', planDuration: '5 days', actualDuration: '5 days',
         status: 'Completed', dayPlacement: 'Monday', color: '#dcfce7'
       },
       {
-        resource: 'Anita Desai', initials: 'AD', stage: 'Formulation', module: 'Formulation Development',
-        task: 'Excipient Selection & Trial Batches', fromDate: '2026-06-08', fromTime: '09:00 AM', toDate: '2026-06-21',
+        resource: 'Anita Desai', initials: 'AD', stage: 'S4 - Detailed Engineering', module: 'CAD Assembly & Control Architecture',
+        task: 'Workcell Kinematics & Tooling Selection Trials', fromDate: '2026-06-08', fromTime: '09:00 AM', toDate: '2026-06-21',
         toTime: '05:00 PM', planDuration: '14 days', actualDuration: '12 days',
         status: 'Completed', dayPlacement: 'Tuesday', color: '#dcfce7'
       },
       {
-        resource: 'Lyophilizer B', initials: 'LB', stage: 'Development', module: 'Process Development',
-        task: 'Granulation & Process Optimization', fromDate: '2026-06-22', fromTime: '09:00 AM', toDate: '2026-07-02',
+        resource: 'CNC Machining Centre B', initials: 'CM', stage: 'S6 - Process & Equipment Design', module: 'Pilot Production Line Development',
+        task: 'Cycle-Time Optimization & Prototype Machining Run', fromDate: '2026-06-22', fromTime: '09:00 AM', toDate: '2026-07-02',
         toTime: '05:00 PM', planDuration: '10 days', actualDuration: '8 days',
         status: 'Active', dayPlacement: 'Wednesday', color: '#e0f2fe'
       },
       {
-        resource: 'Amit Patel', initials: 'AP', stage: 'Testing', module: 'Analytical Development',
-        task: 'Assay & Dissolution Testing', fromDate: '2026-07-03', fromTime: '09:00 AM', toDate: '2026-07-13',
+        resource: 'Amit Patel', initials: 'AP', stage: 'S10 - Commissioning & Testing', module: 'Metrology & Performance Validation',
+        task: 'CMM Accuracy & Multi-Shift Cpk Acceptance Testing', fromDate: '2026-07-03', fromTime: '09:00 AM', toDate: '2026-07-13',
         toTime: '05:00 PM', planDuration: '10 days', actualDuration: 'N/A',
         status: 'Pending', dayPlacement: 'Thursday', color: '#ffedd5'
       }
@@ -170,7 +170,7 @@ export class ResourcesComponent implements OnInit, AfterViewInit {
 
   goBack(): void {
     this.router.navigate(['/app/testing/projects/dashboard/analytics'], {
-      queryParams: { code: "2026/GEN/001", name: "Generic Tablet Development" }
+      queryParams: { code: "2026/IND/001", name: "Industrial Equipment Line Expansion" }
     });
   }
 

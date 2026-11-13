@@ -33,7 +33,7 @@ export class EditBacklogTaskComponent implements OnInit {
   planFinish = '';
   effort = 0;
   duration = 0;
-  stage = 'Formulation';
+  stage = 'Detailed Engg';
   assigned = '';
   description = '';
   eta = '';
@@ -44,8 +44,8 @@ export class EditBacklogTaskComponent implements OnInit {
   approved = false;
   progress = 0;
 
-  stages = ['Feasibility', 'Formulation', 'Development', 'Testing', 'Validation', 'Regulatory'];
-  team = ['Aarav Shah', 'Priya Nair', 'Diego Ruiz', 'Mei Tanaka', 'Olivia Brown'];
+  stages = ['Feasibility', 'Concept Engg', 'Detailed Engg', 'Fabrication', 'Installation', 'Commissioning'];
+  team = ['Ananya Rao', 'Rajesh Kumar', 'Anita Desai', 'Priya Reddy', 'Suresh Naidu'];
 
   constructor(
     public dialogRef: MatDialogRef<EditBacklogTaskComponent>,
@@ -64,7 +64,7 @@ export class EditBacklogTaskComponent implements OnInit {
       this.planFinish = taskData.planFinish || '';
       this.effort = taskData.effort || 0;
       this.duration = taskData.duration || 0;
-      this.stage = taskData.stage || 'Formulation';
+      this.stage = taskData.stage || 'Detailed Engg';
       this.assigned = taskData.assigned || '';
       this.description = taskData.description || '';
       this.eta = taskData.eta || '';

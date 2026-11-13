@@ -52,62 +52,53 @@ export class ItemSubCategoriesComponent {
   constructor(private dialog: MatDialog) {}
   readonly assets: Asset[] = [
     {
-      name: 'API & Raw Materials',
-      code: 'Active Pharmaceutical Ingredient (API)',
+      name: 'Structural & Alloy Raw Materials',
+      code: 'Carbon & Stainless Steel Plates',
       status: 'Active',
     },
-
     {
-      name: 'API & Raw Materials',
-      code: 'API Samples',
+      name: 'Structural & Alloy Raw Materials',
+      code: 'Precision Castings & Forgings',
       status: 'Active',
     },
-
     {
-      name: 'Excipients',
-      code: 'Binders & Fillers',
+      name: 'Automation & Control Hardware',
+      code: 'PLC CPUs & Safety I/O Racks',
       status: 'Active',
     },
-
     {
-      name: 'Excipients',
-      code: 'Disintegrants & Lubricants',
+      name: 'Automation & Control Hardware',
+      code: 'Servo Drives, VFDs & Encoders',
       status: 'Active',
     },
-
     {
-      name: 'Analytical Materials',
-      code: 'Analytical Standards',
+      name: 'Metrology & Calibration Standards',
+      code: 'CMM Reference & Step Gauges',
       status: 'Active',
     },
-
     {
-      name: 'Analytical Materials',
-      code: 'Reagents & Solvents',
+      name: 'Metrology & Calibration Standards',
+      code: 'Vibration & Thermal Sensors',
       status: 'Active',
     },
-
     {
-      name: 'Packaging Materials',
-      code: 'Blister Packs',
+      name: 'Machine Guarding & Enclosures',
+      code: 'IP65 Control Cabinets & Panels',
       status: 'Active',
     },
-
     {
-      name: 'Packaging Materials',
-      code: 'Bottles & Labels',
+      name: 'Machine Guarding & Enclosures',
+      code: 'Light Curtains & Safety Interlocks',
       status: 'Active',
     },
-
     {
-      name: 'Finished Products',
-      code: 'Development Tablets',
+      name: 'Finished Equipment Subassemblies',
+      code: 'Tested Production Workcells',
       status: 'Active',
     },
-
     {
-      name: 'Laboratory Consumables',
-      code: 'Testing Consumables',
+      name: 'Shop-Floor & Maintenance Consumables',
+      code: 'Coolants, Lubricants & Tooling',
       status: 'Active',
     },
   ];

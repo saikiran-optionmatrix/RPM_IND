@@ -70,8 +70,8 @@ export class ProjectNotesComponent implements OnInit {
   editNoteText: string = '';
   editDialogRef: any = null;
 
-  projectName: string = 'Generic Tablet Development';
-  projectCode: string = '2026/GEN/001';
+  projectName: string = 'Industrial Equipment Line Expansion';
+  projectCode: string = '2026/IND/001';
   dynamicBreadcrumb: string = 'Notes';
 
   constructor(
@@ -95,20 +95,20 @@ export class ProjectNotesComponent implements OnInit {
   }
 
   loadTags(): void {
-    const stored = localStorage.getItem('rpm_tags_v2');
+    const stored = localStorage.getItem('rpm_ind_tags_v1');
     let tagsList = [];
     if (stored) {
       tagsList = JSON.parse(stored);
     } else {
       tagsList = [
-        { id: 1, name: 'API Assessment', isActive: true, description: 'Notes regarding API evaluation and sourcing' },
-        { id: 2, name: 'Formulation', isActive: true, description: 'Notes regarding formulation trials and excipients' },
-        { id: 3, name: 'Analytical', isActive: true, description: 'Notes regarding assay and dissolution testing' },
-        { id: 4, name: 'Manufacturing', isActive: true, description: 'Notes regarding compression and batch processing' },
-        { id: 5, name: 'Stability', isActive: true, description: 'Notes regarding stability study evaluations' },
-        { id: 6, name: 'Regulatory', isActive: true, description: 'Notes regarding dossier preparation and filings' }
+        { id: 1, name: 'URS & Feasibility', isActive: true, description: 'Notes regarding URS scope, line capacity, and ROI' },
+        { id: 2, name: 'CAD & Mechanical', isActive: true, description: 'Notes regarding 3D CAD, structural FEA, and GD&T tolerances' },
+        { id: 3, name: 'Controls & PLC', isActive: true, description: 'Notes regarding PLC, SCADA telemetry, and safety interlocks' },
+        { id: 4, name: 'Fabrication & FAT', isActive: true, description: 'Notes regarding prototype tooling, CMM metrology, and OEM FAT' },
+        { id: 5, name: 'Site & Rigging', isActive: true, description: 'Notes regarding plant foundation, utilities, and equipment alignment' },
+        { id: 6, name: 'SAT & OQ Handover', isActive: true, description: 'Notes regarding commissioning endurance runs and CMMS PM handover' }
       ];
-      localStorage.setItem('rpm_tags_v2', JSON.stringify(tagsList));
+      localStorage.setItem('rpm_ind_tags_v1', JSON.stringify(tagsList));
     }
     this.availableTags = tagsList.filter((t: any) => t.isActive).map((t: any) => t.name);
     if (this.availableTags.length > 0 && !this.selectedTag) {
@@ -117,7 +117,7 @@ export class ProjectNotesComponent implements OnInit {
   }
 
   loadNotes(): void {
-    const stored = localStorage.getItem('rpm_notes_v3');
+    const stored = localStorage.getItem('rpm_ind_notes_v1');
     if (stored) {
       this.notesList = JSON.parse(stored);
     } else {
@@ -126,102 +126,102 @@ export class ProjectNotesComponent implements OnInit {
           actions: '',
           date: '06/05/2026',
           postedBy: 'Rajesh Kumar',
-          message: 'API evaluation completed; supplier qualification is under review with 2 qualified DMF sources.',
-          document: 'API Specification.pdf',
-          tags: 'API Assessment'
+          message: 'Line throughput benchmark completed; URS target of 120 units/hr approved across two primary CNC bays.',
+          document: 'URS Baseline Specification.pdf',
+          tags: 'URS & Feasibility'
         },
         {
           actions: '',
           date: '06/12/2026',
           postedBy: 'Anita Desai',
-          message: 'Formulation trial completed with selected excipients; dissolution similarity f2 > 65 observed against RLD.',
-          document: 'Formulation Development Report.pdf',
-          tags: 'Formulation'
+          message: 'Gantry structural FEA completed with 2.4x safety factor and gusset stiffeners added for spindle harmonic damping.',
+          document: 'Structural FEA Analysis Report.pdf',
+          tags: 'CAD & Mechanical'
         },
         {
           actions: '',
           date: '06/20/2026',
-          postedBy: 'Amit Patel',
-          message: 'Analytical testing initiated for assay and degradation impurity HPLC method development.',
-          document: 'Analytical Method Report.pdf',
-          tags: 'Analytical'
+          postedBy: 'Priya Reddy',
+          message: 'PLC safety circuit EPLAN schematics updated; dual-channel E-stop and light curtain PLd validation verified.',
+          document: 'PLC Safety Interlock Spec.pdf',
+          tags: 'Controls & PLC'
         },
         {
           actions: '',
           date: '06/28/2026',
-          postedBy: 'Neha Sharma',
-          message: 'Tablet compression trial completed for the pilot development batch with uniform hardness and < 0.5% friability.',
-          document: 'Manufacturing Process Record.pdf',
-          tags: 'Manufacturing'
+          postedBy: 'Suresh Naidu',
+          message: 'Prototype fixture endurance cycling completed across 5,000 clamp cycles with zero dimensional repeatability drift.',
+          document: 'Prototype Tooling Trial Log.pdf',
+          tags: 'Fabrication & FAT'
         },
         {
           actions: '',
           date: '07/04/2026',
-          postedBy: 'Vikram Malhotra',
-          message: 'Initiated 3-month accelerated stability testing (40°C/75% RH) and controlled photostability stress testing.',
-          document: 'Stability Protocol.pdf',
-          tags: 'Stability'
+          postedBy: 'Arun Joseph',
+          message: 'Bay 2 reinforced concrete foundation cured to 4,500 psi; 480V substation feeder and chilled water manifold tested.',
+          document: 'Foundation & Utility Audit.pdf',
+          tags: 'Site & Rigging'
         },
         {
           actions: '',
           date: '07/11/2026',
-          postedBy: 'Priya Nair',
-          message: 'Completed eCTD Module 3 Drug Substance (3.2.S) documentation, CoA verification, and specification review.',
-          document: 'eCTD Module 3 Draft.pdf',
-          tags: 'Regulatory'
+          postedBy: 'Ananya Rao',
+          message: 'Completed As-Built CAD package, CMMS preventive maintenance schedule upload, and operator LOTO SOP sign-off.',
+          document: 'Operations TTD Dossier Draft.pdf',
+          tags: 'SAT & OQ Handover'
         },
         {
           actions: '',
           date: '07/18/2026',
           postedBy: 'Rajesh Kumar',
-          message: 'Second vendor audit and CEP verification completed with clean quality assurance review.',
-          document: 'Vendor Qualification Report.pdf',
-          tags: 'API Assessment'
+          message: 'Backup Japanese servo-drive vendor ISO 9001 quality audit and 24-hour critical spares SLA finalized.',
+          document: 'OEM Supplier Audit Report.pdf',
+          tags: 'URS & Feasibility'
         },
         {
           actions: '',
           date: '07/25/2026',
           postedBy: 'Anita Desai',
-          message: 'Optimized aqueous film coating parameters to prevent tablet edge chipping during blister packaging trials.',
-          document: 'Coating Parameter Study.pdf',
-          tags: 'Formulation'
+          message: 'Updated GD&T tolerance stack-up to +/- 0.015 mm on rotary indexer bed mounting interface.',
+          document: 'GDT Tolerance StackUp Rev2.pdf',
+          tags: 'CAD & Mechanical'
         },
         {
           actions: '',
           date: '08/02/2026',
           postedBy: 'Amit Patel',
-          message: 'Forced degradation stress study completed; demonstrated method specificity with no co-eluting peaks.',
-          document: 'Degradation Study Report.pdf',
-          tags: 'Analytical'
+          message: 'OPC-UA SCADA edge gateway stress test passed; 1,200 high-frequency spindle telemetry tags verified < 10 ms.',
+          document: 'SCADA Telemetry Stress Log.pdf',
+          tags: 'Controls & PLC'
         },
         {
           actions: '',
           date: '08/09/2026',
-          postedBy: 'Neha Sharma',
-          message: 'Fluid bed drying LOD endpoint mapped within optimal 1.2% - 1.8% moisture range.',
-          document: 'FBD Optimization Report.pdf',
-          tags: 'Manufacturing'
+          postedBy: 'Deepa Nair',
+          message: 'OEM Factory Acceptance Test (FAT) completed with acoustic enclosure measuring 75.8 dBA (< 78 dBA limit).',
+          document: 'OEM FAT Witness Report.pdf',
+          tags: 'Fabrication & FAT'
         },
         {
           actions: '',
           date: '08/16/2026',
-          postedBy: 'Vikram Malhotra',
-          message: '1-Month accelerated stability testing shows 99.8% active potency retention and no out-of-spec degradants.',
-          document: 'Stability Interim Readout.pdf',
-          tags: 'Stability'
+          postedBy: 'Arun Joseph',
+          message: 'Optical laser bed leveling completed along Bay 2 main rail within 0.008 mm/300 mm squareness tolerance.',
+          document: 'Laser Alignment Readout.pdf',
+          tags: 'Site & Rigging'
         },
         {
           actions: '',
           date: '08/23/2026',
-          postedBy: 'Priya Nair',
-          message: 'Preliminary QA gap analysis conducted for regulatory submission readiness dossier.',
-          document: 'Regulatory Gap Analysis.pdf',
-          tags: 'Regulatory'
+          postedBy: 'Lakshmi Devi',
+          message: 'Pre-SAT EHS machine guarding walkthrough cleared with zero open Class-A safety punch items.',
+          document: 'EHS Safety Clearance Audit.pdf',
+          tags: 'SAT & OQ Handover'
         }
       ];
-      localStorage.setItem('rpm_notes_v3', JSON.stringify(this.notesList));
+      localStorage.setItem('rpm_ind_notes_v1', JSON.stringify(this.notesList));
     }
-    const defaultUpdaters = ['Dr. Sarah Jenkins', 'Rajesh Kumar', 'Anita Desai', 'Amit Patel', 'Neha Sharma', 'Vikram Malhotra', 'Priya Nair'];
+    const defaultUpdaters = ['Ananya Rao', 'Rajesh Kumar', 'Anita Desai', 'Amit Patel', 'Priya Reddy', 'Suresh Naidu', 'Deepa Nair'];
     const defaultDates = ['2026-06-05', '2026-06-12', '2026-06-20', '2026-06-28', '2026-07-04', '2026-07-11', '2026-07-18', '2026-07-25', '2026-08-02', '2026-08-09', '2026-08-16', '2026-08-23'];
     this.notesList.forEach((n, idx) => {
       if (!n.historyCount) {
@@ -261,15 +261,15 @@ export class ProjectNotesComponent implements OnInit {
         day: '2-digit',
         year: 'numeric'
       }),
-      postedBy: 'Dr. Sarah Jenkins',
+      postedBy: 'Ananya Rao',
       message: this.noteText.trim(),
       document: this.attachedDocument || '',
       tags: this.selectedTag,
       updatedDate: now,
-      updatedBy: 'Dr. Sarah Jenkins'
+      updatedBy: 'Ananya Rao'
     };
     this.notesList = [newNote, ...this.notesList];
-    localStorage.setItem('rpm_notes_v3', JSON.stringify(this.notesList));
+    localStorage.setItem('rpm_ind_notes_v1', JSON.stringify(this.notesList));
     this.clearForm();
     this.updatePagination();
   }
@@ -300,8 +300,8 @@ export class ProjectNotesComponent implements OnInit {
       this.editingNote.tags = this.editSelectedTag;
       this.editingNote.message = this.editNoteText.trim();
       this.editingNote.updatedDate = new Date().toISOString().split('T')[0];
-      this.editingNote.updatedBy = 'Dr. Sarah Jenkins';
-      localStorage.setItem('rpm_notes_v3', JSON.stringify(this.notesList));
+      this.editingNote.updatedBy = 'Ananya Rao';
+      localStorage.setItem('rpm_ind_notes_v1', JSON.stringify(this.notesList));
       this.updatePagination();
     }
     this.closeEditDialog();
@@ -322,7 +322,7 @@ export class ProjectNotesComponent implements OnInit {
           this.closeEditDialog();
         }
         this.notesList = this.notesList.filter(n => n !== note);
-        localStorage.setItem('rpm_notes_v3', JSON.stringify(this.notesList));
+        localStorage.setItem('rpm_ind_notes_v1', JSON.stringify(this.notesList));
         this.updatePagination();
       }
     });
@@ -344,7 +344,7 @@ export class ProjectNotesComponent implements OnInit {
 
   goBack(): void {
     this.router.navigate(['/projects/dashboard/analytics'], {
-      queryParams: { code: this.projectCode || "2026/GEN/001", name: this.projectName || "Generic Tablet Development" }
+      queryParams: { code: this.projectCode || '2026/IND/001', name: this.projectName || 'Industrial Equipment Line Expansion' }
     });
   }
 

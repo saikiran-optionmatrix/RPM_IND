@@ -26,11 +26,11 @@ export interface StaticDocItem {
 export class ViewDocsComponent {
   // Static documents list as requested
   documents: StaticDocItem[] = [
-    { id: 1, title: 'Project Scope & Technical Protocol.pdf' },
-    { id: 2, title: 'Standard Testing Procedure (STP) Specifications.pdf' },
-    { id: 3, title: 'Quality Risk Assessment & Mitigation Dossier.pdf' },
-    { id: 4, title: 'Formulation Development Analytical Report.pdf' },
-    { id: 5, title: 'Certificate of Analysis (COA) Compliance Record.pdf' }
+    { id: 1, title: 'User Requirements Specification (URS) & Scope Protocol.pdf' },
+    { id: 2, title: '3D CAD Assembly & GD&T Tolerance Specifications.pdf' },
+    { id: 3, title: 'Design FMEA & Machine Safety HAZOP Risk Dossier.pdf' },
+    { id: 4, title: 'FAT / SAT Commissioning & Performance Test Report.pdf' },
+    { id: 5, title: 'Instrument Calibration & Material Traceability Certificate.pdf' }
   ];
 
   constructor(

@@ -8,6 +8,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
   commercialAttractivenessOptions,
   dosageForms,
+  industrialDivisions,
+  industrialTemplates,
   locations,
   projectLeads,
   projectOwners,
@@ -50,43 +52,16 @@ export class AddProjectComponent implements OnInit {
     { id: 'overview', label: 'Overview' },
     { id: 'timeline', label: 'Timeline' },
     { id: 'market', label: 'Market' },
-    { id: 'productDetails', label: 'Product Details' },
-    { id: 'innovator', label: 'Innovator' },
-    { id: 'api', label: 'API' },
+    { id: 'productDetails', label: 'Equipment Details' },
+    { id: 'innovator', label: 'Benchmark OEM' },
+    { id: 'api', label: 'Vendors & Specs' },
     { id: 'others', label: 'Others' }
   ];
 
   // Option lists for dropdowns
-  readonly divisionsList = [
-    'Endocrinology / Diabetes',
-    'Neurology',
-    'Gastroenterology',
-    'Anti-infectives',
-    'Respiratory',
-    'Oncology',
-    'Diagnostics / Contrast Media',
-    'Oral Solids - OS',
-    'Injectables - IJ',
-    'Complex Injectables - CI',
-    'Biotech - BT',
-  ];
-  readonly templatesList = [
-    'Generic Tablet Development',
-    'Generic API Process Development',
-    'Complex Injectable Development',
-    'Generic API Development',
-    'Generic Injectable Formulation',
-  ];
-  readonly locationsList = locations && locations.length ? locations : [
-    'Hyderabad',
-    'Mumbai',
-    'Bengaluru',
-    'Ahmedabad',
-    'Pune',
-    'Chennai',
-    'Delhi',
-    'Baddi',
-  ];
+  readonly divisionsList = industrialDivisions;
+  readonly templatesList = industrialTemplates;
+  readonly locationsList = locations;
   readonly projectOwnersList = projectOwners;
   readonly projectLeadsList = projectLeads;
   readonly dosageFormsList = dosageForms;
@@ -96,10 +71,10 @@ export class AddProjectComponent implements OnInit {
   readonly priorityOptionsList = ['Critical', 'High', 'Medium', 'Low'];
   readonly starProductList = ['Yes', 'No'];
   readonly registrationTypesList = [
-    'Regularisation / Revalidation',
-    'New Registration',
-    'Renewal',
-    'Variation',
+    'Industrial Equipment Development',
+    'Plant Modernization / Upgrade',
+    'Automation & Controls Integration',
+    'Statutory & Safety Renewal',
   ];
 
   constructor(

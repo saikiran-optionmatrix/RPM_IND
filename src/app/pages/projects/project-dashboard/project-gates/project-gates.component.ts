@@ -14,6 +14,7 @@ import { ChecklistPopComponent, ChecklistItem } from './checklist-pop/checklist-
 import { ProjectGatesWorkflowComponent, GateWorkflowSignee } from './project-gates-workflow/project-gates-workflow.component';
 import { HistoryPopComponent } from '../../../../common/shared/history-pop/history-pop.component';
 import { DocumentsPopComponent } from '../../../../common/shared/documents-pop/documents-pop.component';
+import { INDUSTRIAL_STAGES_MASTER } from '../../../stages/industrial-stages.data';
 
 export interface GateItem {
   id?: number;
@@ -67,8 +68,8 @@ export interface GateItem {
 export class ProjectGatesComponent implements OnInit, OnDestroy {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
-  readonly projectName = this.route.snapshot.queryParamMap.get('projectName') || this.route.snapshot.queryParamMap.get('name') || 'Generic Tablet Development';
-  projectCode: string = this.route.snapshot.queryParamMap.get('code') || '2026/GEN/001';
+  readonly projectName = this.route.snapshot.queryParamMap.get('projectName') || this.route.snapshot.queryParamMap.get('name') || 'Industrial Equipment Line Expansion';
+  projectCode: string = this.route.snapshot.queryParamMap.get('code') || '2026/IND/001';
 
   scrollLeft(): void {
     if (this.scrollContainer) {
@@ -82,241 +83,165 @@ export class ProjectGatesComponent implements OnInit, OnDestroy {
     }
   }
 
-  redirectStageOptions: string[] = [
-    'S1 - Opportunity and Portfolio Assessment',
-    'S2 - Product Definition and Project Charter',
-    'S3 - Formulation and Product Concept Development',
-    'S4 - API, Excipient and Supplier Sourcing',
-    'S5 - Formulation and Process Development',
-    'S6 - Development Batches and Verification',
-    'S7 - Facility, Equipment and Process Readiness',
-    'S8 - Analytical Validation and Technology Transfer',
-    'S9 - Registration and Process Validation Batches',
-    'S10 - Regulatory Submission and Approval',
-    'S11 - Commercial Launch and Lifecycle Management',
-  ];
+  redirectStageOptions: string[] = INDUSTRIAL_STAGES_MASTER.map(s => `${s.stageCode} - ${s.stageName}`);
 
   gates: GateItem[] = [
     {
       gateCode: 'Gate 1',
-      gateName: 'Opportunity and portfolio approval',
+      gateName: 'Business Case Approval',
       status: 'Approved',
-      remarks: 'Therapeutic and market opportunity criteria approved',
-      checklistCount: 7,
-      activitiesCount: 7,
-      workflow: '3/5',
+      remarks: 'Plant throughput scope, CapEx ROI model, and URS signed off',
+      checklistCount: 6,
+      activitiesCount: 6,
+      workflow: '5/5',
       updatedDate: '2026-02-15',
       timelineDate: '2026-02-15',
       planStart: '2026-01-05',
-      planEnd: '2026-01-15',
+      planEnd: '2026-02-15',
       actualStart: '2026-01-05',
-      actualEnd: '2026-01-15',
-      eta: '2026-01-15',
-      planDuration: '10 days',
-      actualDuration: '10 days',
-      planEffort: '80 hrs',
-      actualEffort: '80 hrs',
+      actualEnd: '2026-02-14',
+      eta: '2026-02-15',
+      planDuration: '40 days',
+      actualDuration: '39 days',
+      planEffort: '180 hrs',
+      actualEffort: '175 hrs',
       buffer: '2 days',
-      description: 'Formal gate review to evaluate therapeutic and market opportunity assessment, target product profile, freedom-to-operate clearance, business case and preliminary risk screening, approving the opportunity into formal program definition.',
+      description: 'Formal executive gate review validating plant capacity opportunity, User Requirements Specification (URS), CapEx/OpEx financial payback, safety/CE compliance pathway, and integrated master charter.',
       decision: 'Go',
       isReadonly: false,
       checklistItems: [
-        { id: 1, text: 'Therapeutic Area & Unmet Medical Need Assessment', done: true, mandatory: true, priority: 'High' },
-        { id: 2, text: 'Target Product Profile (TPP) Baseline Sign-off', done: true, mandatory: true, priority: 'High' },
-        { id: 3, text: 'Patent Landscape & Freedom-to-Operate (FTO) Review', done: true, mandatory: true, priority: 'High' },
-        { id: 4, text: 'Preliminary Business Case & Peak-Sales Financial Model', done: true, mandatory: true, priority: 'High' },
-        { id: 5, text: 'API Sourcing Feasibility & DMF Availability', done: true, mandatory: true, priority: 'High' },
-        { id: 6, text: 'Regulatory Filing Pathway & Exclusivity Strategy', done: true, mandatory: true, priority: 'High' },
-        { id: 7, text: 'Portfolio Steering Committee Concept Authorization', done: true, mandatory: false, priority: 'Medium' }
+        { id: 1, text: 'User Requirements Specification (URS) & Throughput Envelope Signed Off', done: true, mandatory: true, priority: 'High' },
+        { id: 2, text: 'Preliminary CapEx, OpEx & Payback ROI Model Approved', done: true, mandatory: true, priority: 'High' },
+        { id: 3, text: 'CE / ISO Machine Safety & Statutory Compliance Pathway Verified', done: true, mandatory: true, priority: 'High' },
+        { id: 4, text: 'OEM Equipment Vendor Longlist & Lead-Time Risk Screened', done: true, mandatory: true, priority: 'High' },
+        { id: 5, text: 'Site Utility, Footprint & Power Availability Assessment Complete', done: true, mandatory: true, priority: 'High' },
+        { id: 6, text: 'Steering Committee Project Charter & Stage Funding Authorization', done: true, mandatory: false, priority: 'Medium' }
       ]
     },
     {
       gateCode: 'Gate 2',
-      gateName: 'Product definition and project charter approval',
+      gateName: 'Concept Selection & Design Freeze',
       status: 'Approved',
-      remarks: 'Product definition, RLD characterization, and project charter established',
+      remarks: '3D CAD layout, PLC control philosophy, and Design FMEA frozen',
       checklistCount: 6,
       activitiesCount: 6,
-      workflow: '2/5',
-      updatedDate: '2026-01-25',
-      timelineDate: '2026-01-25',
-      planStart: '2026-01-16',
-      planEnd: '2026-01-25',
-      actualStart: '2026-01-16',
-      actualEnd: '2026-01-25',
-      eta: '2026-01-25',
-      planDuration: '10 days',
-      actualDuration: '10 days',
-      planEffort: '60 hrs',
-      actualEffort: '60 hrs',
-      buffer: '2 days',
-      description: 'Formal decision gate to review finalized target product profile, reference listed drug characterization, regulatory submission pathway, IP strategy, cross-functional program charter, and funding commitment before starting formulation development.',
+      workflow: '4/5',
+      updatedDate: '2026-05-10',
+      timelineDate: '2026-05-10',
+      planStart: '2026-02-16',
+      planEnd: '2026-05-10',
+      actualStart: '2026-02-16',
+      actualEnd: '2026-05-09',
+      eta: '2026-05-10',
+      planDuration: '84 days',
+      actualDuration: '83 days',
+      planEffort: '420 hrs',
+      actualEffort: '410 hrs',
+      buffer: '4 days',
+      description: 'Formal engineering decision gate to freeze 3D CAD equipment layout, structural FEA, PLC/SCADA control schematics, Design FMEA/HAZOP risk mitigation, and primary OEM vendor qualification prior to procurement.',
       decision: 'Go',
       isReadonly: false,
       checklistItems: [
-        { id: 1, text: 'Reference Listed Drug (RLD) Characterization Complete', done: true, mandatory: true, priority: 'High' },
-        { id: 2, text: 'Quality Target Product Profile (QTPP) Finalization', done: true, mandatory: true, priority: 'High' },
-        { id: 3, text: 'Regulatory Strategy & Agency Scientific Advice Plan', done: true, mandatory: true, priority: 'High' },
-        { id: 4, text: 'Cross-Functional Project Charter & Schedule Commitment', done: true, mandatory: true, priority: 'High' },
-        { id: 5, text: 'Analytical Strategy & Impurity Profile Specifications', done: true, mandatory: false, priority: 'Medium' },
-        { id: 6, text: 'Primary Packaging Concept & Barrier Requirements', done: true, mandatory: true, priority: 'High' }
+        { id: 1, text: '3D CAD Assembly, P&ID & Structural FEA Package Frozen', done: true, mandatory: true, priority: 'High' },
+        { id: 2, text: 'Design FMEA & HAZOP Machine Safety Risk Matrix Closed', done: true, mandatory: true, priority: 'High' },
+        { id: 3, text: 'PLC / HMI / SCADA Architecture & Safety Interlock Spec Approved', done: true, mandatory: true, priority: 'High' },
+        { id: 4, text: 'Primary OEM Suppliers Qualified & Commercial Bids Awarded', done: true, mandatory: true, priority: 'High' },
+        { id: 5, text: 'Tolerance Stack-Up & Critical Spare-Parts BOM Finalized', done: true, mandatory: false, priority: 'Medium' },
+        { id: 6, text: 'Execution CapEx Baseline & Long-Lead Procurement Released', done: true, mandatory: true, priority: 'High' }
       ]
     },
     {
       gateCode: 'Gate 3',
-      gateName: 'Formulation concept and sourcing strategy approval',
-      status: 'Approved',
-      remarks: 'Pre-formulation compatibility and prototype formulation selected',
+      gateName: 'Procurement & Build Readiness',
+      status: 'Pending',
+      remarks: 'Prototype tooling trials complete; OEM FAT protocols under final review',
       checklistCount: 6,
       activitiesCount: 6,
-      workflow: '4/5',
-      updatedDate: '2026-03-27',
-      timelineDate: '2026-03-27',
-      planStart: '2026-01-26',
-      planEnd: '2026-03-27',
-      actualStart: '2026-01-26',
-      actualEnd: '2026-03-27',
-      eta: '2026-03-27',
-      planDuration: '60 days',
-      actualDuration: '60 days',
-      planEffort: '120 hrs',
-      actualEffort: '120 hrs',
+      workflow: '3/5',
+      updatedDate: '2026-10-20',
+      timelineDate: '2026-10-20',
+      planStart: '2026-05-11',
+      planEnd: '2026-10-20',
+      actualStart: '2026-05-11',
+      actualEnd: '',
+      eta: '2026-10-20',
+      planDuration: '162 days',
+      actualDuration: '110 days',
+      planEffort: '650 hrs',
+      actualEffort: '440 hrs',
       buffer: '5 days',
-      description: 'Formal decision gate to evaluate pre-formulation findings, prototype formulation selection, API and critical excipient sourcing readiness, primary packaging selection, and project schedule before committing capital to full formulation and process development.',
-      decision: 'Go',
+      description: 'Formal decision gate evaluating prototype subassembly validation, instrument metrology calibration, Factory Acceptance Test (FAT) sign-off, long-lead equipment delivery status, and plant floor rigging readiness.',
+      decision: null,
       isReadonly: false,
       checklistItems: [
-        { id: 1, text: 'Pre-Formulation & Drug-Excipient Compatibility Sign-off', done: true, mandatory: true, priority: 'High' },
-        { id: 2, text: 'Lead Prototype Formulation Selected via DoE', done: true, mandatory: true, priority: 'High' },
-        { id: 3, text: 'API & Critical Excipient Commercial Sourcing Agreements', done: true, mandatory: true, priority: 'High' },
-        { id: 4, text: 'Analytical Stability-Indicating Methods Qualified', done: true, mandatory: true, priority: 'High' },
-        { id: 5, text: 'Container Closure System Feasibility Validated', done: true, mandatory: false, priority: 'Medium' },
-        { id: 6, text: 'Technology Transfer Readiness Assessment to Pilot Plant', done: true, mandatory: true, priority: 'High' }
+        { id: 1, text: 'Prototype Tooling & Subassembly Endurance Trials Passed', done: true, mandatory: true, priority: 'High' },
+        { id: 2, text: 'Factory Acceptance Test (FAT) Witness Inspection Signed Off', done: true, mandatory: true, priority: 'High' },
+        { id: 3, text: 'Instrument Calibration & NIST/NABL Metrology Plan Verified', done: true, mandatory: true, priority: 'High' },
+        { id: 4, text: 'Capital Equipment Shipment & Customs Logistics Cleared', done: false, mandatory: true, priority: 'High' },
+        { id: 5, text: 'Shop-Floor Foundation, Anchor Bolts & Utility Tie-Ins Ready', done: false, mandatory: false, priority: 'Medium' },
+        { id: 6, text: 'Rigging Lift Plan & EHS Contractor Work Permits Approved', done: false, mandatory: true, priority: 'High' }
       ]
     },
     {
       gateCode: 'Gate 4',
-      gateName: 'Formulation and process development approval',
+      gateName: 'Commissioning & Performance Acceptance',
       status: 'Pending',
-      remarks: 'DoE optimization and scale-up parameters under review',
-      checklistCount: 6,
-      activitiesCount: 6,
-      workflow: '3/5',
-      updatedDate: '2026-05-15',
-      timelineDate: '2026-05-15',
-      planStart: '2026-03-28',
-      planEnd: '2026-05-15',
-      actualStart: '2026-03-28',
+      remarks: 'SAT performance test scripts and OEE endurance criteria scheduled',
+      checklistCount: 5,
+      activitiesCount: 5,
+      workflow: '2/5',
+      updatedDate: '2027-04-25',
+      timelineDate: '2027-04-25',
+      planStart: '2026-10-21',
+      planEnd: '2027-04-25',
+      actualStart: '',
       actualEnd: '',
-      eta: '2026-05-15',
-      planDuration: '48 days',
-      actualDuration: '40 days',
-      planEffort: '160 hrs',
-      actualEffort: '130 hrs',
-      buffer: '4 days',
-      description: 'Formal decision gate to review formulation optimization, DoE stability data, manufacturing process train readiness, analytical method qualification, and supplier qualification before proceeding with development batch manufacturing.',
+      eta: '2027-04-25',
+      planDuration: '186 days',
+      actualDuration: '0 days',
+      planEffort: '780 hrs',
+      actualEffort: '0 hrs',
+      buffer: '6 days',
+      description: 'Formal commissioning gate verifying physical installation alignment, Installation Qualification (IQ), emergency-stop and safety interlocks, Site Acceptance Test (SAT) performance, and sustained OEE throughput runs.',
       decision: null,
       isReadonly: false,
       checklistItems: [
-        { id: 1, text: 'Formulation & Process Parameter Optimization Freeze', done: true, mandatory: true, priority: 'High' },
-        { id: 2, text: 'Laboratory Stress & 3-Month Accelerated Stability Clearance', done: false, mandatory: true, priority: 'High' },
-        { id: 3, text: 'Analytical Method Validation Protocol per ICH Q2(R1)', done: true, mandatory: true, priority: 'High' },
-        { id: 4, text: 'Scale-Up Batch Execution & Process Train Verification', done: false, mandatory: true, priority: 'High' },
-        { id: 5, text: 'Nitrosamine & Elemental Impurities Risk Assessment Sign-off', done: true, mandatory: false, priority: 'Medium' },
-        { id: 6, text: 'Bioequivalence Pilot Study Batch Release Protocol', done: false, mandatory: true, priority: 'High' }
+        { id: 1, text: 'Installation Qualification (IQ) & Laser Alignment Verified', done: false, mandatory: true, priority: 'High' },
+        { id: 2, text: 'Site Acceptance Test (SAT) Rated Cycle Time & Cpk Achieved', done: false, mandatory: true, priority: 'High' },
+        { id: 3, text: 'Multi-Shift OEE >= 85% Endurance Run Completed', done: false, mandatory: true, priority: 'High' },
+        { id: 4, text: 'EHS Final Machine Guarding, Noise & LOTO Sign-off', done: false, mandatory: true, priority: 'High' },
+        { id: 5, text: 'Operator & Maintenance Technician SOP Certification Complete', done: false, mandatory: false, priority: 'Medium' }
       ]
     },
     {
       gateCode: 'Gate 5',
-      gateName: 'Facility and manufacturing readiness approval',
+      gateName: 'Operational Handover Approval',
       status: 'Pending',
-      remarks: 'Commercial cleanroom and packaging line qualification in preparation',
+      remarks: 'Awaiting OQ validation completion and As-Built TTD package sign-off',
       checklistCount: 5,
       activitiesCount: 5,
-      workflow: '5/5',
-      updatedDate: '2026-10-31',
-      timelineDate: '2026-10-31',
-      planStart: '2026-10-01',
-      planEnd: '2026-10-31',
-      actualStart: '',
-      actualEnd: '',
-      eta: '2026-10-31',
-      planDuration: '30 days',
-      actualDuration: '0 days',
-      planEffort: '120 hrs',
-      actualEffort: '0 hrs',
-      buffer: '3 days',
-      description: 'Formal decision gate to verify equipment and facility qualification, utility readiness, cleaning validation, operator training, and supply chain readiness before initiating registration and process validation batch manufacturing.',
-      decision: null,
-      isReadonly: false,
-      checklistItems: [
-        { id: 1, text: 'Commercial Manufacturing Facility GMP Qualification', done: false, mandatory: true, priority: 'High' },
-        { id: 2, text: 'Commercial Equipment IQ/OQ/PQ & Calibrations Complete', done: false, mandatory: true, priority: 'High' },
-        { id: 3, text: 'Cleaning Validation & Maximum Allowable Carryover (MAC) Limits', done: false, mandatory: true, priority: 'High' },
-        { id: 4, text: 'Commercial Batch Records (MBR/BPR) & Standard Operating Procedures', done: false, mandatory: true, priority: 'High' },
-        { id: 5, text: 'Raw Material Commercial Inventory Release for Registration Batches', done: false, mandatory: false, priority: 'Medium' }
-      ]
-    },
-    {
-      gateCode: 'Gate 6',
-      gateName: 'Validation and regulatory submission readiness',
-      status: 'Pending',
-      remarks: 'Validation batch manufacturing and registration stability testing planned',
-      checklistCount: 5,
-      activitiesCount: 5,
-      workflow: '2/5',
-      updatedDate: '2027-02-15',
-      timelineDate: '2027-02-15',
-      planStart: '2026-12-16',
-      planEnd: '2027-02-15',
-      actualStart: '',
-      actualEnd: '',
-      eta: '2027-02-15',
-      planDuration: '61 days',
-      actualDuration: '0 days',
-      planEffort: '190 hrs',
-      actualEffort: '0 hrs',
-      buffer: '5 days',
-      description: 'Formal decision gate to evaluate registration and process validation batch outcomes, stability data, dossier readiness, and bioequivalence / clinical study reports before authorizing filing with regulatory agencies.',
-      decision: null,
-      isReadonly: false,
-      checklistItems: [
-        { id: 1, text: 'Process Performance Qualification (PPQ) 3 Batches Execution', done: false, mandatory: true, priority: 'High' },
-        { id: 2, text: 'Registration Batch ICH Stability Data (6-Month Accelerated & Long-Term)', done: false, mandatory: true, priority: 'High' },
-        { id: 3, text: 'Pivotal In-Vivo Bioequivalence (BE) Study Clinical Report', done: false, mandatory: true, priority: 'High' },
-        { id: 4, text: 'eCTD Regulatory Dossier Compilation & Publishing', done: false, mandatory: true, priority: 'High' },
-        { id: 5, text: 'Pre-Approval Inspection (PAI) Readiness Audit Clearance', done: false, mandatory: false, priority: 'Medium' }
-      ]
-    },
-    {
-      gateCode: 'Gate 7',
-      gateName: 'Commercial launch authorization',
-      status: 'Pending',
-      remarks: 'Awaiting regulatory market authorization approval',
-      checklistCount: 5,
-      activitiesCount: 5,
-      workflow: '4/5',
+      workflow: '1/5',
       updatedDate: '2027-08-31',
       timelineDate: '2027-08-31',
-      planStart: '2027-06-01',
+      planStart: '2027-04-26',
       planEnd: '2027-08-31',
       actualStart: '',
       actualEnd: '',
       eta: '2027-08-31',
-      planDuration: '91 days',
+      planDuration: '127 days',
       actualDuration: '0 days',
-      planEffort: '150 hrs',
+      planEffort: '420 hrs',
       actualEffort: '0 hrs',
       buffer: '4 days',
-      description: 'Final formal gate to review market authorization approvals, manufacturing site inspection clearances, commercial supply chain readiness, distribution channel stocking, and pharmacovigilance setup before authorizing commercial distribution and sale.',
+      description: 'Final executive handover gate confirming Operational Qualification (OQ) stability, as-built technical transfer dossier (TTD) archival, CMMS preventive maintenance setup, critical spares stocking, and formal Plant Operations handover.',
       decision: null,
       isReadonly: false,
       checklistItems: [
-        { id: 1, text: 'Marketing Authorization Approval & Product License Granted', done: false, mandatory: true, priority: 'High' },
-        { id: 2, text: 'Pre-Approval Inspection (PAI) Clearance & Site License', done: false, mandatory: true, priority: 'High' },
-        { id: 3, text: 'Commercial Supply Chain & Distribution Pipeline Stocked', done: false, mandatory: true, priority: 'High' },
-        { id: 4, text: 'Pharmacovigilance (PV) & Post-Marketing Risk Management Ready', done: false, mandatory: true, priority: 'High' },
-        { id: 5, text: 'Commercial Operations Launch Authorization & Handover', done: false, mandatory: true, priority: 'High' }
+        { id: 1, text: 'Operational Qualification (OQ) 3-Run Validation Summary Approved', done: false, mandatory: true, priority: 'High' },
+        { id: 2, text: 'As-Built CAD, PLC Code Backup & TTD Dossier Archived', done: false, mandatory: true, priority: 'High' },
+        { id: 3, text: 'Critical Spare Parts Stocked & CMMS Preventive Maintenance Active', done: false, mandatory: true, priority: 'High' },
+        { id: 4, text: 'Commissioning Punch-List & Engineering Change Notices Closed', done: false, mandatory: true, priority: 'High' },
+        { id: 5, text: 'Plant Operations Handover & Capital Closeout Signed Off', done: false, mandatory: true, priority: 'High' }
       ]
     }
   ];
@@ -362,7 +287,7 @@ export class ProjectGatesComponent implements OnInit, OnDestroy {
         this.projectCode = params['code'];
       }
     });
-    const defaultUpdaters = ['Dr. Sarah Jenkins', 'John Doe', 'Priya Sharma', 'Michael Chang', 'Alex Rivera'];
+    const defaultUpdaters = ['Ananya Rao', 'Rajesh Kumar', 'Anita Desai', 'Priya Reddy', 'Suresh Naidu'];
     this.gates.forEach((g, idx) => {
       g.historyCount = this.historySequence[idx % this.historySequence.length];
       g.documentsCount = this.documentsSequence[idx % this.documentsSequence.length];
@@ -437,7 +362,7 @@ export class ProjectGatesComponent implements OnInit, OnDestroy {
     this.router.navigate(['/projects/dashboard/gates/activities'], {
       queryParams: {
         projectName: this.projectName,
-        code: this.projectCode || '2026/GEN/001',
+        code: this.projectCode || '2026/IND/001',
         gateCode: gate.gateCode,
         gateName: gate.gateName
       }

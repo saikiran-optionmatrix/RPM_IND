@@ -17,23 +17,24 @@ import { AddSprintComponent } from './add-sprint/add-sprint.component';
 import { ConfirmationDialogComponent } from '../../../../common/shared/confirmation-dialog/confirmation-dialog.component';
 
 export type Stage =
-  | 'Opportunity and Portfolio Assessment'
-  | 'Product Definition and Project Charter'
-  | 'Formulation and Product Concept Development'
-  | 'API, Excipient and Supplier Sourcing'
-  | 'Formulation and Process Development'
-  | 'Development Batches and Verification'
-  | 'Facility, Equipment and Process Readiness'
-  | 'Analytical Validation and Technology Transfer'
-  | 'Registration and Process Validation Batches'
-  | 'Regulatory Submission and Approval'
-  | 'Commercial Launch and Lifecycle Management'
+  | 'Business Need & Opportunity Assessment'
+  | 'Project Scope & Feasibility Validation'
+  | 'Concept Engineering & Solution Development'
+  | 'Detailed Engineering & Design Optimization'
+  | 'Concept Selection & Design Freeze'
+  | 'Process Engineering & Equipment Design'
+  | 'Prototype Fabrication & Engineering Validation'
+  | 'Installation Planning & Site Installation Readiness'
+  | 'Equipment Installation & Integration'
+  | 'Commissioning & Performance Testing'
+  | 'Operational Qualification & Production Ramp-Up'
+  | 'Operational Handover & Project Closeout'
   | 'Feasibility'
-  | 'Formulation'
-  | 'Development'
-  | 'Testing'
-  | 'Validation'
-  | 'Regulatory'
+  | 'Concept Engg'
+  | 'Detailed Engg'
+  | 'Fabrication'
+  | 'Installation'
+  | 'Commissioning'
   | (string & {});
 export type SprintKind = 'backlog' | 'completed' | 'active';
 
@@ -118,40 +119,40 @@ export interface CalendarCell {
 })
 export class ProjectScrumComponent implements OnInit {
 
-  projectName: string = 'Generic Tablet Development';
-  projectCode: string = '2026/GEN/001';
+  projectName: string = 'Industrial Equipment Line Expansion';
+  projectCode: string = '2026/IND/001';
   dynamicBreadcrumb: string = 'Scrum';
 
-  team = ['Aarav Shah', 'Priya Nair', 'Diego Ruiz', 'Mei Tanaka', 'Olivia Brown'];
+  team = ['Ananya Rao', 'Rajesh Kumar', 'Anita Desai', 'Priya Reddy', 'Suresh Naidu'];
   stages: Stage[] = [
     'Feasibility',
-    'Formulation',
-    'Development',
-    'Testing',
-    'Validation',
-    'Regulatory'
+    'Concept Engg',
+    'Detailed Engg',
+    'Fabrication',
+    'Installation',
+    'Commissioning'
   ];
-  stageFilter: 'all' | Stage = 'Formulation';
+  stageFilter: 'all' | Stage = 'Detailed Engg';
 
   showAssignmentView = false;
   isAddSprintMode = false;
   selectedAssignmentSprintId: string = 'sprint-2';
 
   assignAvailableTasks: AssignTask[] = [
-    { id: 'AT1', name: 'API Characterization & Solid-State Screening', code: 'T-001', module: 'Pre-Formulation', duration: '5d', effort: '40h', selected: false },
-    { id: 'AT2', name: 'Excipient Compatibility & Binary Blend DSC', code: 'T-002', module: 'Formulation', duration: '7d', effort: '56h', selected: false },
-    { id: 'AT3', name: 'HPLC Assay & Related Substances Method Dev', code: 'T-003', module: 'Analytical R&D', duration: '5d', effort: '40h', selected: false },
-    { id: 'AT4', name: 'High-Shear Wet Granulation Optimization', code: 'T-004', module: 'Process Dev', duration: '10d', effort: '80h', selected: false },
-    { id: 'AT5', name: 'Dissolution Profiling in Multi-Media Buffers', code: 'T-005', module: 'Analytical R&D', duration: '4d', effort: '32h', selected: false },
-    { id: 'AT6', name: 'Container Closure Integrity & Barrier Testing', code: 'T-006', module: 'Packaging Dev', duration: '6d', effort: '48h', selected: false },
-    { id: 'AT7', name: 'Accelerated Stability Chamber Protocol (40°C/75% RH)', code: 'T-007', module: 'Quality Control', duration: '5d', effort: '40h', selected: false }
+    { id: 'AT1', name: 'Plant Throughput & Takt-Time Bottleneck Audit', code: 'T-001', module: 'Feasibility', duration: '5d', effort: '40h', selected: false },
+    { id: 'AT2', name: '3D CAD Assembly & Structural FEA Simulation', code: 'T-002', module: 'Detailed Engg', duration: '7d', effort: '56h', selected: false },
+    { id: 'AT3', name: 'PLC / SCADA Control Logic & Safety Interlocks', code: 'T-003', module: 'Detailed Engg', duration: '5d', effort: '40h', selected: false },
+    { id: 'AT4', name: 'Prototype Fixture Tooling & Endurance Trial', code: 'T-004', module: 'Fabrication', duration: '10d', effort: '80h', selected: false },
+    { id: 'AT5', name: 'Factory Acceptance Test (FAT) Witness Protocol', code: 'T-005', module: 'Fabrication', duration: '4d', effort: '32h', selected: false },
+    { id: 'AT6', name: 'Foundation Pad & 480V Utility Tie-In Check', code: 'T-006', module: 'Installation', duration: '6d', effort: '48h', selected: false },
+    { id: 'AT7', name: 'SAT Cpk Capability & Multi-Shift OEE Endurance', code: 'T-007', module: 'Commissioning', duration: '5d', effort: '40h', selected: false }
   ];
 
   assignAssignedTasks: AssignTask[] = [
-    { id: 'AT8', name: 'Microbial Enumeration & Sterility Validation', code: 'T-008', module: 'Microbiology', duration: '4d', effort: '32h', selected: false },
-    { id: 'AT9', name: 'Pilot-Scale Fluid Bed Dryer Qualification', code: 'T-009', module: 'Engineering', duration: '3d', effort: '24h', selected: false },
-    { id: 'AT10', name: 'GCP Clinical Bioequivalence Protocol Review', code: 'T-010', module: 'Clinical / Medical', duration: '2d', effort: '16h', selected: false },
-    { id: 'AT11', name: 'eCTD Module 3 Quality Dossier Compilation', code: 'T-011', module: 'Regulatory Affairs', duration: '3d', effort: '24h', selected: false }
+    { id: 'AT8', name: 'CMM Metrology Gage R&R Calibration Check', code: 'T-008', module: 'Fabrication', duration: '4d', effort: '32h', selected: false },
+    { id: 'AT9', name: 'Precision Laser Alignment & Rigging Sign-Off', code: 'T-009', module: 'Installation', duration: '3d', effort: '24h', selected: false },
+    { id: 'AT10', name: 'CE / ISO 13849 Machine Guarding & LOTO Audit', code: 'T-010', module: 'Commissioning', duration: '2d', effort: '16h', selected: false },
+    { id: 'AT11', name: 'CMMS PM Schedule & As-Built TTD Archival', code: 'T-011', module: 'Commissioning', duration: '3d', effort: '24h', selected: false }
   ];
 
   onAssignmentSprintChange(): void {
@@ -247,34 +248,34 @@ export class ProjectScrumComponent implements OnInit {
     {
       id: 'backlog', label: 'Backlog', kind: 'backlog',
       tasks: [
-        this.t('Reference Product Characterization', 'TSK-101', 'JOB-21', '2026-01-05', '2026-01-20', 24, 10, 'Analyze the reference product\'s dosage form, strength, physical characteristics, and target quality attributes.', 'Feasibility', 'Pending'),
-        this.t('Target Product Profile Definition', 'TSK-102', 'JOB-21', '2026-02-01', '2026-02-25', 20, 8, 'Define the desired quality, performance, and formulation requirements for the generic tablet.', 'Feasibility', 'Pending'),
-        this.t('API Characterization', 'TSK-103', 'JOB-22', '2026-03-02', '2026-03-20', 32, 14, 'Evaluate API properties relevant to formulation development and product performance.', 'Formulation', 'Allocated'),
-        this.t('API–Excipient Compatibility Study', 'TSK-104', 'JOB-22', '2026-04-05', '2026-04-26', 40, 18, 'Assess potential interactions between the API and selected excipients.', 'Formulation', 'In Process'),
-        this.t('Excipient Screening', 'TSK-105', 'JOB-23', '2026-05-02', '2026-05-28', 36, 15, 'Evaluate and shortlist suitable excipients for the tablet formulation.', 'Formulation', 'In Process'),
-        this.t('Prototype Formulation Design', 'TSK-106', 'JOB-23', '2026-06-01', '2026-06-22', 48, 20, 'Develop preliminary formulation compositions using the selected API and excipients.', 'Formulation', 'On Hold'),
-        this.t('Laboratory Prototype Batch', 'TSK-107', 'JOB-24', '2026-07-01', '2026-07-15', 56, 22, 'Prepare laboratory-scale prototype batches and document formulation and process parameters.', 'Formulation', 'Cancelled'),
-        this.t('Dissolution Testing', 'TSK-108', 'JOB-24', '2026-08-03', '2026-08-25', 40, 18, 'Evaluate dissolution performance of prototype batches against predefined targets.', 'Formulation', 'Completed'),
-        this.t('Formulation Optimization', 'TSK-109', 'JOB-25', '2026-09-01', '2026-09-18', 60, 25, 'Analyze experimental results and optimize formulation composition and process parameters.', 'Formulation', 'Completed')
+        this.t('Plant Throughput & Bottleneck Audit', 'IND-101', 'ENG-21', '2026-01-05', '2026-01-20', 24, 10, 'Benchmark plant capacity, station cycle times, and equipment floor footprint.', 'Feasibility', 'Pending'),
+        this.t('User Requirements Specification (URS)', 'IND-102', 'ENG-21', '2026-02-01', '2026-02-25', 20, 8, 'Define OEE >= 85%, rated takt time, utilities, and safety envelope requirements.', 'Feasibility', 'Pending'),
+        this.t('3D CAD Assembly & Structural FEA', 'IND-103', 'CAD-22', '2026-03-02', '2026-03-20', 32, 14, 'Complete 3D solid models, structural deflection FEA, and weldment drawings.', 'Detailed Engg', 'Allocated'),
+        this.t('GD&T Tolerance Stack-Up & BOM', 'IND-104', 'CAD-22', '2026-04-05', '2026-04-26', 40, 18, 'Verify precision tolerance stack-up across spindle, ways, and fixture interfaces.', 'Detailed Engg', 'In Process'),
+        this.t('PLC / SCADA Control & Safety Schematics', 'IND-105', 'PLC-23', '2026-05-02', '2026-05-28', 36, 15, 'Author EPLAN panel wiring, OPC-UA tags, and ISO 13849 safety interlock logic.', 'Detailed Engg', 'In Process'),
+        this.t('Design FMEA & HAZOP Risk Closure', 'IND-106', 'QA-23', '2026-06-01', '2026-06-22', 48, 20, 'Mitigate high-RPN failure modes across mechanical, hydraulic, and electrical systems.', 'Detailed Engg', 'On Hold'),
+        this.t('Prototype Tooling & Fixture Fabrication', 'IND-107', 'FAB-24', '2026-07-01', '2026-07-15', 56, 22, 'Fabricate prototype clamping fixtures and execute subassembly wear testing.', 'Detailed Engg', 'Cancelled'),
+        this.t('Factory Acceptance Test (FAT) Run-Off', 'IND-108', 'CQV-24', '2026-08-03', '2026-08-25', 40, 18, 'Conduct dry-cycle endurance, Cpk capability, and E-stop trip witness tests.', 'Detailed Engg', 'Completed'),
+        this.t('CMMS PM Setup & Plant Handover TTD', 'IND-109', 'OPS-25', '2026-09-01', '2026-09-18', 60, 25, 'Finalize as-built schematics, spares kit, LOTO SOPs, and Operations handover.', 'Detailed Engg', 'Completed')
       ]
     },
     {
       id: 'sprint-1', label: 'Sprint 1', kind: 'completed',
       tasks: [
-        { ...this.t('Reference Product Characterization', 'TSK-001', 'JOB-10', '2026-06-01', '2026-06-02', 4, 1, 'Innovator RLD dissolution profile & crystalline form benchmarking.', 'Feasibility', 'Completed'), assigned: 'Aarav Shah', status: 'completed', approved: true, progress: 100, eta: '2026-06-02', actualStart: '2026-06-01', actualFinish: '2026-06-02', expenses: 250 },
-        { ...this.t('Target Product Profile Definition', 'TSK-002', 'JOB-10', '2026-06-02', '2026-06-03', 6, 1, 'Define QTPP criteria: assay, purity, content uniformity, stability.', 'Feasibility', 'Completed'), assigned: 'Diego Ruiz', status: 'completed', approved: true, progress: 85, eta: '2026-06-03', actualStart: '2026-06-02', actualFinish: '2026-06-03', expenses: 0 },
-        { ...this.t('API Characterization', 'TSK-003', 'JOB-11', '2026-06-03', '2026-06-04', 8, 1, 'Powder XRD, particle size distribution (D10/D50/D90) & DSC analysis.', 'Formulation', 'In Process'), assigned: 'Mei Tanaka', status: 'inprocess', approved: false, progress: 60, eta: '2026-06-04', actualStart: '2026-06-03', actualFinish: '', expenses: 50 },
-        { ...this.t('API–Excipient Compatibility Study', 'TSK-004', 'JOB-12', '2026-06-03', '2026-06-05', 6, 2, 'Isothermal stress testing with binders, disintegrants, and lubricants.', 'Formulation', 'Completed'), assigned: 'Olivia Brown', status: 'completed', approved: true, progress: 100, eta: '2026-06-05', actualStart: '2026-06-03', actualFinish: '2026-06-05', expenses: 1200 },
-        { ...this.t('Excipient Screening', 'TSK-005', 'JOB-12', '2026-06-02', '2026-06-04', 8, 2, 'Pharmacopoeial compliance and grade selection (USP-NF / Ph. Eur.).', 'Formulation', 'Allocated'), assigned: 'Diego Ruiz', status: 'allocated', approved: false, progress: 25, eta: '2026-06-04', actualStart: '2026-06-02', actualFinish: '', expenses: 0 }
+        { ...this.t('Plant Throughput & Bottleneck Audit', 'IND-001', 'ENG-10', '2026-06-01', '2026-06-02', 4, 1, 'Line cycle time & bottleneck station analysis.', 'Feasibility', 'Completed'), assigned: 'Ananya Rao', status: 'completed', approved: true, progress: 100, eta: '2026-06-02', actualStart: '2026-06-01', actualFinish: '2026-06-02', expenses: 250 },
+        { ...this.t('User Requirements Specification (URS)', 'IND-002', 'ENG-10', '2026-06-02', '2026-06-03', 6, 1, 'Define URS throughput, accuracy, and utility requirements.', 'Feasibility', 'Completed'), assigned: 'Rajesh Kumar', status: 'completed', approved: true, progress: 85, eta: '2026-06-03', actualStart: '2026-06-02', actualFinish: '2026-06-03', expenses: 0 },
+        { ...this.t('3D CAD Assembly & Structural FEA', 'IND-003', 'CAD-11', '2026-06-03', '2026-06-04', 8, 1, 'Gantry stress FEA & modal vibration simulation.', 'Detailed Engg', 'In Process'), assigned: 'Anita Desai', status: 'inprocess', approved: false, progress: 60, eta: '2026-06-04', actualStart: '2026-06-03', actualFinish: '', expenses: 50 },
+        { ...this.t('GD&T Tolerance Stack-Up & BOM', 'IND-004', 'CAD-12', '2026-06-03', '2026-06-05', 6, 2, 'Indented BOM release & critical fit tolerance verification.', 'Detailed Engg', 'Completed'), assigned: 'Suresh Naidu', status: 'completed', approved: true, progress: 100, eta: '2026-06-05', actualStart: '2026-06-03', actualFinish: '2026-06-05', expenses: 1200 },
+        { ...this.t('PLC / SCADA Control & Safety Schematics', 'IND-005', 'PLC-12', '2026-06-02', '2026-06-04', 8, 2, 'EPLAN wiring schematics & dual-channel E-stop relay design.', 'Detailed Engg', 'Allocated'), assigned: 'Priya Reddy', status: 'allocated', approved: false, progress: 25, eta: '2026-06-04', actualStart: '2026-06-02', actualFinish: '', expenses: 0 }
       ]
     },
     {
       id: 'sprint-2', label: 'Sprint 2', kind: 'active',
       tasks: [
-        { ...this.t('Prototype Formulation Design', 'TSK-201', 'JOB-30', '2026-06-25', '2026-07-02', 16, 5, 'DOE formulation trial design matrix across 3 binder concentrations.', 'Formulation', 'In Process'), assigned: 'Priya Nair', status: 'inprocess', approved: false, progress: 75, eta: '2026-07-02', actualStart: '2026-06-26', actualFinish: '', expenses: 120, notes: [{ sender: 'Admin', date: '2026-07-02', text: 'Granulation complete, awaiting compression tool set.' }] },
-        { ...this.t('Laboratory Prototype Batch', 'TSK-202', 'JOB-30', '2026-06-26', '2026-06-30', 6, 2, '1 kg pilot blend compression and tablet hardness testing.', 'Formulation', 'Completed'), assigned: 'Priya Nair', status: 'completed', approved: true, progress: 100, eta: '2026-06-30', actualStart: '2026-06-26', actualFinish: '2026-06-29', expenses: 0 },
-        { ...this.t('Dissolution Testing', 'TSK-203', 'JOB-31', '2026-06-27', '2026-07-03', 10, 4, 'USP Apparatus II paddle dissolution at pH 1.2, 4.5, and 6.8.', 'Formulation', 'In Process'), assigned: 'Mei Tanaka', status: 'inprocess', approved: false, progress: 40, eta: '2026-07-03', actualStart: '2026-06-28', actualFinish: '', expenses: 50 },
-        { ...this.t('Formulation Optimization', 'TSK-204', 'JOB-31', '2026-06-29', '2026-07-01', 4, 2, 'Optimize disintegration time and friability (< 0.5%).', 'Formulation', 'Allocated'), assigned: 'Aarav Shah', status: 'allocated', approved: false, progress: 0, eta: '2026-07-01', actualStart: '', actualFinish: '', expenses: 0 }
+        { ...this.t('Design FMEA & HAZOP Risk Closure', 'IND-201', 'QA-30', '2026-06-25', '2026-07-02', 16, 5, 'FMEA risk mitigation matrix across mechanical & controls subsystems.', 'Detailed Engg', 'In Process'), assigned: 'Anita Desai', status: 'inprocess', approved: false, progress: 75, eta: '2026-07-02', actualStart: '2026-06-26', actualFinish: '', expenses: 120, notes: [{ sender: 'Admin', date: '2026-07-02', text: 'FMEA closed for drive axes; awaiting safety PLC review.' }] },
+        { ...this.t('Prototype Tooling & Fixture Fabrication', 'IND-202', 'FAB-30', '2026-06-26', '2026-06-30', 6, 2, 'Precision fixture fabrication and clamp force validation.', 'Detailed Engg', 'Completed'), assigned: 'Suresh Naidu', status: 'completed', approved: true, progress: 100, eta: '2026-06-30', actualStart: '2026-06-26', actualFinish: '2026-06-29', expenses: 0 },
+        { ...this.t('Factory Acceptance Test (FAT) Run-Off', 'IND-203', 'CQV-31', '2026-06-27', '2026-07-03', 10, 4, ' Witnessed dry-cycle & interlock test run at OEM shop.', 'Detailed Engg', 'In Process'), assigned: 'Priya Reddy', status: 'inprocess', approved: false, progress: 40, eta: '2026-07-03', actualStart: '2026-06-28', actualFinish: '', expenses: 50 },
+        { ...this.t('CMMS PM Setup & Plant Handover TTD', 'IND-204', 'OPS-31', '2026-06-29', '2026-07-01', 4, 2, 'As-built drawings and spare-parts catalog preparation.', 'Detailed Engg', 'Allocated'), assigned: 'Ananya Rao', status: 'allocated', approved: false, progress: 0, eta: '2026-07-01', actualStart: '', actualFinish: '', expenses: 0 }
       ]
     }
   ];
@@ -371,7 +372,7 @@ export class ProjectScrumComponent implements OnInit {
         taskName: task.task,
         taskCode: task.taskCode,
         jobCode: task.jobCode,
-        projectName: this.projectName || 'Generic Pharma Development',
+        projectName: this.projectName || 'Industrial Equipment Line Expansion',
         stage: task.stage,
         status: statusLabel,
         planStart: task.planStart,
@@ -600,7 +601,7 @@ export class ProjectScrumComponent implements OnInit {
       9 + ((seed + 1) % 3)
     ];
 
-    const stages: Stage[] = ['Feasibility', 'Formulation', 'Development', 'Testing', 'Validation', 'Regulatory'];
+    const stages: Stage[] = this.stages;
 
     for (let i = 0; i < count; i++) {
       const m = startMonths[i];
@@ -838,7 +839,7 @@ export class ProjectScrumComponent implements OnInit {
     });
 
     let hIdx = 0;
-    const defaultUpdaters = ['Dr. Sarah Jenkins', 'John Doe', 'Priya Sharma', 'Michael Chang', 'Alex Rivera'];
+    const defaultUpdaters = ['Ananya Rao', 'Rajesh Kumar', 'Anita Desai', 'Priya Reddy', 'Suresh Naidu'];
     const defaultDates = ['2026-02-15', '2026-03-01', '2026-03-12', '2026-04-05', '2026-05-20'];
     this.sprints.forEach(s => {
       s.tasks.forEach(t => {

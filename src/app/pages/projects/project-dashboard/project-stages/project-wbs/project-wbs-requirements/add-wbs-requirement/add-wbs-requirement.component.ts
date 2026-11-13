@@ -28,8 +28,8 @@ export class AddWbsRequirementComponent implements OnInit {
   ) {
     this.myGroup = this.fb.group({
       requirementName: ['', [Validators.required]],
-      department: ['Analytical'],
-      role: ['Scientist'],
+      department: ['Mechanical Design'],
+      role: ['Lead Mechanical Engineer'],
       dueDate: [new Date().toISOString().substring(0, 10)],
       completedDate: [''],
       remarks: [''],
@@ -42,8 +42,8 @@ export class AddWbsRequirementComponent implements OnInit {
     if (this.data) {
       this.myGroup.patchValue({
         requirementName: this.data.requirementName ?? '',
-        department: this.data.department ?? 'Analytical',
-        role: this.data.role ?? 'Scientist',
+        department: this.data.department ?? 'Mechanical Design',
+        role: this.data.role ?? 'Lead Mechanical Engineer',
         dueDate: this.data.dueDate ?? new Date().toISOString().substring(0, 10),
         completedDate: this.data.completedDate ?? '',
         remarks: this.data.remarks ?? '',

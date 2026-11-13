@@ -34,6 +34,8 @@ import {
   projectOwners,
   projects,
   targetMarkets,
+  industrialDivisions,
+  industrialTemplates,
 } from './projects-data';
 import { SaveTemplateComponent } from './save-template/save-template.component';
 import { ResetTemplateComponent } from './reset-template/reset-template.component';
@@ -99,9 +101,9 @@ export class ProjectsComponent implements OnInit {
   readonly drugAuthorityOptions = drugAuthorityOptions;
   readonly locations = locations;
   readonly dateTypes = [
-    'Project Initiated On',
-    'Project Completed Date',
-    'Pre EB Activities Completed On',
+    'Program Initiated On',
+    'Program Completed Date',
+    'FAT Completed On',
   ];
 
   showFilter = false;
@@ -136,11 +138,11 @@ export class ProjectsComponent implements OnInit {
   };
 
   kanbanData = [
-    { subject: 'Dapagliflozin Film-Coated Tablets', code: '2026/RD/001', distributor: 'Film-coated tablets (5 mg and 10 mg)', Lead: 'A. Sharma', status: 'Completed', TargetDate: '2027-10-31', FailureDate: '2026-11-01' },
-    { subject: 'Levetiracetam Oral Solution', code: '2026/RD/002', distributor: 'Oral solution (100 mg/mL)', Lead: 'R. Mehta', status: 'Progress', TargetDate: '2027-11-30', FailureDate: '2026-12-01' },
-    { subject: 'Pantoprazole Sodium Delayed-Release Tablets', code: '2026/RD/003', distributor: 'Delayed-release tablets (20 mg and 40 mg)', Lead: 'S. Iyer', status: 'Allocated', TargetDate: '2027-12-31', FailureDate: '2027-01-01' },
-    { subject: 'Ceftriaxone for Injection', code: '2026/RD/004', distributor: 'Sterile powder for injection (500 mg and 1 g)', Lead: 'P. Nair', status: 'Hold', TargetDate: '2028-02-29', FailureDate: '2026-11-15' },
-    { subject: 'Budesonide/Formoterol Inhalation Powder', code: '2026/RD/005', distributor: 'Dry powder for inhalation', Lead: 'V. Rao', status: 'Pending', TargetDate: '2028-07-31', FailureDate: '2027-02-01' }
+    { subject: 'Industrial Equipment Line Expansion', code: '2026/IND/001', distributor: 'Modular servo-actuated assembly line (120 units/hr)', Lead: 'Ananya Rao', status: 'Completed', TargetDate: '2027-10-31', FailureDate: '2026-11-01' },
+    { subject: 'CNC Machining Process Optimization', code: '2026/IND/002', distributor: '5-Axis Simultaneous CNC Machining Cell (18,000 RPM)', Lead: 'Rajesh Kumar', status: 'Progress', TargetDate: '2027-11-30', FailureDate: '2026-12-01' },
+    { subject: 'Automated Packaging Line Development', code: '2026/IND/003', distributor: '6-Axis Robotic Case Packing & Palletizing (35 cases/min)', Lead: 'Anita Desai', status: 'Allocated', TargetDate: '2027-12-31', FailureDate: '2027-01-01' },
+    { subject: 'Industrial Pump Assembly Development', code: '2026/IND/004', distributor: 'Multi-Stage Centrifugal Pump Skid (450 m3/hr)', Lead: 'Priya Reddy', status: 'Hold', TargetDate: '2028-02-29', FailureDate: '2026-11-15' },
+    { subject: 'Industrial Compressor Assembly Development', code: '2026/IND/005', distributor: 'Two-Stage Oil-Free Rotary Screw Compressor (160 kW)', Lead: 'Suresh Naidu', status: 'Pending', TargetDate: '2028-07-31', FailureDate: '2027-02-01' }
   ];
 
   private statusMap: Record<string, Status> = {
@@ -184,25 +186,15 @@ export class ProjectsComponent implements OnInit {
         p.updatedBy = p.projectLead || p.projectOwner || 'Anki Reddy';
       }
       if (!p.division) {
-        const form = (p.dosageForm || '').toLowerCase();
-        if (form.includes('tablet') || form.includes('capsule')) {
-          p.division = 'Oral Solids - OS';
-        } else if (form.includes('lyo') || form.includes('pfs')) {
-          p.division = 'Complex Injectables - CI';
-        } else if (form.includes('solution') || form.includes('inj') || form.includes('dpi')) {
-          p.division = 'Injectables - IJ';
-        } else {
-          const defaults = ['Oral Solids - OS', 'Injectables - IJ', 'Complex Injectables - CI', 'Biotech - BT'];
-          p.division = defaults[idx % defaults.length];
-        }
+        p.division = industrialDivisions[idx % industrialDivisions.length];
       }
       if (!p.location) {
         p.location = this.locations[idx % this.locations.length];
       }
     });
 
-    const savedData = localStorage.getItem('kanbanData');
-    if (savedData && !savedData.includes('Mahindra') && !savedData.includes('Tesla') && !savedData.includes('Battery Pack') && !savedData.includes('ADAS')) {
+    const savedData = localStorage.getItem('industrialKanbanData');
+    if (savedData) {
       this.cards = JSON.parse(savedData);
     } else {
       this.initializeKanbanData();
@@ -264,7 +256,7 @@ export class ProjectsComponent implements OnInit {
       grouped[status].push({
         id: index + 1,
         subject: item.subject,
-        code: item.code || `2026/RD/00${index + 1}`,
+        code: item.code || `2026/IND/00${index + 1}`,
         LawFirm: item.distributor,
         createdBy: item.Lead,
         assignedTo: item.Lead,
@@ -278,7 +270,7 @@ export class ProjectsComponent implements OnInit {
     });
 
     this.cards = grouped;
-    localStorage.setItem('kanbanData', JSON.stringify(this.cards));
+    localStorage.setItem('industrialKanbanData', JSON.stringify(this.cards));
   }
 
   drop(event: CdkDragDrop<Card[]>, targetList: Status): void {
@@ -298,7 +290,7 @@ export class ProjectsComponent implements OnInit {
     }
 
     this.cards = { ...this.cards };
-    localStorage.setItem('kanbanData', JSON.stringify(this.cards));
+    localStorage.setItem('industrialKanbanData', JSON.stringify(this.cards));
   }
 
   toggleCard(card: Card): void {
@@ -387,10 +379,10 @@ export class ProjectsComponent implements OnInit {
       if (res) {
         if (!project) {
           const newProject: Project = {
-            projectCode: res.projectCode || `2026/RD/${String(this.projects.length + 1).padStart(3, '0')}`,
+            projectCode: res.projectCode || `2026/IND/${String(this.projects.length + 1).padStart(3, '0')}`,
             productName: res.productName || '',
             molecule: res.module || '',
-            division: res.division || 'Oral Solids - OS',
+            division: res.division || 'Industrial Machinery - MA',
             starProduct: res.starProduct || '',
             registrationType: res.registrationType || '',
             projectOwner: res.projectOwner || '',
@@ -537,7 +529,7 @@ export class ProjectsComponent implements OnInit {
       data: {
         project: project,
         projectName: projName,
-        currentTemplate: 'Generic Tablet Development'
+        currentTemplate: industrialTemplates[0]
       }
     });
 

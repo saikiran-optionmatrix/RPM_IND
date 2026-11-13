@@ -72,31 +72,31 @@ export class AssignTasksHistoryComponent implements OnInit {
   }
 
   initHistoryRecords(): void {
-    const curTaskName = this.taskName || 'API Solubility, Stability, and Solid-State Characterization Specification';
-    const curTaskCode = this.taskCode || 'TC-101';
-    const curJobCode = this.jobCode || 'RND-01';
+    const curTaskName = this.taskName || 'Verify Structural Load, Vibration, and Thermal Envelope Specifications';
+    const curTaskCode = this.taskCode || 'IND-101';
+    const curJobCode = this.jobCode || 'ENG01';
     const count = this.historyCount || 3;
 
     const baseDates = [
-      '2024-05-18 14:30',
-      '2024-05-02 11:15',
-      '2024-04-19 09:45',
-      '2024-04-05 16:20',
-      '2024-03-22 10:10',
-      '2024-03-10 13:00'
+      '2026-05-18 14:30',
+      '2026-05-02 11:15',
+      '2026-04-19 09:45',
+      '2026-04-05 16:20',
+      '2026-03-22 10:10',
+      '2026-03-10 13:00'
     ];
 
     const users = [
-      'Dr. Robert Vance',
-      'Sarah Jenkins',
-      'Michael Chang',
-      'Emily Watson',
-      'David Miller'
+      'Rajesh Kumar',
+      'Ananya Rao',
+      'Anita Desai',
+      'Priya Reddy',
+      'Amit Patel'
     ];
 
     const taskNameVariations = [
       curTaskName,
-      `${curTaskName} - Initial Formulation Draft`,
+      `${curTaskName} - Initial Engineering Draft`,
       `${curTaskName} - Preliminary Specification Scope`,
       `${curTaskName} - Feasibility Outline`,
       `${curTaskName} - Baseline Proposal`
@@ -104,10 +104,10 @@ export class AssignTasksHistoryComponent implements OnInit {
 
     const jobCodeVariations = [
       curJobCode,
-      curJobCode === 'RND-01' ? 'RND-02' : 'RND-01',
-      curJobCode === 'QA-01' ? 'RND-01' : 'QA-01',
-      'BC01',
-      'ACT1'
+      curJobCode === 'ENG01' ? 'ENG02' : 'ENG01',
+      curJobCode === 'QA01' ? 'ENG01' : 'QA01',
+      'MECH01',
+      'CQV01'
     ];
 
     const selectedRevisions: AssignTaskHistoryItem[] = [];
@@ -125,124 +125,78 @@ export class AssignTasksHistoryComponent implements OnInit {
       });
     }
 
-    // Additional catalog tasks history records for reference and completeness
     const otherTasksCatalog: AssignTaskHistoryItem[] = [
       {
         id: 101,
-        taskName: 'API Solubility, Stability, and Solid-State Characterization Specification',
-        taskCode: 'TC-101',
-        jobCode: 'RND-01',
+        taskName: 'Verify Structural Load, Vibration, and Thermal Envelope Specifications',
+        taskCode: 'IND-101',
+        jobCode: 'ENG01',
         revision: 'Rev 3',
-        changedDate: '2024-05-19 16:40',
-        changedBy: 'Sarah Jenkins'
+        changedDate: '2026-05-19 16:40',
+        changedBy: 'Ananya Rao'
       },
       {
         id: 102,
-        taskName: 'Finished Dosage Form Dissolution Profile and Release Criteria',
-        taskCode: 'TC-102',
-        jobCode: 'RND-02',
+        taskName: 'Validate Line Cycle-Time, Takt Balance, and OEE Baseline Criteria',
+        taskCode: 'IND-102',
+        jobCode: 'MFG03',
         revision: 'Rev 2',
-        changedDate: '2024-05-01 10:30',
-        changedBy: 'Sarah Jenkins'
+        changedDate: '2026-05-01 10:30',
+        changedBy: 'Rajesh Kumar'
       },
       {
         id: 103,
-        taskName: 'Reference Product Characterization and Comparative Assessment Protocol',
-        taskCode: 'TC-103',
-        jobCode: 'RND-03',
+        taskName: 'Benchmark Existing Plant Equipment and Utility Capacity Gaps',
+        taskCode: 'IND-103',
+        jobCode: 'ENG02',
         revision: 'Rev 3',
-        changedDate: '2024-05-15 09:20',
-        changedBy: 'Michael Chang'
+        changedDate: '2026-05-15 09:20',
+        changedBy: 'Anita Desai'
       },
       {
         id: 104,
-        taskName: 'Analytical Method Development for API, Impurities, and Degradation Products',
-        taskCode: 'TC-104',
-        jobCode: 'QA-01',
+        taskName: 'Develop PLC / SCADA Sequence Control and Fault Diagnostics Logic',
+        taskCode: 'IND-104',
+        jobCode: 'ELEC01',
         revision: 'Rev 2',
-        changedDate: '2024-05-10 14:15',
-        changedBy: 'Emily Watson'
+        changedDate: '2026-05-10 14:15',
+        changedBy: 'Priya Reddy'
       },
       {
         id: 105,
-        taskName: 'API–Excipient Compatibility Study Protocol',
-        taskCode: 'TC-105',
-        jobCode: 'FORM1',
+        taskName: 'Execute Subassembly Material Compatibility and Wear Testing',
+        taskCode: 'IND-105',
+        jobCode: 'MECH01',
         revision: 'Rev 1',
-        changedDate: '2024-04-28 11:00',
-        changedBy: 'Dr. Robert Vance'
+        changedDate: '2026-04-28 11:00',
+        changedBy: 'Amit Patel'
       },
       {
         id: 106,
-        taskName: 'Formulation Prototype Batch Manufacturing and Documentation Protocol',
-        taskCode: 'TC-106',
-        jobCode: 'PROC1',
+        taskName: 'Prepare Factory Acceptance Test (FAT) Protocol and Checklists',
+        taskCode: 'IND-106',
+        jobCode: 'CQV01',
         revision: 'Rev 2',
-        changedDate: '2024-04-22 15:30',
-        changedBy: 'David Miller'
+        changedDate: '2026-04-22 15:30',
+        changedBy: 'Suresh Naidu'
       },
       {
         id: 107,
-        taskName: 'Accelerated and Long-Term Stability Study Protocol',
-        taskCode: 'TC-107',
-        jobCode: 'RND-01',
+        taskName: 'Complete Instrument Calibration and Metrology Traceability Plan',
+        taskCode: 'IND-107',
+        jobCode: 'CAL01',
         revision: 'Rev 1',
-        changedDate: '2024-04-18 13:45',
-        changedBy: 'Sarah Jenkins'
+        changedDate: '2026-04-18 13:45',
+        changedBy: 'Ananya Rao'
       },
       {
         id: 108,
-        taskName: 'Container Closure System Suitability and Compatibility Evaluation Report',
-        taskCode: 'TC-108',
-        jobCode: 'QA-01',
+        taskName: 'Conduct OEM Vendor Audit and Critical Spare-Parts SLA Review',
+        taskCode: 'IND-108',
+        jobCode: 'QA01',
         revision: 'Rev 1',
-        changedDate: '2024-04-12 17:00',
-        changedBy: 'Emily Watson'
-      },
-      {
-        id: 109,
-        taskName: 'Preformulation Assessment and Biopharmaceutical Risk Screening',
-        taskCode: 'TC-109',
-        jobCode: 'BC01',
-        revision: 'Rev 2',
-        changedDate: '2024-04-08 10:15',
-        changedBy: 'Michael Chang'
-      },
-      {
-        id: 110,
-        taskName: 'Bioequivalence Study Design and Protocol Development',
-        taskCode: 'TC-110',
-        jobCode: 'CLIN-01',
-        revision: 'Rev 1',
-        changedDate: '2024-03-30 16:50',
-        changedBy: 'Dr. Robert Vance'
-      },
-      {
-        id: 111,
-        taskName: 'Chromatographic Analytical Method Validation Protocol',
-        taskCode: 'TC-111',
-        jobCode: 'QA-02',
-        revision: 'Rev 2',
-        changedDate: '2024-03-24 11:20',
-        changedBy: 'Sarah Jenkins'
-      },
-      {
-        id: 112,
-        taskName: 'Microbial Limits and Specified Microorganisms Method Validation Framework',
-        taskCode: 'TC-112',
-        jobCode: 'TEST-01',
-        revision: 'Rev 1',
-        changedDate: '2024-03-18 14:10',
-        changedBy: 'Michael Chang'
-      },
-      {
-        id: 113,
-        taskName: 'Raw Material and API Supplier Qualification, Audit, and Quality Agreement Review',
-        taskCode: 'TC-113',
-        jobCode: 'AUD-01',
-        revision: 'Rev 2',
-        changedDate: '2024-03-12 09:30',
-        changedBy: 'Emily Watson'
+        changedDate: '2026-04-12 17:00',
+        changedBy: 'Rajesh Kumar'
       }
     ];
 
@@ -268,7 +222,7 @@ export class AssignTasksHistoryComponent implements OnInit {
       this.router.navigate(['/stages/wbs'], {
         queryParams: {
           stageCode: this.stageCode || 'S1',
-          stageName: this.stageName || 'Business Case',
+          stageName: this.stageName || 'Business Need & Opportunity Assessment',
           gateCode: this.gateCode || 'Gate 1'
         }
       });

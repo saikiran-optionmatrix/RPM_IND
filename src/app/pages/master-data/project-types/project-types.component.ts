@@ -37,30 +37,15 @@ export class ProjectTypesComponent {
   constructor(private dialog: MatDialog) {}
   readonly items: MasterItem[] = [
     {
-      name: 'OSD',
-      description: 'Development of chemically synthesized solid pills',
+      name: 'Industrial Equipment Development',
+      description: 'Development and execution of industrial equipment, production-line and plant improvement projects',
       status: 'Active',
     },
     {
-      name: 'Biotech Injections',
-      description: 'Development of Sterile living-cell therapies injections',
+      name: 'Industrial Equipment & Plant Engineering',
+      description: 'Development of industrial machinery, automated production systems and integrated plant utilities',
       status: 'Active',
     },
-    // {
-    //   name: 'Analytical Development',
-    //   description: 'Development and validation of testing methods',
-    //   status: 'Active',
-    // },
-    // {
-    //   name: 'Bioequivalence Study',
-    //   description: 'Evaluation of generic product equivalence',
-    //   status: 'Active',
-    // },
-    // {
-    //   name: 'Regulatory Submission',
-    //   description: 'Preparation and submission of regulatory dossier',
-    //   status: 'Active',
-    // },
   ];
 
   showFilter = false;

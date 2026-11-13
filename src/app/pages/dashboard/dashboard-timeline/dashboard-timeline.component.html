@@ -6,8 +6,8 @@
     <div class="timeline-top-bar">
       <div class="filters-row">
         <div class="filter-item">
-          <label class="filter-label">Project:</label>
-          <mat-select [(ngModel)]="selectedProject" class="app-custom-select" style="min-width: 220px;">
+          <label class="filter-label">Program:</label>
+          <mat-select [(ngModel)]="selectedProject" class="app-custom-select" style="min-width: 240px;">
             @for (p of projects; track p) {
               <mat-option [value]="p">{{ p }}</mat-option>
             }

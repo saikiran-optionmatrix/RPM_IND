@@ -11,6 +11,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { WbsActivityItem } from '../project-wbs.component';
 import { AddWbsTasksComponent } from './add-wbs-tasks/add-wbs-tasks.component';
 import { DocumentsPopComponent } from '../../../../../../common/shared/documents-pop/documents-pop.component';
+import { INDUSTRIAL_DEFAULT_TASKS } from '../../../../../stages/industrial-stages.data';
 
 export interface TaskItem {
   id?: string | number;
@@ -169,21 +170,14 @@ export class ProjectWbsTasksComponent implements OnInit {
       if (!isNaN(parsed) && parsed > 0) targetCount = parsed;
     }
 
-    const baseCatalog: Partial<TaskItem>[] = [
-      { taskName: 'API Solubility, Stability, and Solid-State Characterization Specification', taskCode: 'TC-01', reference: 'REF-AN-01', section: 'Pre-Formulation R&D', jobCode: 'JOB01', dueDate: '2026-01-18', completedDate: '2026-01-18', responsibility: 'Dr. Sarah Connor', department: 'Pre-Formulation R&D', active: true, done: true, approved: true },
-      { taskName: 'Finished Dosage Form Dissolution Profile and Release Criteria', taskCode: 'TC-02', reference: 'REF-QC-02', section: 'Quality Control', jobCode: 'JOB02', dueDate: '2026-01-20', completedDate: '2026-01-20', responsibility: 'Emily Watson', department: 'Quality Control', active: true, done: true, approved: true },
-      { taskName: 'Reference Product Characterization and Comparative Assessment Protocol', taskCode: 'TC-03', reference: 'REF-FD-03', section: 'Formulation Development', jobCode: 'JOB03', dueDate: '2026-01-24', completedDate: '2026-01-23', responsibility: 'Michael Scott', department: 'Formulation Development', active: true, done: true, approved: true },
-      { taskName: 'Analytical Method Development for API, Impurities, and Degradation Products', taskCode: 'TC-04', reference: 'REF-AN-04', section: 'Analytical Development', jobCode: 'JOB04', dueDate: '2026-01-28', completedDate: '', responsibility: 'Dr. Sarah Connor', department: 'Analytical Development', active: true, done: false, approved: false },
-      { taskName: 'API–Excipient Compatibility Study Protocol', taskCode: 'TC-05', reference: 'REF-FD-05', section: 'Formulation Development', jobCode: 'JOB05', dueDate: '2026-02-02', completedDate: '', responsibility: 'Robert Chen', department: 'Formulation Development', active: true, done: false, approved: false },
-      { taskName: 'Formulation Prototype Batch Manufacturing and Documentation Protocol', taskCode: 'TC-06', reference: 'REF-FD-06', section: 'Formulation Development', jobCode: 'JOB06', dueDate: '2026-02-05', completedDate: '', responsibility: 'Robert Chen', department: 'Formulation Development', active: true, done: false, approved: false },
-      { taskName: 'Accelerated and Long-Term Stability Study Protocol', taskCode: 'TC-07', reference: 'REF-ST-07', section: 'QC Stability', jobCode: 'JOB07', dueDate: '2026-02-10', completedDate: '', responsibility: 'David Kim', department: 'QC Stability', active: true, done: false, approved: false },
-      { taskName: 'Container Closure System Suitability and Compatibility Evaluation Report', taskCode: 'TC-08', reference: 'REF-PK-08', section: 'Packaging Development', jobCode: 'JOB08', dueDate: '2026-02-15', completedDate: '', responsibility: 'David Kim', department: 'Packaging Development', active: true, done: false, approved: false },
-      { taskName: 'Preformulation Assessment and Biopharmaceutical Risk Screening', taskCode: 'TC-09', reference: 'REF-PF-09', section: 'Pre-Formulation R&D', jobCode: 'JOB09', dueDate: '2026-02-20', completedDate: '', responsibility: 'Dr. Sarah Jenkins', department: 'Pre-Formulation R&D', active: true, done: false, approved: false },
-      { taskName: 'Bioequivalence Study Design and Protocol Development', taskCode: 'TC-10', reference: 'REF-CL-10', section: 'Clinical & Regulatory', jobCode: 'JOB10', dueDate: '2026-02-25', completedDate: '', responsibility: 'Jessica Alba', department: 'Regulatory Affairs', active: true, done: false, approved: false },
-      { taskName: 'Chromatographic Analytical Method Validation Protocol', taskCode: 'TC-11', reference: 'REF-AN-11', section: 'Analytical Development', jobCode: 'JOB11', dueDate: '2026-03-01', completedDate: '', responsibility: 'Dr. Sarah Connor', department: 'Analytical Development', active: true, done: false, approved: false },
-      { taskName: 'Microbial Limits and Specified Microorganisms Method Validation Framework', taskCode: 'TC-12', reference: 'REF-MB-12', section: 'Microbiology', jobCode: 'JOB12', dueDate: '2026-03-05', completedDate: '', responsibility: 'Dr. Sarah Connor', department: 'Microbiology QC', active: true, done: false, approved: false },
-      { taskName: 'Raw Material and API Supplier Qualification, Audit, and Quality Agreement Review', taskCode: 'TC-13', reference: 'REF-SC-13', section: 'Supply Chain & QA', jobCode: 'JOB13', dueDate: '2026-03-10', completedDate: '', responsibility: 'James Miller', department: 'Quality Assurance', active: true, done: false, approved: false }
-    ];
+    const owners = ['Ananya Rao', 'Rajesh Kumar', 'Anita Desai', 'Priya Reddy', 'Suresh Naidu', 'Amit Patel'];
+    const baseCatalog: Partial<TaskItem>[] = INDUSTRIAL_DEFAULT_TASKS.map((t, idx) => ({
+      ...t,
+      reference: `REF-IND-0${idx + 1}`,
+      section: t.department,
+      responsibility: owners[idx % owners.length],
+      approved: t.done,
+    }));
 
     this.tasksList = Array.from({ length: targetCount }, (_, i) => {
       const template = baseCatalog[i % baseCatalog.length];
@@ -194,20 +188,20 @@ export class ProjectWbsTasksComponent implements OnInit {
         done: template.done ?? (i < 3),
         approved: template.approved ?? (i < 3),
         taskName: template.taskName || `Task ${i + 1}`,
-        taskCode: template.taskCode || `TC-${taskNum}`,
+        taskCode: template.taskCode || `IND-${taskNum}`,
         reference: template.reference || `REF-WBS-${taskNum}`,
-        section: template.section || 'Formulation Development',
-        jobCode: template.jobCode || (this.activity?.jobCode || `JOB${taskNum}`),
-        dueDate: template.dueDate || `2026-02-${String(10 + (i % 18)).padStart(2, '0')}`,
-        completedDate: template.completedDate || (i < 3 ? `2026-02-${String(9 + (i % 18)).padStart(2, '0')}` : ''),
-        responsibility: template.responsibility || (this.activity?.responsibility || 'Unassigned'),
-        department: template.department || (this.activity?.department || 'Management'),
-        role: template.role || 'Scientist',
-        remarks: template.remarks || 'Standard task',
+        section: template.section || 'Mechanical Design',
+        jobCode: template.jobCode || (this.activity?.jobCode || `ENG${taskNum}`),
+        dueDate: template.dueDate || `2026-05-${String(10 + (i % 18)).padStart(2, '0')}`,
+        completedDate: template.completedDate || (i < 3 ? `2026-05-${String(9 + (i % 18)).padStart(2, '0')}` : ''),
+        responsibility: template.responsibility || (this.activity?.responsibility || 'Ananya Rao'),
+        department: template.department || (this.activity?.department || 'Mechanical Design'),
+        role: template.role || 'Lead Mechanical Engineer',
+        remarks: template.remarks || 'Standard engineering task',
         historyCount: this.getHistoryCount(i),
         documentsCount: this.getDocumentsCount(i),
-        updatedDate: template.dueDate || `2026-02-${String(10 + (i % 18)).padStart(2, '0')}`,
-        updatedBy: template.responsibility || (this.activity?.responsibility || 'Dr. Sarah Jenkins'),
+        updatedDate: template.dueDate || `2026-05-${String(10 + (i % 18)).padStart(2, '0')}`,
+        updatedBy: template.responsibility || (this.activity?.responsibility || 'Ananya Rao'),
         isEditing: false
       };
     });
@@ -261,7 +255,7 @@ export class ProjectWbsTasksComponent implements OnInit {
         row.role = result.role ?? row.role;
         row.remarks = result.remarks ?? row.remarks;
         row.updatedDate = new Date().toISOString().split('T')[0];
-        row.updatedBy = result.responsibility || row.responsibility || 'Dr. Sarah Jenkins';
+        row.updatedBy = result.responsibility || row.responsibility || 'Ananya Rao';
       }
     });
   }
@@ -270,7 +264,7 @@ export class ProjectWbsTasksComponent implements OnInit {
     row.isEditing = false;
     row.isNew = false;
     row.updatedDate = new Date().toISOString().split('T')[0];
-    row.updatedBy = row.responsibility || 'Dr. Sarah Jenkins';
+    row.updatedBy = row.responsibility || 'Ananya Rao';
     delete row._backup;
   }
 
@@ -419,13 +413,13 @@ export class ProjectWbsTasksComponent implements OnInit {
           taskName: result.taskName ?? '',
           taskCode: result.taskCode || `TC-${taskNum}`,
           reference: result.reference || `REF-${taskNum}`,
-          section: result.section || 'Formulation Development',
-          jobCode: result.jobCode || (this.activity?.jobCode || `JOB${taskNum}`),
+          section: result.section || 'Mechanical Design',
+          jobCode: result.jobCode || (this.activity?.jobCode || `ENG${taskNum}`),
           dueDate: result.dueDate ?? '',
           completedDate: result.completedDate ?? '',
-          responsibility: result.responsibility || (this.activity?.responsibility || 'Unassigned'),
-          department: result.department ?? (this.activity?.department || 'Management'),
-          role: result.role ?? 'Scientist',
+          responsibility: result.responsibility || (this.activity?.responsibility || 'Ananya Rao'),
+          department: result.department ?? (this.activity?.department || 'Mechanical Design'),
+          role: result.role ?? 'Lead Mechanical Engineer',
           remarks: result.remarks ?? '',
           isEditing: false
         };

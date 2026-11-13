@@ -35,43 +35,53 @@ export class MoleculesComponent {
   constructor(private dialog: MatDialog) {}
   readonly assets: Asset[] = [
     {
-      name: 'Dapagliflozin Propanediol Monohydrate',
-      code: 'API-1001',
+      name: 'Industrial Pump & Hydraulic Assembly',
+      code: 'CMP-1001',
       status: 'Active',
     },
     {
-      name: 'Levetiracetam',
-      code: 'API-1002',
+      name: 'Automated Production & Control System',
+      code: 'CMP-1002',
       status: 'Active',
     },
     {
-      name: 'Pantoprazole Sodium Sesquihydrate',
-      code: 'API-1003',
+      name: 'Industrial Fluid Handling & Feed System',
+      code: 'CMP-1003',
       status: 'Active',
     },
     {
-      name: 'Ceftriaxone Sodium Sterile',
-      code: 'API-1004',
+      name: 'Machining, Finishing & Process Equipment Line',
+      code: 'CMP-1004',
       status: 'Active',
     },
     {
-      name: 'Budesonide Micronized',
-      code: 'API-1005',
+      name: 'Automated Material Handling Module',
+      code: 'CMP-1005',
       status: 'Active',
     },
     {
-      name: 'Metformin Hydrochloride',
-      code: 'API-1006',
+      name: 'Industrial Control & Automation Module',
+      code: 'CMP-1006',
       status: 'Active',
     },
     {
-      name: 'Rosuvastatin Calcium',
-      code: 'API-1007',
+      name: 'Final Assembly, Inspection & Packaging Line',
+      code: 'CMP-1007',
       status: 'Active',
     },
     {
-      name: 'Sitagliptin Phosphate Monohydrate',
-      code: 'API-1008',
+      name: 'Equipment Asset Register & Maintenance History',
+      code: 'CMP-1008',
+      status: 'Active',
+    },
+    {
+      name: 'Equipment Inspection & Performance Testing Suite',
+      code: 'CMP-1009',
+      status: 'Active',
+    },
+    {
+      name: 'Modular Production Equipment Assembly',
+      code: 'CMP-1010',
       status: 'Active',
     },
   ];

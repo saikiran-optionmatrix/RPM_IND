@@ -83,7 +83,7 @@ export class ProjectStagesHistoryComponent implements OnInit {
 
   initHistoryRecords(): void {
     const code = this.stageCode || 'S1';
-    const name = this.stageName || 'Project Kickoff & Feasibility Study';
+    const name = this.stageName || 'Business Need & Opportunity Assessment';
 
     this.historyRecords = [
       {

@@ -102,12 +102,12 @@ export class ProjectSchedulingTasksHistoryComponent implements OnInit {
   }
 
   initHistoryRecords(): void {
-    const curCode = this.projectCode || '2026/GEN/001';
-    const curDeliv = this.deliverable || 'Formulation';
-    const curAct = this.activity || 'API Characterization';
-    const curTask = this.taskName || 'Solubility Profiling';
+    const curCode = this.projectCode || '2026/IND/001';
+    const curDeliv = this.deliverable || 'Detailed Engg';
+    const curAct = this.activity || '3D CAD Assembly & Structural FEA';
+    const curTask = this.taskName || 'Finite element deflection check';
     const curHours = this.hours || 4.0;
-    const curDesc = this.description || 'pH-dependent solubility and dissolution rate determination in standard buffers.';
+    const curDesc = this.description || 'Structural load stress modeling and tolerance stack-up verification against URS.';
     const curApproved = this.approved;
     const curDeclined = this.declined;
     const curPending = this.pending;

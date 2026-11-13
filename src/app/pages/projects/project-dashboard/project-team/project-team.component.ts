@@ -19,31 +19,31 @@ import { FormsModule } from '@angular/forms';
 })
 export class ProjectTeamComponent implements OnInit {
   // Project Header Properties
-  projectName: string = 'Generic Tablet Development';
-  projectCode: string = '2026/GEN/001';
+  projectName: string = 'Industrial Equipment Line Expansion';
+  projectCode: string = '2026/IND/001';
   dynamicBreadcrumb: string = 'Team';
 
   // Migrated Properties
   availableMembers: string[] = [
-    'Alex Johnson',
-    'Samantha Carter',
-    'Michael Chen',
-    'Sarah Williams',
-    'David Rodriguez',
-    'Emily Davis',
-    'James Wilson',
-    'Olivia Martinez',
-    'William Taylor',
-    'Sophia Anderson',
-    'Daniel Thomas'
+    'Vikramaditya Rao',
+    'Karthik Subramanian',
+    'Deepa Nair',
+    'Rohan Kulkarni',
+    'Meera Iyer',
+    'Arjun Mehta',
+    'Neha Kapoor',
+    'Siddharth Joshi',
+    'Kavita Deshmukh',
+    'Pranav Verma',
+    'Sanjay Gupta'
   ];
 
   assignedMembers: string[] = [
-    'Liam White',
-    'Emma Harris',
-    'Noah Martin',
-    'Ava Jackson',
-    'Ethan Moore'
+    'Ananya Rao',
+    'Rajesh Kumar',
+    'Anita Desai',
+    'Priya Reddy',
+    'Suresh Naidu'
   ];
 
   selectedAvailable: string[] = [];
@@ -87,7 +87,7 @@ export class ProjectTeamComponent implements OnInit {
 
   goBack(): void {
     this.router.navigate(['/projects/dashboard/analytics'], {
-      queryParams: { code: this.projectCode || "2026/GEN/001", name: this.projectName || "Generic Tablet Development" }
+      queryParams: { code: this.projectCode || '2026/IND/001', name: this.projectName || 'Industrial Equipment Line Expansion' }
     });
   }
 

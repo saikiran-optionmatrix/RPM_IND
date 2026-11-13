@@ -12,20 +12,19 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class EditTemplateComponent implements OnInit {
   readonly projectTypes = [
-    'Generic Formulation R&D',
-    '505(b)(2) Value-Added Generic',
-    'Biosimilar Development',
-    'NCE Formulation Development',
-    'Complex Injectable & Liposomal',
-    'Life Cycle Management / Line Extension'
+    'Industrial Equipment Development',
+    'Industrial Equipment & Plant Engineering',
+    'CNC & Precision Machining Upgrade',
+    'Factory Automation & Controls Retrofit',
+    'Utilities & Material Handling Infrastructure',
+    'Production Line Transfer & Ramp-Up'
   ];
 
   readonly divisionsList = [
-    'Oral Solids - OS',
-    'Injectables - IJ',
-    'Complex Injectables - CI',
-    'Biotech - BT',
-    'Inhalation & Respiratory - IR'
+    'Equipment Engineering - CT',
+    'Industrial Machinery - MA',
+    'Process Equipment - GT',
+    'Production Systems - VX'
   ];
 
   readonly bufferStatuses = ['On Track', 'At Risk', 'Delayed'];

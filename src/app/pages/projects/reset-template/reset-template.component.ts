@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { industrialTemplates } from '../projects-data';
 
 @Component({
   selector: 'app-reset-template',
@@ -22,13 +23,7 @@ export class ResetTemplateComponent implements OnInit {
   projectName = '';
   selectedTemplate = '';
 
-  readonly templatesList: string[] = [
-    'Generic Tablet Development',
-    'Generic API Process Development',
-    'Complex Injectable Development',
-    'Generic API Development',
-    'Generic Injectable Formulation',
-  ];
+  readonly templatesList: string[] = industrialTemplates;
 
   constructor(
     private dialogRef: MatDialogRef<ResetTemplateComponent>,
@@ -41,13 +36,13 @@ export class ResetTemplateComponent implements OnInit {
         this.data.projectName ||
         this.data.project?.productName ||
         this.data.project?.projectCode ||
-        'Selected Project';
+        'Selected Program';
       this.selectedTemplate =
         this.data.currentTemplate ||
         this.data.project?.template ||
-        'Generic Tablet Development';
+        industrialTemplates[0];
     } else {
-      this.selectedTemplate = 'Generic Tablet Development';
+      this.selectedTemplate = industrialTemplates[0];
     }
   }
 

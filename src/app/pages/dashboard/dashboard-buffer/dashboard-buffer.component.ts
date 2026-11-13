@@ -5,6 +5,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import * as Highcharts from 'highcharts';
+import {
+  INDUSTRIAL_DIVISIONS,
+  INDUSTRIAL_LOCATIONS,
+  INDUSTRIAL_PROJECT_NAMES,
+  INDUSTRIAL_STAGE_NAME_MAP,
+} from '../industrial-dashboard.data';
 
 @Component({
   selector: 'app-dashboard-buffer',
@@ -14,37 +20,16 @@ import * as Highcharts from 'highcharts';
   styleUrls: ['./dashboard-buffer.component.scss']
 })
 export class DashboardBufferComponent implements AfterViewInit {
-  projects = [
-    'Generic Tablet Development',
-    'Generic API Process Development',
-    'Complex Injectable Development',
-    'Generic API Development',
-    'Generic Injectable Formulation'
-  ];
-  selectedBufferProject = 'All Projects';
+  projects = INDUSTRIAL_PROJECT_NAMES.slice(0, 6);
+  selectedBufferProject = 'All Programs';
 
   selectedDivision: string = 'All';
   selectedLocation: string = 'All';
 
-  readonly divisionsList: string[] = [
-    'All',
-    'Oral Solids - OS',
-    'Injectables - IJ',
-    'Complex Injectables - CI',
-    'Biotech - BT',
-  ];
+  readonly divisionsList: string[] = INDUSTRIAL_DIVISIONS;
 
-  readonly locationsList: string[] = [
-    'All',
-    'Hyderabad',
-    'Mumbai',
-    'Bengaluru',
-    'Ahmedabad',
-    'Pune',
-    'Chennai',
-    'Delhi',
-    'Baddi',
-  ];
+  readonly locationsList: string[] = INDUSTRIAL_LOCATIONS;
+  readonly stageNameMap = INDUSTRIAL_STAGE_NAME_MAP;
 
   onApplyFilters(): void {
     this.onBufferFilterChange();
@@ -54,7 +39,7 @@ export class DashboardBufferComponent implements AfterViewInit {
   bufferStageChart: Highcharts.Chart | null = null;
 
   bufferProjectData: { [project: string]: { [stage: string]: { bufferUsed: number; bufferTime: number } } } = {
-    'Generic Tablet Development': {
+    'Industrial Equipment Line Expansion': {
       'S1': { bufferUsed: 0.8, bufferTime: -0.2 },
       'S2': { bufferUsed: 1.5, bufferTime: -0.3 },
       'S3': { bufferUsed: 2.1, bufferTime: -0.4 },
@@ -68,7 +53,7 @@ export class DashboardBufferComponent implements AfterViewInit {
       'S11': { bufferUsed: 9.3, bufferTime: 0.8 },
       'S12': { bufferUsed: 10.1, bufferTime: 0.6 },
     },
-    'Generic API Process Development': {
+    'CNC Machining Process Optimization': {
       'S1': { bufferUsed: 0.5, bufferTime: -0.5 },
       'S2': { bufferUsed: 1.2, bufferTime: -0.6 },
       'S3': { bufferUsed: 1.8, bufferTime: -0.7 },
@@ -82,7 +67,7 @@ export class DashboardBufferComponent implements AfterViewInit {
       'S11': { bufferUsed: 8.6, bufferTime: 0.4 },
       'S12': { bufferUsed: 9.4, bufferTime: 0.7 },
     },
-    'Complex Injectable Development': {
+    'Automated Packaging Line Development': {
       'S1': { bufferUsed: 1.3, bufferTime: 0.3 },
       'S2': { bufferUsed: 2.2, bufferTime: 0.5 },
       'S3': { bufferUsed: 3.2, bufferTime: 0.7 },
@@ -96,7 +81,7 @@ export class DashboardBufferComponent implements AfterViewInit {
       'S11': { bufferUsed: 10.0, bufferTime: 1.9 },
       'S12': { bufferUsed: 11.2, bufferTime: 2.4 },
     },
-    'Generic API Development': {
+    'Industrial Pump Assembly Development': {
       'S1': { bufferUsed: 0.7, bufferTime: -0.3 },
       'S2': { bufferUsed: 1.4, bufferTime: -0.4 },
       'S3': { bufferUsed: 2.2, bufferTime: -0.3 },
@@ -110,7 +95,7 @@ export class DashboardBufferComponent implements AfterViewInit {
       'S11': { bufferUsed: 8.9, bufferTime: 0.9 },
       'S12': { bufferUsed: 9.8, bufferTime: 1.2 },
     },
-    'Generic Injectable Formulation': {
+    'Industrial Compressor Assembly Development': {
       'S1': { bufferUsed: 0.9, bufferTime: -0.1 },
       'S2': { bufferUsed: 1.6, bufferTime: -0.3 },
       'S3': { bufferUsed: 2.0, bufferTime: -0.5 },
@@ -123,6 +108,20 @@ export class DashboardBufferComponent implements AfterViewInit {
       'S10': { bufferUsed: 7.4, bufferTime: 0.4 },
       'S11': { bufferUsed: 8.3, bufferTime: 0.2 },
       'S12': { bufferUsed: 9.1, bufferTime: -0.3 },
+    },
+    'CNC Machining Line Capacity Expansion': {
+      'S1': { bufferUsed: 1.0, bufferTime: 0.0 },
+      'S2': { bufferUsed: 1.7, bufferTime: -0.1 },
+      'S3': { bufferUsed: 2.5, bufferTime: -0.1 },
+      'S4': { bufferUsed: 3.6, bufferTime: 0.3 },
+      'S5': { bufferUsed: 4.4, bufferTime: 0.5 },
+      'S6': { bufferUsed: 5.3, bufferTime: 0.4 },
+      'S7': { bufferUsed: 6.1, bufferTime: 0.6 },
+      'S8': { bufferUsed: 6.9, bufferTime: 0.4 },
+      'S9': { bufferUsed: 7.5, bufferTime: 0.2 },
+      'S10': { bufferUsed: 8.4, bufferTime: 0.9 },
+      'S11': { bufferUsed: 9.1, bufferTime: 0.7 },
+      'S12': { bufferUsed: 9.9, bufferTime: 0.8 },
     }
   };
 
@@ -139,7 +138,7 @@ export class DashboardBufferComponent implements AfterViewInit {
   }
 
   getBufferDataForProject(project: string): { [stage: string]: { bufferUsed: number; bufferTime: number } } {
-    if (project !== 'All Projects' && this.bufferProjectData[project]) {
+    if (project !== 'All Programs' && this.bufferProjectData[project]) {
       return this.bufferProjectData[project];
     }
     const stages = ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10', 'S11', 'S12'];
@@ -199,7 +198,7 @@ export class DashboardBufferComponent implements AfterViewInit {
         }
       },
       yAxis: {
-        title: { text: 'Buffer Time Used', style: { color: '#000000' } },
+        title: { text: 'Buffer Time Used (days)', style: { color: '#000000' } },
         min: 0,
         lineWidth: 1,
         lineColor: '#1b2e5e',
@@ -209,13 +208,14 @@ export class DashboardBufferComponent implements AfterViewInit {
         shared: false,
         useHTML: true,
         formatter: function (this: any): string {
+          const stageLabel = self.stageNameMap[this.x] ? `${this.x} - ${self.stageNameMap[this.x]}` : this.x;
           if (this.series.name.includes('Average Threshold')) {
-            return `<div style="color: white;"><b>Average Threshold</b><br/>${this.x}<br/>Expected Buffer: <b>${this.y}</b></div>`;
+            return `<div style="color: white;"><b>Average Threshold</b><br/>${stageLabel}<br/>Expected Buffer: <b>${this.y} days</b></div>`;
           }
           return `
             <div style="font-size: 13px; color:white;">
-              <b>${this.x}</b><br/>
-              <span style="color: ${this.point.color}">\u25CF</span> Buffer Time Used: <b>${this.y}</b><br/>
+              <b>${stageLabel}</b><br/>
+              <span style="color: ${this.point.color}">\u25CF</span> Buffer Time Used: <b>${this.y} days</b><br/>
               Status: <i>${(this.point as any).options.status}</i>
             </div>
           `;
@@ -304,7 +304,7 @@ export class DashboardBufferComponent implements AfterViewInit {
         }
       },
       yAxis: {
-        title: { text: 'Buffer Time', style: { color: '#000000' } },
+        title: { text: 'Buffer Time (days)', style: { color: '#000000' } },
         gridLineWidth: 0,
         lineWidth: 1,
         lineColor: '#1b2e5e',
@@ -315,11 +315,12 @@ export class DashboardBufferComponent implements AfterViewInit {
         useHTML: true,
         formatter: function (this: any): string {
           const p = this.point as any;
+          const stageLabel = self.stageNameMap[this.key] ? `${this.key} - ${self.stageNameMap[this.key]}` : this.key;
           const status = p.y > 0 ? 'Over Buffer (Delay)' : (p.y < 0 ? 'Under Buffer (Saved)' : 'On Track');
           return `
             <div style="font-size: 13px; color:white;">
-              <b>${this.key}</b><br/>
-              Buffer Time: <b>${p.y > 0 ? '+' : ''}${p.y}</b><br/>
+              <b>${stageLabel}</b><br/>
+              Buffer Time: <b>${p.y > 0 ? '+' : ''}${p.y} days</b><br/>
               Status: <i>${status}</i>
             </div>
           `;

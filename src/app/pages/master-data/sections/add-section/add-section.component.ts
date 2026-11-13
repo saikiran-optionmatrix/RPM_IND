@@ -16,11 +16,11 @@ export class AddSectionComponent implements OnInit {
   isSubmitting = false;
 
   departments: string[] = [
-    'Research & Development',
-    'Quality Control',
+    'Engineering & Project Development',
+    'Quality Control & Inspection',
     'Quality Assurance',
-    'Production',
-    'Regulatory Affairs',
+    'Manufacturing & Operations',
+    'Compliance & Statutory Affairs',
   ];
 
   constructor(

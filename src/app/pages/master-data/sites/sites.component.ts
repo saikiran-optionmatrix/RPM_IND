@@ -37,11 +37,11 @@ interface MasterItem {
 })
 export class SitesComponent {
   readonly items: MasterItem[] = [
-    { name: 'Manufacturing Facility', code: 'LOC-MFG', city: 'Mumbai', state: 'Maharashtra', status: 'Active' },
-    { name: 'R&D Facility', code: 'LOC-RND', city: 'Hyderabad', state: 'Telangana', status: 'Active' },
-    { name: 'Quality Control Facility', code: 'LOC-QC', city: 'Ahmedabad', state: 'Gujarat', status: 'Active' },
-    { name: 'Stability Testing Facility', code: 'LOC-STB', city: 'Bengaluru', state: 'Karnataka', status: 'Active' },
-    { name: 'Warehouse & Storage', code: 'LOC-WHS', city: 'Chennai', state: 'Tamil Nadu', status: 'Active' },
+    { name: 'Industrial Manufacturing & Operations Plant', code: 'LOC-MFG', city: 'Ahmedabad', state: 'Gujarat', status: 'Active' },
+    { name: 'Engineering & Project Development Centre', code: 'LOC-RND', city: 'Hyderabad', state: 'Telangana', status: 'Active' },
+    { name: 'Quality Control & Materials Testing Lab', code: 'LOC-QC', city: 'Pune', state: 'Maharashtra', status: 'Active' },
+    { name: 'Equipment Reliability & Environmental Testing Facility', code: 'LOC-STB', city: 'Bengaluru', state: 'Karnataka', status: 'Active' },
+    { name: 'Raw Material, Components & Finished Goods Warehouse', code: 'LOC-WHS', city: 'Mumbai', state: 'Maharashtra', status: 'Active' },
   ];
 
   showFilter = false;

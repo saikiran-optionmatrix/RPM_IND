@@ -63,35 +63,35 @@
               type="text">
           </div>
 
-          <!-- Product Name -->
+          <!-- Program Name -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">Product Name :</label>
-            <input class="form-control name back" placeholder="Enter Product Name" formControlName="productName"
+            <label class="add-member-label control-label">Program Name :</label>
+            <input class="form-control name back" placeholder="Enter Program Name" formControlName="productName"
               type="text">
           </div>
 
-          <!-- Molecule -->
+          <!-- Equipment Category -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">Molecule :</label>
-            <input class="form-control name back" placeholder="Enter Molecule" formControlName="module" type="text">
+            <label class="add-member-label control-label">Equipment Category :</label>
+            <input class="form-control name back" placeholder="Enter Equipment Category" formControlName="module" type="text">
           </div>
 
-          <!-- Star Product -->
+          <!-- Star Program -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">Star Product :</label>
+            <label class="add-member-label control-label">Star Program :</label>
             <select class="form-control name back" formControlName="starProduct">
-              <option value="">Select Star Product</option>
+              <option value="">Select Star Program</option>
               @for (sp of starProductList; track sp) {
               <option [value]="sp">{{ sp }}</option>
               }
             </select>
           </div>
 
-          <!-- Registration Type -->
+          <!-- Compliance Pathway -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">Registration Type :</label>
+            <label class="add-member-label control-label">Compliance Pathway :</label>
             <select class="form-control name back" formControlName="registrationType">
-              <option value="">Select Registration Type</option>
+              <option value="">Select Compliance Pathway</option>
               @for (reg of registrationTypesList; track reg) {
               <option [value]="reg">{{ reg }}</option>
               }
@@ -228,115 +228,115 @@
         }
 
         <!-- ==========================================
-             TAB 4: PRODUCT DETAILS (Product Details)
+             TAB 4: EQUIPMENT DETAILS
              ========================================== -->
         @if (activeTab === 'productDetails') {
         <div class="fields-grid">
-          <!-- Dosage Form -->
+          <!-- Equipment Configuration -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">Dosage Form :</label>
+            <label class="add-member-label control-label">Equipment Configuration :</label>
             <select class="form-control name back" formControlName="dosageForm">
-              <option value="">Select Dosage Form</option>
+              <option value="">Select Equipment Configuration</option>
               @for (form of dosageFormsList; track form) {
               <option [value]="form">{{ form }}</option>
               }
             </select>
           </div>
 
-          <!-- Strength -->
+          <!-- Capacity / Rating -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">Strength :</label>
-            <input class="form-control name back" placeholder="e.g. 250 mg & 500 mg" formControlName="strength"
+            <label class="add-member-label control-label">Capacity / Rating :</label>
+            <input class="form-control name back" placeholder="e.g. 120 units/hr; 415V 3-phase" formControlName="strength"
               type="text">
           </div>
 
-          <!-- Fill Volume -->
+          <!-- Footprint / Volume -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">Fill Volume :</label>
-            <input class="form-control name back" placeholder="e.g. 5mL or NA" formControlName="fillVolume" type="text">
+            <label class="add-member-label control-label">Footprint / Volume :</label>
+            <input class="form-control name back" placeholder="e.g. 4,500 sq. ft. or NA" formControlName="fillVolume" type="text">
           </div>
 
-          <!-- Pharmacopoeia -->
+          <!-- Applicable Standards -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">Pharmacopoeia :</label>
-            <input class="form-control name back" placeholder="e.g. USP, Ph.Eur, In house"
+            <label class="add-member-label control-label">Applicable Standards :</label>
+            <input class="form-control name back" placeholder="e.g. ISO 9001, ISO 13849-1, CE"
               formControlName="pharmacopoeia" type="text">
           </div>
 
-          <!-- Packaging Details -->
+          <!-- Enclosure & Guarding Details -->
           <div class="form-field-group full-width">
-            <label class="add-member-label control-label">Packaging Details :</label>
-            <input class="form-control name back" placeholder="e.g. Blister pack/ ALU, stopper vials"
+            <label class="add-member-label control-label">Enclosure & Guarding Details :</label>
+            <input class="form-control name back" placeholder="e.g. IP54 steel enclosure with light-curtain guarding"
               formControlName="packagingDetails" type="text">
           </div>
         </div>
         }
 
         <!-- ==========================================
-             TAB 5: INNOVATOR (Innovator / RLD & IP)
+             TAB 5: BENCHMARK OEM & IP
              ========================================== -->
         @if (activeTab === 'innovator') {
         <div class="fields-grid">
-          <!-- Innovator Company -->
+          <!-- Benchmark OEM -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">Innovator (Company) :</label>
-            <input class="form-control name back" placeholder="e.g. Janssen-Cilag (Johnson & Johnson)"
+            <label class="add-member-label control-label">Benchmark OEM (Company) :</label>
+            <input class="form-control name back" placeholder="e.g. Siemens / Bosch Rexroth"
               formControlName="innovatorCompany" type="text">
           </div>
 
-          <!-- Innovator Brand Name -->
+          <!-- Benchmark Model -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">Innovator Brand Name :</label>
-            <input class="form-control name back" placeholder="e.g. Zytiga" formControlName="innovatorBrandName"
+            <label class="add-member-label control-label">Benchmark Model :</label>
+            <input class="form-control name back" placeholder="e.g. Rexroth Modular Transfer" formControlName="innovatorBrandName"
               type="text">
           </div>
 
-          <!-- Innovator Dosage Form -->
+          <!-- Benchmark Configuration -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">Innovator Dosage Form :</label>
-            <input class="form-control name back" placeholder="e.g. Film-coated tablets"
+            <label class="add-member-label control-label">Benchmark Configuration :</label>
+            <input class="form-control name back" placeholder="e.g. Automated servo assembly cell"
               formControlName="innovatorDosageForm" type="text">
           </div>
 
-          <!-- Innovator Strengths -->
+          <!-- Benchmark Rating -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">Innovator Strengths :</label>
-            <input class="form-control name back" placeholder="e.g. 250 mg, 500 mg"
+            <label class="add-member-label control-label">Benchmark Rating :</label>
+            <input class="form-control name back" placeholder="e.g. 120 units/hr nominal"
               formControlName="innovatorStrengths" type="text">
           </div>
 
-          <!-- Innovator Approval Date -->
+          <!-- Commissioned Date -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">Innovator Approval Date :</label>
-            <input class="form-control name back" placeholder="e.g. 05-Sep-2011 (EU); 28-Apr-2011 (US FDA)"
+            <label class="add-member-label control-label">Benchmark Commissioned Date :</label>
+            <input class="form-control name back" placeholder="e.g. Commissioned Q2 2022"
               formControlName="innovatorApprovalDate" type="text">
           </div>
 
-          <!-- Innovator Pack Presentation -->
+          <!-- Equipment Package & Scope -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">Innovator Pack Presentation :</label>
-            <input class="form-control name back" placeholder="e.g. 250 mg: HDPE bottle of 120 tablets"
+            <label class="add-member-label control-label">Equipment Package & Scope :</label>
+            <input class="form-control name back" placeholder="e.g. Turnkey 6-station line + SCADA HMI"
               formControlName="innovatorPackPresentation" type="text">
           </div>
 
-          <!-- Innovator Bio Strength -->
+          <!-- Output & Performance -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">Innovator Bio Strength :</label>
-            <input class="form-control name back" placeholder="e.g. 500 mg or Not applicable"
+            <label class="add-member-label control-label">Output & Performance :</label>
+            <input class="form-control name back" placeholder="e.g. OEE >= 85% continuous operation"
               formControlName="innovatorBioStrength" type="text">
           </div>
 
-          <!-- RLD Information -->
+          <!-- Technical Reference Info -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">RLD Information (SmPC / PIL / COA) :</label>
+            <label class="add-member-label control-label">Technical Reference Info (Manual / P&amp;ID) :</label>
             <input class="form-control name back" placeholder="e.g. Available" formControlName="rldInformation"
               type="text">
           </div>
 
-          <!-- Innovator vs Jodas -->
+          <!-- Benchmark vs Target -->
           <div class="form-field-group full-width">
-            <label class="add-member-label control-label">Innovator vs Jodas :</label>
-            <input class="form-control name back" placeholder="e.g. Same dosage form and strengths"
+            <label class="add-member-label control-label">Benchmark vs Target :</label>
+            <input class="form-control name back" placeholder="e.g. Benchmark cycle time, power draw and PLC integration"
               formControlName="innovatorVsJodas" type="text">
           </div>
 
@@ -350,108 +350,108 @@
         }
 
         <!-- ==========================================
-             TAB 6: API (API)
+             TAB 6: VENDORS & SPECS
              ========================================== -->
         @if (activeTab === 'api') {
         <div class="fields-grid">
-          <!-- API Manufacturer -->
+          <!-- OEM / Component Vendor -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">API Manufacturer :</label>
-            <input class="form-control name back" placeholder="e.g. Mac chem" formControlName="apiManufacturer"
+            <label class="add-member-label control-label">OEM / Component Vendor :</label>
+            <input class="form-control name back" placeholder="e.g. Nominated Drive & PLC Suppliers" formControlName="apiManufacturer"
               type="text">
           </div>
 
-          <!-- Polymorph Form -->
+          <!-- Technology / Process Platform -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">Polymorph Form (if applicable) :</label>
-            <input class="form-control name back" placeholder="e.g. Crystalline; form to be confirmed from vendor"
+            <label class="add-member-label control-label">Technology / Process Platform :</label>
+            <input class="form-control name back" placeholder="e.g. PLC / SCADA + Servo Indexing"
               formControlName="polymorphForm" type="text">
           </div>
 
-          <!-- CEP/DMF No & Receipt Status -->
+          <!-- Tech File No & Receipt Status -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">CEP/DMF No & Receipt Status :</label>
-            <input class="form-control name back" placeholder="e.g. DMF open part: Available; CEP/DMF No. to be added"
+            <label class="add-member-label control-label">Tech File No & Receipt Status :</label>
+            <input class="form-control name back" placeholder="e.g. Technical Spec Pack: Approved"
               formControlName="cepDmfNoReceiptStatus" type="text">
           </div>
 
-          <!-- DMF/ASMF/CEP Received -->
+          <!-- Spec Pack Received -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">DMF/ASMF/CEP Received :</label>
-            <input class="form-control name back" placeholder="e.g. Available" formControlName="dmfAsmfCepReceived"
+            <label class="add-member-label control-label">Spec Pack Received :</label>
+            <input class="form-control name back" placeholder="e.g. Received" formControlName="dmfAsmfCepReceived"
               type="text">
           </div>
 
-          <!-- API Vendor Qualification -->
+          <!-- Vendor Qualification -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">API Vendor Qualification :</label>
-            <input class="form-control name back" placeholder="e.g. Qualified / Under re-qualification"
+            <label class="add-member-label control-label">Vendor Qualification :</label>
+            <input class="form-control name back" placeholder="e.g. Qualified (ISO 9001 Audited)"
               formControlName="apiVendorQualification" type="text">
           </div>
 
-          <!-- API - ML -->
+          <!-- Vendor License -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">API - ML :</label>
-            <input class="form-control name back" placeholder="e.g. Available" formControlName="apiMl" type="text">
+            <label class="add-member-label control-label">Vendor License :</label>
+            <input class="form-control name back" placeholder="e.g. Active" formControlName="apiMl" type="text">
           </div>
 
-          <!-- API - GMP -->
+          <!-- Vendor ISO / CE -->
           <div class="form-field-group">
-            <label class="add-member-label control-label">API - GMP :</label>
-            <input class="form-control name back" placeholder="e.g. Present not required" formControlName="apiGmp"
+            <label class="add-member-label control-label">Vendor ISO / CE :</label>
+            <input class="form-control name back" placeholder="e.g. ISO 9001 / CE Certified" formControlName="apiGmp"
               type="text">
           </div>
         </div>
         }
 
         <!-- ==========================================
-             TAB 7: OTHERS (Site & Regulatory Certificates & Bio Study & Remarks)
+             TAB 7: OTHERS (Site Permits, Testing & Remarks)
              ========================================== -->
         @if (activeTab === 'others') {
         <div>
-          <!-- Section 1: Site & Regulatory Certificates -->
-          <h4 class="section-title">Site & Regulatory Certificates</h4>
+          <!-- Section 1: Site & Statutory Certifications -->
+          <h4 class="section-title">Site &amp; Statutory Certifications</h4>
           <div class="fields-grid">
             <div class="form-field-group">
-              <label class="add-member-label control-label">ML :</label>
-              <input class="form-control name back" placeholder="e.g. Available" formControlName="ml" type="text">
+              <label class="add-member-label control-label">Plant License :</label>
+              <input class="form-control name back" placeholder="e.g. Active" formControlName="ml" type="text">
             </div>
 
             <div class="form-field-group">
-              <label class="add-member-label control-label">WHO GMP :</label>
-              <input class="form-control name back" placeholder="e.g. Available" formControlName="whoGmp" type="text">
+              <label class="add-member-label control-label">ISO / EHS Status :</label>
+              <input class="form-control name back" placeholder="e.g. ISO 45001 / ISO 14001" formControlName="whoGmp" type="text">
             </div>
           </div>
 
-          <!-- Section 2: Bio Study (Optional) -->
-          <h4 class="section-title mt-3">Bio Study (Optional)</h4>
+          <!-- Section 2: Third-Party Testing & Acceptance (Optional) -->
+          <h4 class="section-title mt-3">Third-Party Testing &amp; Acceptance (Optional)</h4>
           <div class="fields-grid">
             <div class="form-field-group">
-              <label class="add-member-label control-label">Bio Study CRO Name :</label>
-              <input class="form-control name back" placeholder="Enter CRO name" formControlName="bioStudyCroName"
+              <label class="add-member-label control-label">Inspection &amp; Testing Agency :</label>
+              <input class="form-control name back" placeholder="e.g. TUV Rheinland / SGS" formControlName="bioStudyCroName"
                 type="text">
             </div>
 
             <div class="form-field-group">
-              <label class="add-member-label control-label">Bio Study CRO GMP Status :</label>
-              <input class="form-control name back" placeholder="e.g. Compliant / Not applicable"
+              <label class="add-member-label control-label">Agency Accreditation :</label>
+              <input class="form-control name back" placeholder="e.g. ISO/IEC 17020 Accredited"
                 formControlName="bioStudyCroGmpStatus" type="text">
             </div>
 
             <div class="form-field-group">
-              <label class="add-member-label control-label">BE NOC :</label>
-              <input class="form-control name back" placeholder="Enter BE NOC" formControlName="beNoc" type="text">
+              <label class="add-member-label control-label">Site Work Permit / Approval :</label>
+              <input class="form-control name back" placeholder="Enter Work Permit status" formControlName="beNoc" type="text">
             </div>
 
             <div class="form-field-group">
-              <label class="add-member-label control-label">Study Time Period :</label>
-              <input class="form-control name back" placeholder="Enter study time period"
+              <label class="add-member-label control-label">Testing Time Period :</label>
+              <input class="form-control name back" placeholder="e.g. 6–9 months (FAT & SAT)"
                 formControlName="studyTimePeriod" type="text">
             </div>
 
             <div class="form-field-group full-width">
-              <label class="add-member-label control-label">Bio Study Report :</label>
-              <input class="form-control name back" placeholder="e.g. BE available / Not applicable"
+              <label class="add-member-label control-label">FAT / SAT Test Report :</label>
+              <input class="form-control name back" placeholder="e.g. FAT Approved / SAT Scheduled"
                 formControlName="bioStudyReport" type="text">
             </div>
           </div>

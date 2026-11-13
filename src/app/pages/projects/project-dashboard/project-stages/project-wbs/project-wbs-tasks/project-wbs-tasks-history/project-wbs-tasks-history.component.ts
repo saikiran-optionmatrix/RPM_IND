@@ -97,14 +97,14 @@ export class ProjectWbsTasksHistoryComponent implements OnInit {
   }
 
   initHistoryRecords(): void {
-    const curTaskName = this.taskName || 'API Solubility, Stability, and Solid-State Characterization Specification';
-    const curTaskCode = this.taskCode || 'TC-01';
-    const curJobCode = this.jobCode || 'JOB01';
-    const curDueDate = this.dueDate || '2026-01-18';
-    const curCompletedDate = this.completedDate || (this.done ? '2026-01-18' : '');
+    const curTaskName = this.taskName || 'Verify Structural Load, Vibration, and Thermal Envelope Specifications';
+    const curTaskCode = this.taskCode || 'IND-101';
+    const curJobCode = this.jobCode || 'ENG01';
+    const curDueDate = this.dueDate || '2026-05-15';
+    const curCompletedDate = this.completedDate || (this.done ? '2026-05-14' : '');
     const curDone = this.done;
-    const curResp = this.responsibility || 'Dr. Sarah Connor';
-    const curDept = this.department || 'Pre-Formulation R&D';
+    const curResp = this.responsibility || 'Ananya Rao';
+    const curDept = this.department || 'Mechanical Design';
 
     // Revision history for the clicked task
     const selectedRevisions: TaskHistoryItem[] = [
@@ -119,36 +119,36 @@ export class ProjectWbsTasksHistoryComponent implements OnInit {
         responsibility: curResp,
         department: curDept,
         revision: 'Rev 3 (Current)',
-        remarks: 'Task verified and signed off by lead analytical scientist.',
-        changedDate: '2026-01-18'
+        remarks: 'Task verified and signed off by Lead Mechanical Engineer.',
+        changedDate: '2026-05-14'
       },
       {
         id: 2,
         taskName: curTaskName,
         taskCode: curTaskCode,
         jobCode: curJobCode,
-        dueDate: '2026-01-15',
+        dueDate: '2026-05-10',
         completedDate: '',
         done: false,
         responsibility: curResp,
         department: curDept,
         revision: 'Rev 2',
-        remarks: 'Preliminary proposal received; awaiting legal NDA confirmation.',
-        changedDate: '2026-01-12'
+        remarks: 'Updated FEA boundary conditions; awaiting OEM spindle stiffness input.',
+        changedDate: '2026-05-06'
       },
       {
         id: 3,
         taskName: curTaskName,
         taskCode: curTaskCode,
         jobCode: curJobCode,
-        dueDate: '2026-01-10',
+        dueDate: '2026-05-01',
         completedDate: '',
         done: false,
         responsibility: curResp,
         department: curDept,
         revision: 'Rev 1',
-        remarks: 'Initial task created and added to activity execution schedule.',
-        changedDate: '2026-01-05'
+        remarks: 'Initial engineering task created and assigned to WBS schedule.',
+        changedDate: '2026-04-24'
       }
     ];
 
@@ -156,94 +156,94 @@ export class ProjectWbsTasksHistoryComponent implements OnInit {
     const otherTasks: TaskHistoryItem[] = [
       {
         id: 4,
-        taskName: 'Finished Dosage Form Dissolution Profile and Release Criteria',
-        taskCode: 'TC-02',
-        jobCode: 'JOB02',
-        dueDate: '2026-01-20',
-        completedDate: '2026-01-20',
+        taskName: 'Validate Line Cycle-Time, Takt Balance, and OEE Baseline Criteria',
+        taskCode: 'IND-102',
+        jobCode: 'MFG03',
+        dueDate: '2026-05-20',
+        completedDate: '2026-05-19',
         done: true,
-        responsibility: 'Emily Watson',
-        department: 'Quality Control',
+        responsibility: 'Rajesh Kumar',
+        department: 'Manufacturing & Operations',
         revision: 'Rev 2',
-        remarks: 'Apparatus II paddle speed and dissolution profiles matching RLD curve.'
+        remarks: 'Bottleneck station cycle time reduced to 14.2 seconds.'
       },
       {
         id: 5,
-        taskName: 'Reference Product Characterization and Comparative Assessment Protocol',
-        taskCode: 'TC-03',
-        jobCode: 'JOB03',
-        dueDate: '2026-01-24',
-        completedDate: '2026-01-23',
+        taskName: 'Benchmark Existing Plant Equipment and Utility Capacity Gaps',
+        taskCode: 'IND-103',
+        jobCode: 'ENG02',
+        dueDate: '2026-06-01',
+        completedDate: '2026-05-30',
         done: true,
-        responsibility: 'Michael Scott',
-        department: 'Formulation Development',
+        responsibility: 'Anita Desai',
+        department: 'Engineering & R&D',
         revision: 'Rev 1',
-        remarks: 'Quantitative excipient deconstruction completed against innovator benchmark.'
+        remarks: 'Chilled water and compressed air header capacity audit completed.'
       },
       {
         id: 6,
-        taskName: 'Analytical Method Development for API, Impurities, and Degradation Products',
-        taskCode: 'TC-04',
-        jobCode: 'JOB04',
-        dueDate: '2026-01-28',
+        taskName: 'Develop PLC / SCADA Sequence Control and Fault Diagnostics Logic',
+        taskCode: 'IND-104',
+        jobCode: 'ELEC01',
+        dueDate: '2026-06-05',
         completedDate: '',
         done: false,
-        responsibility: 'Dr. Sarah Connor',
-        department: 'Analytical Development',
+        responsibility: 'Priya Reddy',
+        department: 'Automation & Controls',
         revision: 'Rev 1',
-        remarks: 'RP-HPLC method optimization ongoing for critical degradation pairs.'
+        remarks: 'OPC-UA telemetry tags mapped to plant SCADA historian.'
       },
       {
         id: 7,
-        taskName: 'API–Excipient Compatibility Study Protocol',
-        taskCode: 'TC-05',
-        jobCode: 'JOB05',
-        dueDate: '2026-02-02',
+        taskName: 'Execute Subassembly Material Compatibility and Wear Testing',
+        taskCode: 'IND-105',
+        jobCode: 'MECH01',
+        dueDate: '2026-06-10',
         completedDate: '',
         done: false,
-        responsibility: 'Robert Chen',
-        department: 'Formulation Development',
+        responsibility: 'Suresh Naidu',
+        department: 'Quality Control & Inspection',
         revision: 'Rev 1',
-        remarks: 'DSC and isothermal binary blend stability analysis ongoing.'
+        remarks: 'Hardened spindle bearing and seal endurance checks underway.'
       },
       {
         id: 8,
-        taskName: 'Formulation Prototype Batch Manufacturing and Documentation Protocol',
-        taskCode: 'TC-06',
-        jobCode: 'JOB06',
-        dueDate: '2026-02-05',
+        taskName: 'Prepare Factory Acceptance Test (FAT) Protocol and Checklists',
+        taskCode: 'IND-106',
+        jobCode: 'CQV01',
+        dueDate: '2026-06-15',
         completedDate: '',
         done: false,
-        responsibility: 'Robert Chen',
-        department: 'Formulation Development',
+        responsibility: 'Amit Patel',
+        department: 'Commissioning & Qualification',
         revision: 'Rev 1',
-        remarks: 'Prototype batch compounding and batch record documentation drafted.'
+        remarks: 'FAT test matrix drafted for QA and Plant Operations sign-off.'
       },
       {
         id: 9,
-        taskName: 'Accelerated and Long-Term Stability Study Protocol',
-        taskCode: 'TC-07',
-        jobCode: 'JOB07',
-        dueDate: '2026-02-10',
+        taskName: 'Complete Instrument Calibration and Metrology Traceability Plan',
+        taskCode: 'IND-107',
+        jobCode: 'CAL01',
+        dueDate: '2026-06-20',
         completedDate: '',
         done: false,
-        responsibility: 'David Kim',
-        department: 'QC Stability',
+        responsibility: 'Priya Reddy',
+        department: 'Quality Control & Inspection',
         revision: 'Rev 1',
-        remarks: 'Climatic chamber loading schedules and pull testing protocol established.'
+        remarks: 'NIST/NABL calibration certificates scheduled for all transducers.'
       },
       {
         id: 10,
-        taskName: 'Container Closure System Suitability and Compatibility Evaluation Report',
-        taskCode: 'TC-08',
-        jobCode: 'JOB08',
-        dueDate: '2026-02-15',
+        taskName: 'Conduct OEM Vendor Audit and Critical Spare-Parts SLA Review',
+        taskCode: 'IND-108',
+        jobCode: 'QA01',
+        dueDate: '2026-06-25',
         completedDate: '',
         done: false,
-        responsibility: 'David Kim',
-        department: 'Packaging Development',
+        responsibility: 'Rajesh Kumar',
+        department: 'Procurement & Supply Chain',
         revision: 'Rev 1',
-        remarks: 'Alu-Alu vs PVC/PVDC moisture transmission rate comparison underway.'
+        remarks: 'Supplier ISO 9001 audit and 24-hour SLA terms under review.'
       }
     ];
 

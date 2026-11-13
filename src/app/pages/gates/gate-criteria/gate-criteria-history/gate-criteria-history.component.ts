@@ -75,8 +75,8 @@ export class GateCriteriaHistoryComponent implements OnInit {
   }
 
   initHistoryRecords(): void {
-    const curSubject = this.subject || 'Therapeutic Area & Unmet Medical Need Assessment';
-    const curDesc = this.description || 'Epidemiological prevalence data, standard-of-care analysis, and addressable patient population verified and endorsed by medical affairs.';
+    const curSubject = this.subject || 'Plant Capacity & Operational Need Assessment';
+    const curDesc = this.description || 'Plant throughput gaps, OEE bottlenecks, takt-time targets, and capacity demand forecast verified by Manufacturing Operations.';
     const curPriority = this.priority !== undefined ? this.priority : 'High';
     const curMandatory = this.mandatory !== undefined ? this.mandatory : true;
     const count = this.historyCount || 3;
@@ -90,11 +90,11 @@ export class GateCriteriaHistoryComponent implements OnInit {
     ];
 
     const users = [
-      'Dr. Sarah Jenkins',
-      'Vikram Sharma',
-      'Elena Rostova',
+      'Ananya Rao',
       'Rajesh Kumar',
-      'Anita Desai'
+      'Anita Desai',
+      'Priya Reddy',
+      'Suresh Naidu'
     ];
 
     const descVariations = [
@@ -123,63 +123,63 @@ export class GateCriteriaHistoryComponent implements OnInit {
     const catalogCriteria: GateCriteriaHistoryRecord[] = [
       {
         id: 101,
-        subject: 'Target Product Profile (TPP) Baseline Sign-off',
-        description: 'Dosage form, strength, release mechanism, indication, route of administration, and packaging format documented in baseline TPP.',
-        guidelines: 'TPP_Specification.pdf',
+        subject: 'User Requirements Specification (URS) Baseline Sign-off',
+        description: 'Equipment envelope, rated throughput, cycle time, utility loads, and dimensional tolerances documented in baseline URS.',
+        guidelines: 'URS_Specification.pdf',
         priority: 'High',
         mandatory: true,
         changedDate: '2026-01-18 10:20',
-        changedBy: 'Dr. Sarah Jenkins'
+        changedBy: 'Ananya Rao'
       },
       {
         id: 102,
-        subject: 'Preliminary Business Case & Target Cost Model',
-        description: 'Target unit economics, bill of materials (BOM) cost roll-up, and return-on-investment (ROI) threshold validated by finance.',
-        guidelines: 'Target_Cost_Model.pdf',
+        subject: 'Preliminary Business Case & CapEx ROI Model',
+        description: 'Capital outlay budget, equipment depreciation, operating cost savings, and payback threshold validated by finance.',
+        guidelines: 'CapEx_ROI_Model.pdf',
         priority: 'High',
         mandatory: true,
         changedDate: '2026-01-10 14:15',
-        changedBy: 'Michael Chang'
+        changedBy: 'Rajesh Kumar'
       },
       {
         id: 103,
         subject: 'Patents & Freedom-to-Operate (FTO) Clearance',
-        description: 'Formal IP landscape search and freedom-to-operate legal opinion documented for API crystalline form and formulation composition.',
+        description: 'Formal IP landscape search and freedom-to-operate legal opinion documented for tooling, fixtures, and proprietary controls.',
         guidelines: 'FTO_Clearance.pdf',
         priority: 'High',
         mandatory: true,
         changedDate: '2025-12-14 16:00',
-        changedBy: 'Vikram Sharma'
+        changedBy: 'Anita Desai'
       },
       {
         id: 104,
-        subject: 'API Sourcing Feasibility & DMF Availability',
-        description: 'At least two qualified API synthetic routes identified with Drug Master File (DMF) availability and initial pricing feasibility.',
-        guidelines: 'API_Sourcing_Assessment.pdf',
+        subject: 'OEM & Tier-1 Vendor Qualification Feasibility',
+        description: 'At least two qualified OEM equipment and drive/controller vendors shortlisted with lead-time and service SLA verification.',
+        guidelines: 'Vendor_Qualification.pdf',
         priority: 'Medium',
         mandatory: false,
         changedDate: '2025-11-20 11:35',
-        changedBy: 'Elena Rostova'
+        changedBy: 'Priya Reddy'
       },
       {
         id: 105,
-        subject: 'Regulatory Filing Pathway & Exclusivity Strategy',
-        description: 'Target submission route (ANDA / 505(b)(2) / MAA) defined across target jurisdictions (US, EU, ROW) with bioequivalence expectations.',
-        guidelines: 'Regulatory_Roadmap.pdf',
+        subject: 'Safety, CE / ISO 13849 & Statutory Compliance Roadmap',
+        description: 'Applicable machinery directives (CE, UL 508A, BIS, ISO 12100) and environmental permit obligations mapped across plant sites.',
+        guidelines: 'Safety_Compliance_Roadmap.pdf',
         priority: 'High',
         mandatory: true,
         changedDate: '2025-11-08 09:50',
-        changedBy: 'Rajesh Kumar'
+        changedBy: 'Suresh Naidu'
       },
       {
         id: 106,
-        subject: 'Portfolio Steering Committee Concept Authorization',
-        description: 'Executive R&D committee formal charter sign-off approving progression into product definition and funding allocation.',
+        subject: 'Portfolio Steering Committee Gate 1 Authorization',
+        description: 'Executive capital committee charter sign-off approving progression into detailed engineering and vendor RFQs.',
         guidelines: 'Gate_Release_Signoff.pdf',
         priority: 'Medium',
         mandatory: false,
         changedDate: '2025-10-25 15:40',
-        changedBy: 'Anita Desai'
+        changedBy: 'Amit Patel'
       }
     ];
 

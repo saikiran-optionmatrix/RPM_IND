@@ -26,7 +26,7 @@
 
            <mat-checkbox  color="primary"
             style="margin-right: 8px;">
-           Full Kit
+           Materials Ready
           </mat-checkbox>
 
           <!-- (Contextual) Weekend Toggle: Shows only when Calendar View is active -->
@@ -82,8 +82,8 @@
                 </div>
 
                 <div class="app-filter-field">
-                  <label>Project Name:</label>
-                  <input class="app-filter-control" formControlName="ProjectName" placeholder="Search project">
+                  <label>Program Name:</label>
+                  <input class="app-filter-control" formControlName="ProjectName" placeholder="Search program">
                 </div>
 
                 <div class="app-filter-field">
@@ -189,7 +189,7 @@
                 <th class="text-center" style="width: 60px;">Active</th>
                 <th class="text-center" style="width: 60px;">Done</th>
                 <th class="text-center" style="width: 70px;">Timeline</th>
-                <th class="text-left">Project Code</th>
+                <th class="text-left">Program Code</th>
                 <th class="text-left">Activity</th>
                 <th class="text-left" style="min-width: 180px;">Delay Reason</th>
                 <th class="text-center">Stage</th>
@@ -206,7 +206,7 @@
               </tr>
             </thead>
             <tbody>
-              @for (item of allProjects; track item.ProjectCode) {
+              @for (item of allProjects; track $index) {
               <tr>
                 <!-- 1. Action -->
                 <td class="text-center">
@@ -259,7 +259,7 @@
 
                 <!-- Delay Reason -->
                 <td class="text-left font-weight-500" [style.color]="isDateExceeded(item) ? '#dc2626' : '#94a3b8'">
-                  {{ isDateExceeded(item) ? (item.delayReason || 'Vendor Dispatch Delay') : '-' }}
+                  {{ isDateExceeded(item) ? (item.delayReason || 'Long-Lead Component Procurement Delay') : '-' }}
                 </td>
 
                 <!-- 7. Stage -->

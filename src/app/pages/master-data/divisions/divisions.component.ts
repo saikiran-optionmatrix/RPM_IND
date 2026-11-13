@@ -39,23 +39,23 @@ export class DivisionsComponent {
 
   readonly divisions: Division[] = [
     {
-      name: 'Oral Solids',
-      code: 'OS',
+      name: 'Equipment Engineering',
+      code: 'CT',
       status: 'Active',
     },
     {
-      name: 'Injectables',
-      code: 'IJ',
+      name: 'Industrial Machinery',
+      code: 'MA',
       status: 'Active',
     },
     {
-      name: 'Complex Injectables',
-      code: 'CI',
+      name: 'Process Equipment',
+      code: 'GT',
       status: 'Active',
     },
     {
-      name: 'Biotech',
-      code: 'BT',
+      name: 'Production Systems',
+      code: 'VX',
       status: 'Active',
     },
   ];

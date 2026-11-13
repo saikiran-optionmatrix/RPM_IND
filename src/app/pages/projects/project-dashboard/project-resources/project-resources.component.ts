@@ -74,9 +74,9 @@ export class ProjectResourcesComponent implements OnInit {
   currentPage: number = 1;
   pageSize: number = 10;
   isTemplate: boolean = false;
-  projectName: string = 'Generic Tablet Development';
-  projectCode: string = '2026/GEN/001';
-  dynamicBreadcrumb: string = 'Generic Tablet Development - 2026/GEN/001';
+  projectName: string = 'Industrial Equipment Line Expansion';
+  projectCode: string = '2026/IND/001';
+  dynamicBreadcrumb: string = 'Industrial Equipment Line Expansion - 2026/IND/001';
 
   constructor(
     public dialog: MatDialog,
@@ -106,7 +106,7 @@ export class ProjectResourcesComponent implements OnInit {
         s.updatedDate = sampleDates[idx % sampleDates.length];
       }
       if (!s.updatedBy) {
-        s.updatedBy = s.resource || 'Dr. Sarah Jenkins';
+        s.updatedBy = s.resource || 'Ananya Rao';
       }
     });
     this.updatePagination();
@@ -114,70 +114,70 @@ export class ProjectResourcesComponent implements OnInit {
 
   initializeData(): void {
     this.availableResources = [
-      { code: 'RES001', name: 'Lyophilizer A', selected: false },
+      { code: 'RES001', name: 'CNC Machining Center A', selected: false },
       { code: 'RES002', name: 'Anita Desai', selected: false },
-      { code: 'RES003', name: 'Lyophilizer B', selected: false },
+      { code: 'RES003', name: 'CMM Metrology Bay B', selected: false },
       { code: 'RES004', name: 'Amit Patel', selected: false },
-      { code: 'RES005', name: 'Lyophilizer C', selected: false },
+      { code: 'RES005', name: 'Robotic Weld Cell C', selected: false },
       { code: 'RES006', name: 'Deepa Nair', selected: false },
       { code: 'RES007', name: 'Arun Joseph', selected: false },
       { code: 'RES008', name: 'Lakshmi Devi', selected: false }
     ];
 
     this.allocatedResources = [
-      { code: 'RES009', name: 'Vikram Singh', selected: false },
-      { code: 'RES010', name: 'Neha Sharma', selected: false },
-      { code: 'RES011', name: 'Rohit Mehta', selected: false },
-      { code: 'RES012', name: 'Kiran Rao', selected: false },
+      { code: 'RES009', name: 'Ananya Rao', selected: false },
+      { code: 'RES010', name: 'Rajesh Kumar', selected: false },
+      { code: 'RES011', name: 'Priya Reddy', selected: false },
+      { code: 'RES012', name: 'Suresh Naidu', selected: false },
       { code: 'RES013', name: 'Harish Babu', selected: false }
     ];
 
     this.schedules = [
       {
-        resource: 'Lyophilizer A', initials: 'LA', stage: 'Feasibility', module: 'API Assessment',
-        task: 'API Evaluation', fromDate: '2026-06-01', fromTime: '09:00 AM', toDate: '2026-06-05',
+        resource: 'CNC Machining Center A', initials: 'CA', stage: 'S1 - Feasibility', module: 'Plant Capacity Audit',
+        task: 'Bottleneck Cycle Evaluation', fromDate: '2026-06-01', fromTime: '09:00 AM', toDate: '2026-06-05',
         toTime: '05:00 PM', planDuration: '5 days', actualDuration: '5 days',
         status: 'Completed', dayPlacement: 'Monday', color: '#dcfce7'
       },
       {
-        resource: 'Anita Desai', initials: 'AD', stage: 'Formulation', module: 'Formulation Development',
-        task: 'Excipient Selection & Trial Batches', fromDate: '2026-06-08', fromTime: '09:00 AM', toDate: '2026-06-21',
+        resource: 'Anita Desai', initials: 'AD', stage: 'S4 - Detailed Engg', module: 'CAD & Structural Package',
+        task: '3D CAD Assembly & Stress FEA', fromDate: '2026-06-08', fromTime: '09:00 AM', toDate: '2026-06-21',
         toTime: '05:00 PM', planDuration: '14 days', actualDuration: '12 days',
         status: 'Completed', dayPlacement: 'Tuesday', color: '#dcfce7'
       },
       {
-        resource: 'Lyophilizer B', initials: 'LB', stage: 'Development', module: 'Process Development',
-        task: 'Granulation & Process Optimization', fromDate: '2026-06-22', fromTime: '09:00 AM', toDate: '2026-07-02',
+        resource: 'CMM Metrology Bay B', initials: 'CB', stage: 'S7 - Validation', module: 'Metrology & Calibration',
+        task: 'CMM Dimensional Tolerance Scan', fromDate: '2026-06-22', fromTime: '09:00 AM', toDate: '2026-07-02',
         toTime: '05:00 PM', planDuration: '10 days', actualDuration: '8 days',
         status: 'Active', dayPlacement: 'Wednesday', color: '#e0f2fe'
       },
       {
-        resource: 'Amit Patel', initials: 'AP', stage: 'Testing', module: 'Analytical Development',
-        task: 'Assay & Dissolution Testing', fromDate: '2026-07-03', fromTime: '09:00 AM', toDate: '2026-07-13',
+        resource: 'Amit Patel', initials: 'AP', stage: 'S4 - Detailed Engg', module: 'Automation & PLC',
+        task: 'SCADA Telemetry & Interlock Spec', fromDate: '2026-07-03', fromTime: '09:00 AM', toDate: '2026-07-13',
         toTime: '05:00 PM', planDuration: '10 days', actualDuration: 'N/A',
         status: 'Pending', dayPlacement: 'Thursday', color: '#ffedd5'
       },
       {
-        resource: 'Lyophilizer C', initials: 'LC', stage: 'Manufacturing', module: 'Compression & Coating',
-        task: 'Tablet Manufacturing Trial', fromDate: '2026-07-14', fromTime: '09:00 AM', toDate: '2026-07-25',
+        resource: 'Robotic Weld Cell C', initials: 'RC', stage: 'S6 - Equipment Build', module: 'Prototype Tooling',
+        task: 'Fixture Welding & Frame Assembly', fromDate: '2026-07-14', fromTime: '09:00 AM', toDate: '2026-07-25',
         toTime: '05:00 PM', planDuration: '12 days', actualDuration: 'N/A',
         status: 'Pending', dayPlacement: 'Friday', color: '#ffedd5'
       },
       {
-        resource: 'Deepa Nair', initials: 'DN', stage: 'Validation', module: 'Process Validation',
-        task: 'Validation Batch', fromDate: '2026-07-27', fromTime: '09:00 AM', toDate: '2026-08-10',
+        resource: 'Deepa Nair', initials: 'DN', stage: 'S7 - Validation', module: 'Factory Acceptance Test',
+        task: 'FAT Witness Protocol Execution', fromDate: '2026-07-27', fromTime: '09:00 AM', toDate: '2026-08-10',
         toTime: '05:00 PM', planDuration: '15 days', actualDuration: 'N/A',
         status: 'Pending', dayPlacement: 'Monday', color: '#ffedd5'
       },
       {
-        resource: 'Arun Joseph', initials: 'AJ', stage: 'Stability', module: 'Stability Study',
-        task: 'Stability Testing', fromDate: '2026-08-11', fromTime: '09:00 AM', toDate: '2026-09-10',
+        resource: 'Arun Joseph', initials: 'AJ', stage: 'S9 - Installation', module: 'Mechanical Rigging',
+        task: 'Laser Alignment & Utility Tie-In', fromDate: '2026-08-11', fromTime: '09:00 AM', toDate: '2026-09-10',
         toTime: '05:00 PM', planDuration: '30 days', actualDuration: 'N/A',
         status: 'Active', dayPlacement: 'Tuesday', color: '#e0f2fe'
       },
       {
-        resource: 'Lakshmi Devi', initials: 'LD', stage: 'Regulatory', module: 'Regulatory Submission',
-        task: 'Dossier Compilation', fromDate: '2026-09-11', fromTime: '09:00 AM', toDate: '2026-09-25',
+        resource: 'Lakshmi Devi', initials: 'LD', stage: 'S10 - Commissioning', module: 'SAT & OQ Handover',
+        task: 'Full-Load OEE Endurance Trial', fromDate: '2026-09-11', fromTime: '09:00 AM', toDate: '2026-09-25',
         toTime: '05:00 PM', planDuration: '15 days', actualDuration: 'N/A',
         status: 'Pending', dayPlacement: 'Wednesday', color: '#ffedd5'
       }

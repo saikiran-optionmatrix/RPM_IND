@@ -52,37 +52,32 @@ export class ItemCategoriesComponent {
   constructor(private dialog: MatDialog) {}
   readonly assets: Asset[] = [
     {
-      name: 'API & Raw Materials',
+      name: 'Structural & Alloy Raw Materials',
       code: 'CAT-001',
       status: 'Active',
     },
-
     {
-      name: 'Excipients',
+      name: 'Automation & Control Hardware',
       code: 'CAT-002',
       status: 'Active',
     },
-
     {
-      name: 'Analytical Materials',
+      name: 'Metrology & Calibration Standards',
       code: 'CAT-003',
       status: 'Active',
     },
-
     {
-      name: 'Packaging Materials',
+      name: 'Machine Guarding & Enclosures',
       code: 'CAT-004',
       status: 'Active',
     },
-
     {
-      name: 'Finished Products',
+      name: 'Finished Equipment Subassemblies',
       code: 'CAT-005',
       status: 'Active',
     },
-
     {
-      name: 'Laboratory Consumables',
+      name: 'Shop-Floor & Maintenance Consumables',
       code: 'CAT-006',
       status: 'Active',
     },

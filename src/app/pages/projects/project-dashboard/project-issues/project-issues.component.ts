@@ -92,74 +92,74 @@ export class ProjectIssuesComponent implements OnInit {
 
   isKanbanView: boolean = false;
 
-  projectName: string = 'Dapagliflozin Film-Coated Tablets';
-  projectCode: string = '2026/RD/001';
+  projectName: string = 'Industrial Equipment Line Expansion';
+  projectCode: string = '2026/IND/001';
   dynamicBreadcrumb: string = 'Issues';
 
   // Sample data for Project Issues
   originalTableList: IssueItem[] = [
     {
       id: 1,
-      task: 'Epidemiological and disease prevalence assessment',
-      subject: 'Target patient population prevalence discrepancy in EU5 markets',
-      issueDescription: 'Epidemiological registries indicate lower prevalence of targeted comorbidity in secondary EU markets.',
+      task: 'Plant Throughput & Bottleneck Assessment',
+      subject: 'Assembly line conveyor takt-time mismatch in Plant A Bay 2',
+      issueDescription: 'Existing upstream feeder conveyor delivers 95 units/hr against target 120 units/hr new line throughput.',
       createdDate: '2026-06-01',
       dueDate: '2026-06-15',
       targetDate: '2026-06-15',
       resolvedDate: null,
       resolved: false,
-      remarks: 'Cross-referencing with IQVIA MIDAS disease prevalence database and updated medical consensus guidelines.',
+      remarks: 'Evaluating variable frequency drive (VFD) upgrade and dual-lane buffer accumulator.',
       status: 'Process',
       image: 'assets/sample-image.jpg',
       document: 'assets/sample-1.pdf',
-      assignedTo: 'Dr. Sarah Jenkins',
-      responsibility: 'Dr. Sarah Jenkins'
+      assignedTo: 'Ananya Rao',
+      responsibility: 'Ananya Rao'
     },
     {
       id: 2,
-      task: 'Standard-of-care, unmet medical needs and competitive landscape analysis',
-      subject: 'Late-stage clinical trial readout of competing SGLT2 fixed-dose combination',
-      issueDescription: 'Phase III clinical data from competitor molecule demonstrates improved cardiovascular outcome end-points.',
+      task: '3D CAD Assembly & Structural Stress Analysis',
+      subject: 'Gantry structural resonance above 2400 RPM spindle speed',
+      issueDescription: 'Finite element modal simulation indicates natural harmonic excitation near 40 Hz under heavy roughing.',
       createdDate: '2026-06-05',
       dueDate: '2026-06-25',
       targetDate: '2026-06-25',
       resolvedDate: null,
       resolved: false,
-      remarks: 'Medical affairs evaluating differentiation in target product profile and label claims.',
+      remarks: 'Mechanical Design adding gusset stiffening plates and polymer-concrete base damping.',
       status: 'Pending',
       image: 'assets/sample-image.jpg',
       document: 'assets/sample-1.pdf',
-      assignedTo: 'Vikram Sharma',
-      responsibility: 'Vikram Sharma'
+      assignedTo: 'Anita Desai',
+      responsibility: 'Anita Desai'
     },
     {
       id: 3,
-      task: 'Target geographic markets, regulatory pathways and exclusivity horizon',
-      subject: 'Orange Book formulation patent expiry and paragraph IV litigation risk',
-      issueDescription: 'Secondary crystal form formulation patent exclusivity extends 18 months beyond primary substance patent expiration.',
+      task: 'CE / ISO 13849 Machine Safety Review',
+      subject: 'Safety light-curtain stopping distance margin on press cell',
+      issueDescription: 'Measured brake stopping time requires light curtain mounting offset increase by 140 mm to maintain PLd compliance.',
       createdDate: '2026-06-10',
       dueDate: '2026-07-05',
       targetDate: '2026-07-05',
       resolvedDate: null,
       resolved: false,
-      remarks: 'Legal counsel preparing Paragraph IV certification and non-infringement opinion.',
+      remarks: 'EHS and Controls team updating perimeter stanchion layout and dual safety relay spec.',
       status: 'Process',
       image: 'assets/sample-image.jpg',
       document: 'assets/sample-1.pdf',
-      assignedTo: 'Elena Rostova',
-      responsibility: 'Elena Rostova'
+      assignedTo: 'Priya Reddy',
+      responsibility: 'Priya Reddy'
     },
     {
       id: 4,
-      task: 'Market size, peak-sales potential and volume projections',
-      subject: 'Gross-to-net rebate margin compression in primary commercial channel',
-      issueDescription: 'Formulary tier placement demands additional mandatory rebate allowance impacting projected operating margin.',
+      task: 'Long-Lead Capital Equipment Procurement',
+      subject: '5-axis planetary gearbox OEM lead-time variance (4 weeks)',
+      issueDescription: 'Primary European gearhead supplier notified 28-day extended forging queue affecting Gate 3 build schedule.',
       createdDate: '2026-06-15',
       dueDate: '2026-07-12',
       targetDate: '2026-07-12',
       resolvedDate: null,
       resolved: false,
-      remarks: 'Commercial finance modeling volume tiers and tiered co-pay card assistance program.',
+      remarks: 'Procurement qualifying backup Japanese servo-drive vendor and splitting PO milestones.',
       status: 'Hold',
       image: 'assets/sample-image.jpg',
       document: 'assets/sample-1.pdf',
@@ -168,37 +168,37 @@ export class ProjectIssuesComponent implements OnInit {
     },
     {
       id: 5,
-      task: 'Preliminary development budget, target product cost and capital outlay',
-      subject: 'Pilot-scale fluid bed granulator tooling and qualification capex variance',
-      issueDescription: 'Custom top-spray fluid bed processing chamber quote exceeds preliminary formulation capital allocation by 6%.',
+      task: 'Utility, Footprint & Power Envelope Review',
+      subject: 'Substation 480V feeder & chilled water manifold pressure drop',
+      issueDescription: 'Peak hydraulic & spindle cooling load exceeds existing Bay 2 cooling loop capacity by 12 GPM.',
       createdDate: '2026-06-20',
       dueDate: '2026-07-20',
       targetDate: '2026-07-20',
       resolvedDate: null,
       resolved: false,
-      remarks: 'Procurement renegotiating with vendor for combined granulation and fluid-bed drying skid.',
+      remarks: 'Facilities engineering adding dedicated plate heat exchanger skid beside Bay 2.',
       status: 'Allocated',
       image: 'assets/sample-image.jpg',
       document: 'assets/sample-1.pdf',
-      assignedTo: 'Anita Desai',
-      responsibility: 'Anita Desai'
+      assignedTo: 'Suresh Naidu',
+      responsibility: 'Suresh Naidu'
     },
     {
       id: 6,
-      task: 'Portfolio fit, strategic alignment and risk screening',
-      subject: 'API synthetic impurity profile exceeding ICH Q3A qualification threshold',
-      issueDescription: 'New API synthetic route yields unknown degradation impurity at 0.18% exceeding 0.15% identification threshold.',
+      task: 'Instrument Calibration & Metrology Plan',
+      subject: 'CMM probe thermal drift beyond +/- 0.015 mm acceptance band',
+      issueDescription: 'Shop-floor ambient temperature swing during afternoon shifts causes dimensional measurement bias.',
       createdDate: '2026-06-25',
       dueDate: '2026-07-28',
       targetDate: '2026-07-28',
       resolvedDate: null,
       resolved: false,
-      remarks: 'ARD conducting LC-MS/MS structural elucidation and evaluating recrystallization purification steps.',
+      remarks: 'Installing enclosed HVAC metrology booth and real-time thermal compensation sensor.',
       status: 'Pending',
       image: 'assets/sample-image.jpg',
       document: 'assets/sample-1.pdf',
-      assignedTo: 'Michael Chang',
-      responsibility: 'Michael Chang'
+      assignedTo: 'Amit Patel',
+      responsibility: 'Amit Patel'
     }
   ];
 
@@ -246,16 +246,16 @@ export class ProjectIssuesComponent implements OnInit {
 
     const sampleDates = ['2026-02-15', '2026-02-12', '2026-02-10', '2026-02-05', '2026-01-30', '2026-01-28', '2026-01-25', '2026-01-20'];
     const sampleTaskNames = [
-      'Epidemiological and competitor drug benchmarking',
-      'Patient needs, posology, and route of administration research',
-      'Target regulatory markets (FDA/EMA/PMDA) and filing pathway shortlist',
-      'Volume and price-band projection',
-      'API/excipient BOM roll-up and capital outlay estimate',
-      'Therapeutic portfolio profitability and payback analysis',
-      'Novel formulation platform and stability risk screening',
-      'Scientific review board gate authorization',
-      'Target Product Profile (TPP) & CQA specification',
-      'Formulation & Critical Process Parameter cascade'
+      'Plant Throughput & Bottleneck Assessment',
+      'User Requirements Specification (URS) Definition',
+      '3D CAD Assembly & Structural Stress Analysis',
+      'PLC / SCADA Control & Safety Interlocks',
+      'Design FMEA & HAZOP Risk Closure',
+      'OEM Vendor Qualification & PO Release',
+      'Prototype Tooling & Endurance Validation',
+      'Factory Acceptance Test (FAT) Witness Run',
+      'Site Foundation & Utility Readiness',
+      'SAT Performance & OEE Endurance Run'
     ];
     this.originalTableList.forEach((item, idx) => {
       if (!item.task) {
@@ -271,7 +271,7 @@ export class ProjectIssuesComponent implements OnInit {
         item.updatedDate = sampleDates[idx % sampleDates.length];
       }
       if (!item.updatedBy) {
-        item.updatedBy = item.assignedTo || item.responsibility || 'Dr. Sarah Jenkins';
+        item.updatedBy = item.assignedTo || item.responsibility || 'Ananya Rao';
       }
     });
 
@@ -536,7 +536,7 @@ export class ProjectIssuesComponent implements OnInit {
 
   goBack(): void {
     this.router.navigate(['/projects/dashboard/analytics'], {
-      queryParams: { code: this.projectCode || "2026/RD/001", name: this.projectName || "Dapagliflozin Film-Coated Tablets" }
+      queryParams: { code: this.projectCode || '2026/IND/001', name: this.projectName || 'Industrial Equipment Line Expansion' }
     });
   }
 

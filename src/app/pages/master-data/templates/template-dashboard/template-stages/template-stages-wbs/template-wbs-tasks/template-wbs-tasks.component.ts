@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { WbsActivityItem } from '../template-stages-wbs.component';
 import { AddWbsTasksComponent } from '../../../../../../projects/project-dashboard/project-stages/project-wbs/project-wbs-tasks/add-wbs-tasks/add-wbs-tasks.component';
+import { INDUSTRIAL_DEFAULT_TASKS } from '../../../../../../stages/industrial-stages.data';
 
 export interface TaskItem {
   id?: string | number;
@@ -135,21 +136,20 @@ export class TemplateWbsTasksComponent implements OnInit {
       if (!isNaN(parsed) && parsed > 0) targetCount = parsed;
     }
 
-    const baseCatalog: Partial<TaskItem>[] = [
-      { taskName: 'API Solubility, Stability, and Solid-State Characterization Specification', taskCode: 'TC-01', jobCode: 'JOB01', dueDate: '2026-01-18', completedDate: '2026-01-18', responsibility: 'Dr. Sarah Connor', department: 'Pre-Formulation R&D', active: true, done: true },
-      { taskName: 'Finished Dosage Form Dissolution Profile and Release Criteria', taskCode: 'TC-02', jobCode: 'JOB02', dueDate: '2026-01-20', completedDate: '2026-01-20', responsibility: 'Emily Watson', department: 'Quality Control', active: true, done: true },
-      { taskName: 'Reference Product Characterization and Comparative Assessment Protocol', taskCode: 'TC-03', jobCode: 'JOB03', dueDate: '2026-01-24', completedDate: '2026-01-23', responsibility: 'Michael Scott', department: 'Formulation Development', active: true, done: true },
-      { taskName: 'Analytical Method Development for API, Impurities, and Degradation Products', taskCode: 'TC-04', jobCode: 'JOB04', dueDate: '2026-01-28', completedDate: '', responsibility: 'Dr. Sarah Connor', department: 'Analytical Development', active: true, done: false },
-      { taskName: 'API–Excipient Compatibility Study Protocol', taskCode: 'TC-05', jobCode: 'JOB05', dueDate: '2026-02-02', completedDate: '', responsibility: 'Robert Chen', department: 'Formulation Development', active: true, done: false },
-      { taskName: 'Formulation Prototype Batch Manufacturing and Documentation Protocol', taskCode: 'TC-06', jobCode: 'JOB06', dueDate: '2026-02-05', completedDate: '', responsibility: 'Robert Chen', department: 'Formulation Development', active: true, done: false },
-      { taskName: 'Accelerated and Long-Term Stability Study Protocol', taskCode: 'TC-07', jobCode: 'JOB07', dueDate: '2026-02-10', completedDate: '', responsibility: 'David Kim', department: 'QC Stability', active: true, done: false },
-      { taskName: 'Container Closure System Suitability and Compatibility Evaluation Report', taskCode: 'TC-08', jobCode: 'JOB08', dueDate: '2026-02-15', completedDate: '', responsibility: 'David Kim', department: 'Packaging Development', active: true, done: false },
-      { taskName: 'Preformulation Assessment and Biopharmaceutical Risk Screening', taskCode: 'TC-09', jobCode: 'JOB09', dueDate: '2026-02-20', completedDate: '', responsibility: 'Dr. Sarah Jenkins', department: 'Pre-Formulation R&D', active: true, done: false },
-      { taskName: 'Bioequivalence Study Design and Protocol Development', taskCode: 'TC-10', jobCode: 'JOB10', dueDate: '2026-02-25', completedDate: '', responsibility: 'Jessica Alba', department: 'Regulatory Affairs', active: true, done: false },
-      { taskName: 'Chromatographic Analytical Method Validation Protocol', taskCode: 'TC-11', jobCode: 'JOB11', dueDate: '2026-03-01', completedDate: '', responsibility: 'Dr. Sarah Connor', department: 'Analytical Development', active: true, done: false },
-      { taskName: 'Microbial Limits and Specified Microorganisms Method Validation Framework', taskCode: 'TC-12', jobCode: 'JOB12', dueDate: '2026-03-05', completedDate: '', responsibility: 'Dr. Sarah Connor', department: 'Microbiology QC', active: true, done: false },
-      { taskName: 'Raw Material and API Supplier Qualification, Audit, and Quality Agreement Review', taskCode: 'TC-13', jobCode: 'JOB13', dueDate: '2026-03-10', completedDate: '', responsibility: 'James Miller', department: 'Quality Assurance', active: true, done: false }
-    ];
+    const owners = ['Ananya Rao', 'Rajesh Kumar', 'Anita Desai', 'Priya Reddy', 'Suresh Naidu', 'Amit Patel'];
+    const baseCatalog: Partial<TaskItem>[] = INDUSTRIAL_DEFAULT_TASKS.map((t, idx) => ({
+      taskName: t.taskName,
+      taskCode: t.taskCode,
+      jobCode: t.jobCode,
+      dueDate: t.dueDate || `2026-01-${String(15 + (idx * 2) % 15).padStart(2, '0')}`,
+      completedDate: t.completedDate || (idx < 3 ? `2026-01-${String(14 + (idx * 2) % 15).padStart(2, '0')}` : ''),
+      responsibility: owners[idx % owners.length],
+      department: t.department,
+      role: t.role,
+      remarks: t.remarks,
+      active: t.active,
+      done: idx < 3
+    }));
 
     this.tasksList = Array.from({ length: targetCount }, (_, i) => {
       const template = baseCatalog[i % baseCatalog.length];
@@ -164,9 +164,9 @@ export class TemplateWbsTasksComponent implements OnInit {
         dueDate: template.dueDate || `2026-02-${String(10 + (i % 18)).padStart(2, '0')}`,
         completedDate: template.completedDate || (i < 3 ? `2026-02-${String(9 + (i % 18)).padStart(2, '0')}` : ''),
         responsibility: template.responsibility || (this.activity?.responsibility || 'Unassigned'),
-        department: template.department || (this.activity?.department || 'Management'),
-        role: template.role || 'Scientist',
-        remarks: template.remarks || 'Standard task',
+        department: template.department || (this.activity?.department || 'Engineering & R&D'),
+        role: template.role || 'Lead Engineer',
+        remarks: template.remarks || 'Standard engineering task',
         isEditing: false
       };
     });

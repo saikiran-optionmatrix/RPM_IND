@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { INDUSTRIAL_STAGE_DEPARTMENTS } from '../../../../../../stages/industrial-stages.data';
 
 @Component({
   selector: 'app-add-wbs-tasks',
@@ -23,30 +24,18 @@ export class AddWbsTasksComponent implements OnInit {
   isEditMode = false;
   isSubmitting = false;
 
-  departments: string[] = [
-    'Analytical',
-    'Formulation',
-    'Regulatory',
-    'Quality Assurance',
-    'Quality Control',
-    'Clinical',
-    'Production',
-    'Sourcing',
-    'Management',
-    'Packaging',
-    'Microbiology'
-  ];
+  departments: string[] = INDUSTRIAL_STAGE_DEPARTMENTS;
 
   sections: string[] = [
-    'Formulation Development',
-    'Analytical Development',
-    'Quality Control',
+    'Engineering & R&D',
+    'Mechanical Design',
+    'Automation & Controls',
+    'Manufacturing & Operations',
+    'Quality Control & Inspection',
     'Quality Assurance',
-    'Production',
-    'Regulatory Affairs',
-    'Clinical Research',
-    'Packaging Development',
-    'Microbiology'
+    'Procurement & Supply Chain',
+    'EHS & Compliance',
+    'Commissioning & Qualification'
   ];
 
   constructor(
@@ -64,9 +53,9 @@ export class AddWbsTasksComponent implements OnInit {
       dueDate: [new Date().toISOString().substring(0, 10)],
       completedDate: [''],
       responsibility: [''],
-      department: ['Management'],
-      section: ['Formulation Development'],
-      role: ['Scientist'],
+      department: ['Mechanical Design'],
+      section: ['Mechanical Design'],
+      role: ['Lead Mechanical Engineer'],
       remarks: [''],
     });
   }
@@ -85,9 +74,9 @@ export class AddWbsTasksComponent implements OnInit {
         dueDate: this.data.dueDate ?? new Date().toISOString().substring(0, 10),
         completedDate: this.data.completedDate ?? '',
         responsibility: this.data.responsibility ?? '',
-        department: this.data.department ?? 'Management',
-        section: this.data.section ?? 'Formulation Development',
-        role: this.data.role ?? 'Scientist',
+        department: this.data.department ?? 'Mechanical Design',
+        section: this.data.section ?? 'Mechanical Design',
+        role: this.data.role ?? 'Lead Mechanical Engineer',
         remarks: this.data.remarks ?? '',
       });
     }

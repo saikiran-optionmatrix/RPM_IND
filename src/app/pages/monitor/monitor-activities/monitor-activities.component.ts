@@ -153,17 +153,17 @@ getAllProjects(): void {
     const mockData = [
       {
         IsActive: true,
-        ProjectName: 'Dapagliflozin Film-Coated Tablets',
-        ProjectCode: '2026/RD/001',
-        Stage: 'Opportunity and Portfolio Assessment',
-        Module: 'Therapeutic area and market opportunity assessment',
+        ProjectName: 'Industrial Equipment Line Expansion',
+        ProjectCode: '2026/IND/001',
+        Stage: 'S1 - Business Need & Opportunity Assessment',
+        Module: 'Plant requirements and existing equipment analysis',
         PercentCompletion: 100,
-        TaskName: 'Standard-of-care, unmet medical needs and competitive landscape analysis',
+        TaskName: 'Plant capacity audit and existing line bottleneck benchmarking',
         TaskType: 'Planning',
-        Responsibility: 'Dr. Sarah Jenkins',
+        Responsibility: 'Ananya Rao',
         Duration: '10 days',
         Effort: '80',
-        Description: 'Analyze competing SGLT2 inhibitor therapies, efficacy endpoints and patient adherence patterns.',
+        Description: 'Evaluate plant throughput targets, line takt time, OEE losses, and existing CNC/conveyor capacity constraints.',
         PlanStart: '2026-01-05',
         PlanEnd: '2026-01-15',
         ActualStart: '2026-01-05',
@@ -172,21 +172,21 @@ getAllProjects(): void {
         Status: 'Completed',
         Priority: 'High',
         Complexity: 'Medium',
-        Template: 'Oral Solid Dosage (OSD) Template'
+        Template: 'Industrial Equipment Line Expansion Program'
       },
       {
         IsActive: true,
-        ProjectName: 'Dapagliflozin Film-Coated Tablets',
-        ProjectCode: '2026/RD/001',
-        Stage: 'Opportunity and Portfolio Assessment',
-        Module: 'Product concept, patent landscape and preliminary risk screening',
+        ProjectName: 'Industrial Equipment Line Expansion',
+        ProjectCode: '2026/IND/001',
+        Stage: 'S1 - Business Need & Opportunity Assessment',
+        Module: 'Project economics and execution risk screening',
         PercentCompletion: 75,
-        TaskName: 'Patent landscape, exclusivity dates and freedom-to-operate review',
-        TaskType: 'Regulatory',
+        TaskName: 'Patent freedom-to-operate clearance and CapEx ROI sensitivity check',
+        TaskType: 'Compliance',
         Responsibility: 'Rajesh Kumar',
         Duration: '12 days',
         Effort: '96',
-        Description: 'Review Orange Book listed formulation patents, crystal form exclusivities and Paragraph IV challenge feasibility.',
+        Description: 'Review proprietary tooling patents, controller licensing IP, and validate capital payback model.',
         PlanStart: '2026-01-16',
         PlanEnd: '2026-01-28',
         ActualStart: '2026-01-16',
@@ -195,22 +195,22 @@ getAllProjects(): void {
         Status: 'In Progress',
         Priority: 'Critical',
         Complexity: 'High',
-        Template: 'Oral Solid Dosage (OSD) Template',
-        delayReason: 'Innovator Polymorph Patent Filing Review'
+        Template: 'Industrial Equipment Line Expansion Program',
+        delayReason: 'Tier-1 OEM Structural Data Generation Delay'
       },
       {
         IsActive: true,
-        ProjectName: 'Dapagliflozin Film-Coated Tablets',
-        ProjectCode: '2026/RD/001',
-        Stage: 'Formulation and Product Concept Development',
-        Module: 'Pre-formulation and API-excipient compatibility',
+        ProjectName: 'Industrial Equipment Line Expansion',
+        ProjectCode: '2026/IND/001',
+        Stage: 'S3 - Concept Engineering & Solution Development',
+        Module: '3D CAD layout & control architecture',
         PercentCompletion: 40,
-        TaskName: 'Excipient compatibility screening and binary blend stability studies',
-        TaskType: 'R&D',
+        TaskName: 'Spindle drive thermal simulation and EtherCAT bus topology design',
+        TaskType: 'Engineering',
         Responsibility: 'Anita Desai',
         Duration: '15 days',
         Effort: '120',
-        Description: 'Conduct DSC, FTIR and isothermal binary blend stability studies for binder and disintegrant compatibility.',
+        Description: 'Complete cooling manifold CFD analysis, structural FEA load modeling, and PLC I/O architecture layout.',
         PlanStart: '2026-02-01',
         PlanEnd: '2026-02-15',
         ActualStart: '2026-02-01',
@@ -219,22 +219,22 @@ getAllProjects(): void {
         Status: 'In Progress',
         Priority: 'High',
         Complexity: 'Very High',
-        Template: 'Oral Solid Dosage (OSD) Template',
-        delayReason: 'Binary Blend HPLC Column Equilibration'
+        Template: 'Industrial Equipment Line Expansion Program',
+        delayReason: 'Cooling Manifold CFD Iteration & Drive Sizing Review'
       },
       {
         IsActive: true,
-        ProjectName: 'Levetiracetam Extended-Release Tablets',
-        ProjectCode: '2026/RD/002',
-        Stage: 'Product Definition and Project Charter',
-        Module: 'Target product profile and reference product characterization',
+        ProjectName: 'CNC Machining Process Optimization',
+        ProjectCode: '2026/IND/002',
+        Stage: 'S2 - Project Scope & Feasibility Validation',
+        Module: 'URS & critical-to-quality tolerance spec',
         PercentCompletion: 100,
-        TaskName: 'Reference listed drug (RLD) procurement, characterization and reverse engineering',
+        TaskName: 'Multi-axis spindle accuracy benchmarking and GD&T tolerance cascade',
         TaskType: 'Planning',
         Responsibility: 'Priya Reddy',
         Duration: '10 days',
         Effort: '60',
-        Description: 'Characterize multiple innovator tablet lots for extended-release polymer matrix dissolution and core hardness.',
+        Description: 'Benchmark ISO 230-2 positioning accuracy and define datum schemes across roughing and finishing cells.',
         PlanStart: '2026-01-10',
         PlanEnd: '2026-01-20',
         ActualStart: '2026-01-10',
@@ -243,21 +243,21 @@ getAllProjects(): void {
         Status: 'Completed',
         Priority: 'High',
         Complexity: 'Medium',
-        Template: 'Oral Solid Dosage (OSD) Template'
+        Template: 'CNC Machining Line Capacity Expansion'
       },
       {
         IsActive: true,
-        ProjectName: 'Levetiracetam Extended-Release Tablets',
-        ProjectCode: '2026/RD/002',
-        Stage: 'Product Definition and Project Charter',
-        Module: 'Regulatory pathway and intellectual property strategy',
+        ProjectName: 'CNC Machining Process Optimization',
+        ProjectCode: '2026/IND/002',
+        Stage: 'S2 - Project Scope & Feasibility Validation',
+        Module: 'Safety, CE / ISO & statutory compliance roadmap',
         PercentCompletion: 60,
-        TaskName: 'Target regulatory submission pathway, agency guidance and pharmacopoeial requirements',
-        TaskType: 'Regulatory',
+        TaskName: 'Machine guarding PLd risk assessment and CE / UL 508A panel audit',
+        TaskType: 'Compliance',
         Responsibility: 'Suresh Naidu',
         Duration: '8 days',
         Effort: '48',
-        Description: 'Compile FDA bioequivalence guidance, dissolution apparatus qualification, and USP monograph requirements.',
+        Description: 'Compile ISO 12100 machinery hazard matrix, E-stop stopping time envelope, and BIS safety permit checklist.',
         PlanStart: '2026-01-22',
         PlanEnd: '2026-01-30',
         ActualStart: '2026-01-22',
@@ -266,22 +266,22 @@ getAllProjects(): void {
         Status: 'In Progress',
         Priority: 'High',
         Complexity: 'High',
-        Template: 'Oral Solid Dosage (OSD) Template',
-        delayReason: 'FDA Controlled Correspondence Clarification'
+        Template: 'CNC Machining Line Capacity Expansion',
+        delayReason: 'TUV / Third-Party Safety Audit Slot Unavailable'
       },
       {
         IsActive: false,
-        ProjectName: 'Levetiracetam Extended-Release Tablets',
-        ProjectCode: '2026/RD/002',
-        Stage: 'Formulation and Product Concept Development',
-        Module: 'Prototype formulation and concept selection',
+        ProjectName: 'CNC Machining Process Optimization',
+        ProjectCode: '2026/IND/002',
+        Stage: 'S3 - Concept Engineering & Solution Development',
+        Module: 'Control architecture and automation allocation',
         PercentCompletion: 20,
-        TaskName: 'Prototype formulation design, preparation and in-vitro characterization',
-        TaskType: 'R&D',
+        TaskName: 'PLC / SCADA HMI screen architecture and alarm interlock definition',
+        TaskType: 'Engineering',
         Responsibility: 'Amit Patel',
         Duration: '14 days',
         Effort: '110',
-        Description: 'Formulate hydrophilic polymer matrix prototypes with variable hypromellose ratios for 24-hour release.',
+        Description: 'Define EtherNet/IP servo drive handshakes, fault recovery sequences, and MES telemetry tags.',
         PlanStart: '2026-02-05',
         PlanEnd: '2026-02-19',
         ActualStart: '',
@@ -290,21 +290,21 @@ getAllProjects(): void {
         Status: 'Pending',
         Priority: 'Critical',
         Complexity: 'Very High',
-        Template: 'Oral Solid Dosage (OSD) Template'
+        Template: 'CNC Machining Line Capacity Expansion'
       },
       {
         IsActive: true,
-        ProjectName: 'Pantoprazole Gastro-Resistant Tablets',
-        ProjectCode: '2026/RD/003',
-        Stage: 'Formulation and Product Concept Development',
-        Module: 'Prototype formulation and concept selection',
+        ProjectName: 'Automated Packaging Line Development',
+        ProjectCode: '2026/IND/003',
+        Stage: 'S3 - Concept Engineering & Solution Development',
+        Module: 'Workcell ergonomics and robotic reach simulation',
         PercentCompletion: 90,
-        TaskName: 'Prototype formulation design, preparation and in-vitro characterization',
-        TaskType: 'R&D',
-        Responsibility: 'Dr. Sarah Jenkins',
+        TaskName: 'Robotic palletizer reach envelope and conveyor buffer optimization',
+        TaskType: 'Engineering',
+        Responsibility: 'Ananya Rao',
         Duration: '12 days',
         Effort: '90',
-        Description: 'Optimize enteric polymer sub-coating and methacrylic acid copolymer enteric film barrier.',
+        Description: 'Optimize 6-axis case packer cycle rate, vacuum EOAT payload margin, and inline checkweigher layout.',
         PlanStart: '2026-01-15',
         PlanEnd: '2026-01-27',
         ActualStart: '2026-01-15',
@@ -313,21 +313,21 @@ getAllProjects(): void {
         Status: 'Completed',
         Priority: 'High',
         Complexity: 'High',
-        Template: 'Oral Solid Dosage (OSD) Template'
+        Template: 'Automated Production Line Upgrade Program'
       },
       {
         IsActive: true,
-        ProjectName: 'Ceftriaxone Powder for Injection',
-        ProjectCode: '2026/RD/004',
-        Stage: 'API, Excipient and Supplier Sourcing',
-        Module: 'API and key starting material sourcing',
+        ProjectName: 'High-Pressure Centrifugal Pump Assembly',
+        ProjectCode: '2026/IND/004',
+        Stage: 'S5 - Concept Selection & Design Freeze',
+        Module: 'Make-or-buy & Tier-1 component supplier qualification',
         PercentCompletion: 70,
-        TaskName: 'API vendor identification, qualification and audit',
+        TaskName: 'Mechanical seal OEM qualification and hydrostatic casting plant audit',
         TaskType: 'Sourcing',
-        Responsibility: 'Vikram Sharma',
+        Responsibility: 'Vikram Singh',
         Duration: '16 days',
         Effort: '128',
-        Description: 'Audit sterile API crystallization facility and verify cephem antibiotic sterility testing certifications.',
+        Description: 'Audit duplex stainless foundry vendor and verify API 610 hydrostatic casing pressure test certifications.',
         PlanStart: '2026-02-10',
         PlanEnd: '2026-02-26',
         ActualStart: '2026-02-10',
@@ -336,22 +336,22 @@ getAllProjects(): void {
         Status: 'In Progress',
         Priority: 'Critical',
         Complexity: 'High',
-        Template: 'Sterile Injectables Template',
-        delayReason: 'Sterile API Vendor On-site Audit Reschedule'
+        Template: 'Industrial Control System Development',
+        delayReason: 'Casting Foundry Non-Destructive (NDT) Audit Reschedule'
       },
       {
         IsActive: true,
-        ProjectName: 'Budesonide Inhalation Suspension',
-        ProjectCode: '2026/RD/005',
-        Stage: 'Facility, Equipment and Process Readiness',
-        Module: 'Manufacturing facility and utility readiness',
+        ProjectName: 'Oil-Free Rotary Screw Compressor System',
+        ProjectCode: '2026/IND/005',
+        Stage: 'S8 - Installation Planning & Site Installation Readiness',
+        Module: 'Plant utilities & foundation pad readiness',
         PercentCompletion: 50,
-        TaskName: 'Facility HVAC, cleanroom qualification and environmental monitoring',
+        TaskName: 'Vibration-isolated concrete pad, 480V busway & cooling loop readiness',
         TaskType: 'Engineering',
-        Responsibility: 'Michael Chang',
+        Responsibility: 'Deepa Nair',
         Duration: '15 days',
         Effort: '120',
-        Description: 'Qualify aseptic suspension homogenization cleanroom suite and automated isolator filling line.',
+        Description: 'Qualify compressed-air receiver skid location, acoustic enclosure ventilation, and PLC plant SCADA drop.',
         PlanStart: '2026-02-18',
         PlanEnd: '2026-03-05',
         ActualStart: '2026-02-18',
@@ -360,7 +360,78 @@ getAllProjects(): void {
         Status: 'In Progress',
         Priority: 'High',
         Complexity: 'High',
-        Template: 'Inhalation & Respiratory Template'
+        Template: 'Industrial Compressor Platform Development'
+      },
+      {
+        IsActive: true,
+        ProjectName: 'CNC Machining Line Capacity Expansion',
+        ProjectCode: '2026/IND/006',
+        Stage: 'S4 - Detailed Engineering & Design Optimization',
+        Module: 'Spindle Fixture & Tool Magazine Architecture',
+        PercentCompletion: 65,
+        TaskName: '120-pocket ATC tool magazine layout and pallet shuttle structural FEA',
+        TaskType: 'Engineering',
+        Responsibility: 'Ananya Rao',
+        Duration: '14 days',
+        Effort: '112',
+        Description: 'Verify dual-pallet FMS floor footprint, hydraulic clamping pressure, and coolant chip auger sizing.',
+        PlanStart: '2026-02-20',
+        PlanEnd: '2026-03-06',
+        ActualStart: '2026-02-20',
+        ActualEnd: '',
+        ETA: '2026-03-09',
+        Status: 'In Progress',
+        Priority: 'High',
+        Complexity: 'High',
+        Template: 'CNC Machining Line Capacity Expansion',
+        delayReason: 'Hydraulic Chuck Clamp Lead-Time Review'
+      },
+      {
+        IsActive: true,
+        ProjectName: 'Industrial Pump Assembly Line Upgrade',
+        ProjectCode: '2026/IND/007',
+        Stage: 'S6 - Process Engineering & Equipment Design',
+        Module: 'Hydrostatic Test Loop & Balancing Rig',
+        PercentCompletion: 35,
+        TaskName: 'Closed-loop impeller balancing & 1.5x pressure test stand engineering',
+        TaskType: 'Design',
+        Responsibility: 'Rajesh Kumar',
+        Duration: '18 days',
+        Effort: '144',
+        Description: 'Design quick-seal clamping fixture and calibrated pressure transducer manifold for API 610 loop.',
+        PlanStart: '2026-02-24',
+        PlanEnd: '2026-03-14',
+        ActualStart: '2026-02-25',
+        ActualEnd: '',
+        ETA: '2026-03-18',
+        Status: 'In Progress',
+        Priority: 'Critical',
+        Complexity: 'Very High',
+        Template: 'Commercial Production Line Transfer & Ramp-Up',
+        delayReason: 'Calibration Traceability Lab Slot Unavailable'
+      },
+      {
+        IsActive: true,
+        ProjectName: 'Factory Utilities & Material Handling Upgrade',
+        ProjectCode: '2026/IND/008',
+        Stage: 'S2 - Project Scope & Feasibility Validation',
+        Module: 'Plant Compressed Air & Chilled Water Balance',
+        PercentCompletion: 80,
+        TaskName: 'Compressed air ring-main pressure drop & chilled water loop flow audit',
+        TaskType: 'Engineering',
+        Responsibility: 'Anita Desai',
+        Duration: '12 days',
+        Effort: '96',
+        Description: 'Model peak shift air/chiller kW demand and size redundant N+1 variable-speed air receiver banks.',
+        PlanStart: '2026-02-12',
+        PlanEnd: '2026-02-24',
+        ActualStart: '2026-02-12',
+        ActualEnd: '',
+        ETA: '2026-02-27',
+        Status: 'In Progress',
+        Priority: 'Medium',
+        Complexity: 'Medium',
+        Template: 'Industrial Equipment & Plant Engineering'
       }
     ];
 
@@ -430,7 +501,31 @@ getAllProjects(): void {
       filtered = filtered.filter(p => p.Status !== 'Completed' && p.PercentCompletion !== 100 && !!p.PlanEnd && p.PlanEnd < today);
     }
 
-    // Add additional logic here to filter using this.filterForm.value
+    const { Keyword, ProjectName, Status, Priority, Complexity } = this.filterForm.value;
+    if (Keyword && Keyword.trim()) {
+      const kw = Keyword.trim().toLowerCase();
+      filtered = filtered.filter(p =>
+        (p.TaskName || '').toLowerCase().includes(kw) ||
+        (p.ProjectName || '').toLowerCase().includes(kw) ||
+        (p.ProjectCode || '').toLowerCase().includes(kw) ||
+        (p.Stage || '').toLowerCase().includes(kw) ||
+        (p.Module || '').toLowerCase().includes(kw) ||
+        (p.Responsibility || '').toLowerCase().includes(kw)
+      );
+    }
+    if (ProjectName && ProjectName.trim()) {
+      const pn = ProjectName.trim().toLowerCase();
+      filtered = filtered.filter(p => (p.ProjectName || '').toLowerCase().includes(pn));
+    }
+    if (Status && Status !== 'null') {
+      filtered = filtered.filter(p => p.Status === Status);
+    }
+    if (Priority && Priority !== 'null') {
+      filtered = filtered.filter(p => p.Priority === Priority);
+    }
+    if (Complexity && Complexity !== 'null') {
+      filtered = filtered.filter(p => p.Complexity === Complexity);
+    }
 
     this.totalSize = filtered.length;
     const start = this.currentPage * this.pageSize;

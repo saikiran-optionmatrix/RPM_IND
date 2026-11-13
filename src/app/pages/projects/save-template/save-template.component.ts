@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { industrialDivisions } from '../projects-data';
 
 @Component({
   selector: 'app-save-template',
@@ -14,12 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class SaveTemplateComponent implements OnInit {
 
 
-   readonly divisionsList = [
-    'Oral Solids - OS',
-    'Injectables - IJ',
-    'Complex Injectables - CI',
-    'Biotech - BT',
-  ];
+  readonly divisionsList = industrialDivisions;
   templateForm: FormGroup;
   isSubmitting = false;
 

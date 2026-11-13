@@ -33,11 +33,11 @@ export class TemplateNpvComponent implements OnInit {
     this.route.snapshot.queryParamMap.get('projectName') ||
     this.route.snapshot.queryParamMap.get('name') ||
     this.route.snapshot.queryParamMap.get('templateName') ||
-    'Generic Tablet Development';
+    'Industrial Equipment Line Expansion Program';
 
   // --- Properties ---
-  projectCode: string = '2026/GEN/001';
-  dynamicBreadcrumb: string = 'Generic Tablet Development - 2026/GEN/001';
+  projectCode: string = 'TPL/IND/001';
+  dynamicBreadcrumb: string = 'Industrial Equipment Line Expansion Program - TPL/IND/001';
 
   // Setup parameters
   discountRate: number = 12;
@@ -67,8 +67,8 @@ export class TemplateNpvComponent implements OnInit {
   // Expenditure Working Items
   expenditureItems: ExpenditureItem[] = [
     {
-      subject: 'COGS',
-      remarks: 'Estimated based on API & excipient baseline costing model',
+      subject: 'Production COGS & Operating Material',
+      remarks: 'Estimated based on raw steel, alloy castings, and shop consumables baseline costing',
       total: 3500000,
       year0: 2300000,
       year1: 1200000,
@@ -76,8 +76,8 @@ export class TemplateNpvComponent implements OnInit {
       year3: 0,
     },
     {
-      subject: 'ANFD',
-      remarks: 'Already purchased and validated in pilot facility',
+      subject: 'CNC Machining & Robotic Workcell CapEx',
+      remarks: 'Primary 5-axis spindle cell and multi-axis gantry transfer capital equipment',
       total: 13800000,
       year0: 12300000,
       year1: 1500000,
@@ -85,8 +85,8 @@ export class TemplateNpvComponent implements OnInit {
       year3: 0,
     },
     {
-      subject: 'Vacuum Pump',
-      remarks: 'Expected delivery and qualification by 30th Apr 2025',
+      subject: 'PLC / SCADA Control Cabinet & Vision Sensors',
+      remarks: 'UL 508A control panels, EtherCAT drives, and inline laser metrology hardware',
       total: 4500000,
       year0: 3000000,
       year1: 1500000,
@@ -94,8 +94,8 @@ export class TemplateNpvComponent implements OnInit {
       year3: 0,
     },
     {
-      subject: 'Droplet generation device',
-      remarks: 'CDA executed with IIT Madras research team',
+      subject: 'FAT / SAT Commissioning & OQ Qualification',
+      remarks: 'Third-party CE / ISO 13849 safety certification and site acceptance trials',
       total: 1000000,
       year0: 1000000,
       year1: 0,
@@ -103,8 +103,8 @@ export class TemplateNpvComponent implements OnInit {
       year3: 0,
     },
     {
-      subject: 'Materials and Manpower costing',
-      remarks: 'Manpower & analytical testing for developmental activities',
+      subject: 'Engineering Manpower & Metrology Testing',
+      remarks: 'CAD/FEA engineering, PLC software development, and CMM capability verification',
       total: 2500000,
       year0: 1500000,
       year1: 1000000,

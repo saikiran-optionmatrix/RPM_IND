@@ -24,11 +24,11 @@ export class GateWorkflowComponent implements OnInit {
   gateTitle: string = 'Gate Workflow';
 
   users: WorkflowUserItem[] = [
-    { id: 1, userName: 'Satya', review: true, approval: false, selected: true },
-    { id: 2, userName: 'Pavan Kalyan', review: true, approval: false, selected: true },
-    { id: 3, userName: 'Gaurav', review: false, approval: true, selected: true },
-    { id: 4, userName: 'Ayush', review: false, approval: false, selected: false },
-    { id: 5, userName: 'Santosh', review: false, approval: false, selected: false },
+    { id: 1, userName: 'Ananya Rao', review: true, approval: false, selected: true },
+    { id: 2, userName: 'Rajesh Kumar', review: true, approval: false, selected: true },
+    { id: 3, userName: 'Anita Desai', review: false, approval: true, selected: true },
+    { id: 4, userName: 'Priya Reddy', review: false, approval: false, selected: false },
+    { id: 5, userName: 'Suresh Naidu', review: false, approval: false, selected: false },
   ];
 
   constructor(

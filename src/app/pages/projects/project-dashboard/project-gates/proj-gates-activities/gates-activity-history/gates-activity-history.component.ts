@@ -109,10 +109,10 @@ export class GatesActivityHistoryComponent implements OnInit {
   }
 
   initHistoryRecords(): void {
-    const actName = this.activityName || 'Formal Freedom-to-Operate (FTO) Opinion';
-    const dept = this.department || 'Regulatory Affairs';
-    const resp = this.responsibility || 'Alex Rivera';
-    const dReason = this.delayReason || 'Raw Material Shortage';
+    const actName = this.activityName || 'User Requirements Specification (URS) Baseline';
+    const dept = this.department || 'Engineering & R&D';
+    const resp = this.responsibility || 'Ananya Rao';
+    const dReason = this.delayReason || 'Raw Material / Component Shortage';
     const prio = (this.priority as 'High' | 'Medium' | 'Low') || 'High';
     const tCount = this.tasks || '4/13';
     const rCount = this.requirements || '5/9';
@@ -120,7 +120,7 @@ export class GatesActivityHistoryComponent implements OnInit {
     const pEff = this.planEffort || '45 hrs';
     const aDur = this.actualDuration || '14 days';
     const aEff = this.actualEffort || '38 hrs';
-    const rem = this.remarks || 'Supplier raw material delivery bottleneck resolved with backup vendor';
+    const rem = this.remarks || 'OEM subassembly component delivery bottleneck resolved with secondary vendor';
 
     this.historyRecords = [
       {
@@ -143,7 +143,7 @@ export class GatesActivityHistoryComponent implements OnInit {
         actualStart: '2026-01-05',
         actualEnd: '',
         eta: '2026-01-23',
-        description: 'Schedule revised and extended due date to resolve vendor raw material dispatch bottleneck.',
+        description: 'Schedule revised and extended due date to resolve OEM component dispatch bottleneck.',
         updatedDate: '2026-01-20',
         updatedBy: resp
       },
@@ -153,7 +153,7 @@ export class GatesActivityHistoryComponent implements OnInit {
         activityName: actName,
         tasks: '3/13',
         requirements: '4/9',
-        delayReason: 'Regulatory Approval Pending',
+        delayReason: 'Safety / Statutory Inspection Pending',
         responsibility: resp,
         department: dept,
         planDuration: '15 days',
@@ -161,15 +161,15 @@ export class GatesActivityHistoryComponent implements OnInit {
         actualDuration: '10 days',
         actualEffort: '28 hrs',
         priority: 'High',
-        remarks: 'Clarifications and supplementary data submitted to regulatory body',
+        remarks: 'Machine guarding schematics and ISO 13849 safety calculations submitted',
         planStart: '2026-01-05',
         planEnd: '2026-01-20',
         actualStart: '2026-01-05',
         actualEnd: '',
         eta: '2026-01-20',
-        description: 'Extended review window for statutory regulatory approval clearance.',
+        description: 'Extended review window for statutory machine safety inspection clearance.',
         updatedDate: '2026-01-15',
-        updatedBy: 'Dr. Priya Nair'
+        updatedBy: 'Rajesh Kumar'
       },
       {
         id: 3,
@@ -177,23 +177,23 @@ export class GatesActivityHistoryComponent implements OnInit {
         activityName: actName,
         tasks: '2/13',
         requirements: '3/9',
-        delayReason: 'Vendor Dispatch Delay',
-        responsibility: 'David Miller',
-        department: 'Supply Chain',
+        delayReason: 'OEM Vendor Dispatch Delay',
+        responsibility: 'Anita Desai',
+        department: 'Procurement & Supply Chain',
         planDuration: '12 days',
         planEffort: '35 hrs',
         actualDuration: '7 days',
         actualEffort: '20 hrs',
         priority: 'Medium',
-        remarks: 'Expedited courier arrangements confirmed with primary manufacturer',
+        remarks: 'Expedited freight arrangements confirmed with primary equipment OEM',
         planStart: '2026-01-05',
         planEnd: '2026-01-17',
         actualStart: '2026-01-05',
         actualEnd: '',
         eta: '2026-01-17',
-        description: 'Vendor dispatch timeline recalibrated following production scheduling updates.',
+        description: 'Vendor dispatch timeline recalibrated following shop fabrication updates.',
         updatedDate: '2026-01-10',
-        updatedBy: 'David Miller'
+        updatedBy: 'Anita Desai'
       },
       {
         id: 4,
@@ -202,8 +202,8 @@ export class GatesActivityHistoryComponent implements OnInit {
         tasks: '1/13',
         requirements: '2/9',
         delayReason: '—',
-        responsibility: 'David Miller',
-        department: 'Supply Chain',
+        responsibility: 'Suresh Naidu',
+        department: 'Procurement & Supply Chain',
         planDuration: '10 days',
         planEffort: '30 hrs',
         actualDuration: '5 days',
@@ -217,7 +217,7 @@ export class GatesActivityHistoryComponent implements OnInit {
         eta: '2026-01-15',
         description: 'Initial baseline creation and target dates approved during kickoff review.',
         updatedDate: '2026-01-05',
-        updatedBy: 'Alex Rivera'
+        updatedBy: 'Ananya Rao'
       }
     ];
   }

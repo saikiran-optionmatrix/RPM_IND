@@ -58,37 +58,32 @@ export class AssetsComponent {
 
   readonly assets: Asset[] = [
     {
-      name: 'Tablet Compression Machine',
+      name: 'CNC Machining Centre',
       code: 'AST-1001',
       status: 'Active',
     },
-
     {
-      name: 'Dissolution Testing Apparatus',
+      name: 'Industrial Temperature & Environmental Test Chamber',
       code: 'AST-1002',
       status: 'Active',
     },
-
     {
-      name: 'HPLC System',
+      name: 'Vibration & Flow Measurement System',
       code: 'AST-1003',
       status: 'Active',
     },
-
     {
-      name: 'Tablet Hardness Tester',
+      name: 'Industrial Assembly & Inspection Workstation',
       code: 'AST-1004',
       status: 'Active',
     },
-
     {
-      name: 'Friability Tester',
+      name: 'Industrial Cold Storage Unit',
       code: 'AST-1005',
       status: 'Active',
     },
-
     {
-      name: 'Stability Chamber',
+      name: 'Electrical & Control Panel Test System',
       code: 'AST-1006',
       status: 'Active',
     },

@@ -36,11 +36,11 @@ interface MasterItem {
 export class GroupsComponent {
   constructor(private dialog: MatDialog) {}
   readonly items: MasterItem[] = [
-    { name: 'R&D Group', code: 'GRP-RND', status: 'Active' },
-    { name: 'Quality Group', code: 'GRP-QA', status: 'Active' },
-    { name: 'Production Group', code: 'GRP-PRD', status: 'Active' },
-    { name: 'Regulatory Group', code: 'GRP-RA', status: 'Active' },
-    { name: 'Analytical Group', code: 'GRP-ANA', status: 'Active' },
+    { name: 'Engineering Group', code: 'GRP-RND', status: 'Active' },
+    { name: 'Quality & Inspection Group', code: 'GRP-QA', status: 'Active' },
+    { name: 'Manufacturing Group', code: 'GRP-PRD', status: 'Active' },
+    { name: 'Compliance & Safety Group', code: 'GRP-RA', status: 'Active' },
+    { name: 'Automation & Controls Group', code: 'GRP-AUT', status: 'Active' },
     { name: 'Supply Chain Group', code: 'GRP-SCM', status: 'Active' },
   ];
 

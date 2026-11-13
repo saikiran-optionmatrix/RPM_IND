@@ -22,57 +22,57 @@ export class SchedulingAddtaskComponent implements OnInit {
   isSubmitting = false;
 
   projectList: ProjectOption[] = [
-    { code: '2026/GEN/001', name: 'Generic Tablet Development' },
-    { code: '2026/RD/001', name: 'Abiraterone Acetate Film Coated' },
-    { code: '2026/RD/002', name: 'Apremilast Tablets' },
-    { code: '2026/RD/003', name: 'Brivaracetam Film Coated Tablets' },
-    { code: '2026/RD/005', name: 'Metformin Hydrochloride Tablets' },
-    { code: '2026/RD/010', name: 'Olaparib Film Coated Tablets' },
+    { code: '2026/IND/001', name: 'Industrial Equipment Line Expansion' },
+    { code: '2026/IND/002', name: 'Automated Material Handling System' },
+    { code: '2026/IND/003', name: 'Robotics Assembly Cell Installation' },
+    { code: '2026/IND/004', name: 'Heavy Press Machine Overhaul' },
+    { code: '2026/IND/005', name: 'Smart Factory SCADA & PLC Upgrade' },
+    { code: '2026/IND/006', name: 'CNC Machining Line Capacity Expansion' },
   ];
 
   deliverableList: string[] = [
     'Feasibility',
-    'Pre-Formulation',
-    'Formulation',
-    'Development',
-    'Analytical',
-    'Testing',
-    'Validation',
-    'Regulatory'
+    'Concept Engg',
+    'Detailed Engg',
+    'Design Freeze',
+    'Fabrication',
+    'Installation',
+    'Commissioning',
+    'Handover'
   ];
 
   activityList: string[] = [
-    'Reference Product Characterization',
-    'API Solid State Testing',
-    'API Characterization',
-    'Excipient Screening',
-    'Prototype Formulation Trials',
-    'Granulation Optimization',
-    'Assay Method Development',
-    'Related Substances Method',
-    'Dissolution Profiling',
-    'Disintegration Testing',
-    'Process Validation Protocol Drafting',
-    'Hold-Time Study Protocol',
-    'Bioequivalence Protocol Review',
-    'Ethics Committee Submission Package'
+    'Plant Throughput & Bottleneck Study',
+    'User Requirements Specification (URS)',
+    '3D CAD Line Layout & Flow',
+    'Automation & PLC Architecture Design',
+    'Structural FEA & GD&T Stack-Up',
+    'Electrical Panel & SCADA Schematics',
+    'Design FMEA & HAZOP Review',
+    'OEM Supplier Qualification',
+    'Prototype Tooling & Endurance Trial',
+    'Factory Acceptance Test (FAT)',
+    'Foundation & Utility Readiness',
+    'Mechanical Rigging & Laser Alignment',
+    'Site Acceptance Test (SAT) Execution',
+    'CMMS Spares & Plant Handover'
   ];
 
   taskList: string[] = [
-    'Physicochemical characterization',
-    'Polymorphic Screening',
-    'Solubility Profiling',
-    'Compatibility Matrix',
-    'Direct Compression Trials',
-    'High-Shear Wet Granulation',
-    'HPLC Method Optimization',
-    'Degradation Products Identification',
-    'Comparative Dissolution Profiles',
-    'Fast-Disintegrating Evaluation',
-    'Critical Process Parameters (CPP)',
-    'Granule Hold-Time Evaluation',
-    'Clinical Study Design Verification',
-    'Informed Consent Formulation'
+    'Cycle-time benchmarking',
+    'Throughput & footprint envelope',
+    'Spindle & servo drive sizing',
+    'Finite element deflection check',
+    'Tolerance stack-up sign-off',
+    'Safety PLC interlock logic',
+    'RPN failure mode mitigation',
+    'OEM vendor bid evaluation',
+    'Dry-run endurance cycling',
+    'Witness FAT checklist approval',
+    '480V feeder & compressed air drop',
+    'Optical laser bed leveling',
+    'Cpk >= 1.33 capability run-off',
+    'LOTO SOP & PM tree setup'
   ];
 
   constructor(

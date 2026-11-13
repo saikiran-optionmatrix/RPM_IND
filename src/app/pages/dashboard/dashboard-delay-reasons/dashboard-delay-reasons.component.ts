@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { INDUSTRIAL_DIVISIONS, INDUSTRIAL_LOCATIONS } from '../industrial-dashboard.data';
 
 import * as Highcharts from 'highcharts';
 import HC_exporting from 'highcharts/modules/exporting';
@@ -52,25 +53,9 @@ export class DashboardDelayReasonsComponent implements OnInit, AfterViewInit, On
   selectedDivision: string = 'All';
   selectedLocation: string = 'All';
 
-  readonly divisionsList: string[] = [
-    'All',
-    'Oral Solids - OS',
-    'Injectables - IJ',
-    'Complex Injectables - CI',
-    'Biotech - BT',
-  ];
+  readonly divisionsList: string[] = INDUSTRIAL_DIVISIONS;
 
-  readonly locationsList: string[] = [
-    'All',
-    'Hyderabad',
-    'Mumbai',
-    'Bengaluru',
-    'Ahmedabad',
-    'Pune',
-    'Chennai',
-    'Delhi',
-    'Baddi',
-  ];
+  readonly locationsList: string[] = INDUSTRIAL_LOCATIONS;
 
   onApplyFilters(): void {
     setTimeout(() => {
@@ -80,69 +65,69 @@ export class DashboardDelayReasonsComponent implements OnInit, AfterViewInit, On
 
   private charts: Highcharts.Chart[] = [];
 
-  // Top Delay Reason for each of the 12 Stages (2,3)
+  // Top Delay Reason for each of the 12 Industrial Manufacturing Stages
   readonly topDelayReasonsByStage: StageDelayReason[] = [
-    { stageNumber: 1, stageCode: 'S1', stageName: 'Business Case', topReason: 'Market Feasibility Analysis Delay' },
-    { stageNumber: 2, stageCode: 'S2', stageName: 'Initiation', topReason: 'Charter Finalization Delay' },
-    { stageNumber: 3, stageCode: 'S3', stageName: 'Development Procurement', topReason: 'API & Raw Material Shortage' },
-    { stageNumber: 4, stageCode: 'S4', stageName: 'POC Formulation', topReason: 'Excipient Compatibility Anomaly' },
-    { stageNumber: 5, stageCode: 'S5', stageName: 'EB Procurement', topReason: 'Packaging Material Rejection' },
-    { stageNumber: 6, stageCode: 'S6', stageName: 'Pilot Bio Formulation', topReason: 'Pilot Batch Dissolution Variation' },
-    { stageNumber: 7, stageCode: 'S7', stageName: 'API Validation', topReason: 'Analytical Method Validation Pending' },
-    { stageNumber: 8, stageCode: 'S8', stageName: 'FP Validation', topReason: 'Finished Product Assay Failure' },
-    { stageNumber: 9, stageCode: 'S9', stageName: 'TTD Submission', topReason: 'Tech Transfer Dossier Review Pending' },
-    { stageNumber: 10, stageCode: 'S10', stageName: 'Exhibit Batches', topReason: 'Equipment Breakdown & Maintenance' },
-    { stageNumber: 11, stageCode: 'S11', stageName: 'Pivotal BE', topReason: 'CRO Patient Recruitment Delay' },
-    { stageNumber: 12, stageCode: 'S12', stageName: 'Dossier Filing', topReason: 'Regulatory Response Clearance Delay' },
+    { stageNumber: 1, stageCode: 'S1', stageName: 'Business Need & Opportunity Assessment', topReason: 'Business Case & Operational Feasibility Analysis Delay' },
+    { stageNumber: 2, stageCode: 'S2', stageName: 'Project Scope & Feasibility Validation', topReason: 'Charter Finalization & Scope Sign-Off Delay' },
+    { stageNumber: 3, stageCode: 'S3', stageName: 'Concept Engineering & Solution Development', topReason: 'Critical Equipment, Components & Raw Material Shortage' },
+    { stageNumber: 4, stageCode: 'S4', stageName: 'Detailed Engineering & Design Optimization', topReason: 'Equipment Output, Vibration or Process Stability Anomaly' },
+    { stageNumber: 5, stageCode: 'S5', stageName: 'Concept Selection & Design Freeze', topReason: 'Critical Component or Industrial Consumable Rejection' },
+    { stageNumber: 6, stageCode: 'S6', stageName: 'Process Engineering & Equipment Design', topReason: 'Pilot Run Throughput & Production Yield Variation' },
+    { stageNumber: 7, stageCode: 'S7', stageName: 'Prototype Fabrication & Engineering Validation', topReason: 'Equipment Performance & Instrument Calibration Validation Pending' },
+    { stageNumber: 8, stageCode: 'S8', stageName: 'Installation Planning & Site Installation Readiness', topReason: 'Site Readiness & Utility Hook-Up Delay' },
+    { stageNumber: 9, stageCode: 'S9', stageName: 'Equipment Installation & Integration', topReason: 'PLC / SCADA Control System Integration Review Pending' },
+    { stageNumber: 10, stageCode: 'S10', stageName: 'Commissioning & Performance Testing', topReason: 'Production Line / CNC / Utility Equipment Downtime' },
+    { stageNumber: 11, stageCode: 'S11', stageName: 'Operational Qualification & Production Ramp-Up', topReason: 'Third-Party Inspection & Testing Agency Scheduling Delay' },
+    { stageNumber: 12, stageCode: 'S12', stageName: 'Operational Handover & Project Closeout', topReason: 'Safety, Environmental or Statutory Compliance Query Response Delay' },
   ];
 
   // 1,1: Activities Delay Distribution Data (5 Stages + Others)
   readonly activitiesData = [
-    { name: 'S1: Business Case', y: 20, color: '#3b82f6' },
-    { name: 'S2: Initiation', y: 16, color: '#06b6d4' },
-    { name: 'S3: Development Procurement', y: 28, color: '#10b981' },
-    { name: 'S4: POC Formulation', y: 22, color: '#84cc16' },
-    { name: 'S5: EB Procurement', y: 18, color: '#f59e0b' },
+    { name: 'S1: Business Need & Opportunity', y: 20, color: '#3b82f6' },
+    { name: 'S2: Scope & Feasibility', y: 16, color: '#06b6d4' },
+    { name: 'S3: Concept Engineering', y: 28, color: '#10b981' },
+    { name: 'S4: Detailed Engineering', y: 22, color: '#84cc16' },
+    { name: 'S5: Concept & Design Freeze', y: 18, color: '#f59e0b' },
     { name: 'Others', y: 54, color: '#94a3b8' },
   ];
 
   // 1,2: Tasks Delay Distribution Data (5 Stages + Others)
   readonly tasksData = [
-    { name: 'S1: Business Case', y: 18, color: '#3b82f6' },
-    { name: 'S2: Initiation', y: 15, color: '#06b6d4' },
-    { name: 'S3: Development Procurement', y: 25, color: '#10b981' },
-    { name: 'S4: POC Formulation', y: 20, color: '#84cc16' },
-    { name: 'S5: EB Procurement', y: 22, color: '#f59e0b' },
+    { name: 'S1: Business Need & Opportunity', y: 18, color: '#3b82f6' },
+    { name: 'S2: Scope & Feasibility', y: 15, color: '#06b6d4' },
+    { name: 'S3: Concept Engineering', y: 25, color: '#10b981' },
+    { name: 'S4: Detailed Engineering', y: 20, color: '#84cc16' },
+    { name: 'S5: Concept & Design Freeze', y: 22, color: '#f59e0b' },
     { name: 'Others', y: 48, color: '#94a3b8' },
   ];
 
   // 1,3: Issues Delay Distribution Data (5 Stages + Others)
   readonly issuesData = [
-    { name: 'S1: Business Case', y: 12, color: '#3b82f6' },
-    { name: 'S2: Initiation', y: 14, color: '#06b6d4' },
-    { name: 'S3: Development Procurement', y: 22, color: '#10b981' },
-    { name: 'S4: POC Formulation', y: 30, color: '#84cc16' },
-    { name: 'S5: EB Procurement', y: 24, color: '#f59e0b' },
+    { name: 'S1: Business Need & Opportunity', y: 12, color: '#3b82f6' },
+    { name: 'S2: Scope & Feasibility', y: 14, color: '#06b6d4' },
+    { name: 'S3: Concept Engineering', y: 22, color: '#10b981' },
+    { name: 'S4: Detailed Engineering', y: 30, color: '#84cc16' },
+    { name: 'S5: Concept & Design Freeze', y: 24, color: '#f59e0b' },
     { name: 'Others', y: 56, color: '#94a3b8' },
   ];
 
   // 2,1: To-Do Delay Distribution Data (5 Stages + Others)
   readonly todoData = [
-    { name: 'S1: Business Case', y: 22, color: '#3b82f6' },
-    { name: 'S2: Initiation', y: 26, color: '#06b6d4' },
-    { name: 'S3: Development Procurement', y: 20, color: '#10b981' },
-    { name: 'S4: POC Formulation', y: 16, color: '#84cc16' },
-    { name: 'S5: EB Procurement', y: 24, color: '#f59e0b' },
+    { name: 'S1: Business Need & Opportunity', y: 22, color: '#3b82f6' },
+    { name: 'S2: Scope & Feasibility', y: 26, color: '#06b6d4' },
+    { name: 'S3: Concept Engineering', y: 20, color: '#10b981' },
+    { name: 'S4: Detailed Engineering', y: 16, color: '#84cc16' },
+    { name: 'S5: Concept & Design Freeze', y: 24, color: '#f59e0b' },
     { name: 'Others', y: 50, color: '#94a3b8' },
   ];
 
   // 2,2: Requirements Delay Distribution Data (5 Stages + Others)
   readonly requirementsData = [
-    { name: 'S1: Business Case', y: 24, color: '#3b82f6' },
-    { name: 'S2: Initiation', y: 28, color: '#06b6d4' },
-    { name: 'S3: Development Procurement', y: 18, color: '#10b981' },
-    { name: 'S4: POC Formulation', y: 19, color: '#84cc16' },
-    { name: 'S5: EB Procurement', y: 15, color: '#f59e0b' },
+    { name: 'S1: Business Need & Opportunity', y: 24, color: '#3b82f6' },
+    { name: 'S2: Scope & Feasibility', y: 28, color: '#06b6d4' },
+    { name: 'S3: Concept Engineering', y: 18, color: '#10b981' },
+    { name: 'S4: Detailed Engineering', y: 19, color: '#84cc16' },
+    { name: 'S5: Concept & Design Freeze', y: 15, color: '#f59e0b' },
     { name: 'Others', y: 62, color: '#94a3b8' },
   ];
 

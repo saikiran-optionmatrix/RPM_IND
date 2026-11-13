@@ -34,9 +34,9 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestro
 
   private chart: any;
 
-  projectName: string = 'Generic Tablet Development';
-  projectCode: string = '2026/GEN/001';
-  dynamicBreadcrumb: string = 'Generic Tablet Development - 2026/GEN/001';
+  projectName: string = 'Industrial Equipment Line Expansion';
+  projectCode: string = '2026/IND/001';
+  dynamicBreadcrumb: string = 'Industrial Equipment Line Expansion - 2026/IND/001';
 
   // Gate Badges
   gates = [
@@ -127,7 +127,7 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestro
           letterSpacing: '0.5px'
         }
       },
-      categories: ['STAGE 1', 'STAGE 2', 'STAGE 3', 'STAGE 4', 'STAGE 5']
+      categories: ['PHASE 1', 'PHASE 2', 'PHASE 3', 'PHASE 4', 'PHASE 5']
     },
     tooltip: {
       useHTML: true,
@@ -167,7 +167,13 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestro
             </div>
           `;
         } else {
-          const stageNames = ['Stage 1: Feasibility', 'Stage 2: Design', 'Stage 3: Prototyping', 'Stage 4: Testing', 'Stage 5: Launch'];
+          const stageNames = [
+            'Phase 1: Business Need & Scope Validation',
+            'Phase 2: Concept & Detailed Engineering',
+            'Phase 3: Procurement & Prototype Fabrication',
+            'Phase 4: Installation & Commissioning',
+            'Phase 5: OQ Ramp-Up & Handover'
+          ];
           const stageName = stageNames[point.y] || `Stage ${point.y + 1}`;
           const startDate = Highcharts.dateFormat('%b %d, %Y', point.start);
           const endDate = Highcharts.dateFormat('%b %d, %Y', point.end);
@@ -236,10 +242,10 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestro
             lineColor: 'transparent'
           },
           custom: {
-            gateName: 'Gate 1: Concept & Feasibility Approval',
+            gateName: 'Gate 1: Business Case Approval',
             gateStatus: 'Passed & Approved',
             gateDate: '15 Apr 2026',
-            gateDesc: 'Initial feasibility review, concept sign-off, and business case clearance approved.'
+            gateDesc: 'Initial scope validation, feasibility sign-off, and capital business case clearance approved.'
           }
         },
 
@@ -280,10 +286,10 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestro
             lineColor: 'transparent'
           },
           custom: {
-            gateName: 'Gate 3: Prototype & Safety Clearance',
+            gateName: 'Gate 3: Procurement & Build Readiness',
             gateStatus: 'Scheduled / Pending',
             gateDate: '20 Nov 2026',
-            gateDesc: 'Physical prototype testing, EHS safety compliance, and tooling validation.'
+            gateDesc: 'Prototype fabrication testing, structural safety compliance, and tooling validation.'
           }
         },
 
@@ -309,10 +315,10 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestro
             lineColor: 'transparent'
           },
           custom: {
-            gateName: 'Gate 4: Pre-Production Pilot Audit',
+            gateName: 'Gate 4: Commissioning & Performance Acceptance',
             gateStatus: 'Scheduled / Pending',
             gateDate: '25 Mar 2027',
-            gateDesc: 'Pilot line assembly run evaluation, quality yield audit, and ramp-up readiness.'
+            gateDesc: 'SAT commissioning acceptance, OEE performance run audit, and ramp-up readiness.'
           }
         },
 
@@ -338,10 +344,10 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestro
             lineColor: 'transparent'
           },
           custom: {
-            gateName: 'Gate 5: Mass Production Launch',
+            gateName: 'Gate 5: Operational Handover Approval',
             gateStatus: 'Scheduled / Pending',
             gateDate: '15 Jul 2027',
-            gateDesc: 'Final commercial launch clearance, line sign-off, and production handover.'
+            gateDesc: 'Final OQ validation clearance, plant sign-off, and operational handover.'
           }
         }
       ]
@@ -402,8 +408,8 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit, OnDestro
   goBack(): void {
     this.router.navigate(['/projects/dashboard/analytics'], {
       queryParams: {
-        code: this.projectCode || '2026/GEN/001',
-        name: this.projectName || 'Generic Tablet Development'
+        code: this.projectCode || '2026/IND/001',
+        name: this.projectName || 'Industrial Equipment Line Expansion'
       }
     });
   }

@@ -102,9 +102,9 @@ export class ProjectScheduleComponent implements OnInit {
   @ViewChild('allocationTasksDialog') allocationTasksDialog!: TemplateRef<any>;
   @ViewChild('allocationProjectsDialog') allocationProjectsDialog!: TemplateRef<any>;
 
-  projectName: string = 'Generic Tablet Development';
-  projectCode: string = '2026/GEN/001';
-  dynamicBreadcrumb: string = 'Generic Tablet Development - 2026/GEN/001';
+  projectName: string = 'Industrial Equipment Line Expansion';
+  projectCode: string = '2026/IND/001';
+  dynamicBreadcrumb: string = 'Industrial Equipment Line Expansion - 2026/IND/001';
 
   viewMode: 'grid' | 'gantt' | 'allocation' = 'gantt';
   isMaskingPending: boolean = false;
@@ -113,22 +113,22 @@ export class ProjectScheduleComponent implements OnInit {
   filterToggle: boolean = false;
   stages: string[] = [
     'Feasibility',
-    'Formulation',
-    'Development',
-    'Testing',
-    'Validation',
-    'Regulatory'
+    'Concept Engg',
+    'Detailed Engg',
+    'Fabrication',
+    'Installation',
+    'Commissioning'
   ];
   stageFilter: string = 'Feasibility';
   sprints: string[] = ['Sprint 1', 'Sprint 2', 'Sprint 3', 'Sprint 4', 'Sprint 5'];
   sprintFilter: string = 'all';
   modules: string[] = [
     'Feasibility',
-    'Formulation',
-    'Development',
-    'Testing',
-    'Validation',
-    'Regulatory'
+    'Concept Engg',
+    'Detailed Engg',
+    'Fabrication',
+    'Installation',
+    'Commissioning'
   ];
   moduleFilter: string = 'all';
 
@@ -157,10 +157,10 @@ export class ProjectScheduleComponent implements OnInit {
   allocationCurrentPage: number = 1;
 
   defaultAllocationProjects: string[] = [
-    '2026/GEN/001 - Generic Tablet Development',
-    '2026/RD/001 - Abiraterone Acetate Film Coated',
-    '2026/RD/002 - Apremilast Tablets',
-    '2026/RD/003 - Brivaracetam Film Coated Tablets'
+    '2026/IND/001 - Industrial Equipment Line Expansion',
+    '2026/IND/002 - Automated Material Handling System',
+    '2026/IND/003 - Robotics Assembly Cell Installation',
+    '2026/IND/004 - Heavy Press Machine Overhaul'
   ];
 
   allocationEntries: AllocationEntry[] = [
@@ -170,11 +170,11 @@ export class ProjectScheduleComponent implements OnInit {
       name: 'Rajesh Kumar',
       workHours: 8.0,
       projectsCount: 3,
-      projects: ['2026/GEN/001 - Generic Tablet Development', '2026/RD/001 - Abiraterone Acetate Film Coated', '2026/RD/002 - Apremilast Tablets'],
+      projects: ['2026/IND/001 - Industrial Equipment Line Expansion', '2026/IND/002 - Automated Material Handling System', '2026/IND/003 - Robotics Assembly Cell Installation'],
       tasks: '2/4',
       tasksList: [
-        { project: '2026/GEN/001 - Generic Tablet Development', module: 'Feasibility', task: 'Reference Product Characterization', hours: 4.5, description: 'Physicochemical characterization and comparative profiling' },
-        { project: '2026/RD/001 - Abiraterone Acetate Film Coated', module: 'Pre-Formulation', task: 'API Solid State Testing', hours: 3.5, description: 'Evaluation of solid-state properties and polymorphic form' }
+        { project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'Feasibility', task: 'Plant Throughput & Bottleneck Study', hours: 4.5, description: 'Assembly line takt-time and equipment cycle benchmarking' },
+        { project: '2026/IND/002 - Automated Material Handling System', module: 'Concept Engg', task: 'AGV Conveyor Routing Study', hours: 3.5, description: 'Bay transfer palletizer flow simulation' }
       ],
       approved: 8.0,
       declined: 0.0,
@@ -190,11 +190,11 @@ export class ProjectScheduleComponent implements OnInit {
       name: 'Anita Desai',
       workHours: 8.0,
       projectsCount: 2,
-      projects: ['2026/GEN/001 - Generic Tablet Development', '2026/RD/002 - Apremilast Tablets'],
+      projects: ['2026/IND/001 - Industrial Equipment Line Expansion', '2026/IND/003 - Robotics Assembly Cell Installation'],
       tasks: '2/3',
       tasksList: [
-        { project: '2026/GEN/001 - Generic Tablet Development', module: 'Formulation', task: 'API–Excipient Compatibility', hours: 4.5, description: 'Isothermal stress testing and binary blend studies' },
-        { project: '2026/RD/002 - Apremilast Tablets', module: 'Pre-Formulation', task: 'Excipient Screening', hours: 3.0, description: 'Functional screening of binders and disintegrants' }
+        { project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'Detailed Engg', task: '3D CAD Assembly & Structural FEA', hours: 4.5, description: 'Finite element stress modeling and frame deflection analysis' },
+        { project: '2026/IND/003 - Robotics Assembly Cell Installation', module: 'Concept Engg', task: 'Gantry Reachability Envelope Check', hours: 3.0, description: 'Workcell interference zone and weld jig kinematics' }
       ],
       approved: 7.5,
       declined: 0.0,
@@ -210,11 +210,11 @@ export class ProjectScheduleComponent implements OnInit {
       name: 'Priya Reddy',
       workHours: 8.0,
       projectsCount: 2,
-      projects: ['2026/GEN/001 - Generic Tablet Development', '2026/RD/003 - Brivaracetam Film Coated Tablets'],
+      projects: ['2026/IND/001 - Industrial Equipment Line Expansion', '2026/IND/005 - Smart Factory SCADA & PLC Upgrade'],
       tasks: '2/4',
       tasksList: [
-        { project: '2026/GEN/001 - Generic Tablet Development', module: 'Development', task: 'Comparative Dissolution Testing', hours: 5.0, description: 'Dissolution profile testing across pH buffers' },
-        { project: '2026/RD/003 - Brivaracetam Film Coated Tablets', module: 'Analytical Development', task: 'Method Robustness Study', hours: 3.5, description: 'Assay method robustness testing' }
+        { project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'Detailed Engg', task: 'PLC / SCADA Control Schematics', hours: 5.0, description: 'Safety interlock I/O list and EPLAN schematic checks' },
+        { project: '2026/IND/005 - Smart Factory SCADA & PLC Upgrade', module: 'Commissioning', task: 'OPC-UA Telemetry Loop Verification', hours: 3.5, description: 'Edge gateway MQTT/OPC tag latency testing' }
       ],
       approved: 5.0,
       declined: 0.0,
@@ -230,10 +230,10 @@ export class ProjectScheduleComponent implements OnInit {
       name: 'Suresh Naidu',
       workHours: 8.0,
       projectsCount: 1,
-      projects: ['2026/GEN/001 - Generic Tablet Development'],
+      projects: ['2026/IND/001 - Industrial Equipment Line Expansion'],
       tasks: '1/2',
       tasksList: [
-        { project: '2026/GEN/001 - Generic Tablet Development', module: 'Validation', task: 'Granulation Parameter Optimization', hours: 6.5, description: 'Binder addition rate and endpoint determination' }
+        { project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'Fabrication', task: 'OEM Vendor Tooling & Spindle Qualification', hours: 6.5, description: 'Spindle runout audit and critical spare-parts SLA sign-off' }
       ],
       approved: 0.0,
       declined: 0.0,
@@ -249,11 +249,11 @@ export class ProjectScheduleComponent implements OnInit {
       name: 'Rajesh Kumar',
       workHours: 8.0,
       projectsCount: 2,
-      projects: ['2026/GEN/001 - Generic Tablet Development', '2026/RD/001 - Abiraterone Acetate Film Coated'],
+      projects: ['2026/IND/001 - Industrial Equipment Line Expansion', '2026/IND/004 - Heavy Press Machine Overhaul'],
       tasks: '2/4',
       tasksList: [
-        { project: '2026/GEN/001 - Generic Tablet Development', module: 'Feasibility', task: 'Target Product Profile Formulation', hours: 4.0, description: 'TPP matrix parameter establishment' },
-        { project: '2026/RD/001 - Abiraterone Acetate Film Coated', module: 'Pre-Formulation', task: 'Solubility & Permeability Assay', hours: 4.0, description: 'BCS class determination assay' }
+        { project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'Feasibility', task: 'User Requirements Specification (URS)', hours: 4.0, description: 'URS acceptance criteria and target OEE envelope' },
+        { project: '2026/IND/004 - Heavy Press Machine Overhaul', module: 'Concept Engg', task: 'Hydraulic Power Unit Sizing', hours: 4.0, description: 'Peak tonnage and accumulator thermal duty study' }
       ],
       approved: 8.0,
       declined: 0.0,
@@ -269,11 +269,11 @@ export class ProjectScheduleComponent implements OnInit {
       name: 'Amit Patel',
       workHours: 8.0,
       projectsCount: 3,
-      projects: ['2026/GEN/001 - Generic Tablet Development', '2026/RD/003 - Brivaracetam Film Coated Tablets', '2026/RD/010 - Olaparib Film Coated Tablets'],
+      projects: ['2026/IND/001 - Industrial Equipment Line Expansion', '2026/IND/004 - Heavy Press Machine Overhaul', '2026/IND/006 - CNC Machining Line Capacity Expansion'],
       tasks: '2/3',
       tasksList: [
-        { project: '2026/GEN/001 - Generic Tablet Development', module: 'Development', task: 'Compression Trial Hardness Testing', hours: 4.5, description: 'Tablet compression parameter study' },
-        { project: '2026/RD/010 - Olaparib Film Coated Tablets', module: 'Development', task: 'Film Coating Uniformity Trial', hours: 3.5, description: 'Pan speed and spray rate calibration' }
+        { project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'Fabrication', task: 'Instrument Calibration & Metrology Plan', hours: 4.5, description: 'CMM and force transducer traceable calibration schedule' },
+        { project: '2026/IND/006 - CNC Machining Line Capacity Expansion', module: 'Fabrication', task: '5-Axis Spindle Runout Verification', hours: 3.5, description: 'Laser interferometer pitch and yaw accuracy check' }
       ],
       approved: 4.5,
       declined: 0.0,
@@ -286,14 +286,14 @@ export class ProjectScheduleComponent implements OnInit {
     {
       id: 7,
       dateObj: new Date(2026, 5, 5),
-      name: 'Diego Ruiz',
+      name: 'Ananya Rao',
       workHours: 8.0,
       projectsCount: 2,
-      projects: ['2026/GEN/001 - Generic Tablet Development', '2026/RD/001 - Abiraterone Acetate Film Coated'],
+      projects: ['2026/IND/001 - Industrial Equipment Line Expansion', '2026/IND/002 - Automated Material Handling System'],
       tasks: '2/4',
       tasksList: [
-        { project: '2026/GEN/001 - Generic Tablet Development', module: 'Regulatory', task: 'Regulatory Strategy Definition', hours: 5.0, description: 'FDA and EMA regulatory pathway review' },
-        { project: '2026/RD/001 - Abiraterone Acetate Film Coated', module: 'Regulatory', task: 'Module 3 Dossier Review', hours: 3.0, description: 'Quality overall summary review' }
+        { project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'Commissioning', task: 'CE / ISO 13849 Machine Safety Audit', hours: 5.0, description: 'PLd emergency-stop circuit and guarding validation' },
+        { project: '2026/IND/002 - Automated Material Handling System', module: 'Commissioning', task: 'Operations & TTD Handover Review', hours: 3.0, description: 'As-built drawing package and CMMS PM checklist' }
       ],
       approved: 8.0,
       declined: 0.0,
@@ -306,14 +306,14 @@ export class ProjectScheduleComponent implements OnInit {
     {
       id: 8,
       dateObj: new Date(2026, 5, 5),
-      name: 'Aarav Shah',
+      name: 'Arun Joseph',
       workHours: 8.0,
       projectsCount: 2,
-      projects: ['2026/GEN/001 - Generic Tablet Development', '2026/RD/002 - Apremilast Tablets'],
+      projects: ['2026/IND/001 - Industrial Equipment Line Expansion', '2026/IND/004 - Heavy Press Machine Overhaul'],
       tasks: '2/3',
       tasksList: [
-        { project: '2026/GEN/001 - Generic Tablet Development', module: 'Testing', task: 'Stability Testing Protocol Setup', hours: 4.0, description: 'Accelerated and real-time stability chamber allocation' },
-        { project: '2026/RD/002 - Apremilast Tablets', module: 'Testing', task: 'Photostability Testing Protocol', hours: 3.5, description: 'ICH Q1B light stress trial' }
+        { project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'Installation', task: 'Shop-Floor Foundation & Anchor Prep', hours: 4.0, description: 'Vibration isolation pad cure and anchor bolt layout' },
+        { project: '2026/IND/004 - Heavy Press Machine Overhaul', module: 'Installation', task: '480V Feeder & Chilled Water Tie-In', hours: 3.5, description: 'Substation breaker sizing and pipe pressure test' }
       ],
       approved: 7.5,
       declined: 0.0,
@@ -326,14 +326,14 @@ export class ProjectScheduleComponent implements OnInit {
     {
       id: 9,
       dateObj: new Date(2026, 5, 8),
-      name: 'Olivia Brown',
+      name: 'Deepa Nair',
       workHours: 8.0,
       projectsCount: 3,
-      projects: ['2026/GEN/001 - Generic Tablet Development', '2026/RD/001 - Abiraterone Acetate Film Coated', '2026/RD/002 - Apremilast Tablets'],
+      projects: ['2026/IND/001 - Industrial Equipment Line Expansion', '2026/IND/002 - Automated Material Handling System', '2026/IND/006 - CNC Machining Line Capacity Expansion'],
       tasks: '2/4',
       tasksList: [
-        { project: '2026/GEN/001 - Generic Tablet Development', module: 'Feasibility', task: 'Project Costing & Resource Planning', hours: 4.0, description: 'Project budget estimation and milestones' },
-        { project: '2026/RD/001 - Abiraterone Acetate Film Coated', module: 'Regulatory', task: 'External CRO Negotiation', hours: 4.0, description: 'Clinical study budget and contract finalizing' }
+        { project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'Feasibility', task: 'CapEx Costing & Resource Planning', hours: 4.0, description: 'Equipment CapEx ROI modeling and milestones' },
+        { project: '2026/IND/006 - CNC Machining Line Capacity Expansion', module: 'Commissioning', task: 'OEM FAT Witness Sign-Off', hours: 4.0, description: 'Factory acceptance dry-run and punch-list review' }
       ],
       approved: 8.0,
       declined: 0.0,
@@ -349,11 +349,11 @@ export class ProjectScheduleComponent implements OnInit {
       name: 'Anita Desai',
       workHours: 8.0,
       projectsCount: 2,
-      projects: ['2026/GEN/001 - Generic Tablet Development', '2026/RD/010 - Olaparib Film Coated Tablets'],
+      projects: ['2026/IND/001 - Industrial Equipment Line Expansion', '2026/IND/006 - CNC Machining Line Capacity Expansion'],
       tasks: '2/4',
       tasksList: [
-        { project: '2026/GEN/001 - Generic Tablet Development', module: 'Formulation', task: 'QbD Risk Assessment Matrix', hours: 5.5, description: 'Failure modes and effect analysis (FMEA)' },
-        { project: '2026/RD/010 - Olaparib Film Coated Tablets', module: 'Formulation', task: 'Prototype Trial Formulation', hours: 3.5, description: 'Initial small scale pilot blend' }
+        { project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'Detailed Engg', task: 'Design FMEA Risk Assessment Matrix', hours: 5.5, description: 'Structural and wear failure modes analysis (FMEA)' },
+        { project: '2026/IND/006 - CNC Machining Line Capacity Expansion', module: 'Detailed Engg', task: 'Workholding Fixture CAD Release', hours: 3.5, description: 'Hydraulic clamp fixture tolerance stack-up' }
       ],
       approved: 0.0,
       declined: 9.0,
@@ -369,11 +369,11 @@ export class ProjectScheduleComponent implements OnInit {
       name: 'Priya Reddy',
       workHours: 8.0,
       projectsCount: 2,
-      projects: ['2026/GEN/001 - Generic Tablet Development', '2026/RD/003 - Brivaracetam Film Coated Tablets'],
+      projects: ['2026/IND/001 - Industrial Equipment Line Expansion', '2026/IND/003 - Robotics Assembly Cell Installation'],
       tasks: '2/3',
       tasksList: [
-        { project: '2026/GEN/001 - Generic Tablet Development', module: 'Testing', task: 'Degradation Products Identification', hours: 4.5, description: 'Forced degradation study (acid, base, peroxide, heat)' },
-        { project: '2026/RD/003 - Brivaracetam Film Coated Tablets', module: 'Testing', task: 'Assay Method Validation Protocol', hours: 3.5, description: 'Linearity and precision verification' }
+        { project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'Fabrication', task: 'PLC Safety Interlock Bench Simulation', hours: 4.5, description: 'Dual-channel E-stop and light curtain fault trip tests' },
+        { project: '2026/IND/003 - Robotics Assembly Cell Installation', module: 'Fabrication', task: 'Vision Sensor Calibration Verification', hours: 3.5, description: '2D/3D camera pick-place accuracy repeatability' }
       ],
       approved: 4.5,
       declined: 0.0,
@@ -389,11 +389,11 @@ export class ProjectScheduleComponent implements OnInit {
       name: 'Suresh Naidu',
       workHours: 8.0,
       projectsCount: 2,
-      projects: ['2026/GEN/001 - Generic Tablet Development', '2026/RD/002 - Apremilast Tablets'],
+      projects: ['2026/IND/001 - Industrial Equipment Line Expansion', '2026/IND/005 - Smart Factory SCADA & PLC Upgrade'],
       tasks: '2/4',
       tasksList: [
-        { project: '2026/GEN/001 - Generic Tablet Development', module: 'Development', task: 'Pilot Scale Batch Manufacturing', hours: 5.0, description: 'Batch execution in GMP pilot plant' },
-        { project: '2026/RD/002 - Apremilast Tablets', module: 'Scale-Up', task: 'Equipment Train Compatibility', hours: 2.5, description: 'Capacity calculation for production blender' }
+        { project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'Fabrication', task: 'Prototype Tooling Fabrication Witness', hours: 5.0, description: 'Endurance testing at OEM fabrication bay' },
+        { project: '2026/IND/005 - Smart Factory SCADA & PLC Upgrade', module: 'Installation', task: 'Industrial Control Panel Inspection', hours: 2.5, description: 'UL508A panel thermal imaging and wire-ferrule check' }
       ],
       approved: 7.5,
       declined: 0.0,
@@ -409,11 +409,11 @@ export class ProjectScheduleComponent implements OnInit {
       name: 'Rajesh Kumar',
       workHours: 8.0,
       projectsCount: 2,
-      projects: ['2026/GEN/001 - Generic Tablet Development', '2026/RD/001 - Abiraterone Acetate Film Coated'],
+      projects: ['2026/IND/001 - Industrial Equipment Line Expansion', '2026/IND/002 - Automated Material Handling System'],
       tasks: '2/4',
       tasksList: [
-        { project: '2026/GEN/001 - Generic Tablet Development', module: 'Testing', task: 'Accelerated 1-Month Stability Pull', hours: 4.0, description: 'Physical and chemical testing at 40°C/75% RH' },
-        { project: '2026/RD/001 - Abiraterone Acetate Film Coated', module: 'Testing', task: 'Dissolution Profiling Stability Pull', hours: 4.0, description: 'Dissolution comparison against innovator' }
+        { project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'Installation', task: 'Heavy Rigging & Laser Bed Alignment', hours: 4.0, description: 'Sub-millimeter optical laser leveling on Plant A bay' },
+        { project: '2026/IND/002 - Automated Material Handling System', module: 'Installation', task: 'Conveyor Track Encoder Sync', hours: 4.0, description: 'Line speed synchronization across 6 transfer zones' }
       ],
       approved: 8.0,
       declined: 0.0,
@@ -429,11 +429,11 @@ export class ProjectScheduleComponent implements OnInit {
       name: 'Amit Patel',
       workHours: 8.0,
       projectsCount: 2,
-      projects: ['2026/GEN/001 - Generic Tablet Development', '2026/RD/010 - Olaparib Film Coated Tablets'],
+      projects: ['2026/IND/001 - Industrial Equipment Line Expansion', '2026/IND/006 - CNC Machining Line Capacity Expansion'],
       tasks: '2/3',
       tasksList: [
-        { project: '2026/GEN/001 - Generic Tablet Development', module: 'Validation', task: 'Process Validation Protocol Drafting', hours: 4.5, description: 'Critical process parameter (CPP) definition' },
-        { project: '2026/RD/010 - Olaparib Film Coated Tablets', module: 'Validation', task: 'Hold-Time Study Protocol', hours: 3.5, description: 'Granule and core tablet hold-time evaluation' }
+        { project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'Commissioning', task: 'SAT Cpk Capability & OEE Endurance Run', hours: 4.5, description: 'Validating 120 units/hr sustained multi-shift output' },
+        { project: '2026/IND/006 - CNC Machining Line Capacity Expansion', module: 'Commissioning', task: 'CMM First-Article Inspection Study', hours: 3.5, description: '30-piece capability run GD&T statistical report' }
       ],
       approved: 8.0,
       declined: 0.0,
@@ -446,14 +446,14 @@ export class ProjectScheduleComponent implements OnInit {
     {
       id: 15,
       dateObj: new Date(2026, 5, 25),
-      name: 'Diego Ruiz',
+      name: 'Lakshmi Devi',
       workHours: 8.0,
       projectsCount: 2,
-      projects: ['2026/GEN/001 - Generic Tablet Development', '2026/RD/001 - Abiraterone Acetate Film Coated'],
+      projects: ['2026/IND/001 - Industrial Equipment Line Expansion', '2026/IND/004 - Heavy Press Machine Overhaul'],
       tasks: '2/4',
       tasksList: [
-        { project: '2026/GEN/001 - Generic Tablet Development', module: 'Regulatory', task: 'Bioequivalence Study Protocol Review', hours: 4.5, description: 'Clinical study design and sample size verification' },
-        { project: '2026/RD/001 - Abiraterone Acetate Film Coated', module: 'Regulatory', task: 'Ethics Committee Submission Package', hours: 3.5, description: 'Informed consent and investigator brochure assembly' }
+        { project: '2026/IND/001 - Industrial Equipment Line Expansion', module: 'Commissioning', task: 'CMMS PM Schedule & Spares Handover', hours: 4.5, description: 'Plant maintenance asset tree & LOTO SOP certification' },
+        { project: '2026/IND/004 - Heavy Press Machine Overhaul', module: 'Commissioning', task: 'Final Operations TTD Package Sign-Off', hours: 3.5, description: 'As-built drawings and PLC golden backup archival' }
       ],
       approved: 0.0,
       declined: 0.0,
@@ -469,9 +469,9 @@ export class ProjectScheduleComponent implements OnInit {
   criticalPathTasks: ScheduleTask[] = [
     {
       id: 'CP-1',
-      name: 'Reference Product Characterization',
+      name: 'Plant Throughput & URS Scope Baseline',
       module: 'Feasibility',
-      assignee: 'Ana Vega',
+      assignee: 'Ananya Rao',
       planStart: new Date(2026, 5, 1),
       planEnd: new Date(2026, 5, 18),
       actualStartObj: new Date(2026, 5, 1),
@@ -483,86 +483,86 @@ export class ProjectScheduleComponent implements OnInit {
     },
     {
       id: 'CP-2',
-      name: 'API–Excipient Compatibility Study',
-      module: 'Formulation',
-      assignee: 'Mia Chen',
+      name: '3D CAD Line Layout & PLC Architecture',
+      module: 'Concept Engg',
+      assignee: 'Rajesh Kumar',
       planStart: new Date(2026, 5, 19),
       planEnd: new Date(2026, 6, 8),
       actualStartObj: new Date(2026, 5, 19),
       actualEndObj: new Date(2026, 6, 8),
       status: 'Completed',
       completion: 100,
-      stage: 'Formulation',
+      stage: 'Concept Engg',
       sprint: 'Sprint 2'
     },
     {
       id: 'CP-3',
-      name: 'Laboratory Prototype Batch',
-      module: 'Formulation',
-      assignee: 'Sara Iqbal',
+      name: 'Structural FEA, BOM & Control Schematics',
+      module: 'Detailed Engg',
+      assignee: 'Anita Desai',
       planStart: new Date(2026, 6, 9),
       planEnd: new Date(2026, 6, 30),
       actualStartObj: new Date(2026, 6, 9),
       actualEndObj: null,
       status: 'In Process',
       completion: 75,
-      stage: 'Formulation',
+      stage: 'Detailed Engg',
       sprint: 'Sprint 3'
     },
     {
       id: 'CP-4',
-      name: 'Analytical Method Development',
-      module: 'Development',
-      assignee: 'Sara Iqbal',
+      name: 'Long-Lead CNC & Prototype Tooling Build',
+      module: 'Fabrication',
+      assignee: 'Priya Reddy',
       planStart: new Date(2026, 6, 31),
       planEnd: new Date(2026, 7, 20),
       actualStartObj: new Date(2026, 6, 31),
       actualEndObj: null,
       status: 'In Process',
       completion: 40,
-      stage: 'Development',
+      stage: 'Fabrication',
       sprint: 'Sprint 4'
     },
     {
       id: 'CP-5',
-      name: 'Pilot Batch Scale-Up',
-      module: 'Testing',
-      assignee: 'Priya Nair',
+      name: 'OEM Factory Acceptance Test (FAT)',
+      module: 'Fabrication',
+      assignee: 'Suresh Naidu',
       planStart: new Date(2026, 7, 21),
       planEnd: new Date(2026, 8, 10),
       actualStartObj: null,
       actualEndObj: null,
       status: 'Pending',
       completion: 0,
-      stage: 'Testing',
+      stage: 'Fabrication',
       sprint: 'Sprint 4'
     },
     {
       id: 'CP-6',
-      name: 'Process Validation Batches',
-      module: 'Validation',
-      assignee: 'Olivia Brown',
+      name: 'Rigging, Laser Alignment & Utility Tie-In',
+      module: 'Installation',
+      assignee: 'Arun Joseph',
       planStart: new Date(2026, 8, 11),
       planEnd: new Date(2026, 9, 2),
       actualStartObj: null,
       actualEndObj: null,
       status: 'Pending',
       completion: 0,
-      stage: 'Validation',
+      stage: 'Installation',
       sprint: 'Sprint 5'
     },
     {
       id: 'CP-7',
-      name: 'Regulatory Dossier Preparation & Filing',
-      module: 'Regulatory',
-      assignee: 'Diego Ruiz',
+      name: 'SAT Performance Run, OQ & Plant Handover',
+      module: 'Commissioning',
+      assignee: 'Amit Patel',
       planStart: new Date(2026, 9, 3),
       planEnd: new Date(2026, 9, 28),
       actualStartObj: null,
       actualEndObj: null,
       status: 'Pending',
       completion: 0,
-      stage: 'Regulatory',
+      stage: 'Commissioning',
       sprint: 'Sprint 5'
     }
   ];
@@ -571,9 +571,9 @@ export class ProjectScheduleComponent implements OnInit {
     // Feasibility Stage
     {
       id: 'T1',
-      name: 'Reference Product Characterization',
+      name: 'Plant Throughput & Bottleneck Study',
       module: 'Feasibility',
-      assignee: 'Ana Vega',
+      assignee: 'Ananya Rao',
       planStart: new Date(2026, 5, 1),
       planEnd: new Date(2026, 5, 10),
       actualStartObj: new Date(2026, 5, 1),
@@ -585,9 +585,9 @@ export class ProjectScheduleComponent implements OnInit {
     },
     {
       id: 'T2',
-      name: 'Target Product Profile (TPP) Definition',
+      name: 'User Requirements Specification (URS)',
       module: 'Feasibility',
-      assignee: 'Ravi Shah',
+      assignee: 'Rajesh Kumar',
       planStart: new Date(2026, 5, 5),
       planEnd: new Date(2026, 5, 18),
       actualStartObj: new Date(2026, 5, 5),
@@ -599,9 +599,9 @@ export class ProjectScheduleComponent implements OnInit {
     },
     {
       id: 'T3',
-      name: 'API Source & Vendor Qualification',
+      name: 'OEM Equipment Vendor Pre-Qualification',
       module: 'Feasibility',
-      assignee: 'Mia Chen',
+      assignee: 'Suresh Naidu',
       planStart: new Date(2026, 5, 10),
       planEnd: new Date(2026, 5, 25),
       actualStartObj: new Date(2026, 5, 10),
@@ -613,9 +613,9 @@ export class ProjectScheduleComponent implements OnInit {
     },
     {
       id: 'T4',
-      name: 'Preformulation & Physicochemical Testing',
+      name: 'Power, Air & Utility Load Sizing',
       module: 'Feasibility',
-      assignee: 'Sara Iqbal',
+      assignee: 'Arun Joseph',
       planStart: new Date(2026, 5, 15),
       planEnd: new Date(2026, 6, 5),
       actualStartObj: new Date(2026, 5, 15),
@@ -627,9 +627,9 @@ export class ProjectScheduleComponent implements OnInit {
     },
     {
       id: 'T5',
-      name: 'Freedom-to-Operate (FTO) Patent Assessment',
+      name: 'CE / ISO 13849 Machine Safety Review',
       module: 'Feasibility',
-      assignee: 'Diego Ruiz',
+      assignee: 'Deepa Nair',
       planStart: new Date(2026, 5, 20),
       planEnd: new Date(2026, 6, 10),
       actualStartObj: new Date(2026, 5, 20),
@@ -641,9 +641,9 @@ export class ProjectScheduleComponent implements OnInit {
     },
     {
       id: 'T6',
-      name: 'Cost of Goods Sold (COGS) Feasibility Model',
+      name: 'CapEx ROI & Payback Financial Model',
       module: 'Feasibility',
-      assignee: 'Olivia Brown',
+      assignee: 'Lakshmi Devi',
       planStart: new Date(2026, 5, 25),
       planEnd: new Date(2026, 6, 15),
       actualStartObj: new Date(2026, 5, 25),
@@ -655,9 +655,9 @@ export class ProjectScheduleComponent implements OnInit {
     },
     {
       id: 'T7',
-      name: 'Regulatory Pathway & Risk Evaluation',
+      name: 'Integrated Program Charter Sign-Off',
       module: 'Feasibility',
-      assignee: 'Priya Nair',
+      assignee: 'Ananya Rao',
       planStart: new Date(2026, 6, 1),
       planEnd: new Date(2026, 6, 20),
       actualStartObj: null,
@@ -667,205 +667,205 @@ export class ProjectScheduleComponent implements OnInit {
       stage: 'Feasibility',
       sprint: 'Sprint 2'
     },
-    // Formulation Stage
+    // Concept Engg Stage
     {
       id: 'T8',
-      name: 'API Characterization',
-      module: 'Formulation',
-      assignee: 'Mia Chen',
+      name: 'Line Layout & Material Flow Concept',
+      module: 'Concept Engg',
+      assignee: 'Anita Desai',
       planStart: new Date(2026, 5, 10),
       planEnd: new Date(2026, 5, 24),
       actualStartObj: new Date(2026, 5, 10),
       actualEndObj: new Date(2026, 5, 23),
       status: 'Completed',
       completion: 100,
-      stage: 'Formulation',
+      stage: 'Concept Engg',
       sprint: 'Sprint 1'
     },
     {
       id: 'T9',
-      name: 'API–Excipient Compatibility Study',
-      module: 'Formulation',
-      assignee: 'Mia Chen',
+      name: 'Automation & PLC Architecture Design',
+      module: 'Concept Engg',
+      assignee: 'Priya Reddy',
       planStart: new Date(2026, 5, 18),
       planEnd: new Date(2026, 6, 2),
       actualStartObj: new Date(2026, 5, 18),
       actualEndObj: new Date(2026, 6, 2),
       status: 'Completed',
       completion: 100,
-      stage: 'Formulation',
+      stage: 'Concept Engg',
       sprint: 'Sprint 2'
     },
     {
       id: 'T10',
-      name: 'Excipient Screening',
-      module: 'Formulation',
-      assignee: 'Ana Vega',
+      name: 'Cycle-Time & OEE Simulation Modeling',
+      module: 'Concept Engg',
+      assignee: 'Rajesh Kumar',
       planStart: new Date(2026, 5, 25),
       planEnd: new Date(2026, 6, 10),
       actualStartObj: new Date(2026, 5, 25),
       actualEndObj: new Date(2026, 6, 10),
       status: 'Completed',
       completion: 100,
-      stage: 'Formulation',
+      stage: 'Concept Engg',
       sprint: 'Sprint 2'
     },
+    // Detailed Engg Stage
     {
       id: 'T11',
-      name: 'Prototype Formulation Design',
-      module: 'Formulation',
-      assignee: 'Ravi Shah',
+      name: '3D CAD Assembly & Structural FEA',
+      module: 'Detailed Engg',
+      assignee: 'Anita Desai',
       planStart: new Date(2026, 6, 1),
       planEnd: new Date(2026, 6, 18),
       actualStartObj: new Date(2026, 6, 1),
       actualEndObj: null,
       status: 'In Process',
       completion: 75,
-      stage: 'Formulation',
+      stage: 'Detailed Engg',
       sprint: 'Sprint 2'
     },
     {
       id: 'T12',
-      name: 'Laboratory Prototype Batch',
-      module: 'Formulation',
-      assignee: 'Sara Iqbal',
+      name: 'GD&T Tolerance Stack-Up & BOM Release',
+      module: 'Detailed Engg',
+      assignee: 'Amit Patel',
       planStart: new Date(2026, 6, 10),
       planEnd: new Date(2026, 6, 28),
       actualStartObj: new Date(2026, 6, 10),
       actualEndObj: null,
       status: 'In Process',
       completion: 50,
-      stage: 'Formulation',
+      stage: 'Detailed Engg',
       sprint: 'Sprint 3'
     },
     {
       id: 'T13',
-      name: 'Dissolution Testing',
-      module: 'Formulation',
-      assignee: 'Ana Vega',
+      name: 'Electrical Panel Wiring & E-Stop Logic',
+      module: 'Detailed Engg',
+      assignee: 'Priya Reddy',
       planStart: new Date(2026, 6, 18),
       planEnd: new Date(2026, 7, 5),
       actualStartObj: new Date(2026, 6, 18),
       actualEndObj: null,
       status: 'Overdue',
       completion: 30,
-      stage: 'Formulation',
+      stage: 'Detailed Engg',
       sprint: 'Sprint 3'
     },
     {
       id: 'T14',
-      name: 'Formulation Optimization',
-      module: 'Formulation',
-      assignee: 'Mei Tanaka',
+      name: 'Design FMEA & HAZOP Risk Closure',
+      module: 'Detailed Engg',
+      assignee: 'Deepa Nair',
       planStart: new Date(2026, 6, 25),
       planEnd: new Date(2026, 7, 12),
       actualStartObj: null,
       actualEndObj: null,
       status: 'Pending',
       completion: 0,
-      stage: 'Formulation',
+      stage: 'Detailed Engg',
       sprint: 'Sprint 3'
     },
-    // Development Stage
+    // Fabrication Stage
     {
       id: 'T15',
-      name: 'Analytical Method Development',
-      module: 'Development',
-      assignee: 'Sara Iqbal',
+      name: 'Prototype Tooling & Fixture Fabrication',
+      module: 'Fabrication',
+      assignee: 'Suresh Naidu',
       planStart: new Date(2026, 7, 1),
       planEnd: new Date(2026, 7, 20),
       actualStartObj: null,
       actualEndObj: null,
       status: 'Pending',
       completion: 0,
-      stage: 'Development',
+      stage: 'Fabrication',
       sprint: 'Sprint 4'
     },
     {
       id: 'T16',
-      name: 'Stability Studies Initiation',
-      module: 'Development',
-      assignee: 'Diego Ruiz',
+      name: 'Factory Acceptance Test (FAT) Execution',
+      module: 'Fabrication',
+      assignee: 'Amit Patel',
       planStart: new Date(2026, 7, 12),
       planEnd: new Date(2026, 7, 30),
       actualStartObj: null,
       actualEndObj: null,
       status: 'Pending',
       completion: 0,
-      stage: 'Development',
+      stage: 'Fabrication',
       sprint: 'Sprint 4'
     },
-    // Testing Stage
+    // Installation Stage
     {
       id: 'T17',
-      name: 'Pilot Batch Scale-Up',
-      module: 'Testing',
-      assignee: 'Priya Nair',
+      name: 'Shop-Floor Foundation & Rigging Prep',
+      module: 'Installation',
+      assignee: 'Arun Joseph',
       planStart: new Date(2026, 7, 22),
       planEnd: new Date(2026, 8, 12),
       actualStartObj: null,
       actualEndObj: null,
       status: 'Pending',
       completion: 0,
-      stage: 'Testing',
+      stage: 'Installation',
       sprint: 'Sprint 4'
     },
     {
       id: 'T18',
-      name: 'Bioequivalence (BE) Study Readiness',
-      module: 'Testing',
-      assignee: 'Olivia Brown',
+      name: 'Laser Alignment & SCADA Integration',
+      module: 'Installation',
+      assignee: 'Priya Reddy',
       planStart: new Date(2026, 8, 1),
       planEnd: new Date(2026, 8, 22),
       actualStartObj: null,
       actualEndObj: null,
       status: 'Pending',
       completion: 0,
-      stage: 'Testing',
+      stage: 'Installation',
       sprint: 'Sprint 5'
     },
-    // Validation Stage
+    // Commissioning Stage
     {
       id: 'T19',
-      name: 'Process Validation Batches',
-      module: 'Validation',
-      assignee: 'Olivia Brown',
+      name: 'IQ & Site Acceptance Test (SAT) Run',
+      module: 'Commissioning',
+      assignee: 'Amit Patel',
       planStart: new Date(2026, 8, 15),
       planEnd: new Date(2026, 9, 2),
       actualStartObj: null,
       actualEndObj: null,
       status: 'Pending',
       completion: 0,
-      stage: 'Validation',
+      stage: 'Commissioning',
       sprint: 'Sprint 5'
     },
     {
       id: 'T20',
-      name: 'Commercial Site Tech Transfer',
-      module: 'Validation',
-      assignee: 'Diego Ruiz',
+      name: 'OQ 3-Shift OEE Endurance Qualification',
+      module: 'Commissioning',
+      assignee: 'Rajesh Kumar',
       planStart: new Date(2026, 8, 25),
       planEnd: new Date(2026, 9, 15),
       actualStartObj: null,
       actualEndObj: null,
       status: 'Pending',
       completion: 0,
-      stage: 'Validation',
+      stage: 'Commissioning',
       sprint: 'Sprint 5'
     },
-    // Regulatory Stage
     {
       id: 'T21',
-      name: 'Regulatory Dossier Preparation & Filing',
-      module: 'Regulatory',
-      assignee: 'Olivia Brown',
+      name: 'CMMS Spares, LOTO SOP & Plant Handover',
+      module: 'Commissioning',
+      assignee: 'Ananya Rao',
       planStart: new Date(2026, 9, 5),
       planEnd: new Date(2026, 9, 28),
       actualStartObj: null,
       actualEndObj: null,
       status: 'Pending',
       completion: 0,
-      stage: 'Regulatory',
+      stage: 'Commissioning',
       sprint: 'Sprint 5'
     }
   ];

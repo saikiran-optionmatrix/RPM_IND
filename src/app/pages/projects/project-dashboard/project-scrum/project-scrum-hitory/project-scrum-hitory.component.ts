@@ -90,13 +90,13 @@ export class ProjectScrumHitoryComponent implements OnInit {
   }
 
   initHistoryRecords(): void {
-    const act = this.taskName || 'API Dissolution profile & solubility assay';
-    const actCode = this.taskCode || 'TSK-01';
-    const jCode = this.jobCode || 'JB-101';
+    const act = this.taskName || '3D CAD Assembly & Structural FEA Simulation';
+    const actCode = this.taskCode || 'IND-103';
+    const jCode = this.jobCode || 'CAD-22';
     const eff = this.effort || 35;
     const dur = this.duration || 12;
-    const stg = this.stage || 'Development';
-    const desc = this.description || 'Final method optimization and automated sampling validation across multi-media pH levels.';
+    const stg = this.stage || 'Detailed Engg';
+    const desc = this.description || 'Final finite element load stress verification and GD&T tolerance stack-up sign-off.';
 
     this.historyRecords = [
       {
@@ -117,7 +117,7 @@ export class ProjectScrumHitoryComponent implements OnInit {
         actualDuration: '10 days',
         actualEffort: '30 hrs',
         updatedDate: '2026-01-20',
-        updatedBy: 'Alex Rivera'
+        updatedBy: 'Ananya Rao'
       },
       {
         id: 2,
@@ -127,7 +127,7 @@ export class ProjectScrumHitoryComponent implements OnInit {
         effort: Math.max(10, eff - 5),
         duration: Math.max(5, dur - 2),
         stage: stg,
-        description: 'Adjusted buffer and sink condition parameters based on preliminary trial results.',
+        description: 'Adjusted structural gusset rib thickness following preliminary vibration modal simulation.',
         planStart: '2026-01-10',
         planEnd: '2026-01-20',
         actualStart: '2026-01-10',
@@ -137,7 +137,7 @@ export class ProjectScrumHitoryComponent implements OnInit {
         actualDuration: '8 days',
         actualEffort: '24 hrs',
         updatedDate: '2026-01-16',
-        updatedBy: 'Michael Chang'
+        updatedBy: 'Rajesh Kumar'
       },
       {
         id: 3,
@@ -147,7 +147,7 @@ export class ProjectScrumHitoryComponent implements OnInit {
         effort: Math.max(8, eff - 10),
         duration: Math.max(4, dur - 4),
         stage: stg,
-        description: 'Extended run duration following initial HPLC column qualification testing.',
+        description: 'Extended run duration following CMM coordinate alignment tolerance check.',
         planStart: '2026-01-10',
         planEnd: '2026-01-18',
         actualStart: '2026-01-10',
@@ -157,7 +157,7 @@ export class ProjectScrumHitoryComponent implements OnInit {
         actualDuration: '5 days',
         actualEffort: '18 hrs',
         updatedDate: '2026-01-12',
-        updatedBy: 'Dr. Sarah Jenkins'
+        updatedBy: 'Anita Desai'
       },
       {
         id: 4,
@@ -167,7 +167,7 @@ export class ProjectScrumHitoryComponent implements OnInit {
         effort: Math.max(5, eff - 15),
         duration: Math.max(3, dur - 6),
         stage: stg,
-        description: 'Initial baseline backlog creation for dissolution assay workflow.',
+        description: 'Initial baseline backlog creation for CAD structural engineering workflow.',
         planStart: '2026-01-10',
         planEnd: '2026-01-16',
         actualStart: '2026-01-10',
@@ -177,7 +177,7 @@ export class ProjectScrumHitoryComponent implements OnInit {
         actualDuration: '6 days',
         actualEffort: '20 hrs',
         updatedDate: '2026-01-10',
-        updatedBy: 'Dr. Sarah Jenkins'
+        updatedBy: 'Anita Desai'
       }
     ];
   }

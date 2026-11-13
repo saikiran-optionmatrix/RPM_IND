@@ -86,9 +86,9 @@ export class ProjectNotesHistoryComponent implements OnInit {
   initHistoryNotes(): void {
     const curDate = this.date || '06/05/2026';
     const curPoster = this.postedBy || 'Rajesh Kumar';
-    const curDesc = this.description || 'API evaluation completed; supplier qualification is under review with 2 qualified DMF sources.';
-    const curDoc = this.document || 'API Specification.pdf';
-    const curTag = this.tags || 'API Assessment';
+    const curDesc = this.description || 'Line throughput benchmark completed; URS target of 120 units/hr approved across two primary CNC bays.';
+    const curDoc = this.document || 'URS Baseline Specification.pdf';
+    const curTag = this.tags || 'URS & Feasibility';
 
     // Build revision chain for the selected note
     const selectedRevisions: NoteHistoryItem[] = [
@@ -100,27 +100,27 @@ export class ProjectNotesHistoryComponent implements OnInit {
         document: curDoc,
         tags: curTag,
         version: 'Rev 3 (Current)',
-        remarks: 'Finalized audit findings and CoA qualification details.'
+        remarks: 'Finalized URS capacity envelope and utility sizing baseline.'
       },
       {
         id: 2,
         date: '06/02/2026',
         postedBy: curPoster,
-        message: 'Initial CoA and impurity profile reviewed; requested DMF open part from candidate supplier.',
-        document: 'CoA Initial Evaluation.pdf',
+        message: 'Initial bay cycle-time study reviewed; requested spindle power duty curves from shortlisted OEMs.',
+        document: 'Capacity Audit Initial Readout.pdf',
         tags: curTag,
         version: 'Rev 2',
-        remarks: 'Sample lots tested with preliminary chromatographic assay.'
+        remarks: 'Line bottleneck mapped across Stations 2 through 5.'
       },
       {
         id: 3,
         date: '05/28/2026',
         postedBy: curPoster,
-        message: 'API supplier inquiry initiated following feasibility formulation specifications sign-off.',
-        document: 'API Inquiry Form.pdf',
+        message: 'OEM equipment inquiry dispatched following Stage 1 capital business case approval.',
+        document: 'OEM RFQ Package.pdf',
         tags: curTag,
         version: 'Rev 1',
-        remarks: 'Initial vendor questionnaire dispatched.'
+        remarks: 'Initial technical questionnaire sent to 4 machinery suppliers.'
       }
     ];
 
@@ -130,91 +130,91 @@ export class ProjectNotesHistoryComponent implements OnInit {
         id: 4,
         date: '06/12/2026',
         postedBy: 'Anita Desai',
-        message: 'Formulation trial completed with selected excipients; dissolution similarity f2 > 65 observed against RLD.',
-        document: 'Formulation Development Report.pdf',
-        tags: 'Formulation',
+        message: 'Gantry structural FEA completed with 2.4x safety factor and gusset stiffeners added for spindle harmonic damping.',
+        document: 'Structural FEA Analysis Report.pdf',
+        tags: 'CAD & Mechanical',
         version: 'Rev 2',
-        remarks: 'Direct compression blend formula optimized.'
+        remarks: 'Base polymer-concrete damping parameters locked.'
       },
       {
         id: 5,
         date: '06/20/2026',
-        postedBy: 'Amit Patel',
-        message: 'Analytical testing initiated for assay and degradation impurity HPLC method development.',
-        document: 'Analytical Method Report.pdf',
-        tags: 'Analytical',
+        postedBy: 'Priya Reddy',
+        message: 'PLC safety circuit EPLAN schematics updated; dual-channel E-stop and light curtain PLd validation verified.',
+        document: 'PLC Safety Interlock Spec.pdf',
+        tags: 'Controls & PLC',
         version: 'Rev 1',
-        remarks: 'Method validation protocol submitted for QA review.'
+        remarks: 'Safety relay validation protocol submitted for QA review.'
       },
       {
         id: 6,
         date: '06/28/2026',
-        postedBy: 'Neha Sharma',
-        message: 'Tablet compression trial completed for the pilot development batch with uniform hardness and < 0.5% friability.',
-        document: 'Manufacturing Process Record.pdf',
-        tags: 'Manufacturing',
+        postedBy: 'Suresh Naidu',
+        message: 'Prototype fixture endurance cycling completed across 5,000 clamp cycles with zero dimensional repeatability drift.',
+        document: 'Prototype Tooling Trial Log.pdf',
+        tags: 'Fabrication & FAT',
         version: 'Rev 2',
-        remarks: 'Compression machine speed mapped between 30 and 45 rpm.'
+        remarks: 'Hydraulic clamping repeatability held within +/- 0.01 mm.'
       },
       {
         id: 7,
         date: '07/04/2026',
-        postedBy: 'Vikram Malhotra',
-        message: 'Initiated 3-month accelerated stability testing (40°C/75% RH) and controlled photostability stress testing.',
-        document: 'Stability Protocol.pdf',
-        tags: 'Stability',
+        postedBy: 'Arun Joseph',
+        message: 'Bay 2 reinforced concrete foundation cured to 4,500 psi; 480V substation feeder and chilled water manifold tested.',
+        document: 'Foundation & Utility Audit.pdf',
+        tags: 'Site & Rigging',
         version: 'Rev 1',
-        remarks: 'Chambers mapped and calibration verified.'
+        remarks: 'Utilities hookup ready prior to crane rigging window.'
       },
       {
         id: 8,
         date: '07/11/2026',
-        postedBy: 'Priya Nair',
-        message: 'Completed eCTD Module 3 Drug Substance (3.2.S) documentation, CoA verification, and specification review.',
-        document: 'eCTD Module 3 Draft.pdf',
-        tags: 'Regulatory',
+        postedBy: 'Ananya Rao',
+        message: 'Completed As-Built CAD package, CMMS preventive maintenance schedule upload, and operator LOTO SOP sign-off.',
+        document: 'Operations TTD Dossier Draft.pdf',
+        tags: 'SAT & OQ Handover',
         version: 'Rev 1',
-        remarks: 'Draft dossier ready for technical author sign-off.'
+        remarks: 'Handover package staged for Plant Operations director sign-off.'
       },
       {
         id: 9,
         date: '07/18/2026',
         postedBy: 'Rajesh Kumar',
-        message: 'Second vendor audit and CEP verification completed with clean quality assurance review.',
-        document: 'Vendor Qualification Report.pdf',
-        tags: 'API Assessment',
+        message: 'Backup Japanese servo-drive vendor ISO 9001 quality audit and 24-hour critical spares SLA finalized.',
+        document: 'OEM Supplier Audit Report.pdf',
+        tags: 'URS & Feasibility',
         version: 'Rev 1',
-        remarks: 'Audit compliance certificate issued.'
+        remarks: 'Supplier approved and added to Approved Vendor List.'
       },
       {
         id: 10,
         date: '07/25/2026',
         postedBy: 'Anita Desai',
-        message: 'Optimized aqueous film coating parameters to prevent tablet edge chipping during blister packaging trials.',
-        document: 'Coating Parameter Study.pdf',
-        tags: 'Formulation',
+        message: 'Updated GD&T tolerance stack-up to +/- 0.015 mm on rotary indexer bed mounting interface.',
+        document: 'GDT Tolerance StackUp Rev2.pdf',
+        tags: 'CAD & Mechanical',
         version: 'Rev 1',
-        remarks: 'Pan speed and inlet airflow optimized.'
+        remarks: 'Fixture datum pin clearances verified.'
       },
       {
         id: 11,
         date: '08/02/2026',
         postedBy: 'Amit Patel',
-        message: 'Forced degradation stress study completed; demonstrated method specificity with no co-eluting peaks.',
-        document: 'Degradation Study Report.pdf',
-        tags: 'Analytical',
+        message: 'OPC-UA SCADA edge gateway stress test passed; 1,200 high-frequency spindle telemetry tags verified < 10 ms.',
+        document: 'SCADA Telemetry Stress Log.pdf',
+        tags: 'Controls & PLC',
         version: 'Rev 1',
-        remarks: 'Acid, base, peroxide, thermal stress validated.'
+        remarks: 'Historian buffering verified over VLAN failover.'
       },
       {
         id: 12,
         date: '08/09/2026',
-        postedBy: 'Neha Sharma',
-        message: 'Fluid bed drying LOD endpoint mapped within optimal 1.2% - 1.8% moisture range.',
-        document: 'FBD Optimization Report.pdf',
-        tags: 'Manufacturing',
+        postedBy: 'Deepa Nair',
+        message: 'OEM Factory Acceptance Test (FAT) completed with acoustic enclosure measuring 75.8 dBA (< 78 dBA limit).',
+        document: 'OEM FAT Witness Report.pdf',
+        tags: 'Fabrication & FAT',
         version: 'Rev 1',
-        remarks: 'In-process moisture checks aligned.'
+        remarks: 'Zero open safety punch-list items.'
       }
     ];
 
@@ -248,8 +248,8 @@ export class ProjectNotesHistoryComponent implements OnInit {
   goBack(): void {
     this.router.navigate(['/projects/dashboard/notes'], {
       queryParams: {
-        code: this.projectCode || '2026/GEN/001',
-        name: this.projectName || 'Generic Tablet Development'
+        code: this.projectCode || '2026/IND/001',
+        name: this.projectName || 'Industrial Equipment Line Expansion'
       },
       queryParamsHandling: 'merge'
     });

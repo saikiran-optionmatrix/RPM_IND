@@ -62,11 +62,11 @@ export class ProjectNpvCalculatorComponent implements OnInit {
   @ViewChild('scrollContainer1') scrollContainer1!: ElementRef;
   @ViewChild('scrollContainer2') scrollContainer2!: ElementRef;
 
-  projectName: string = this.route.snapshot.queryParamMap.get('projectName') || this.route.snapshot.queryParamMap.get('name') || 'Generic Tablet Development';
+  projectName: string = this.route.snapshot.queryParamMap.get('projectName') || this.route.snapshot.queryParamMap.get('name') || 'Industrial Equipment Line Expansion';
   
   // --- Properties ---
-  projectCode: string = '2026/GEN/001';
-  dynamicBreadcrumb: string = 'Generic Tablet Development - 2026/GEN/001';
+  projectCode: string = '2026/IND/001';
+  dynamicBreadcrumb: string = 'Industrial Equipment Line Expansion - 2026/IND/001';
 
   // Setup parameters
   discountRate: number = 12;
@@ -134,8 +134,8 @@ export class ProjectNpvCalculatorComponent implements OnInit {
   expenditureItems: ExpenditureItem[] = [
     {
       id: 1,
-      subject: 'COGS',
-      remarks: 'Estimated based on API & excipient baseline costing model',
+      subject: 'Production COGS & Operating Material',
+      remarks: 'Estimated based on raw steel, subassemblies & baseline production costing model',
       year0: 2300000,
       year1: 1200000,
       year2: 850000,
@@ -156,8 +156,8 @@ export class ProjectNpvCalculatorComponent implements OnInit {
     },
     {
       id: 2,
-      subject: 'ANFD',
-      remarks: 'Purchased and validated in pilot facility with recurring maintenance',
+      subject: 'CNC Machining & Robotic Workcell CapEx',
+      remarks: 'Procured and commissioned in Plant A with preventive maintenance SLA',
       year0: 12300000,
       year1: 1500000,
       year2: 500000,
@@ -178,8 +178,8 @@ export class ProjectNpvCalculatorComponent implements OnInit {
     },
     {
       id: 3,
-      subject: 'Vacuum Pump',
-      remarks: 'Delivery, qualification and periodic seal replacement',
+      subject: 'Industrial Hydraulic & Pneumatic Power Unit',
+      remarks: 'Delivery, installation qualification and periodic seal overhaul',
       year0: 3000000,
       year1: 1500000,
       year2: 250000,
@@ -200,8 +200,8 @@ export class ProjectNpvCalculatorComponent implements OnInit {
     },
     {
       id: 4,
-      subject: 'Droplet generation device',
-      remarks: 'CDA executed with IIT Madras research team',
+      subject: 'PLC / SCADA Control Cabinet & Vision Sensors',
+      remarks: 'Turnkey automation contract executed with certified system integrator',
       year0: 1000000,
       year1: 450000,
       year2: 250000,
@@ -222,8 +222,8 @@ export class ProjectNpvCalculatorComponent implements OnInit {
     },
     {
       id: 5,
-      subject: 'Materials and Manpower costing',
-      remarks: 'Manpower & analytical testing for developmental activities',
+      subject: 'Engineering Labor & Fabrication Materials',
+      remarks: 'Mechanical design, controls engineering & prototype tooling build',
       year0: 1500000,
       year1: 1000000,
       year2: 1200000,
@@ -244,8 +244,8 @@ export class ProjectNpvCalculatorComponent implements OnInit {
     },
     {
       id: 6,
-      subject: 'Packaging & Serialization Equipment',
-      remarks: 'High-speed blister packaging and serialization lines',
+      subject: 'Material Handling & Conveyor Integration',
+      remarks: 'Automated palletizing, AGV interface and line-side serialization readers',
       year0: 950000,
       year1: 1400000,
       year2: 600000,
@@ -266,8 +266,8 @@ export class ProjectNpvCalculatorComponent implements OnInit {
     },
     {
       id: 7,
-      subject: 'Scale-up & Validation Trials',
-      remarks: 'Commercial pilot scale-up batches and process validation',
+      subject: 'FAT / SAT Commissioning & OQ Qualification',
+      remarks: 'Factory acceptance trials, site installation IQ/OQ and endurance runs',
       year0: 1100000,
       year1: 1600000,
       year2: 850000,
@@ -288,8 +288,8 @@ export class ProjectNpvCalculatorComponent implements OnInit {
     },
     {
       id: 8,
-      subject: 'Regulatory Dossier & Pharmacovigilance',
-      remarks: 'eCTD filings, site registration and annual post-market surveillance',
+      subject: 'Safety Certification & Lifecycle Spare Parts',
+      remarks: 'CE / ISO 13849 third-party compliance audits and critical spares replenishment',
       year0: 750000,
       year1: 1100000,
       year2: 500000,

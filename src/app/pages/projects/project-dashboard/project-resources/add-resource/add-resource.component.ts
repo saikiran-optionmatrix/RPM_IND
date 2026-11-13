@@ -36,35 +36,47 @@ export class AddResourceComponent implements OnInit {
   actualDuration: string = '';
   status: string | null = null;
 
-  stages: string[] = ['Feasibility', 'Design', 'Prototyping', 'Testing', 'Launch', 'Implementation'];
+  stages: string[] = [
+    'S1 - Business Need & Assessment',
+    'S2 - Scope & Feasibility',
+    'S3 - Concept Engineering',
+    'S4 - Detailed Engineering',
+    'S5 - Design Freeze',
+    'S6 - Process & Equipment Build',
+    'S7 - Prototype Validation',
+    'S9 - Equipment Installation',
+    'S10 - Commissioning & SAT',
+    'S11 - OQ & Ramp-Up'
+  ];
   modules: string[] = [
-    'Project Initiation & Planning',
-    'Execution, Monitoring & Control',
-    'Delivery, Handover & Closeout'
+    'Plant Capacity Audit',
+    'CAD & Structural Package',
+    'Automation & PLC Spec',
+    'Metrology & Calibration',
+    'Factory Acceptance Test',
+    'SAT & OQ Handover'
   ];
   tasks: string[] = [
-    'UI Design Implementation',
-    'Database Optimization',
-    'Update User Manual',
-    'API Integration Testing',
-    'Security Audit',
-    'UI Design',
-    'Database Setup',
-    'Employee Login Module',
-    'API Integration',
-    'Product Catalog'
+    'Bottleneck Cycle Evaluation',
+    '3D CAD Assembly & Stress FEA',
+    'CMM Dimensional Tolerance Scan',
+    'SCADA Telemetry & Interlock Spec',
+    'Fixture Welding & Frame Assembly',
+    'FAT Witness Protocol Execution',
+    'Laser Alignment & Utility Tie-In',
+    'Full-Load OEE Endurance Trial'
   ];
   statuses: string[] = ['Active', 'Completed', 'Pending'];
 
   resourceOptions: string[] = [
-    'Lyophilizer A',
-    'Lyophilizer B',
-    'Lyophilizer C',
-    'Ravi Sharma',
-    'Priya Singh',
-    'Amit Kumar',
-    'Neha Sharma',
-    'Vikram Joshi'
+    'CNC Machining Center A',
+    'CMM Metrology Bay B',
+    'Robotic Weld Cell C',
+    'Ananya Rao',
+    'Rajesh Kumar',
+    'Anita Desai',
+    'Priya Reddy',
+    'Amit Patel'
   ];
   resourceSearchTerm: string = '';
 

@@ -38,33 +38,33 @@ export class DepartmentsComponent {
   constructor(private dialog: MatDialog) {}
   readonly items: MasterItem[] = [
     {
-      name: 'Research & Development',
+      name: 'Engineering & Project Development',
       code: 'R&D',
-      remarks: 'API and formulation development',
+      remarks: 'Engineering design, process development and equipment integration',
       status: 'Active',
     },
     {
-      name: 'Quality Control',
+      name: 'Quality Control & Inspection',
       code: 'QC',
-      remarks: 'Analytical and product testing',
+      remarks: 'Analytical, dimensional, performance and product acceptance testing',
       status: 'Active',
     },
     {
       name: 'Quality Assurance',
       code: 'QA',
-      remarks: 'GMP compliance and validation',
+      remarks: 'Industrial quality compliance, production record review and equipment validation',
       status: 'Active',
     },
     {
-      name: 'Production',
-      code: 'PROD',
-      remarks: 'Tablet manufacturing operations',
+      name: 'Manufacturing & Operations',
+      code: 'MFG',
+      remarks: 'Fabrication, assembly, production-line and plant operations',
       status: 'Active',
     },
     {
-      name: 'Regulatory Affairs',
+      name: 'Compliance & Statutory Affairs',
       code: 'RA',
-      remarks: 'Regulatory submissions and documentation',
+      remarks: 'Safety, environmental, statutory and technical compliance documentation',
       status: 'Active',
     },
   ];

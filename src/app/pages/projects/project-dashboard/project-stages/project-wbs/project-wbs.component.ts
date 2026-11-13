@@ -17,6 +17,7 @@ import { AddSimulationComponent } from './add-simulation/add-simulation.componen
 import { ProjectWbsRequirementsComponent } from './project-wbs-requirements/project-wbs-requirements.component';
 import { ProjectWbsTasksComponent } from './project-wbs-tasks/project-wbs-tasks.component';
 import { StagesPredecessorComponent } from '../../../../stages/stages-wbs/stages-predecessor/stages-predecessor.component';
+import { INDUSTRIAL_STAGES_WBS_MAP } from '../../../../stages/industrial-stages.data';
 
 export interface WbsActivityItem {
   id: number;
@@ -83,10 +84,10 @@ export interface WbsDeliverable {
 export class ProjectWbsComponent implements OnInit {
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
-  projectName: string = 'Abiraterone Acetate Film Coated';
-  projectCode: string = '2026/RD/001';
+  projectName: string = 'Industrial Equipment Line Expansion';
+  projectCode: string = '2026/IND/001';
   stageCode: string = 'S2';
-  stageName: string = 'Product / Project In Initiation';
+  stageName: string = 'Project Scope & Feasibility Validation';
 
   // Inner screen view state
   currentView: 'wbs' | 'requirements' | 'tasks' = 'wbs';
@@ -104,278 +105,50 @@ export class ProjectWbsComponent implements OnInit {
   pageSize = 10;
 
   readonly delayReasonOptions: string[] = [
-    'Raw Material Shortage',
-    'Regulatory Approval Pending',
-    'Vendor Dispatch Delay',
+    'Raw Material / Component Shortage',
+    'Safety / Statutory Inspection Pending',
+    'OEM Vendor Dispatch Delay',
   ];
 
-  deliverables: WbsDeliverable[] = [
-    {
-      id: 1,
-      name: 'Project costing sheet preparation & Selection of Project / Product',
-      activities: [
-        {
-          id: 101,
-          activityName: 'Analytical costing, External CRO costing',
-          jobCode: 'ACT1',
-          department: 'Management',
-          responsibility: 'Olivia Brown',
-          priority: 'High',
+  private buildDeliverablesForStage(code: string): WbsDeliverable[] {
+    const owners = ['Ananya Rao', 'Rajesh Kumar', 'Anita Desai', 'Priya Reddy', 'Suresh Naidu', 'Amit Patel'];
+    const priorities: Array<'High' | 'Medium' | 'Low'> = ['High', 'Medium', 'Low'];
+    const config = INDUSTRIAL_STAGES_WBS_MAP[code] || INDUSTRIAL_STAGES_WBS_MAP['S2'];
+    return (config?.sidebarMenus || []).map((menu, mIdx) => {
+      const modTasks = config?.modulesData?.[mIdx] || [];
+      return {
+        id: mIdx + 1,
+        name: menu.name,
+        activities: modTasks.map((t, aIdx) => ({
+          id: (mIdx + 1) * 100 + (aIdx + 1),
+          activityName: t.task,
+          jobCode: t.jobCode,
+          department: t.department || t.assignedTo,
+          responsibility: owners[(mIdx + aIdx) % owners.length],
+          priority: priorities[(mIdx + aIdx) % priorities.length],
           status: true,
-          requirements: '7/13',
-          tasks: '6/16',
-          delayReason: 'Raw Material Shortage',
+          predecessor: t.predecessor || '—',
+          requirements: `${6 + ((mIdx + aIdx) % 7)}/13`,
+          tasks: `${5 + ((mIdx + aIdx) % 10)}/16`,
+          delayReason: this.delayReasonOptions[(mIdx + aIdx) % this.delayReasonOptions.length],
           planStart: '2026-01-16',
-          planEnd: '2026-01-20',
-          actualStart: '2026-01-16',
-          actualEnd: '2026-01-20',
-          eta: '2026-01-20',
-          planDuration: '5 days',
-          planEffort: '40 hrs',
-          actualDuration: '5 days',
-          actualEffort: '38 hrs',
-          description: 'Detailed costing for analytical methods and CRO outsourcing packages.'
-        },
-        {
-          id: 102,
-          activityName: 'RM, PM, API & RLD costing',
-          jobCode: 'ACT2',
-          department: 'Management',
-          responsibility: 'Aarav Shah',
-          priority: 'Medium',
-          status: true,
-          requirements: '4/13',
-          tasks: '4/16',
-          delayReason: 'Regulatory Approval Pending',
-          planStart: '2026-01-18',
-          planEnd: '2026-01-23',
-          actualStart: '2026-01-18',
-          actualEnd: '',
-          eta: '2026-01-23',
-          planDuration: '6 days',
-          planEffort: '48 hrs',
-          actualDuration: '4 days',
-          actualEffort: '32 hrs',
-          description: 'Raw materials, packaging, reference listed drug & active ingredient costing estimates.'
-        },
-        {
-          id: 103,
-          activityName: 'BE Costing',
-          jobCode: 'ACT3',
-          department: 'Management',
-          responsibility: 'Diego Ruiz',
-          priority: 'High',
-          status: true,
-          requirements: '9/13',
-          tasks: '9/16',
-          delayReason: 'Vendor Dispatch Delay',
-          planStart: '2026-01-21',
-          planEnd: '2026-01-25',
-          actualStart: '2026-01-21',
-          actualEnd: '',
-          eta: '2026-01-25',
-          planDuration: '5 days',
-          planEffort: '35 hrs',
-          actualDuration: '2 days',
-          actualEffort: '16 hrs',
-          description: 'Bioequivalence study budgeting and CRO quote negotiation.'
-        }
-      ]
-    },
-    {
-      id: 2,
-      name: 'Provincial Product Initiation Form (PPIF)',
-      activities: [
-        {
-          id: 201,
-          activityName: 'PPIF Draft & Business Case Sign-off',
-          jobCode: 'ACT4',
-          department: 'Management',
-          responsibility: 'Olivia Brown',
-          priority: 'High',
-          status: true,
-          requirements: '8/13',
-          tasks: '6/16',
-          planStart: '2026-01-20',
-          planEnd: '2026-01-25',
-          actualStart: '2026-01-20',
-          actualEnd: '',
-          eta: '2026-01-25',
-          planDuration: '5 days',
-          planEffort: '30 hrs',
-          description: 'Formulation and regulatory alignment on product initiation parameters.'
-        }
-      ]
-    },
-    {
-      id: 3,
-      name: 'Literature serach & MER',
-      activities: [
-        {
-          id: 301,
-          activityName: 'Prior Art & Patent Landscape Search',
-          jobCode: 'ACT5',
-          department: 'Management',
-          responsibility: 'Aarav Shah',
-          priority: 'High',
-          status: true,
-          requirements: '12/13',
-          tasks: '15/16',
-          planStart: '2026-01-22',
-          planEnd: '2026-01-26',
-          planDuration: '5 days',
-          planEffort: '25 hrs',
-          description: 'Patent non-infringement analysis and freedom-to-operate review.'
-        },
-        {
-          id: 302,
-          activityName: 'Medical Evaluation Report (MER) Preparation',
-          jobCode: 'ACT6',
-          department: 'Medical Affairs',
-          responsibility: 'Olivia Brown',
-          priority: 'Medium',
-          status: true,
-          requirements: '4/13',
-          tasks: '8/16',
-          planStart: '2026-01-24',
-          planEnd: '2026-01-28',
-          planDuration: '5 days',
-          planEffort: '30 hrs',
-          description: 'Clinical safety and efficacy data compilation for product dossier.'
-        },
-        {
-          id: 303,
-          activityName: 'Clinical Summary and Bio-study Protocol Design',
-          jobCode: 'ACT7',
-          department: 'Management',
-          responsibility: 'Diego Ruiz',
-          priority: 'Low',
-          status: true,
-          requirements: '10/13',
-          tasks: '3/16',
-          planStart: '2026-01-26',
-          planEnd: '2026-01-30',
-          planDuration: '5 days',
-          planEffort: '20 hrs',
-          description: 'Design of pilot and pivotal BE study clinical protocols.'
-        }
-      ]
-    },
-    {
-      id: 4,
-      name: 'Pre Product Development Strategy (PPDS) finalization',
-      activities: [
-        {
-          id: 401,
-          activityName: 'PPDS Formulation & QbD Strategy Finalization',
-          jobCode: 'ACT8',
-          department: 'Formulation',
-          responsibility: 'Diego Ruiz',
-          priority: 'High',
-          status: true,
-          requirements: '9/13',
-          tasks: '14/16',
-          planStart: '2026-01-27',
-          planEnd: '2026-02-02',
-          planDuration: '6 days',
-          planEffort: '45 hrs',
-          description: 'Target product profile definition and risk assessment framework.'
-        }
-      ]
-    },
-    {
-      id: 5,
-      name: 'Test license/NOC',
-      activities: [
-        {
-          id: 501,
-          activityName: 'Form 29 / Test License Application Filing',
-          jobCode: 'ACT9',
-          department: 'Regulatory',
-          responsibility: 'Aarav Shah',
-          priority: 'High',
-          status: true,
-          requirements: '6/13',
-          tasks: '10/16',
-          planStart: '2026-01-28',
-          planEnd: '2026-02-05',
-          planDuration: '8 days',
-          planEffort: '40 hrs',
-          description: 'Filing of license for manufacturing drugs for examination/test/analysis.'
-        },
-        {
-          id: 502,
-          activityName: 'State FDA / CDSCO Query Resolution',
-          jobCode: 'ACT10',
-          department: 'Regulatory',
-          responsibility: 'Aarav Shah',
-          priority: 'Medium',
-          status: true,
-          requirements: '13/13',
-          tasks: '7/16',
-          planStart: '2026-02-06',
-          planEnd: '2026-02-12',
-          planDuration: '7 days',
-          planEffort: '35 hrs',
-          description: 'Responding to regulatory authority queries.'
-        },
-        {
-          id: 503,
-          activityName: 'NOC & Test License Receipt & Archival',
-          jobCode: 'ACT11',
-          department: 'Regulatory',
-          responsibility: 'Olivia Brown',
-          priority: 'Low',
-          status: true,
-          requirements: '3/13',
-          tasks: '5/16',
-          planStart: '2026-02-13',
-          planEnd: '2026-02-16',
-          planDuration: '4 days',
-          planEffort: '16 hrs',
-          description: 'Official test license receipt and upload to document repository.'
-        }
-      ]
-    },
-    {
-      id: 6,
-      name: 'RLD import license - Form 11 for Developmental',
-      activities: [
-        {
-          id: 601,
-          activityName: 'Form 11 Application Submission for RLD Import',
-          jobCode: 'ACT12',
-          department: 'Supply Chain',
-          responsibility: 'Olivia Brown',
-          priority: 'High',
-          status: true,
-          requirements: '11/13',
-          tasks: '8/16',
-          planStart: '2026-02-01',
-          planEnd: '2026-02-08',
-          planDuration: '8 days',
-          planEffort: '32 hrs',
-          description: 'Application for import of RLD samples from innovator market.'
-        },
-        {
-          id: 602,
-          activityName: 'Customs Clearance & Sample Receipt at Analytical Lab',
-          jobCode: 'ACT13',
-          department: 'Logistics',
-          responsibility: 'Diego Ruiz',
-          priority: 'Medium',
-          status: true,
-          requirements: '2/13',
-          tasks: '4/16',
-          planStart: '2026-02-09',
           planEnd: '2026-02-15',
-          planDuration: '7 days',
-          planEffort: '24 hrs',
-          description: 'Receipt and QC check of reference standard batch.'
-        }
-      ]
-    }
-  ];
+          actualStart: '2026-01-16',
+          actualEnd: aIdx === 0 ? '2026-02-12' : '',
+          eta: '2026-02-15',
+          planDuration: `${t.duration} days`,
+          planEffort: `${t.effort} hrs`,
+          actualDuration: `${Math.max(2, Number(t.duration || 10) - 2)} days`,
+          actualEffort: `${Math.max(8, Number(t.effort || 40) - 8)} hrs`,
+          planBudget: `$${Number(t.cost || 8000).toLocaleString('en-US')}`,
+          actualCost: `$${Math.round(Number(t.cost || 8000) * 0.94).toLocaleString('en-US')}`,
+          description: t.description
+        }))
+      };
+    });
+  }
+
+  deliverables: WbsDeliverable[] = this.buildDeliverablesForStage('S2');
 
   selectedDeliverable: WbsDeliverable = this.deliverables[0];
 
@@ -419,6 +192,10 @@ export class ProjectWbsComponent implements OnInit {
       }
       if (params['stageCode']) {
         this.stageCode = params['stageCode'];
+        this.deliverables = this.buildDeliverablesForStage(this.stageCode);
+        if (this.deliverables.length > 0) {
+          this.selectedDeliverable = this.deliverables[0];
+        }
       }
     });
 
@@ -439,7 +216,7 @@ export class ProjectWbsComponent implements OnInit {
           a.updatedDate = sampleDates[count % sampleDates.length];
         }
         if (!a.updatedBy) {
-          a.updatedBy = a.responsibility || 'Dr. Sarah Jenkins';
+          a.updatedBy = a.responsibility || 'Ananya Rao';
         }
         if (!a.planBudget) {
           const sampleBudgets = ['$15,000', '$22,500', '$18,000', '$12,500', '$30,000', '$8,500', '$25,000'];
@@ -581,7 +358,7 @@ export class ProjectWbsComponent implements OnInit {
     this.activityModalData = {
       jobCode: 'ACT' + nextNum,
       activityName: '',
-      department: 'Management',
+      department: 'Mechanical Design',
       responsibility: '',
       priority: 'Medium',
       predecessor: '—',

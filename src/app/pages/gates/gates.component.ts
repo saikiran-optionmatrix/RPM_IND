@@ -72,112 +72,66 @@ export class GatesComponent implements OnInit {
   // Master Data Array
   masterData: Gate[] = [
     {
-        "name": "Opportunity and portfolio approval",
-        "count": 7,
-        "route": "feasibility",
-        "status": true,
-        "description": "Formal governance checkpoint to assess evidence, quality and regulatory risks, budget, schedule, resource readiness and unresolved actions for opportunity and portfolio approval. The accountable cross-functional stakeholders approve progression, request corrective actions, or place the program on hold. Decisions and actions must be documented.",
-        "stageCode": "S1",
-        "gateCode": "Gate 1",
-        "division": "Oral Solids - OS",
-        "divisions": [
-            "Oral Solids - OS"
-        ],
-        "workflow": "3/5"
+      name: 'Business Case Approval',
+      count: 7,
+      route: 'feasibility',
+      status: true,
+      description: 'Formal governance checkpoint to evaluate plant capacity need, benchmark OEM landscape, CapEx/ROI financials, safety & statutory compliance pathway, IP/FTO clearance, and executive program charter authorization.',
+      stageCode: 'S1, S2',
+      gateCode: 'Gate 1',
+      division: 'Industrial Machinery - MA',
+      divisions: ['Industrial Machinery - MA'],
+      workflow: '5/5'
     },
     {
-        "name": "Product definition and project charter approval",
-        "count": 6,
-        "route": "formulation",
-        "status": true,
-        "description": "Formal governance checkpoint to assess evidence, quality and regulatory risks, budget, schedule, resource readiness and unresolved actions for product definition and project charter approval. The accountable cross-functional stakeholders approve progression, request corrective actions, or place the program on hold. Decisions and actions must be documented.",
-        "stageCode": "S2",
-        "gateCode": "Gate 2",
-        "division": "Oral Solids - OS, Injectables - IJ",
-        "divisions": [
-            "Oral Solids - OS",
-            "Injectables - IJ"
-        ],
-        "workflow": "2/5"
+      name: 'Concept Selection & Design Freeze',
+      count: 6,
+      route: 'formulation',
+      status: true,
+      description: 'Formal governance checkpoint to review selected equipment architecture, 3D CAD/FEA structural models, PLC/SCADA control philosophy, DFMA review, vendor capability screening, and lock the baseline engineering design.',
+      stageCode: 'S3, S4, S5',
+      gateCode: 'Gate 2',
+      division: 'Equipment Engineering - CT, Industrial Machinery - MA',
+      divisions: ['Equipment Engineering - CT', 'Industrial Machinery - MA'],
+      workflow: '3/5'
     },
     {
-        "name": "Formulation concept and sourcing strategy approval",
-        "count": 6,
-        "route": "development",
-        "status": false,
-        "description": "Formal governance checkpoint to assess evidence, quality and regulatory risks, budget, schedule, resource readiness and unresolved actions for formulation concept and sourcing strategy approval. The accountable cross-functional stakeholders approve progression, request corrective actions, or place the program on hold. Decisions and actions must be documented.",
-        "stageCode": "S3, S4",
-        "gateCode": "Gate 3",
-        "division": "Oral Solids - OS, Biotech - BT",
-        "divisions": [
-            "Oral Solids - OS",
-            "Biotech - BT"
-        ],
-        "workflow": "4/5"
+      name: 'Procurement & Build Readiness',
+      count: 6,
+      route: 'development',
+      status: true,
+      description: 'Formal governance checkpoint to verify long-lead component POs, process & tooling release, control panel build readiness, Factory Acceptance Test (FAT) protocols, metrology validation, and quality release prior to site build.',
+      stageCode: 'S6, S7, S8',
+      gateCode: 'Gate 3',
+      division: 'Industrial Machinery - MA, Process Equipment - GT',
+      divisions: ['Industrial Machinery - MA', 'Process Equipment - GT'],
+      workflow: '4/5'
     },
     {
-        "name": "Formulation and process development approval",
-        "count": 6,
-        "route": "testing",
-        "status": false,
-        "description": "Formal governance checkpoint to assess evidence, quality and regulatory risks, budget, schedule, resource readiness and unresolved actions for formulation and process development approval. The accountable cross-functional stakeholders approve progression, request corrective actions, or place the program on hold. Decisions and actions must be documented.",
-        "stageCode": "S4",
-        "gateCode": "Gate 4",
-        "division": "Oral Solids - OS",
-        "divisions": [
-            "Oral Solids - OS"
-        ],
-        "workflow": "3/5"
+      name: 'Commissioning & Performance Acceptance',
+      count: 6,
+      route: 'testing',
+      status: true,
+      description: 'Formal governance checkpoint to confirm mechanical installation, utility tie-in, IQ/OQ loop checks, Site Acceptance Test (SAT) completion, safety interlock certification, and process capability (Cpk) pilot run results.',
+      stageCode: 'S9, S10',
+      gateCode: 'Gate 4',
+      division: 'Equipment Engineering - CT, Process Equipment - GT, Production Systems - VX',
+      divisions: ['Equipment Engineering - CT', 'Process Equipment - GT', 'Production Systems - VX'],
+      workflow: '2/5'
     },
     {
-        "name": "Facility and manufacturing readiness approval",
-        "count": 5,
-        "route": "validation",
-        "status": false,
-        "description": "Formal governance checkpoint to assess evidence, quality and regulatory risks, budget, schedule, resource readiness and unresolved actions for facility and manufacturing readiness approval. The accountable cross-functional stakeholders approve progression, request corrective actions, or place the program on hold. Decisions and actions must be documented.",
-        "stageCode": "S5, S7",
-        "gateCode": "Gate 5",
-        "division": "Oral Solids - OS, Injectables - IJ, Biotech - BT",
-        "divisions": [
-            "Oral Solids - OS",
-            "Injectables - IJ",
-            "Biotech - BT"
-        ],
-        "workflow": "5/5"
-    },
-    {
-        "name": "Validation and regulatory submission readiness",
-        "count": 5,
-        "route": "validation",
-        "status": false,
-        "description": "Formal governance checkpoint to assess evidence, quality and regulatory risks, budget, schedule, resource readiness and unresolved actions for validation and regulatory submission readiness. The accountable cross-functional stakeholders approve progression, request corrective actions, or place the program on hold. Decisions and actions must be documented.",
-        "stageCode": "S6, S9",
-        "gateCode": "Gate 6",
-        "division": "Oral Solids - OS, Injectables - IJ, Biotech - BT",
-        "divisions": [
-            "Oral Solids - OS",
-            "Injectables - IJ",
-            "Biotech - BT"
-        ],
-        "workflow": "5/5"
-    },
-    {
-        "name": "Commercial launch authorization",
-        "count": 5,
-        "route": "validation",
-        "status": false,
-        "description": "Formal governance checkpoint to assess evidence, quality and regulatory risks, budget, schedule, resource readiness and unresolved actions for commercial launch authorization. The accountable cross-functional stakeholders approve progression, request corrective actions, or place the program on hold. Decisions and actions must be documented.",
-        "stageCode": "S7, S11",
-        "gateCode": "Gate 7",
-        "division": "Oral Solids - OS, Injectables - IJ, Biotech - BT",
-        "divisions": [
-            "Oral Solids - OS",
-            "Injectables - IJ",
-            "Biotech - BT"
-        ],
-        "workflow": "5/5"
+      name: 'Operational Handover Approval',
+      count: 5,
+      route: 'validation',
+      status: true,
+      description: 'Final executive gate authorizing commercial production release upon sustained OEE qualification, as-built technical transfer dossier (TTD) sign-off, CMMS preventive maintenance setup, operator certification, and plant handover.',
+      stageCode: 'S11, S12',
+      gateCode: 'Gate 5',
+      division: 'Industrial Machinery - MA, Process Equipment - GT, Production Systems - VX',
+      divisions: ['Industrial Machinery - MA', 'Process Equipment - GT', 'Production Systems - VX'],
+      workflow: '5/5'
     }
-];
+  ];
 
   pagedData: Gate[] = [];
 
@@ -201,7 +155,7 @@ export class GatesComponent implements OnInit {
 
   ngOnInit(): void {
     const sampleDates = ['2026-02-15', '2026-02-12', '2026-02-10', '2026-02-05', '2026-01-30'];
-    const sampleUsers = ['Dr. Sarah Jenkins', 'Rajesh Kumar', 'Anita Desai', 'Priya Reddy', 'Suresh Naidu'];
+    const sampleUsers = ['Ananya Rao', 'Rajesh Kumar', 'Anita Desai', 'Priya Reddy', 'Suresh Naidu'];
     this.masterData.forEach((g, idx) => {
       if (!g.historyCount) {
         g.historyCount = this.getHistoryCount(idx);
@@ -323,8 +277,8 @@ export class GatesComponent implements OnInit {
           status: true,
           stageCode: result.stageCode || '',
           gateCode: `Gate ${nextId}`,
-          division: result.division || 'Oral Solids - OS',
-          divisions: result.divisions || (result.division ? [result.division] : ['Oral Solids - OS']),
+          division: result.division || 'Industrial Machinery - MA',
+          divisions: result.divisions || (result.division ? [result.division] : ['Industrial Machinery - MA']),
           route: `gate-${nextId}`,
           historyCount: 1
         };

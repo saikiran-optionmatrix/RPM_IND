@@ -90,11 +90,11 @@ export class ProjectWbsHistoryComponent implements OnInit {
   }
 
   initHistoryRecords(): void {
-    const actName = this.activityName || 'Analytical costing, External CRO costing';
-    const jCode = this.jobCode || 'ACT1';
-    const dept = this.department || 'Management';
-    const resp = this.responsibility || 'Olivia Brown';
-    const dReason = this.delayReason || 'Raw Material Shortage';
+    const actName = this.activityName || '3D CAD assembly & structural stress analysis';
+    const jCode = this.jobCode || 'ACT-411';
+    const dept = this.department || 'Mechanical Design';
+    const resp = this.responsibility || 'Ananya Rao';
+    const dReason = this.delayReason || 'Raw Material / Component Shortage';
     const prio = (this.priority as 'High' | 'Medium' | 'Low') || 'High';
 
     this.historyRecords = [
@@ -117,7 +117,7 @@ export class ProjectWbsHistoryComponent implements OnInit {
         planEffort: '50 hrs',
         actualDuration: '18 days',
         actualEffort: '38 hrs',
-        description: 'Revised schedule and extended deadline to accommodate vendor raw material dispatch delay.',
+        description: 'Revised schedule and extended deadline to accommodate OEM component dispatch delay.',
         updatedDate: '2026-02-02',
         updatedBy: resp
       },
@@ -125,7 +125,7 @@ export class ProjectWbsHistoryComponent implements OnInit {
         id: 2,
         status: true,
         activityName: actName,
-        delayReason: 'Regulatory Approval Pending',
+        delayReason: 'Safety / Statutory Inspection Pending',
         jobCode: jCode,
         department: dept,
         responsibility: resp,
@@ -140,18 +140,18 @@ export class ProjectWbsHistoryComponent implements OnInit {
         planEffort: '45 hrs',
         actualDuration: '10 days',
         actualEffort: '28 hrs',
-        description: 'Extended due date to account for regulatory agency clarifications on analytical protocols.',
+        description: 'Extended due date to account for CE / machine safety audit clarifications on guard interlocks.',
         updatedDate: '2026-01-25',
-        updatedBy: 'Aarav Shah'
+        updatedBy: 'Rajesh Kumar'
       },
       {
         id: 3,
         status: true,
         activityName: actName,
-        delayReason: 'Vendor Dispatch Delay',
+        delayReason: 'OEM Vendor Dispatch Delay',
         jobCode: jCode,
         department: dept,
-        responsibility: 'Diego Ruiz',
+        responsibility: 'Anita Desai',
         dueDate: '2026-01-24',
         priority: 'Medium',
         planStart: '2026-01-16',
@@ -163,9 +163,9 @@ export class ProjectWbsHistoryComponent implements OnInit {
         planEffort: '40 hrs',
         actualDuration: '5 days',
         actualEffort: '20 hrs',
-        description: 'Updated vendor quote details and re-budgeted CRO outsourcing commitments.',
+        description: 'Updated OEM vendor quote details and re-baselined tooling fabrication commitments.',
         updatedDate: '2026-01-20',
-        updatedBy: 'Diego Ruiz'
+        updatedBy: 'Anita Desai'
       },
       {
         id: 4,
@@ -174,7 +174,7 @@ export class ProjectWbsHistoryComponent implements OnInit {
         delayReason: '—',
         jobCode: jCode,
         department: dept,
-        responsibility: 'Diego Ruiz',
+        responsibility: 'Anita Desai',
         dueDate: '2026-01-20',
         priority: 'Medium',
         planStart: '2026-01-16',
@@ -186,9 +186,9 @@ export class ProjectWbsHistoryComponent implements OnInit {
         planEffort: '35 hrs',
         actualDuration: '5 days',
         actualEffort: '35 hrs',
-        description: 'Initial baseline schedule established for WBS activity execution.',
+        description: 'Initial baseline schedule established for WBS engineering activity execution.',
         updatedDate: '2026-01-16',
-        updatedBy: 'Olivia Brown'
+        updatedBy: 'Ananya Rao'
       }
     ];
   }

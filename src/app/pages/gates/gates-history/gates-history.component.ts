@@ -75,11 +75,11 @@ export class GatesHistoryComponent implements OnInit {
 
   initHistoryRecords(): void {
     const curCode = this.gateCode || 'Gate 1';
-    const curName = this.gateName || 'Opportunity and portfolio approval';
-    const curStage = this.stageCode || 'S1';
-    const curDiv = this.division || 'Oral Solids - OS';
-    const curDesc = this.description || 'Formal gate review to evaluate therapeutic and market opportunity assessment, target product profile, freedom-to-operate clearance, business case and preliminary risk screening.';
-    const curWorkflow = this.workflow || '3/5';
+    const curName = this.gateName || 'Business Case Approval';
+    const curStage = this.stageCode || 'S1, S2';
+    const curDiv = this.division || 'Industrial Machinery - MA';
+    const curDesc = this.description || 'Formal gate review to evaluate plant capacity need, benchmark OEM landscape, CapEx/ROI financials, safety & statutory compliance pathway, and executive program charter authorization.';
+    const curWorkflow = this.workflow || '5/5';
     const curCount = this.count || 7;
     const curStatus = this.status !== undefined ? this.status : true;
     const count = this.historyCount || 3;
@@ -93,11 +93,11 @@ export class GatesHistoryComponent implements OnInit {
     ];
 
     const users = [
-      'Dr. Robert Vance',
-      'Sarah Jenkins',
-      'Michael Chang',
-      'Emily Watson',
-      'David Miller'
+      'Ananya Rao',
+      'Rajesh Kumar',
+      'Anita Desai',
+      'Priya Reddy',
+      'Suresh Naidu'
     ];
 
     const descVariations = [
@@ -146,92 +146,66 @@ export class GatesHistoryComponent implements OnInit {
         id: 101,
         status: true,
         gateCode: 'Gate 1',
-        name: 'Opportunity and portfolio approval',
-        division: 'Oral Solids - OS',
-        description: 'Formal gate review to evaluate therapeutic and market opportunity assessment, target product profile, freedom-to-operate clearance, business case and preliminary risk screening, approving the opportunity into formal program definition.',
-        stageCode: 'S1',
-        workflow: '3/5',
+        name: 'Business Case Approval',
+        division: 'Industrial Machinery - MA',
+        description: 'Formal gate review to evaluate plant capacity need, benchmark OEM landscape, CapEx/ROI financials, safety & statutory compliance pathway, and executive program charter authorization.',
+        stageCode: 'S1, S2',
+        workflow: '5/5',
         count: 7,
         changedDate: '2026-02-15 14:30',
-        changedBy: 'Dr. Sarah Jenkins'
+        changedBy: 'Ananya Rao'
       },
       {
         id: 102,
         status: true,
         gateCode: 'Gate 2',
-        name: 'Product definition and project charter approval',
-        division: 'Oral Solids - OS, Injectables - IJ',
-        description: 'Formal decision gate to review finalized target product profile, reference listed drug characterization, regulatory submission pathway, IP strategy, cross-functional program charter, and funding commitment before starting formulation development.',
-        stageCode: 'S2',
-        workflow: '2/5',
+        name: 'Concept Selection & Design Freeze',
+        division: 'Equipment Engineering - CT, Industrial Machinery - MA',
+        description: 'Formal decision gate to review finalized equipment architecture, 3D CAD/FEA models, PLC/SCADA control architecture, DFMA assessment, and lock engineering baseline before procurement.',
+        stageCode: 'S3, S4, S5',
+        workflow: '3/5',
         count: 6,
         changedDate: '2026-01-18 10:20',
-        changedBy: 'Dr. Robert Vance'
+        changedBy: 'Rajesh Kumar'
       },
       {
         id: 103,
-        status: false,
+        status: true,
         gateCode: 'Gate 3',
-        name: 'Formulation concept and sourcing strategy approval',
-        division: 'Oral Solids - OS, Biotech - BT',
-        description: 'Formal decision gate to evaluate pre-formulation findings, prototype formulation selection, API and critical excipient sourcing readiness, primary packaging selection, and project schedule before committing capital to full formulation and process development.',
-        stageCode: 'S3',
+        name: 'Procurement & Build Readiness',
+        division: 'Industrial Machinery - MA, Process Equipment - GT',
+        description: 'Formal decision gate to verify long-lead vendor POs, prototype fabrication validation, Factory Acceptance Test (FAT) protocols, metrology capability, and site installation readiness.',
+        stageCode: 'S6, S7, S8',
         workflow: '4/5',
         count: 6,
         changedDate: '2025-12-14 16:00',
-        changedBy: 'Michael Chang'
+        changedBy: 'Anita Desai'
       },
       {
         id: 104,
-        status: false,
+        status: true,
         gateCode: 'Gate 4',
-        name: 'Formulation and process development approval',
-        division: 'Oral Solids - OS',
-        description: 'Formal decision gate to review formulation optimization, DoE stability data, manufacturing process train readiness, analytical method qualification, and supplier qualification before proceeding with development batch manufacturing.',
-        stageCode: 'S4',
-        workflow: '3/5',
+        name: 'Commissioning & Performance Acceptance',
+        division: 'Equipment Engineering - CT, Process Equipment - GT, Production Systems - VX',
+        description: 'Formal decision gate to confirm mechanical installation, utility tie-ins, IQ/OQ verification, Site Acceptance Test (SAT) completion, safety interlock certification, and Cpk capability.',
+        stageCode: 'S9, S10',
+        workflow: '2/5',
         count: 6,
         changedDate: '2025-11-20 11:35',
-        changedBy: 'Emily Watson'
+        changedBy: 'Priya Reddy'
       },
       {
         id: 105,
-        status: false,
+        status: true,
         gateCode: 'Gate 5',
-        name: 'Facility and manufacturing readiness approval',
-        division: 'Oral Solids - OS, Injectables - IJ, Biotech - BT',
-        description: 'Formal decision gate to verify equipment and facility qualification, utility readiness, cleaning validation, operator training, and supply chain readiness before initiating registration and process validation batch manufacturing.',
-        stageCode: 'S7',
+        name: 'Operational Handover Approval',
+        division: 'Industrial Machinery - MA, Process Equipment - GT, Production Systems - VX',
+        description: 'Final executive gate authorizing commercial production release upon sustained OEE qualification, as-built technical transfer dossier (TTD) sign-off, CMMS preventive maintenance setup, and operator certification.',
+        stageCode: 'S11, S12',
         workflow: '5/5',
         count: 5,
         changedDate: '2025-10-08 15:40',
-        changedBy: 'David Miller'
-      },
-      {
-        id: 106,
-        status: false,
-        gateCode: 'Gate 6',
-        name: 'Validation and regulatory submission readiness',
-        division: 'Oral Solids - OS, Injectables - IJ',
-        description: 'Formal decision gate to evaluate registration and process validation batch outcomes, stability data, dossier readiness, and bioequivalence / clinical study reports before authorizing filing with regulatory agencies.',
-        stageCode: 'S9',
-        workflow: '2/5',
-        count: 5,
-        changedDate: '2025-09-15 13:10',
-        changedBy: 'Vikram Sharma'
-      },
-      {
-        id: 107,
-        status: false,
-        gateCode: 'Gate 7',
-        name: 'Commercial launch authorization',
-        division: 'Oral Solids - OS',
-        description: 'Final formal gate to review market authorization approvals, manufacturing site inspection clearances, commercial supply chain readiness, distribution channel stocking, and pharmacovigilance setup before authorizing commercial distribution and sale.',
-        stageCode: 'S11',
-        workflow: '4/5',
-        count: 5,
-        changedDate: '2025-08-01 09:00',
-        changedBy: 'Anita Desai'
+        changedBy: 'Suresh Naidu'
       }
     ];
 

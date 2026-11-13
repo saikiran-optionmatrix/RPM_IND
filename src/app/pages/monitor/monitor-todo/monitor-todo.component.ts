@@ -131,11 +131,14 @@ export class MonitorTodoComponent implements OnInit, OnDestroy {
 
   private loadMockData(): void {
     this.mockData = [
-      { id: 1, ProjectCode: '2026/RD/001', Subject: 'Opportunity Assessment - Market & Therapeutic Area Analysis', delayReason: 'Prevalence Registry Slot Confirmation', Description: 'Conduct competitive landscape and epidemiology benchmarking on SGLT2 generic market share.', Comments: 'Analysis against innovator formulations underway', IsActive: true, CreatedDate: '2026-01-10T00:00:00', DueDate: '2026-06-15T00:00:00', CompletionDate: null, Responsibility: 'Dr. Sarah Jenkins', Group: 'R&D', Department: 'Formulation R&D', ProjectName: 'Dapagliflozin Film-Coated Tablets', Status: 'Pending' },
-      { id: 2, ProjectCode: '2026/RD/002', Subject: 'Product Definition - Target Product Profile (TPP) Sign-off', Description: 'Finalize critical quality attributes (CQAs) and dissolution profile specifications for extended-release matrix.', Comments: 'Approved by clinical and regulatory directors', IsActive: true, CreatedDate: '2026-01-15T00:00:00', DueDate: '2026-03-25T00:00:00', CompletionDate: '2026-03-24T00:00:00', Responsibility: 'Priya Reddy', Group: 'Regulatory', Department: 'Regulatory Affairs', ProjectName: 'Levetiracetam Extended-Release Tablets', Status: 'Completed' },
-      { id: 3, ProjectCode: '2026/RD/003', Subject: 'Concept Development - Enteric Coating Design Space', delayReason: 'Fluid Bed Pan Spray Gun Optimization', Description: 'Optimize enteric polymer sub-coating and plasticizer concentration to resist acidic gastric juice.', Comments: 'Design of Experiments (DoE) parameters submitted for review', IsActive: true, CreatedDate: '2026-02-01T00:00:00', DueDate: '2026-07-01T00:00:00', CompletionDate: null, Responsibility: 'Rajesh Kumar', Group: 'R&D', Department: 'Formulation R&D', ProjectName: 'Pantoprazole Gastro-Resistant Tablets', Status: 'Progress' },
-      { id: 4, ProjectCode: '2026/RD/004', Subject: 'Supplier Sourcing - Sterile API Vendor Audit', delayReason: 'European Inspection Travel Clearance', Description: 'Perform on-site cGMP audit of sterile crystallization manufacturing site for ceftriaxone sodium.', Comments: 'Pending audit checklist clearance by QA director', IsActive: true, CreatedDate: '2026-02-10T00:00:00', DueDate: '2026-06-30T00:00:00', CompletionDate: null, Responsibility: 'Anita Desai', Group: 'Quality', Department: 'Quality Assurance', ProjectName: 'Ceftriaxone Powder for Injection', Status: 'Hold' },
-      { id: 5, ProjectCode: '2026/RD/005', Subject: 'Facility Readiness - Aseptic Cleanroom Environmental Qualification', Description: 'Execute HVAC smoke study and non-viable particulate counting in sterile nebule filling suite.', Comments: 'ISO Class 5 filling line qualification certified by engineering', IsActive: true, CreatedDate: '2026-03-05T00:00:00', DueDate: '2026-05-20T00:00:00', CompletionDate: '2026-05-19T00:00:00', Responsibility: 'Amit Patel', Group: 'Validation', Department: 'MS&T / Process Engineering', ProjectName: 'Budesonide Inhalation Suspension', Status: 'Allocated' }
+      { id: 1, ProjectCode: '2026/IND/001', Subject: 'S1 - Plant Capacity & Line Bottleneck Study', delayReason: 'CMM Metrology Bay Slot Confirmation', Description: 'Conduct throughput audit, takt-time study, and OEM benchmark comparison for automated transfer expansion.', Comments: 'Benchmark quote comparison against legacy cell underway', IsActive: true, CreatedDate: '2026-01-10T00:00:00', DueDate: '2026-06-15T00:00:00', CompletionDate: null, Responsibility: 'Ananya Rao', Group: 'Engineering', Department: 'Engineering & R&D', ProjectName: 'Industrial Equipment Line Expansion', Status: 'Pending' },
+      { id: 2, ProjectCode: '2026/IND/002', Subject: 'S2 - URS & Critical Tolerance Cascade', Description: 'Cascade user requirement specifications, ISO 230-2 positioning limits, and cycle-time targets for 5-axis cell.', Comments: 'Approved by Manufacturing Ops and Quality Directors', IsActive: true, CreatedDate: '2026-01-15T00:00:00', DueDate: '2026-03-25T00:00:00', CompletionDate: '2026-03-24T00:00:00', Responsibility: 'Priya Reddy', Group: 'Compliance', Department: 'EHS & Compliance', ProjectName: 'CNC Machining Process Optimization', Status: 'Completed' },
+      { id: 3, ProjectCode: '2026/IND/003', Subject: 'S3 - PLC / SCADA & Robotic EOAT Design', delayReason: 'PLC Rack & Safety Relay Allocation Delay', Description: 'Finalize EPLAN panel schematics, safety light-curtain PLd interlocks, and vacuum end-effector payload FEA.', Comments: 'CAD clash detection and EtherCAT timing matrix submitted for review', IsActive: true, CreatedDate: '2026-02-01T00:00:00', DueDate: '2026-07-01T00:00:00', CompletionDate: null, Responsibility: 'Rajesh Kumar', Group: 'Automation', Department: 'Automation & Controls', ProjectName: 'Automated Packaging Line Development', Status: 'Progress' },
+      { id: 4, ProjectCode: '2026/IND/004', Subject: 'S4 - Duplex Casting Foundry & Seal Audit', delayReason: 'OEM Foundry NDT Inspection Travel Clearance', Description: 'Execute ISO 9001 and API 610 qualification audit for high-pressure pump casing castings and mechanical seals.', Comments: 'Pending ultrasonic NDT report clearance by supplier QA', IsActive: true, CreatedDate: '2026-02-10T00:00:00', DueDate: '2026-06-30T00:00:00', CompletionDate: null, Responsibility: 'Anita Desai', Group: 'Quality', Department: 'Quality & Inspection', ProjectName: 'High-Pressure Centrifugal Pump Assembly', Status: 'Hold' },
+      { id: 5, ProjectCode: '2026/IND/005', Subject: 'S8 - 480V Utility Tie-In & Foundation Pad Check', Description: 'Verify vibration-isolated concrete slab flatness, anchor bolt torque, and chilled-water manifold flow.', Comments: 'Civil pad and electrical disconnect panel signed off by plant utilities', IsActive: true, CreatedDate: '2026-03-05T00:00:00', DueDate: '2026-05-20T00:00:00', CompletionDate: '2026-05-19T00:00:00', Responsibility: 'Amit Patel', Group: 'Commissioning', Department: 'Commissioning & Qualification', ProjectName: 'Oil-Free Rotary Screw Compressor System', Status: 'Allocated' },
+      { id: 6, ProjectCode: '2026/IND/006', Subject: 'S5 - SMED Quick-Change Fixture Sign-off', Description: 'Finalize zero-point clamping pallet BOM and issue fabrication PO to precision toolroom.', Comments: 'Fixture repeatability test fixture scheduled for FAT bay', IsActive: true, CreatedDate: '2026-03-12T00:00:00', DueDate: '2026-07-18T00:00:00', CompletionDate: null, Responsibility: 'Suresh Naidu', Group: 'Manufacturing', Department: 'Manufacturing & Operations', ProjectName: 'CNC Machining Line Capacity Expansion', Status: 'Progress' },
+      { id: 7, ProjectCode: '2026/IND/007', Subject: 'S8 - Overhead Crane Rigging & Safety Perimeter Check', Description: 'Approve 10-ton crane rigging lift points and machine perimeter fencing gate interlock wiring.', Comments: 'EHS rigging permit approved and fencing posts anchored', IsActive: true, CreatedDate: '2026-03-18T00:00:00', DueDate: '2026-04-30T00:00:00', CompletionDate: '2026-04-28T00:00:00', Responsibility: 'Deepa Nair', Group: 'Compliance', Department: 'EHS & Compliance', ProjectName: 'Industrial Pump Assembly Line Upgrade', Status: 'Completed' },
+      { id: 8, ProjectCode: '2026/IND/008', Subject: 'S1 - Material Flow AGV & Utility Substation Scoping', delayReason: 'Substation Transformer Shutdown Window Pending', Description: 'Assess peak factory air/power load expansion and automated palletizer dock routing.', Comments: 'Electrical load balancer report submitted for maintenance review', IsActive: true, CreatedDate: '2026-03-22T00:00:00', DueDate: '2026-07-25T00:00:00', CompletionDate: null, Responsibility: 'Vikram Singh', Group: 'Engineering', Department: 'Engineering & R&D', ProjectName: 'Factory Utilities & Material Handling Upgrade', Status: 'Pending' }
     ];
   }
 
@@ -183,12 +186,20 @@ export class MonitorTodoComponent implements OnInit, OnDestroy {
 
   applyFilterData(): void {
     let filtered = [...this.mockData];
+    const { ProjectName, Stage, Sprint } = this.filterForm.value;
 
     if (this.showOverdueOnly) {
-      filtered = filtered.filter(item => this.isOverdue(item.DueDate||'null'));
+      filtered = filtered.filter(item => this.isOverdue(item.DueDate || 'null'));
     }
-
-    // Additional form filtering logic goes here
+    if (ProjectName) {
+      filtered = filtered.filter(item => item.ProjectName === ProjectName);
+    }
+    if (Stage) {
+      filtered = filtered.filter(item => (item.Subject || '').startsWith(Stage));
+    }
+    if (Sprint) {
+      filtered = filtered.filter(item => item.Department === Sprint);
+    }
 
     this.filteredData = filtered;
     this.totalSize = this.filteredData.length;

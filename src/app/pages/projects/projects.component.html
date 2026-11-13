@@ -61,11 +61,11 @@
                   </mat-form-field>
                 </div>
 
-                <!-- 4. Molecule -->
+                <!-- 4. Equipment Category -->
                 <div class="app-filter-field">
-                  <label for="filterMolecule">Molecule:</label>
+                  <label for="filterMolecule">Equipment Category:</label>
                   <mat-form-field appearance="outline" class="app-filter-control">
-                    <mat-select id="filterMolecule" [(ngModel)]="filterMolecule" placeholder="Select Molecule">
+                    <mat-select id="filterMolecule" [(ngModel)]="filterMolecule" placeholder="Select Category">
                       <mat-option value="">All</mat-option>
                       @for (mol of molecules; track mol) {
                       <mat-option [value]="mol">{{ mol }}</mat-option>
@@ -74,11 +74,11 @@
                   </mat-form-field>
                 </div>
 
-                <!-- 5. Dosage Form -->
+                <!-- 5. Configuration -->
                 <div class="app-filter-field">
-                  <label for="filterDosageForm">Dosage Form:</label>
+                  <label for="filterDosageForm">Configuration:</label>
                   <mat-form-field appearance="outline" class="app-filter-control">
-                    <mat-select id="filterDosageForm" [(ngModel)]="filterDosageForm" placeholder="Select Dosage Form">
+                    <mat-select id="filterDosageForm" [(ngModel)]="filterDosageForm" placeholder="Select Configuration">
                       <mat-option value="">All</mat-option>
                       @for (form of dosageForms; track form) {
                       <mat-option [value]="form">{{ form }}</mat-option>
@@ -87,12 +87,12 @@
                   </mat-form-field>
                 </div>
 
-                <!-- 6. Product Status -->
+                <!-- 6. Program Status -->
                 <div class="app-filter-field">
-                  <label for="filterProductStatus">Product Status:</label>
+                  <label for="filterProductStatus">Program Status:</label>
                   <mat-form-field appearance="outline" class="app-filter-control">
                     <mat-select id="filterProductStatus" [(ngModel)]="filterProductStatus"
-                      placeholder="Select Product Status">
+                      placeholder="Select Program Status">
                       <mat-option value="">All</mat-option>
                       @for (ps of productStatusOptions; track ps) {
                       <mat-option [value]="ps">{{ ps }}</mat-option>
@@ -101,12 +101,12 @@
                   </mat-form-field>
                 </div>
 
-                <!-- 7. Drug Authority -->
+                <!-- 7. Standards Authority -->
                 <div class="app-filter-field">
-                  <label for="filterDrugAuthority">Drug Authority:</label>
+                  <label for="filterDrugAuthority">Standards Authority:</label>
                   <mat-form-field appearance="outline" class="app-filter-control">
                     <mat-select id="filterDrugAuthority" [(ngModel)]="filterDrugAuthority"
-                      placeholder="Select Drug Authority">
+                      placeholder="Select Standards">
                       <mat-option value="">All</mat-option>
                       @for (da of drugAuthorityOptions; track da) {
                       <mat-option [value]="da">{{ da }}</mat-option>
@@ -263,7 +263,7 @@
                   </p>
                   }
                   <p class="info-item">
-                    <mat-icon>medication</mat-icon>
+                    <mat-icon>precision_manufacturing</mat-icon>
                     <span class="text-truncate" [matTooltip]="card.LawFirm">{{ card.LawFirm }}</span>
                   </p>
                 </div>
@@ -331,53 +331,53 @@
             <thead>
               <tr>
                 <th class="text-center" style="width: 150px; min-width: 150px;">Actions</th>
-                <th class="text-center" style="width: 140px; min-width: 130px;">Product ID</th>
-                <th class="text-left" style="min-width: 240px;">Product Name</th>
-                <th class="text-left" style="min-width: 200px;">Molecule</th>
+                <th class="text-center" style="width: 140px; min-width: 130px;">Program ID</th>
+                <th class="text-left" style="min-width: 240px;">Program Name</th>
+                <th class="text-left" style="min-width: 220px;">Equipment Category</th>
                 <th class="text-left" style="min-width: 180px;">Division</th>
-                <th class="text-center" style="width: 110px; min-width: 100px;">Star Product</th>
-                <th class="text-left" style="min-width: 280px;">Registration Type</th>
-                <th class="text-left" style="min-width: 160px;">Project Owner</th>
-                <th class="text-left" style="min-width: 160px;">Project Lead</th>
+                <th class="text-center" style="width: 110px; min-width: 100px;">Star Program</th>
+                <th class="text-left" style="min-width: 280px;">Compliance Pathway</th>
+                <th class="text-left" style="min-width: 160px;">Program Owner</th>
+                <th class="text-left" style="min-width: 160px;">Program Lead</th>
                 <th class="text-center" style="width: 100px; min-width: 90px;">Priority</th>
-                <th class="text-center" style="width: 140px; min-width: 130px;">Project Start date</th>
-                <th class="text-center" style="width: 140px; min-width: 130px;">Project End date</th>
-                <th class="text-center" style="width: 170px; min-width: 160px;">Project Budget (USD mn)</th>
+                <th class="text-center" style="width: 140px; min-width: 130px;">Program Start Date</th>
+                <th class="text-center" style="width: 140px; min-width: 130px;">Program End Date</th>
+                <th class="text-center" style="width: 170px; min-width: 160px;">Program Budget (USD mn)</th>
                 <th class="text-left" style="min-width: 140px;">Market</th>
                 <th class="text-center" style="width: 190px; min-width: 180px;">Market Size of last 3 years</th>
                 <th class="text-center" style="width: 180px; min-width: 170px;">Market size (USD mn / yr)</th>
                 <th class="text-center" style="width: 170px; min-width: 160px;">Projected market share</th>
                 <th class="text-left" style="min-width: 180px;">Commercial attractiveness</th>
                 <th class="text-center" style="width: 180px; min-width: 170px;">Projected NPV (USD mn)</th>
-                <th class="text-left" style="min-width: 150px;">Dosage form</th>
-                <th class="text-left" style="min-width: 140px;">Strength</th>
-                <th class="text-left" style="min-width: 130px;">Fill Volume</th>
-                <th class="text-left" style="min-width: 150px;">Pharmacopoeia</th>
-                <th class="text-left" style="min-width: 180px;">Packaging Details</th>
-                <th class="text-left" style="min-width: 160px;">Innovator (Company)</th>
-                <th class="text-left" style="min-width: 170px;">Innovator Brand Name</th>
-                <th class="text-left" style="min-width: 160px;">Innovator Dosage Form</th>
-                <th class="text-left" style="min-width: 150px;">Innovator Strengths</th>
-                <th class="text-center" style="width: 160px; min-width: 150px;">Innovator Approval Date</th>
-                <th class="text-left" style="min-width: 180px;">Innovator Pack Presentation</th>
-                <th class="text-left" style="min-width: 160px;">Innovator Bio Strength</th>
-                <th class="text-left" style="min-width: 220px;">RLD Information (SmPC / PIL / COA)</th>
-                <th class="text-left" style="min-width: 160px;">Innovator vs Jodas</th>
-                <th class="text-left" style="min-width: 160px;">IP Details</th>
-                <th class="text-left" style="min-width: 160px;">API Manufacturer</th>
-                <th class="text-left" style="min-width: 200px;">Polymorph Form (if applicable)</th>
-                <th class="text-left" style="min-width: 200px;">CEP/DMF No & Receipt Status</th>
-                <th class="text-left" style="min-width: 180px;">DMF/ASMF/CEP Received</th>
-                <th class="text-left" style="min-width: 180px;">API Vendor Qualification</th>
-                <th class="text-left" style="min-width: 140px;">API - ML</th>
-                <th class="text-left" style="min-width: 140px;">API - GMP</th>
-                <th class="text-left" style="min-width: 120px;">ML</th>
-                <th class="text-left" style="min-width: 130px;">WHO GMP</th>
-                <th class="text-left" style="min-width: 170px;">Bio study CRO name</th>
-                <th class="text-left" style="min-width: 180px;">Bio Study CRO GMP Status</th>
-                <th class="text-left" style="min-width: 130px;">BE NOC</th>
-                <th class="text-left" style="min-width: 150px;">study time period</th>
-                <th class="text-left" style="min-width: 160px;">Bio Study Report</th>
+                <th class="text-left" style="min-width: 180px;">Equipment Configuration</th>
+                <th class="text-left" style="min-width: 170px;">Capacity / Rating</th>
+                <th class="text-left" style="min-width: 150px;">Footprint / Volume</th>
+                <th class="text-left" style="min-width: 190px;">Applicable Standards</th>
+                <th class="text-left" style="min-width: 200px;">Enclosure & Guarding Details</th>
+                <th class="text-left" style="min-width: 170px;">Benchmark OEM</th>
+                <th class="text-left" style="min-width: 180px;">Benchmark Model</th>
+                <th class="text-left" style="min-width: 170px;">Benchmark Config</th>
+                <th class="text-left" style="min-width: 160px;">Benchmark Rating</th>
+                <th class="text-center" style="width: 160px; min-width: 150px;">Commissioned Date</th>
+                <th class="text-left" style="min-width: 190px;">Equipment Package & Scope</th>
+                <th class="text-left" style="min-width: 180px;">Output & Performance</th>
+                <th class="text-left" style="min-width: 220px;">Technical Reference Info</th>
+                <th class="text-left" style="min-width: 190px;">Benchmark vs Target</th>
+                <th class="text-left" style="min-width: 180px;">IP Details</th>
+                <th class="text-left" style="min-width: 180px;">OEM / Component Vendor</th>
+                <th class="text-left" style="min-width: 200px;">Technology / Process Platform</th>
+                <th class="text-left" style="min-width: 200px;">Tech File No & Receipt Status</th>
+                <th class="text-left" style="min-width: 180px;">Spec Pack Received</th>
+                <th class="text-left" style="min-width: 180px;">Vendor Qualification</th>
+                <th class="text-left" style="min-width: 150px;">Vendor License</th>
+                <th class="text-left" style="min-width: 150px;">Vendor ISO / CE</th>
+                <th class="text-left" style="min-width: 140px;">Plant License</th>
+                <th class="text-left" style="min-width: 150px;">ISO / EHS Status</th>
+                <th class="text-left" style="min-width: 190px;">Inspection & Testing Agency</th>
+                <th class="text-left" style="min-width: 190px;">Agency Accreditation</th>
+                <th class="text-left" style="min-width: 170px;">Site Work Permit / Approval</th>
+                <th class="text-left" style="min-width: 170px;">Testing Time Period</th>
+                <th class="text-left" style="min-width: 180px;">FAT / SAT Test Report</th>
                 <th class="text-left" style="min-width: 160px;">Remarks</th>
                 <th class="text-center" style="width: 80px; min-width: 80px;">Status</th>  
                 <th class="text-center" style="width: 120px; min-width: 120px;">Updated Date</th>
